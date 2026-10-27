@@ -1,0 +1,19 @@
+{
+  "name": "Inventory",
+  "short_name": "Inventory",
+  "description": "Mengolah file sumber menjadi Master Stock Excel dengan format tabel acuan",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

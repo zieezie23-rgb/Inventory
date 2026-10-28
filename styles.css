@@ -47,3 +47,28 @@ body{background:linear-gradient(160deg,#071c35 0%,#0b3157 58%,#082342 100%);colo
 .app-footer{background:transparent;border-top:0;backdrop-filter:none;color:#9fb4cd}
 footer{color:#9fb4cd}
 @media(max-width:650px){.topbar{padding-bottom:28px}.topbar h1{font-size:22px}.version{right:15px;bottom:5px}.file-row{min-height:34px;padding:4px 6px}.file-icon{width:23px;height:23px;flex-basis:23px}}
+
+
+/* v1.3.2: cleaner headings and text-only lists */
+.topbar{gap:16px}
+.brand-logo{width:64px;height:64px;flex-basis:64px}
+.topbar h1{font-size:30px;font-weight:950;letter-spacing:-.04em}
+.section-heading{margin-bottom:15px}
+.section-heading>div{gap:0;flex:1}
+.section-heading h2{display:inline-block;padding-bottom:5px;border-bottom:2px solid var(--yellow)}
+.step{display:none!important}
+/* File list and notifications use text rows instead of individual boxes. */
+.file-list{gap:5px}
+.file-row{background:transparent!important;border:0!important;border-radius:0!important;border-bottom:1px solid #e5252a!important;min-height:30px;padding:4px 2px!important;box-shadow:none!important}
+.file-row .file-icon{display:none!important}
+.file-name{font-size:12px}
+.empty-state{border:0;border-radius:0;background:transparent;padding:8px 2px;text-align:left}
+.warnings{gap:3px}
+.warning{background:transparent!important;border:0!important;border-radius:0!important;border-bottom:1px solid #e5252a!important;padding:7px 2px!important;color:#ffe7a0;box-shadow:none!important}
+/* All three primary actions are blue with a slim yellow/red accent underneath. */
+.button-primary{background:#0875c9!important;color:#fff!important;border:0!important;border-radius:9px 9px 0 0!important;box-shadow:none!important;position:relative;margin-bottom:4px}
+.button-primary::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:#ffd629}
+.button-primary::before{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:#e5252a}
+.button-wide{border-radius:9px 9px 0 0!important}
+.process-card{padding-top:16px;padding-bottom:18px}
+@media(max-width:650px){.brand-logo{width:58px;height:58px;flex-basis:58px}.topbar h1{font-size:27px}.topbar{gap:13px}.file-row{min-height:28px}.section-heading h2{font-size:16px}}

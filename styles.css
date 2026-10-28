@@ -4,3 +4,6 @@
 @media(max-width:650px){.file-row{gap:7px;padding:8px 7px}.file-row .file-meta{display:flex!important;flex-direction:row!important;align-items:center!important;gap:7px;min-width:0;flex:1}.file-row .file-name{flex:1 1 0;min-width:0}.file-row .file-size{display:block;flex:0 1 92px;max-width:92px;min-width:0;font-size:9px}.file-row .file-status{font-size:9px}.remove-file{padding:0 2px}}
 
 .file-list-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.file-count{font-size:11px;color:var(--muted);font-weight:700}.file-list-tools .button{padding:7px 10px;font-size:10px}
+
+/* Results: notifications collapsed by default and export buttons visually consistent. */
+.notification-tools{display:flex;justify-content:flex-end;margin-top:10px}.notification-tools .button{padding:7px 10px;font-size:10px}.download-actions{justify-content:center;align-items:center}.download-actions .button{min-width:180px;text-align:center}.download-actions .button-primary{background:var(--navy);color:#fff;border-bottom:3px solid var(--yellow);box-shadow:0 5px 12px #123b7020}@media(max-width:650px){.download-actions{justify-content:center}.download-actions .button{flex:1 1 0;min-width:0}}

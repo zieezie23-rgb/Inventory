@@ -1,4 +1,4 @@
-# Inventory PWA — v1.2.0
+# Inventory PWA — v1.2.1
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -17,5 +17,5 @@ Jalankan melalui hosting HTTPS atau localhost agar Service Worker dan aset offli
 Ikon aplikasi PWA menggunakan `assets/icon.png` (ikon aplikasi dan shortcut).
 
 
-## Ekspor Stock Out DC (v1.2.0)
+## Ekspor Stock Out DC (v1.2.1)
 Unggah `LaporanStokOutDCINew` bersama bahan Master Stock. Setelah proses, unduh file `MASTER STOCK` dan `Stock Out DC` secara terpisah. Stock Out DC memakai workbook acuan `assets-stockout-template.xlsx`, menambahkan sheet tanggal H-1, dan memilih PRDCD yang `STOCK_OUT = Y`. Baris/detail disalin dari sheet tanggal sebelumnya yang tersedia agar format dan strukturnya tetap sama.

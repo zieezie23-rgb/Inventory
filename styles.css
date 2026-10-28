@@ -7,3 +7,43 @@
 
 /* Results: notifications collapsed by default and export buttons visually consistent. */
 .notification-tools{display:flex;justify-content:flex-end;margin-top:10px}.notification-tools .button{padding:7px 10px;font-size:10px}.download-actions{justify-content:center;align-items:center}.download-actions .button{min-width:180px;text-align:center}.download-actions .button-primary{background:var(--navy);color:#fff;border-bottom:3px solid var(--yellow);box-shadow:0 5px 12px #123b7020}@media(max-width:650px){.download-actions{justify-content:center}.download-actions .button{flex:1 1 0;min-width:0}}
+
+
+/* v1.2.9: compact rows and Indomaret-inspired darker theme */
+:root{--navy:#064a91;--blue:#0875c9;--ink:#f3f7ff;--muted:#bdcde1;--line:#285783;--bg:#071c35;--white:#102d50;--green:#6ee7a8;--amber:#493b13;--red:#e5252a;--yellow:#ffd629;--shadow:0 8px 22px rgba(0,0,0,.22)}
+body{background:linear-gradient(160deg,#071c35 0%,#0b3157 58%,#082342 100%);color:var(--ink)}
+.topbar{position:relative;padding-bottom:28px;color:#111}
+.topbar h1{font-size:25px;font-weight:900;color:#111}
+.eyebrow{color:#111;opacity:.82}
+.version{position:absolute;right:max(20px,calc((100% - 1000px)/2));bottom:6px;margin:0;align-self:auto;border:0;outline:0;padding:0;border-radius:0;background:transparent;color:#111;font-size:10px;font-weight:700}
+.card{background:#102d50;border-color:#285783;color:#f3f7ff}
+.section-heading h2{color:#fff}
+.step{background:#ffd629;color:#064a91;border-radius:8px}
+.button-primary{background:#e5252a;color:#fff;border-bottom:3px solid #ffd629;box-shadow:0 5px 12px #0003}
+.button-secondary{background:#0875c9;color:#fff}
+.button-quiet{color:#e1edff;border-color:#3b648d;background:#15395f}
+.dropzone{min-height:82px;background:#0b3b69;border-color:#ffd629;color:#fff;padding:7px 10px}
+.dropzone span:not(.upload-icon){color:#d3e3f7}
+.dropzone:hover,.dropzone.dragover{background:#124b7c;border-color:#e5252a}
+.dropzone small{display:none}
+.upload-icon{background:#e5252a;color:#fff;width:23px;height:23px;border-radius:7px;font-size:17px}
+.file-row{min-height:36px;padding:5px 8px;gap:8px;background:#0c2543;border-color:#285783;border-radius:8px}
+.file-row .file-meta{gap:8px}
+.file-icon{width:25px;height:25px;flex-basis:25px;border-radius:6px;background:#ffd629;color:#064a91}
+.file-name{color:#f5f8ff;font-size:11px}
+.file-size{color:#bdcde1;font-size:9px}
+.file-status{color:#6ee7a8}
+.remove-file{color:#ffd629}
+.empty-state{border-color:#3b648d;color:#bdcde1}
+.file-count{color:#d9e8fa}
+.status{color:#d2e1f4}
+.status.ok{color:#6ee7a8}
+.status.error{color:#ff8b8b}
+.metric{background:#0b3b69;border-color:#32628c;text-align:center;align-items:center;justify-content:center}
+.metric strong{color:#ffd629}
+.metric span{color:#e0eafa}
+.success{background:#143f35;color:#8df0b9}
+.warning{background:#493b13;border-color:#92762a;color:#ffe7a0}
+.app-footer{background:transparent;border-top:0;backdrop-filter:none;color:#9fb4cd}
+footer{color:#9fb4cd}
+@media(max-width:650px){.topbar{padding-bottom:28px}.topbar h1{font-size:22px}.version{right:15px;bottom:5px}.file-row{min-height:34px;padding:4px 6px}.file-icon{width:23px;height:23px;flex-basis:23px}}

@@ -1,4 +1,4 @@
-# Inventory PWA — v1.2.5
+# Inventory PWA — v1.2.8
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -31,3 +31,10 @@ Unggah `LaporanStokOutDCINew` bersama bahan Master Stock. Setelah proses, unduh 
 ## Perubahan v1.2.5
 - Notifikasi hasil proses disembunyikan secara default dan dapat dibuka/tutup melalui tombol.
 - Tombol MASTER STOCK dan STOCK OUT DC memakai gaya yang sama, berada di tengah secara horizontal, dan label tombol tidak menampilkan ekstensi .xlsx. Nama file unduhan tetap berekstensi .xlsx.
+
+
+## Penamaan dan urutan sheet Stock Out DC (v1.2.8)
+- Nama file menggunakan bulan dan tahun dari tanggal H-1: `Stock Out DC <bulan> <tahun>.xlsx`.
+- Tanggal proses 1 akan menghasilkan file untuk bulan sebelumnya dan sheet tanggal terakhir bulan sebelumnya (misalnya proses 1 November menghasilkan `Stock Out DC Oktober 2026.xlsx`, sheet `31`).
+- Tanggal proses 2 akan menghasilkan file untuk bulan berjalan dan memulai urutan sheet dari `01` (misalnya proses 2 November menghasilkan `Stock Out DC November 2026.xlsx`, sheet `01`).
+- Pemilihan sheet didasarkan pada tanggal H-1; aset template digunakan sebagai dasar setiap ekspor.

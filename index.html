@@ -7,14 +7,14 @@
   <title>Inventory</title>
 </head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.2.7</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.2.9</span></header>
 <main>
   <section class="card"><div class="section-heading"><div><span class="step">01</span><h2>Upload bahan</h2></div><button id="clearBtn" class="button button-quiet" type="button">Bersihkan</button></div>
-    <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt"><span class="upload-icon">＋</span><strong>Pilih banyak file CSV</strong><span>atau tarik file ke area ini</span><small>Nama file boleh mengikuti tanggal export masing-masing.</small></label>
+    <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt"><span class="upload-icon">＋</span><strong>Pilih banyak file CSV</strong><span>atau tarik file ke area ini</span></label>
     <div class="file-list-tools"><span id="fileCount" class="file-count">Belum ada file</span><button id="listToggle" class="button button-quiet hidden" type="button" aria-expanded="true">Minimalkan daftar ▲</button></div><div id="fileList" class="file-list"><div class="empty-state">Belum ada file yang dipilih.</div></div>
   </section>
   <section class="card process-card"><button id="processBtn" class="button button-primary button-wide" type="button">Proses</button><div id="status" class="status" role="status" aria-live="polite"></div></section>
   <section id="results" class="card hidden"><div class="section-heading"><div><span class="step">03</span><h2>Hasil proses</h2></div><span id="resultBadge" class="pill success">Selesai</span></div><div id="summary" class="summary-grid"></div><div class="notification-tools"><button id="warningsToggle" class="button button-quiet hidden" type="button" aria-expanded="false">Tampilkan notifikasi ▼</button></div><div id="warnings" class="warnings hidden"></div><div class="download-actions"><button id="downloadBtn" class="button button-primary" type="button">MASTER STOCK</button><button id="stockOutBtn" class="button button-primary" type="button">STOCK OUT DC</button></div></section>
-  <footer class="app-footer">Zie Project • Inventory v1.2.7 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v1.2.9 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>

@@ -18,7 +18,7 @@ Ikon aplikasi PWA menggunakan `assets/icon.png` (ikon aplikasi dan shortcut).
 
 
 ## Ekspor Stock Out DC (v1.2.1)
-Unggah `LaporanStokOutDCINew` bersama bahan Master Stock. Setelah proses, unduh file `MASTER STOCK` dan `Stock Out DC` secara terpisah. Stock Out DC memakai workbook acuan `assets-stockout-template.xlsx`, menambahkan sheet tanggal H-1, dan memilih PRDCD yang `STOCK_OUT = Y`. Baris/detail disalin dari sheet tanggal sebelumnya yang tersedia agar format dan strukturnya tetap sama.
+Unggah `LaporanStokOutDCINew` bersama bahan Master Stock. Setelah proses, unduh file `MASTER STOCK` dan `Stock Out DC` secara terpisah. Stock Out DC memakai workbook acuan `templates/assets-stockout-template.xlsx`, menambahkan sheet tanggal H-1, dan memilih PRDCD yang `STOCK_OUT = Y`. Baris/detail disalin dari sheet tanggal sebelumnya yang tersedia agar format dan strukturnya tetap sama.
 
 ## Perbaikan v1.2.5
 - Parser CSV diperbaiki agar tanda kutip (`"`) yang muncul di tengah nilai tanpa kutip tidak dianggap sebagai pembuka field kutipan. Ini mencegah banyak baris PRODMAST tergabung menjadi satu dan jumlah item Master Stock terpotong.

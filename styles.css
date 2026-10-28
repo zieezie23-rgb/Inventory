@@ -72,3 +72,8 @@ footer{color:#9fb4cd}
 .button-wide{border-radius:9px 9px 0 0!important}
 .process-card{padding-top:16px;padding-bottom:18px}
 @media(max-width:650px){.brand-logo{width:58px;height:58px;flex-basis:58px}.topbar h1{font-size:27px}.topbar{gap:13px}.file-row{min-height:28px}.section-heading h2{font-size:16px}}
+
+/* v1.3.3: export status below the shared export buttons; compact footer and header proportions. */
+.export-status:empty{display:none}.export-status{text-align:center;margin-top:14px;min-height:0}.download-actions{margin-bottom:0}.app-footer{font-size:9px;padding:5px 10px calc(5px + env(safe-area-inset-bottom));line-height:1.15}
+.topbar{padding-top:10px;padding-bottom:10px;gap:14px}.brand-logo{width:68px;height:68px;flex:0 0 68px}.topbar h1{font-size:32px;font-weight:950;line-height:1.05}.eyebrow{font-size:9px}
+@media(max-width:650px){.topbar{padding:8px 15px;gap:12px}.brand-logo{width:60px;height:60px;flex:0 0 60px}.topbar h1{font-size:28px}.eyebrow{font-size:8px}.app-footer{font-size:8px;padding:4px 8px calc(4px + env(safe-area-inset-bottom))}}

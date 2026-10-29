@@ -1,4 +1,4 @@
-# Inventory PWA — v1.2.8
+# Inventory PWA — v1.4.4
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -38,3 +38,9 @@ Unggah `LaporanStokOutDCINew` bersama bahan Master Stock. Setelah proses, unduh 
 - Tanggal proses 1 akan menghasilkan file untuk bulan sebelumnya dan sheet tanggal terakhir bulan sebelumnya (misalnya proses 1 November menghasilkan `Stock Out DC Oktober 2026.xlsx`, sheet `31`).
 - Tanggal proses 2 akan menghasilkan file untuk bulan berjalan dan memulai urutan sheet dari `01` (misalnya proses 2 November menghasilkan `Stock Out DC November 2026.xlsx`, sheet `01`).
 - Pemilihan sheet didasarkan pada tanggal H-1; aset template digunakan sebagai dasar setiap ekspor.
+
+
+## Verifikasi lokasi STM (v1.4.4)
+- Baris lokasi STM dipetakan per PRDCD dan lokasi 01/02/03; jika ada baris duplikat tanpa lokasi dan baris lain berisi lokasi, baris berisi lokasi diprioritaskan.
+- Sebelum ekspor, aplikasi memeriksa bahwa lokasi valid dari STM lokasi 01 tidak hilang pada kolom LT/RAK/BAR/CELL. Jika ditemukan kehilangan, proses dibatalkan dan PRDCD contoh ditampilkan.
+- Jika PRDCD 10000021 tersedia pada sumber, aplikasi melakukan uji silang LT/RAK/BAR/CELL terhadap STM dan mencatat hasilnya di log proses.

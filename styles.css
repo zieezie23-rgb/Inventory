@@ -151,3 +151,8 @@ footer{color:#9fb4cd}
 
 /* v1.6.0 grouped upload list */
 .upload-group{border:1px solid #285783;border-radius:10px;padding:8px 10px;margin:8px 0;background:rgba(12,37,67,.035)}.upload-group-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 1px 6px;color:var(--navy);font-size:12px;border-bottom:1px solid var(--line)}.upload-group-heading span{font-size:10px;color:var(--muted);font-weight:700}.upload-group .file-row{border-bottom:1px solid var(--line)!important}.upload-group .file-meta{display:block!important}.upload-group .source-name{white-space:normal;overflow-wrap:anywhere}.upload-group-empty{padding:7px 2px 2px;font-size:10px;color:#8a98a9;font-style:italic}
+
+.action-button.is-running{opacity:1!important;filter:none!important;outline:2px solid rgba(255,255,255,.75);outline-offset:2px;box-shadow:0 0 0 4px rgba(8,117,201,.22),0 10px 24px rgba(0,0,0,.3)}
+.action-button:disabled:not(.is-running){opacity:1!important;filter:none!important;cursor:not-allowed!important;box-shadow:0 7px 18px rgba(0,0,0,.2)!important;transform:none!important}
+.action-button:focus{outline:none!important}
+.action-button:focus-visible{outline:2px solid rgba(255,255,255,.85)!important;outline-offset:3px}

@@ -1,4 +1,4 @@
-# Inventory PWA — v1.5.7
+# Inventory PWA — v1.5.8
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -76,10 +76,16 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - PLU yang tidak ada dalam MASTER STOCK dikeluarkan; PLU baru ditambahkan dengan histori kosong. Sheet bulan yang sesuai harus sudah tersedia dan tidak dibuatkan sheet baru.
 
 
-## v1.5.7 — BPB Supplier
+## v1.5.8 — BPB Supplier
 - Menambahkan role upload Rekap Supplier (.xlsx) dan LRBPB_SUPPLIER (.csv).
 - Tombol BPB SUPPLIER membuat sheet tanggal baru berdasarkan sheet tanggal terakhir.
 - Data transaksi dijumlahkan per PLU: QTY dan GROSSPLUSPPN.
 - DESC dan DIV dilengkapi dari PRODMAST (fallback dari sheet sebelumnya); SUPCO dan nama supplier diambil dari LRBPB_SUPPLIER.
 - Sheet REKAP diperbarui untuk jumlah supplier unik, jumlah PLU, dan total nominal Gross + PPN.
 - Nama output mengikuti pola `Rekap Supplier <Bulan> <Tahun>.xlsx`.
+
+
+## v1.5.8 — Stock Out menggunakan workbook upload
+- STOCK OUT memakai file Stock Out DC terakhir yang diunggah sebagai workbook dasar; tidak memakai template terpisah bawaan aplikasi.
+- Sheet tanggal baru menyalin struktur dan format dari sheet tanggal terakhir.
+- Rentang tabel, format setiap kolom, dan auto-filter diperluas sampai baris data terakhir yang dihasilkan.

@@ -154,17 +154,24 @@ async function makeStockOutXlsx(processDate){
  if(headerRow)for(const c of headerRow[0].matchAll(/<c\b([^>]*\br="([A-Z]+)4"[^>]*)>/g)){const sm=c[1].match(/\bs="(\d+)"/);if(sm&&baseStyles[c[2]]===undefined)baseStyles[c[2]]=sm[1];}
  const applyBaseStyles=(row,newRn)=>{
   let shifted=row.replace(/(<row\b[^>]*\br=)"\d+"/,`$1"${newRn}"`).replace(/(\br="[A-Z]+)\d+(")/g,`$1${newRn}$2`);
-  return shifted.replace(/<c\b([^>]*\br="([A-Z]+)\d+"[^>]*)>/g,(tag,attrs,col)=>{
+  shifted=shifted.replace(/<c\b([^>]*\br="([A-Z]+)\d+"[^>]*)>/g,(tag,attrs,col)=>{
    if(baseStyles[col]===undefined)return tag;
    const selfClosing=/\/\s*$/.test(attrs);
    let clean=attrs.replace(/\s+s="\d+"/g,'').replace(/\/\s*$/,'').trimEnd();
    return selfClosing ? `<c${clean} s="${baseStyles[col]}"/>` : `<c${clean} s="${baseStyles[col]}">`;
   });
+  // Pastikan setiap baris hasil memiliki seluruh sel/format kolom tabel sampai kolom terakhir,
+  // termasuk saat jumlah item lebih banyak daripada sheet tanggal sebelumnya.
+  for(const [col,style] of Object.entries(baseStyles)){
+   if(!new RegExp(`<c\\b[^>]*\\br="${col}${newRn}"`).test(shifted))
+    shifted=shifted.replace('</row>',`<c r="${col}${newRn}" s="${style}"/></row>`);
+  }
+  return shifted.replace(/<row\b([^>]*)>/, (tag,attrs)=>`<row${attrs.replace(/\s+spans="[^"]*"/,'')} spans="1:17">`);
  };
  xml=xml.replace(/<sheetData>([\s\S]*?)<\/sheetData>/,(_,body)=>{let rows=[...body.matchAll(/<row\b[^>]*r="(\d+)"[^>]*>[\s\S]*?<\/row>/g)];const out=[];for(const m of rows){const rn=+m[1],row=m[0];if(rn<=4){out.push(row);continue;}const cm=row.match(/<c\b[^>]*r="C\d+"[^>]*>([\s\S]*?)<\/c>/);if(!cm)continue;const vm=cm[1].match(/<v>([\s\S]*?)<\/v>/);if(!vm)continue;let prd=vm[1];const cell=row.match(/<c\b[^>]*r="C\d+"[^>]*([^>]*)>/);if(/t="s"/.test(cell?.[0]||''))prd=shared[Number(prd)]||prd;prd=String(prd).replace(/^0+(?=\d)/,'');if(wanted.has(prd)){const newRn=5+kept;out.push(applyBaseStyles(row,newRn));kept++;found.add(prd)}}return '<sheetData>'+out.join('')+'</sheetData>'});
  const serial=Math.round((Date.UTC(day.getFullYear(),day.getMonth(),day.getDate())-Date.UTC(1899,11,30))/86400000);
  xml=xml.replace(/<c\b([^>]*r="B2"[^>]*)>([\s\S]*?)<\/c>/,(_,attrs,inner)=>`<c${attrs.replace(/\s+t="[^"]*"/g,'')}><v>${serial}</v></c>`);
- xml=xml.replace(/<dimension ref="[^"]+"\/>/,`<dimension ref="A1:Q${4+kept}"/>`);zip.file(`xl/worksheets/sheet${newSheetNum}.xml`,xml);
+ xml=xml.replace(/<dimension ref="[^"]+"\/>/,`<dimension ref="A1:Q${4+kept}"/>`);xml=xml.replace(/<autoFilter ref="[^"]+"\/>/,`<autoFilter ref="A4:Q${4+kept}"/>`);zip.file(`xl/worksheets/sheet${newSheetNum}.xml`,xml);
  const ridNums=[...rel.matchAll(/Id="rId(\d+)"/g)].map(m=>+m[1]);const newRid='rId'+(Math.max(...ridNums)+1);zip.file('xl/_rels/workbook.xml.rels',rel.replace('</Relationships>',`<Relationship Id="${newRid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${newSheetNum}.xml"/></Relationships>`));
  zip.file('xl/workbook.xml',wb.replace('</sheets>',`<sheet name="${sheetName}" sheetId="${Math.max(...sheetDefs.map(m=>+m[1].match(/^\d+$/)?.[0]||0))+1}" r:id="${newRid}"/></sheets>`));
  const ct=await zip.file('[Content_Types].xml').async('string');zip.file('[Content_Types].xml',ct.replace('</Types>',`<Override PartName="/xl/worksheets/sheet${newSheetNum}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`));

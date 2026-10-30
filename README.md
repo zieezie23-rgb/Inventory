@@ -1,4 +1,4 @@
-# Inventory PWA — v1.6.7
+# Inventory PWA — v1.6.8
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -126,3 +126,10 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Kelima tombol proses (MASTER STOCK, STOCK OUT, SL SUPPLIER, BPB SUPPLIER, dan BRD) menampilkan aksen merah di sisi kiri serta aksen merah-kuning di sisi bawah.
 - Warna dasar tombol dan simbol tanpa background tetap dipertahankan.
 
+
+
+## v1.6.8 — Perbaikan instalasi PWA desktop
+- Manifest menggunakan `start_url` dan `scope` relatif terhadap direktori aplikasi, sehingga sesuai untuk GitHub Pages project site `/Inventory/`.
+- Mode tampilan instalasi menggunakan `standalone`.
+- Menambahkan ikon PNG khusus 192 × 192 dan 512 × 512 untuk persyaratan instalasi Chrome desktop.
+- Cache Service Worker diperbarui ke v1.6.8 dan mencakup kedua ikon instalasi baru.

@@ -7,13 +7,13 @@
   <title>Inventory</title>
 </head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.4.7</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.4.8</span></header>
 <main>
   <section class="card upload-card"><div class="section-heading"><div><h2>File sumber</h2></div><button id="clearBtn" class="button button-quiet" type="button">Bersihkan</button></div>
-    <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt"><span class="upload-icon">＋</span><strong>Tambah file sumber</strong></label>
+    <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt,.xlsx"><span class="upload-icon">＋</span><strong>Tambah file sumber</strong></label>
     <div id="fileList" class="file-list"><div class="empty-state">Belum ada file yang tersedia.</div></div>
   </section>
-  <section class="card process-card"><div class="action-grid"><button id="masterBtn" class="button button-primary action-button" type="button">MASTER STOCK</button><button id="stockOutBtn" class="button button-primary action-button" type="button">STOCK OUT</button></div><div id="status" class="status" role="status" aria-live="polite"></div></section>
-  <footer class="app-footer">Zie Project • Inventory v1.4.7 @2026</footer>
+  <section class="card process-card" id="processCard" hidden><div class="action-grid"><button id="masterBtn" class="button button-primary action-button" type="button">MASTER STOCK</button><button id="stockOutBtn" class="button button-primary action-button" type="button">STOCK OUT</button></div><div id="status" class="status" role="status" aria-live="polite"></div></section>
+  <footer class="app-footer">Zie Project • Inventory v1.4.8 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>

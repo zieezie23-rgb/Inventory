@@ -7,7 +7,7 @@
   <title>Inventory</title>
 </head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.5.2</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.5.3</span></header>
 <main>
   <section class="card upload-card"><div class="section-heading"><div><h2>File sumber</h2></div></div>
     <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt,.brd,.xlsx"><span class="upload-icon">＋</span><strong>Tambah file sumber</strong></label>
@@ -15,7 +15,24 @@
     <div id="fileList" class="file-list"><div class="empty-state">Belum ada file yang tersedia.</div></div>
   </section>
   <section class="card process-card" id="processCard" hidden><div class="action-grid"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-icon">▦</span><span class="action-copy"><strong>MASTER STOCK</strong></span><span class="action-arrow">›</span></button><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-icon">⇧</span><span class="action-copy"><strong>STOCK OUT</strong></span><span class="action-arrow">›</span></button><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-icon">⇄</span><span class="action-copy"><strong>BRD</strong></span><span class="action-arrow">›</span></button></div><div id="status" class="status" role="status" aria-live="polite"></div></section>
+  <dialog id="brdExportDialog" class="brd-dialog">
+    <form method="dialog" id="brdExportForm">
+      <h2>Pilih file BRD yang ingin diekspor</h2>
+      <p>Pilih hanya jenis file yang diperlukan.</p>
+      <label class="brd-option brd-all"><input type="checkbox" id="brdSelectAll"> Pilih semua</label>
+      <div class="brd-options">
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="brd"> BRD.DBF</label>
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="csv"> BRD.CSV</label>
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="mstg_or_mstxh"> MSTG / MSTXH.DBF</label>
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="alokasi"> NPB.CSV (Alokasi)</label>
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="bpb"> BPB.CSV</label>
+        <label class="brd-option"><input type="checkbox" name="brdExport" value="npb"> Detail NPB.CSV</label>
+      </div>
+      <div class="brd-dialog-actions"><button type="button" class="button button-quiet" id="brdCancel">Batal</button><button type="submit" class="button button-primary" id="brdExportSubmit">Ekspor pilihan</button></div>
+      <div class="status" id="brdDialogError" role="alert"></div>
+    </form>
+  </dialog>
   <iframe id="brdEngine" src="brd/engine.html" title="BRD conversion engine" aria-hidden="true" style="display:none;width:0;height:0;border:0"></iframe>
-  <footer class="app-footer">Zie Project • Inventory v1.5.2 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v1.5.3 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>

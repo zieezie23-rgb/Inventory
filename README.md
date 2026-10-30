@@ -1,4 +1,4 @@
-# Inventory PWA — v1.5.4
+# Inventory PWA — v1.5.7
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -60,3 +60,26 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Mendukung beberapa file BRD sekaligus; seluruhnya digabung mengikuti aturan penggabungan aplikasi Konversi BRD asli.
 - Tombol BRD menjalankan keluaran BRD DBF/CSV, MSTG atau MSTXH/MSTD DBF, ALOKASI CSV, BPB CSV, dan NPB CSV.
 - Mesin konversi mempertahankan kode konversi asli Konversi-BRD-main. Tidak ada upload BRD terpisah.
+
+
+## v1.5.5 — Perbaikan Service Level 3 gudang
+- Baris POM dengan RECID = 1 dikeluarkan dari perhitungan Service Level.
+- Periode PO_DATE adalah 14 hari kalender sebelum tanggal proses, tidak termasuk tanggal proses (contoh proses 30 Oktober: 16–29 Oktober).
+- Service Level dihitung dari total BPB_QTY dibagi total QTY (PO) per PRDCD dan gudang.
+- Jika total PO tidak tersedia/nol atau data PRDCD tidak valid, hasil ditampilkan NO PO. BPB nol dengan PO positif menghasilkan 0, bukan NO PO.
+
+
+## v1.5.6 — SL Supplier G113
+- Tombol SL SUPPLIER menggunakan workbook SL Supplier ke DC yang diunggah sebagai file lama, seperti alur Stock Out DC.
+- Daftar PRDCD dan variabel master (DESC2, DIV, FRAC, FK, ACOST, PKM, SUPCO, SNAMA) disegarkan mengikuti hasil perhitungan MASTER STOCK.
+- Data harian tanggal 1 sampai H-2 dipertahankan dari workbook lama; kolom H-1 diperbarui dari Service Level G113 dengan aturan POM yang sama seperti MASTER STOCK.
+- PLU yang tidak ada dalam MASTER STOCK dikeluarkan; PLU baru ditambahkan dengan histori kosong. Sheet bulan yang sesuai harus sudah tersedia dan tidak dibuatkan sheet baru.
+
+
+## v1.5.7 — BPB Supplier
+- Menambahkan role upload Rekap Supplier (.xlsx) dan LRBPB_SUPPLIER (.csv).
+- Tombol BPB SUPPLIER membuat sheet tanggal baru berdasarkan sheet tanggal terakhir.
+- Data transaksi dijumlahkan per PLU: QTY dan GROSSPLUSPPN.
+- DESC dan DIV dilengkapi dari PRODMAST (fallback dari sheet sebelumnya); SUPCO dan nama supplier diambil dari LRBPB_SUPPLIER.
+- Sheet REKAP diperbarui untuk jumlah supplier unik, jumlah PLU, dan total nominal Gross + PPN.
+- Nama output mengikuti pola `Rekap Supplier <Bulan> <Tahun>.xlsx`.

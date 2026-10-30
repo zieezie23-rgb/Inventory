@@ -1,4 +1,4 @@
-# Inventory PWA — v1.5.8
+# Inventory PWA — v1.6.7
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -90,10 +90,39 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Sheet tanggal baru menyalin struktur dan format dari sheet tanggal terakhir.
 - Rentang tabel, format setiap kolom, dan auto-filter diperluas sampai baris data terakhir yang dihasilkan.
 
-
 ## v1.5.9 — Perbaikan perhitungan H-1 SL Supplier
-- Perhitungan H-1 SL SUPPLIER G113 dilakukan langsung dari POM G113, tidak mengambil hasil kolom SL dari proses MASTER STOCK.
+- Perhitungan H-1 SL SUPPLIER G113 dilakukan langsung dari POM G113, bukan mengambil hasil kolom SL dari proses MASTER STOCK.
 - Hanya RECID = 1 yang dikecualikan; RECID H dan R tetap dihitung.
 - Periode PO_DATE: tanggal proses dikurangi 14 hari sampai H-1, inklusif.
 - BPB_QTY kosong dihitung 0; PO ditemukan dengan BPB 0 menghasilkan 0, bukan NO PO.
-- NO PO hanya jika tidak ada PO eligible atau total QTY PO nol.
+
+## v1.6.0 — Pengelompokan daftar file sumber
+- Daftar file sumber dikelompokkan menjadi Bahan, Tarikan Harian, Tarikan LWA, File Update, dan Depo.
+- Urutan kelompok mengikuti urutan tersebut.
+
+## v1.6.1–v1.6.2 — Status tombol proses dan notifikasi
+- Notifikasi keberhasilan proses utama dipersingkat.
+- Saat satu proses berjalan, tombol proses lain dikunci agar tidak menjalankan proses bersamaan.
+- Tampilan aktif hanya diberikan kepada tombol proses yang sedang dijalankan; tombol lain tidak ikut tampak ditekan.
+
+## v1.6.3 — Perbaikan ekspor SL Supplier
+- Perbaikan penulisan nilai ke sel Excel yang sebelumnya kosong agar nilai hasil pembaruan dapat dibaca dengan benar.
+
+## v1.6.4 — Validasi PRDCD pada BPB Supplier
+- Hanya PRDCD/PLU yang terdiri dari tepat 8 digit yang disertakan dalam hasil rekap BPB Supplier.
+- PRDCD dengan panjang atau format lain dilewati; angka nol di depan tetap dipertahankan.
+
+## v1.6.5 — Status seluruh file upload
+- Daftar upload menampilkan seluruh file yang dibutuhkan, termasuk yang belum diunggah.
+- Status file ditampilkan sebagai Terunggah atau Belum, dengan pengelompokan tetap dipertahankan.
+- File HPG dimasukkan ke kelompok Tarikan Harian.
+
+## v1.6.6 — Penyegaran tampilan tombol dan header
+- Background/shape di belakang simbol tombol proses dihilangkan.
+- Aksen merah dan kuning diterapkan pada tombol.
+- Teks header diberi outline putih.
+
+## v1.6.7 — Penyempurnaan aksen tombol proses
+- Kelima tombol proses (MASTER STOCK, STOCK OUT, SL SUPPLIER, BPB SUPPLIER, dan BRD) menampilkan aksen merah di sisi kiri serta aksen merah-kuning di sisi bawah.
+- Warna dasar tombol dan simbol tanpa background tetap dipertahankan.
+

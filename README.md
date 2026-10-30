@@ -89,3 +89,11 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - STOCK OUT memakai file Stock Out DC terakhir yang diunggah sebagai workbook dasar; tidak memakai template terpisah bawaan aplikasi.
 - Sheet tanggal baru menyalin struktur dan format dari sheet tanggal terakhir.
 - Rentang tabel, format setiap kolom, dan auto-filter diperluas sampai baris data terakhir yang dihasilkan.
+
+
+## v1.5.9 — Perbaikan perhitungan H-1 SL Supplier
+- Perhitungan H-1 SL SUPPLIER G113 dilakukan langsung dari POM G113, tidak mengambil hasil kolom SL dari proses MASTER STOCK.
+- Hanya RECID = 1 yang dikecualikan; RECID H dan R tetap dihitung.
+- Periode PO_DATE: tanggal proses dikurangi 14 hari sampai H-1, inklusif.
+- BPB_QTY kosong dihitung 0; PO ditemukan dengan BPB 0 menghasilkan 0, bukan NO PO.
+- NO PO hanya jika tidak ada PO eligible atau total QTY PO nol.

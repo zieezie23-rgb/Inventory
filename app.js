@@ -42,12 +42,39 @@ function latestDate(a,b){const da=dateVal(a),db=dateVal(b);if(!da)return b||'';i
 function roleGuess(file){const n=norm(file.name);if(/\.XLSX$/i.test(file.name)&&(n.includes('REKAP_SUPPLIER')||n.includes('REKAPSUPPLIER')))return 'rekapsupplierbook';if(/\.XLSX$/i.test(file.name)&&(n.includes('SL_SUPPLIER')||n.includes('SERVICE_LEVEL_SUPPLIER')))return 'slsupplierbook';if(n.includes('LRBPB_SUPPLIER')||n.includes('LRBPBSUPPLIER'))return 'lrbpbsupplier';if(/\.BRD$/i.test(file.name))return 'brd';if(/\.XLSX$/i.test(file.name)&&n.includes('STOCK_OUT_DC')||/\.XLSX$/i.test(file.name)&&n.includes('STOCK_OUT'))return 'stockoutbook';if(/\.XLSX$/i.test(file.name)&&n.includes('STOCKOUTDC'))return 'stockoutbook';if(n.includes('LAPORANSTOKOUTDCI')||n.includes('STOCKOUTDCINEW'))return 'stockout';if(n.includes('HISTORYTAG')||n.includes('LAPORANHISTORY')||n.includes('TGL_AKHIR'))return 'history';if(n.includes('PRODMAST'))return 'prod';if(n.includes('STM')||n.includes('STOCK')){if(n.includes('G294'))return 'stm294';if(n.includes('G295'))return 'stm295';if(n.includes('G113'))return 'stm113';if(n.includes('STM'))return 'stm113'}if(n.includes('HRGBELI'))return 'hrgbeli';if(n.includes('SUPMAST'))return 'supmast';if(n.startsWith('HPG'))return 'hpg';if(n.includes('PROTECT'))return 'protect';if(n.includes('DATAWHS'))return 'datawhs';if(n.includes('ITEMDEPO'))return 'itemdepo';if(n.includes('ITEMWHK'))return 'itemwhk';if(n.includes('ITEMPAR'))return 'itempar';if(n.includes('PAR')){if(n.includes('G294'))return 'par294';if(n.includes('G295'))return 'par295';return 'par113'}if(n.includes('SEAS'))return 'seas';if(n.includes('POM')){if(n.includes('G294'))return 'pom294';if(n.includes('G295'))return 'pom295';return 'pom113'}if(n.includes('POU')){if(n.includes('G294'))return 'pou294';if(n.includes('G295'))return 'pou295';return 'pou294'}if(n.includes('KEB'))return 'keb';if(n.includes('NATARU'))return 'nataru';if(n.includes('PROMO'))return 'promo';return ''}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function fileGroup(f){const n=norm(f.name);if(['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(f.guess)||/STOCK_OUT_DC|SERVICE_LEVEL_SUPPLIER|REKAP_SUPPLIER/.test(n))return 'update';if(/LRBPB_SUPPLIER|LAPORANSTOCKOUTDCINEW|LAPORANSTOKOUTDCINEW|LAPORANHISTORYTAG/.test(n)||['lrbpbsupplier','stockout','history'].includes(f.guess))return 'lwa';if(/ITEM_DEPO|ITEMDEPO|ITEM_WH(K|K)|ITEMWHK|\bKEB\b|NATARU|PROMO|SEAS|DATA_WHS|DATAWHS/.test(n)||['itemdepo','itemwhk','keb','nataru','promo','seas','datawhs'].includes(f.guess))return 'bahan';const gm=n.match(/G(\d{3})/);if(gm&&gm[1]!=='113')return 'depo';return 'daily'}
-function renderFiles(){const el=$('fileList');const groups=[['bahan','1. Bahan'],['daily','2. Tarikan Harian'],['lwa','3. Tarikan LWA'],['update','4. File Update'],['depo','5. Depo']];if(!files.length){el.innerHTML='<div class="empty-state">Belum ada file yang tersedia.</div>'}else{el.innerHTML=groups.map(([key,label])=>{const list=files.filter(f=>fileGroup(f)===key);return `<section class="upload-group"><div class="upload-group-heading"><strong>${label}</strong><span>${list.length} file</span></div>${list.length?list.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="file-name source-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div></div><span class="file-status status-ready">Siap</span><button class="remove-file" data-remove="${f.id}" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):'<div class="upload-group-empty">Belum ada file</div>'}</section>`}).join('')}$('processCard').hidden=files.length===0;const toggle=$('toggleFileListBtn');if(toggle){toggle.textContent=fileListCollapsed?'Tampilkan daftar':'Sembunyikan';toggle.setAttribute('aria-expanded',String(!fileListCollapsed));el.hidden=fileListCollapsed;}el.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()})}
+const ROLE_GROUP={
+ prod:'daily',stm113:'daily',hrgbeli:'daily',supmast:'daily',hpg:'daily',protect:'daily',par113:'daily',pom113:'daily',
+ stm294:'depo',stm295:'depo',par294:'depo',par295:'depo',pom294:'depo',pom295:'depo',pou294:'depo',pou295:'depo',
+ datawhs:'bahan',seas:'bahan',itempar:'bahan',itemdepo:'bahan',itemwhk:'bahan',keb:'bahan',nataru:'bahan',promo:'bahan',
+ history:'lwa',stockout:'lwa',lrbpbsupplier:'lwa',stockoutbook:'update',slsupplierbook:'update',rekapsupplierbook:'update',brd:'daily'
+};
+const OPTIONAL_ROLES=new Set(['itempar','brd']);
+function renderFiles(){
+ const el=$('fileList');
+ const groups=[['bahan','1. Bahan'],['daily','2. Tarikan Harian'],['lwa','3. Tarikan LWA'],['update','4. File Update'],['depo','5. Depo']];
+ const catalog=ROLES.map(([role,label])=>({role,label,group:ROLE_GROUP[role]||'daily'}));
+ el.innerHTML=groups.map(([key,label])=>{
+  const entries=catalog.filter(x=>x.group===key);
+  const uploadedCount=entries.filter(x=>files.some(f=>f.guess===x.role)).length;
+  const rows=entries.map(entry=>{
+   const matches=files.filter(f=>f.guess===entry.role);
+   const optional=OPTIONAL_ROLES.has(entry.role);
+   if(!matches.length){
+    return `<div class="file-row file-missing"><div class="file-meta"><div class="role-label">${escapeHtml(entry.label)}${optional?' (opsional)':''}</div><div class="file-name">Belum diunggah</div></div><span class="file-status">${optional?'Opsional':'Belum'}</span></div>`;
+   }
+   return matches.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="role-label">${escapeHtml(entry.label)}</div><div class="file-name source-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div></div><span class="file-status status-ready">Terunggah</span><button class="remove-file" data-remove="${f.id}" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join('');
+  }).join('');
+  return `<section class="upload-group"><div class="upload-group-heading"><strong>${label}</strong><span>${uploadedCount}/${entries.length} jenis file tersedia</span></div>${rows}</section>`;
+ }).join('');
+ $('processCard').hidden=files.length===0;
+ const toggle=$('toggleFileListBtn');if(toggle){toggle.textContent=fileListCollapsed?'Tampilkan daftar':'Sembunyikan';toggle.setAttribute('aria-expanded',String(!fileListCollapsed));el.hidden=fileListCollapsed;}
+ el.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
+}
 function parseLrbpbSupplier(content){
  const rows=parseCSV(content);if(!rows.length)return [];
  const headers=rows[0].map(norm);
  return rows.slice(1).map(r=>{const o={};headers.forEach((h,i)=>{if(h)o[h]=String(r[i]??'').trim()});return o})
-  .filter(o=>key(value(o,'PLU')));
+  .filter(o=>/^\d{8}$/.test(text(value(o,'PLU')).trim()));
 }
 function detectRole(file,content){const byName=roleGuess(file);if(byName)return byName;const rows=parseCSV(content);const header=(rows[0]||[]).map(norm);const all=header.join('|');if(header.includes('TBL_DC_KODE')||header.some(h=>h.includes('DC_KODE')))return 'brd';if(header.includes('PLU')&&header.includes('STOCK_OUT'))return 'stockout';if(header.includes('TGL_AKHIR')||all.includes('HISTORYTAG'))return 'history';if(['PRDCD','DESC2','DIV','CAT_COD'].every(x=>header.includes(x)))return 'prod';if(header.includes('SUPCO')&&header.includes('SNAMA'))return 'supmast';if(header.includes('GUDANG')&&header.includes('PRDCD')){const vals=rows.slice(1,30).flat().map(x=>String(x).toUpperCase());if(vals.some(x=>x.includes('G294')))return 'stm294';if(vals.some(x=>x.includes('G295')))return 'stm295';if(vals.some(x=>x.includes('G113')))return 'stm113'}if(header.includes('PRDCD')&&header.includes('ACOST'))return 'hrgbeli';if(header.includes('PRDCD')&&header.includes('PTAG'))return 'prod';if(header.includes('PRDCD')&&header.includes('NOREC'))return 'par113';return ''}
 async function addFiles(list){for(const file of list){const detected=roleGuess(file);const isBook=/\.xlsx$/i.test(file.name)&&['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(detected);const isBrd=/\.brd$/i.test(file.name)||roleGuess(file)==='brd';if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){setStatus(`File ${file.name} dilewati. Gunakan CSV/TXT/BRD untuk sumber data dan XLSX untuk file hasil Stock Out / SL Supplier / Rekap Supplier.`,true);continue}const id=Date.now()+Math.floor(Math.random()*100000);try{const obj={id,name:file.name,size:file.size,content:isBook?'':await file.text(),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};if(!isBook&&!isBrd)obj.guess=detectRole(obj,obj.content);files=files.filter(f=>f.guess!==obj.guess||!['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(obj.guess));files.push(obj);parsed.set(id,null)}catch(e){setStatus(`Tidak bisa membaca ${file.name}`,true)}}renderFiles()}
@@ -227,7 +254,7 @@ async function makeRekapSupplierXlsx(processDate){
  const monthYear=`${monthNames[day.getMonth()]} ${day.getFullYear()}`;
  const groups=new Map();
  for(const o of src){
-  const prd=key(value(o,'PLU'));if(!prd)continue;
+  const rawPrd=text(value(o,'PLU')).trim();if(!/^\d{8}$/.test(rawPrd))continue;const prd=rawPrd;
   const supplier=text(value(o,'SUPPLIER'));const cut=supplier.indexOf(' - ');
   const supco=cut>=0?supplier.slice(0,cut).trim():supplier.split(/\s+/)[0];
   const supname=cut>=0?supplier.slice(cut+3).trim():supplier;
@@ -235,7 +262,7 @@ async function makeRekapSupplierXlsx(processDate){
   const g=groups.get(prd);g.qty+=num(value(o,'TOT_QTY'));g.gross+=num(value(o,'GROSSPLUSPPN','GROSS_PLUS_PPN'));if(supco)g.suppliers.add(supco);if(supname)g.supplierNames.add(supname);
   if(!g.supco&&supco)g.supco=supco;if(!g.supname&&supname)g.supname=supname;
  }
- if(!groups.size)throw Error('Tidak ada data PLU valid pada file LRBPB_SUPPLIER.');
+ if(!groups.size)throw Error('Tidak ada data PLU valid 8 digit pada file LRBPB_SUPPLIER.');
  const zip=await JSZip.loadAsync(book.bytes);
  const wb=await zip.file('xl/workbook.xml').async('string');
  const rel=await zip.file('xl/_rels/workbook.xml.rels').async('string');

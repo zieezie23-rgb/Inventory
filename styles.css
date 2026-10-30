@@ -156,3 +156,27 @@ footer{color:#9fb4cd}
 .action-button:disabled:not(.is-running){opacity:1!important;filter:none!important;cursor:not-allowed!important;box-shadow:0 7px 18px rgba(0,0,0,.2)!important;transform:none!important}
 .action-button:focus{outline:none!important}
 .action-button:focus-visible{outline:2px solid rgba(255,255,255,.85)!important;outline-offset:3px}
+
+
+/* v1.6.6: clean process symbols, consistent red-yellow button accents, outlined header text. */
+.action-button .action-icon{
+  width:auto!important;height:auto!important;flex:0 0 auto!important;
+  min-width:28px;padding:0!important;margin:0 2px 0 0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:#fff!important;font-size:29px!important;
+  line-height:1!important;
+}
+/* Every standard button receives the same red/yellow brand accents. */
+.button:not(.action-button){
+  border-left:3px solid #e5252a!important;
+  border-bottom:3px solid #ffd629!important;
+}
+.button:not(.action-button):hover{filter:brightness(1.08)}
+.action-button{border-left:3px solid #e5252a!important}
+.action-master::after,.action-stockout::after,.action-brd::after{
+  height:5px!important;background:linear-gradient(to right,#e5252a 0 50%,#ffd629 50% 100%)!important;
+}
+.topbar h1,.topbar .eyebrow{
+  -webkit-text-stroke:.45px #fff;
+  text-shadow:0 0 .6px #fff,0 1px 2px rgba(0,0,0,.22);
+}

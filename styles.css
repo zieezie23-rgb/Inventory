@@ -88,3 +88,35 @@ footer{color:#9fb4cd}
 .upload-heading-actions .button{padding:7px 10px;font-size:10px}
 .file-list[hidden]{display:none!important}
 @media(max-width:420px){.upload-heading-actions{gap:5px}.upload-heading-actions .button{padding:6px 8px;font-size:9px}}
+
+
+/* v1.5.1: upload list controls below the drop area, aligned right; refined process cards. */
+.upload-list-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
+.upload-list-actions .button{padding:7px 12px;font-size:10px;border-radius:8px}
+.upload-heading-actions{display:none!important}
+.action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.action-button{display:flex;align-items:center;gap:11px;min-width:0;min-height:76px;padding:13px 14px;text-align:left;border:1px solid rgba(255,255,255,.12)!important;border-radius:14px!important;color:#fff!important;position:relative;overflow:hidden;box-shadow:0 7px 18px rgba(0,0,0,.2);transition:transform .16s,filter .16s,box-shadow .16s}
+.action-button::before,.action-button::after{display:none!important}
+.action-button:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 10px 22px rgba(0,0,0,.27)}
+.action-button:active{transform:translateY(0) scale(.985)}
+.action-button:disabled{opacity:.55;filter:grayscale(.35)}
+.action-master{background:linear-gradient(135deg,#0875c9,#064a91)!important;border-bottom:3px solid #ffd629!important}
+.action-stockout{background:linear-gradient(135deg,#e94a50,#b71925)!important;border-bottom:3px solid #ffd629!important}
+.action-brd{background:linear-gradient(135deg,#e8b91c,#a87800)!important;border-bottom:3px solid #0875c9!important}
+.action-icon{display:grid;place-items:center;flex:0 0 39px;width:39px;height:39px;border-radius:11px;background:rgba(255,255,255,.17);font-size:23px;font-weight:800;color:#fff}
+.action-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.action-copy strong{font-size:12px;line-height:1.2;letter-spacing:.035em;white-space:nowrap}
+.action-copy small{font-size:10px;line-height:1.25;font-weight:550;color:rgba(255,255,255,.82);white-space:normal}
+.action-arrow{font-size:24px;font-weight:400;line-height:1;color:rgba(255,255,255,.8)}
+.process-card{padding:18px}
+@media(max-width:700px){.action-grid{grid-template-columns:1fr;gap:9px}.action-button{min-height:62px;padding:10px 13px}.action-icon{width:36px;height:36px;flex-basis:36px}.action-copy strong{font-size:12px}.action-copy small{font-size:10px}}
+@media(max-width:420px){.upload-list-actions{gap:6px}.upload-list-actions .button{padding:7px 10px;font-size:10px}}
+
+
+/* v1.5.2: consistent process-button appearance; labels only. */
+.action-button{justify-content:flex-start;min-height:68px}
+.action-master,.action-stockout,.action-brd{background:linear-gradient(135deg,#0875c9,#064a91)!important;border-bottom:3px solid #ffd629!important}
+.action-copy{justify-content:center}
+.action-copy strong{font-size:13px;letter-spacing:.025em}
+.action-copy small{display:none!important}
+@media(max-width:700px){.action-button{min-height:58px}}

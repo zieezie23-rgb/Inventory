@@ -7,14 +7,15 @@
   <title>Inventory</title>
 </head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.5.0</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v1.5.2</span></header>
 <main>
-  <section class="card upload-card"><div class="section-heading"><div><h2>File sumber</h2></div><div class="upload-heading-actions"><button id="toggleFileListBtn" class="button button-quiet" type="button" aria-expanded="true">Sembunyikan</button><button id="clearBtn" class="button button-quiet" type="button">Bersihkan</button></div></div>
+  <section class="card upload-card"><div class="section-heading"><div><h2>File sumber</h2></div></div>
     <label class="dropzone" id="dropzone"><input id="filePicker" type="file" multiple accept=".csv,.txt,.brd,.xlsx"><span class="upload-icon">＋</span><strong>Tambah file sumber</strong></label>
+    <div class="upload-list-actions"><button id="toggleFileListBtn" class="button button-quiet" type="button" aria-expanded="true">Sembunyikan</button><button id="clearBtn" class="button button-quiet" type="button">Bersihkan</button></div>
     <div id="fileList" class="file-list"><div class="empty-state">Belum ada file yang tersedia.</div></div>
   </section>
-  <section class="card process-card" id="processCard" hidden><div class="action-grid"><button id="masterBtn" class="button button-primary action-button" type="button">MASTER STOCK</button><button id="stockOutBtn" class="button button-primary action-button" type="button">STOCK OUT</button><button id="brdBtn" class="button button-primary action-button" type="button">BRD</button></div><div id="status" class="status" role="status" aria-live="polite"></div></section>
+  <section class="card process-card" id="processCard" hidden><div class="action-grid"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-icon">▦</span><span class="action-copy"><strong>MASTER STOCK</strong></span><span class="action-arrow">›</span></button><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-icon">⇧</span><span class="action-copy"><strong>STOCK OUT</strong></span><span class="action-arrow">›</span></button><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-icon">⇄</span><span class="action-copy"><strong>BRD</strong></span><span class="action-arrow">›</span></button></div><div id="status" class="status" role="status" aria-live="polite"></div></section>
   <iframe id="brdEngine" src="brd/engine.html" title="BRD conversion engine" aria-hidden="true" style="display:none;width:0;height:0;border:0"></iframe>
-  <footer class="app-footer">Zie Project • Inventory v1.5.0 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v1.5.2 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>

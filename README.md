@@ -1,4 +1,4 @@
-# Inventory PWA — v1.7.2
+# Inventory PWA — v1.7.5
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -152,3 +152,23 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Kolom output MASTER STOCK SLS1, SLS2, dan SLS3 kini mengambil nilai dari kolom PAR G113 `QTY 1`, `QTY 2`, dan `QTY 3` (mendukung juga variasi header tanpa spasi: `QTY1`, `QTY2`, `QTY3`).
 - Header output MASTER STOCK tetap `SLS1`, `SLS2`, dan `SLS3`; perhitungan kolom lain tidak diubah.
 - Cache Service Worker dinaikkan ke v1.7.2.
+
+
+## v1.7.5 — Header kelompok upload bisa buka/tutup
+- Kelima header kelompok upload dapat ditekan untuk menyembunyikan atau menampilkan baris file di kelompok masing-masing.
+- Setiap kelompok bekerja independen; header dan jumlah file tetap terlihat saat baris disembunyikan.
+- Mendukung kontrol keyboard Enter/Space dan tidak mengubah proses upload maupun status file.
+
+
+## v1.7.5
+- Upload folder Tarikan Harian berdasarkan subfolder G113, G294, dan G295.
+- Daftar upload disusun menjadi Tarikan Harian, Bahan, Tarikan LWA, dan File Update.
+- Kelompok Depo dihapus; data G294/G295 kini tampil di bawah Tarikan Harian.
+
+
+## v1.7.5 — Identitas gudang mengikuti folder sumber
+- Identitas G113/G294/G295 diambil dari segmen folder pada `webkitRelativePath`, untuk semua file di dalam folder gudang tersebut, bukan hanya POU.
+- Identitas folder disimpan pada setiap baris hasil parsing dan diprioritaskan saat pemisahan data gudang; kode gudang di dalam isi file tidak menimpa konteks folder.
+- File dengan nama sama di folder gudang berbeda tetap dipetakan ke gudang masing-masing.
+- POU G113 kini dikenali terpisah dari POU G294 dan G295.
+- File G113 tetap dapat berisi seluruh tarikan harian; folder G294 dan G295 dapat berisi STM, PAR, POM, dan POU.

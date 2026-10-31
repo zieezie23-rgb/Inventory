@@ -964,14 +964,19 @@ selectAll.addEventListener('change', () => {
 });
 updateBtn();
 
-processBtn.addEventListener('click', async () => {
+async function executeBrdExport(picked){
   if(!rawText){
     statusEl.className = 'status err';
     statusEl.textContent = 'Belum ada file yang dibaca.';
     return;
   }
-  const picked = optEls.filter(c => c.checked).map(c => c.value);
-  if(!picked.length) return;
+  picked = [...new Set((Array.isArray(picked) ? picked : []).filter(k => optEls.some(c => c.value === k)))];
+  if(!picked.length) {
+    statusEl.className = 'status err';
+    statusEl.textContent = 'Tidak ada jenis ekspor yang dipilih.';
+    updateBtn();
+    return;
+  }
 
   const base = (detectedName || 'BRD').toUpperCase();
   processBtn.disabled = true;
@@ -1002,11 +1007,11 @@ processBtn.addEventListener('click', async () => {
     for(const k of ['bpb','npb']){
       if(!picked.includes(k)) continue;
       const r = buildTypeCsv(rawText, k.toUpperCase());
-      await send(r.text, k.toUpperCase() + '.CSV', 'text/csv');
+      await send(r.text, k === 'npb' ? 'Detail NPB.csv' : 'BPB.csv', 'text/csv');
     }
     if(picked.includes('alokasi')){
       const alokasi = buildAlokasiCsv(rawText);
-      await send(alokasi.text, 'ALOKASI.CSV', 'text/csv');
+      await send(alokasi.text, 'NPB.csv', 'text/csv');
       info.push(alokasi.selected + ' baris alokasi');
     }
 
@@ -1018,6 +1023,11 @@ processBtn.addEventListener('click', async () => {
   }finally{
     updateBtn();
   }
+}
+
+processBtn.addEventListener('click', () => {
+  const checked = optEls.filter(c => c.checked).map(c => c.value);
+  executeBrdExport(checked);
 });
 
 function downloadBlob(content, filename, mime){
@@ -1045,6 +1055,8 @@ window.addEventListener('message', async (event) => {
     const incoming = Array.isArray(event.data.files) ? event.data.files : [];
     if (!incoming.length) throw new Error('Tidak ada file BRD yang tersedia.');
     selectedFiles = incoming.map(x => ({name:String(x.name||'BRD.CSV'), size:String(x.text||'').length, textContent:String(x.text||'')}));
+    window.inventoryBridgeActive = true;
+    window.inventoryRequestedExports = Array.isArray(event.data.exports) ? event.data.exports.slice() : [];
     fileCache.clear(); failedFiles = [];
     const entries = selectedFiles.map(f => {
       const lines = f.textContent.split(/\r\n|\n|\r/).filter(l => l.length > 0);
@@ -1071,10 +1083,19 @@ window.addEventListener('message', async (event) => {
     mstgCache.text=null; mstgCache.val=null;
     updatePreviewName(); updateMstxhVisibility();
     configCard.style.display='block';
-    optEls.forEach(c=>{c.checked=!(c.closest('#optMstg,#optMstxh')&&c.closest('#optMstg,#optMstxh').style.display==='none');});
+    optEls.forEach(c=>{c.checked=false;});
+    const requested=window.inventoryRequestedExports;
+    requested.forEach(k=>{
+      if(k==='mstg_or_mstxh'){
+        const target=document.getElementById('optMstxh').style.display==='none'?'mstg':'mstxh';
+        const el=optEls.find(c=>c.value===target);if(el)el.checked=true;
+      }else{const el=optEls.find(c=>c.value===k);if(el)el.checked=true;}
+    });
     updateBtn();
+    if(!requested.length) throw new Error('Tidak ada jenis file ekspor yang dipilih.');
     statusEl.textContent='Mengolah '+incoming.length+' file BRD...';
-    processBtn.click();
+    const requestedExports = requested.map(k => k === 'mstg_or_mstxh' ? (document.getElementById('optMstxh').style.display === 'none' ? 'mstg' : 'mstxh') : k);
+    await executeBrdExport(requestedExports);
   } catch(err) {
     parent.postMessage({type:'INVENTORY_BRD_RESULT',ok:false,message:err.message||String(err)}, '*');
   }

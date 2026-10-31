@@ -1,4 +1,4 @@
-# Inventory PWA — v1.7.1
+# Inventory PWA — v1.7.2
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -135,13 +135,20 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Cache Service Worker diperbarui ke v1.6.8 dan mencakup kedua ikon instalasi baru.
 
 
-## v1.7.1 — Perbaikan instalasi Android
+## v1.7.2 — Perbaikan instalasi Android
 - Manifest menggunakan ID, `start_url`, dan `scope` absolut `/Inventory/` agar konsisten dengan GitHub Pages pada subpath repository.
 - Ikon instalasi 192×192 dan 512×512 dibuat ulang dengan logo lebih jelas dan latar belakang solid.
 - Ditambahkan ikon 512×512 khusus `maskable` untuk launcher Android.
-- Cache Service Worker dinaikkan ke v1.7.1 dan mencakup seluruh ikon PWA.
+- Cache Service Worker dinaikkan ke v1.7.2 dan mencakup seluruh ikon PWA.
 
 
-## v1.7.1
+## v1.7.2
 - Memperbaiki pemilihan ekspor BRD dari dialog Inventory: mesin konversi kini memakai daftar jenis ekspor yang dikirim langsung oleh dialog, bukan status checkbox internal yang berpotensi tertinggal.
 - Hanya jenis file yang dicentang pengguna yang diproses dan diunduh.
+
+
+## v1.7.2 — Perbaikan sumber SLS
+
+- Kolom output MASTER STOCK SLS1, SLS2, dan SLS3 kini mengambil nilai dari kolom PAR G113 `QTY 1`, `QTY 2`, dan `QTY 3` (mendukung juga variasi header tanpa spasi: `QTY1`, `QTY2`, `QTY3`).
+- Header output MASTER STOCK tetap `SLS1`, `SLS2`, dan `SLS3`; perhitungan kolom lain tidak diubah.
+- Cache Service Worker dinaikkan ke v1.7.2.

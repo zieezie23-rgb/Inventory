@@ -290,3 +290,23 @@ body{color:#ffd629!important;}
 .file-status,.status.ok,.success{color:#6ee7a8!important;}
 .status.error,.file-row.file-missing .file-status{color:#ff8b8b!important;}
 .step,.file-icon,.preflight-dialog #preflightComplete,.upload-choice-folder{color:#123b62!important;}
+
+/* v1.9.4 — samakan skin semua tombol popup dengan tombol Pilih Folder/Pilih File. */
+.file-manage-dialog .brd-dialog-actions button,
+.preflight-dialog .preflight-actions button,
+.modal-upload-choices .upload-choice{
+  background:#174873!important;
+  color:#ffd629!important;
+  border:1px solid #ffd629!important;
+  border-bottom:4px solid #e5252a!important;
+  box-shadow:0 3px 0 #ffd629!important;
+  font-weight:900!important;
+  text-align:center!important;
+}
+.file-manage-dialog .brd-dialog-actions button:hover,
+.preflight-dialog .preflight-actions button:hover,
+.modal-upload-choices .upload-choice:hover{
+  background:#205987!important;
+}
+/* Lengkapi juga memakai teks kuning seperti tombol lainnya. */
+.preflight-dialog #preflightComplete{color:#ffd629!important;}

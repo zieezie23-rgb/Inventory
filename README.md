@@ -1,4 +1,4 @@
-# Inventory PWA — v1.7.5
+# Inventory PWA — v1.7.6
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -172,3 +172,10 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - File dengan nama sama di folder gudang berbeda tetap dipetakan ke gudang masing-masing.
 - POU G113 kini dikenali terpisah dari POU G294 dan G295.
 - File G113 tetap dapat berisi seluruh tarikan harian; folder G294 dan G295 dapat berisi STM, PAR, POM, dan POU.
+
+
+## v1.7.6 — Tampilan upload disederhanakan
+- Menghapus tombol terpisah untuk upload folder Tarikan Harian.
+- Mempertahankan area upload sumber yang sudah ada, serta kontrol tampil/sembunyikan dan bersihkan daftar.
+- Logika identitas gudang berdasarkan folder G113/G294/G295 dari v1.7.5 tetap dipertahankan.
+- Untuk mempertahankan identitas folder, folder induk yang berisi G113, G294, dan G295 dapat ditarik ke area upload pada browser desktop yang mendukung folder drag-and-drop.

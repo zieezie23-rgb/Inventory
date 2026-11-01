@@ -233,3 +233,16 @@ footer{color:#9fb4cd}
 .modal-upload-choices{padding:12px 0 4px}
 .file-manage-dialog .brd-dialog-actions{margin-top:12px}
 @media(max-width:480px){.process-card{padding:13px}.action-grid{gap:15px}.process-item .action-button{min-height:58px}.file-manage-tools{align-items:flex-start;flex-direction:column}}
+
+/* v1.9.1 layout refinements requested */
+.process-item .required-link{justify-self:stretch;text-align:center;width:100%;}
+.file-manage-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.file-manage-actions #clearBtn,.file-manage-actions #fileManageClose{min-width:126px;min-height:36px;padding:8px 13px;font-size:10px;border-radius:8px;flex:0 0 auto}
+.file-manage-tools{display:flex;align-items:center;justify-content:flex-end}
+.file-manage-list .upload-group{margin:3px 0 8px;padding:8px 10px;border:1px solid #426d94;border-radius:10px;background:#102f50}
+.file-manage-list .upload-group-heading{display:flex;align-items:center;justify-content:space-between;padding:3px 2px 7px;margin-bottom:4px;border-bottom:1px solid #426d94;color:#fff;font-size:12px;cursor:default}
+.file-manage-list .upload-group-heading span{color:#c4d9ec;font-size:10px}
+.file-manage-list .upload-group-rows{display:grid;gap:4px}
+.preflight-dialog .preflight-actions{display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:10px}
+.preflight-dialog .preflight-actions button{flex:1 1 0;min-width:0;white-space:nowrap;padding:10px 8px}
+@media(max-width:420px){.preflight-dialog .preflight-actions{gap:6px}.preflight-dialog .preflight-actions button{flex:1 1 0;font-size:10px;padding:9px 5px}.file-manage-actions #clearBtn,.file-manage-actions #fileManageClose{min-width:116px}}

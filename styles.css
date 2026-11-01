@@ -188,3 +188,19 @@ footer{color:#9fb4cd}
 /* Warehouse subgroups inside Tarikan Harian */
 .warehouse-upload{margin:8px 0 12px;padding:8px 10px;border:1px solid #285783;border-radius:9px;background:rgba(6,74,145,.045)}
 .warehouse-heading{font-size:12px;font-weight:900;letter-spacing:.04em;color:var(--navy);padding:2px 2px 6px}
+
+/* v1.7.7: file and warehouse-folder selection share one upload area. */
+.dropzone .upload-hint{font-size:11px!important;color:#d3e3f7!important;margin-top:3px}
+.folder-pick-link{display:inline!important;color:#ffd629!important;font-weight:800;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.folder-pick-link:focus{outline:2px solid #ffd629;outline-offset:3px;border-radius:2px}
+.dropzone{cursor:pointer}
+
+/* v1.7.9: preflight source-check dialog uses the same BRD visual theme. */
+.preflight-dialog{width:min(480px,calc(100% - 28px))}
+.preflight-missing{display:grid;gap:8px;max-height:min(42vh,360px);overflow:auto;padding:2px 3px 4px}
+.preflight-dialog .missing-option{min-height:42px;padding:9px 12px;justify-content:flex-start;background:#174873;color:#fff;border-color:#b84a50}
+.preflight-dialog .missing-mark{display:inline-grid;place-items:center;flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:#a92330;color:#fff;font-weight:900}
+.preflight-dialog .preflight-actions{flex-wrap:wrap}
+.preflight-dialog #preflightComplete{background:linear-gradient(135deg,#d49a00,#ffd629);color:#152c43;border:0;border-bottom:4px solid #b57c00}
+.preflight-dialog #preflightProceed{background:linear-gradient(135deg,#0875c9,#064a91);color:#fff;border:0;border-bottom:4px solid #e5252a;box-shadow:0 4px 0 #ffd629}
+@media(max-width:420px){.preflight-dialog .preflight-actions button{flex:1 1 100%}}

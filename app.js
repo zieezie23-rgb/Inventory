@@ -51,29 +51,18 @@ const ROLE_GROUP={
 };
 const OPTIONAL_ROLES=new Set(['itempar','brd']);
 function renderFiles(){
- const el=$('fileList');
- const groups=[['daily','1. Tarikan Harian'],['bahan','2. Bahan'],['lwa','3. Tarikan LWA'],['update','4. File Update']];
- const catalog=ROLES.map(([role,label])=>({role,label,group:ROLE_GROUP[role]||'daily'}));
- el.innerHTML=groups.map(([groupKey,label])=>{
-  const isDaily=groupKey==='daily';
-  const warehouses=isDaily?['G113','G294','G295']:[''];
-  const blocks=warehouses.map(wh=>{
-   const entries=catalog.filter(x=>x.group===groupKey&&(!isDaily||((x.role.endsWith('113')&&wh==='G113')||(x.role.endsWith('294')&&wh==='G294')||(x.role.endsWith('295')&&wh==='G295')||(!/^(stm|par|pom|pou)(113|294|295)$/.test(x.role)&&wh==='G113'))));
-   const uploaded=entries.filter(x=>files.some(f=>f.guess===x.role));
-   const rows=entries.map(entry=>{const matches=files.filter(f=>f.guess===entry.role);const optional=OPTIONAL_ROLES.has(entry.role);if(!matches.length)return `<div class="file-row file-missing"><div class="file-meta"><div class="role-label">${escapeHtml(entry.label)}${optional?' (opsional)':''}</div><div class="file-name">Belum diunggah</div></div><span class="file-status">${optional?'Opsional':'Belum'}</span></div>`;return matches.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="role-label">${escapeHtml(entry.label)}</div><div class="file-name source-name" title="${escapeHtml(f.webkitRelativePath||f.name)}">${escapeHtml(f.webkitRelativePath||f.name)}</div></div><span class="file-status status-ready">Terunggah</span><button class="remove-file" data-remove="${f.id}" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join('')}).join('');
-   return `<div class="warehouse-upload"><div class="warehouse-heading">${wh||''}</div>${rows}</div>`;
-  }).join('');
-  const expected=catalog.filter(x=>x.group===groupKey&&!OPTIONAL_ROLES.has(x.role));
-  const uploadedCount=expected.filter(x=>files.some(f=>f.guess===x.role)).length;
-  const expectedCount=expected.length;
-  const countLabel=`${uploadedCount}/${expectedCount} file terupload`;
-  const collapsed=collapsedUploadGroups.has(groupKey);
-  return `<section class="upload-group"><div class="upload-group-heading" role="button" tabindex="0" aria-expanded="${!collapsed}" data-group-toggle="${groupKey}"><strong>${label}</strong><span>${countLabel} <span class="group-chevron" aria-hidden="true">${collapsed?'＋':'−'}</span></span></div><div class="upload-group-rows"${collapsed?' hidden':''}>${blocks}</div></section>`;
- }).join('');
- el.querySelectorAll('[data-group-toggle]').forEach(header=>{const toggleGroup=()=>{const group=header.dataset.groupToggle;if(collapsedUploadGroups.has(group))collapsedUploadGroups.delete(group);else collapsedUploadGroups.add(group);renderFiles()};header.addEventListener('click',toggleGroup);header.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleGroup()}})});
- $('processCard').hidden=files.length===0;el.hidden=false;
- el.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
+ const dialog=$('fileManageDialog');
+ if(!dialog)return;
+ const action=dialog.dataset.action||'masterBtn';
+ const required=PROCESS_CHECKS[action]||[];
+ $('fileManageTitle').textContent=`File yang diperlukan — ${PROCESS_TITLES[action]||''}`;
+ $('fileManageIntro').textContent='File yang sudah tersedia akan ditandai Terunggah. Kamu bisa menambahkan file atau memilih folder INVENTORY di sini.';
+ $('fileManageList').innerHTML=required.map(role=>{const item=ROLES.find(r=>r[0]===role);const matches=files.filter(f=>f.guess===role);const label=item?item[1]:role;return matches.length?matches.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="file-name">${escapeHtml(label)}<small>${escapeHtml(f.relativePath||f.name)}</small></div></div><span class="file-status status-ready">Terunggah</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):`<div class="file-row file-missing"><div class="file-meta"><div class="file-name">${escapeHtml(label)}</div></div><span class="file-status">Belum ada</span></div>`}).join('')||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';
+ const ready=required.filter(hasRole).length;
+ $('fileManageCount').textContent=`${ready}/${required.length} file tersedia`;
+ $('fileManageList').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
 }
+
 function parseLrbpbSupplier(content){
  const rows=parseCSV(content);if(!rows.length)return [];
  const headers=rows[0].map(norm);
@@ -331,7 +320,7 @@ async function runRekapSupplier(){if(!beginProcess('rekapSupplierBtn'))return;se
 
 async function runSlSupplier(){if(!beginProcess('slSupplierBtn'))return;setStatus('Memproses pembaruan SL Supplier G113…',false,true);try{const out=await makeSlSupplierXlsx(new Date());downloadBlob(out.filename,out.blob);setStatus('SL SUPPLIER berhasil diperbarui.',false)}catch(e){setStatus(e.message||'Terjadi kesalahan saat memperbarui SL Supplier.',true)}finally{endProcess()}}
 function downloadBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
-$('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});const folderPicker=$('dailyFolderPicker');$('pickDailyFolderLink').addEventListener('click',()=>folderPicker.click());$('pickFilesButton').addEventListener('click',()=>$('filePicker').click());folderPicker.addEventListener('change',e=>{const chosen=[...e.target.files];if(!chosen.length){setStatus('Tidak ada file yang dipilih.',true)}else{addFiles(chosen);const rootFiles=chosen.filter(f=>!warehouseFromPath(f)).length;const warehouseFiles=chosen.length-rootFiles;setStatus(`${chosen.length} file ditambahkan: ${rootFiles} file di folder utama/kategori dan ${warehouseFiles} file dari folder gudang.`)}e.target.value=''});const dz=$('dropzone');dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');addFiles(e.dataTransfer.files)});$('clearBtn').onclick=()=>{files=[];parsed.clear();renderFiles();setStatus('Daftar file sumber dibersihkan.')};
+$('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});const folderPicker=$('dailyFolderPicker');$('pickDailyFolderLink').addEventListener('click',()=>folderPicker.click());$('pickFilesButton').addEventListener('click',()=>$('filePicker').click());folderPicker.addEventListener('change',e=>{const chosen=[...e.target.files];if(!chosen.length){setStatus('Tidak ada file yang dipilih.',true)}else{addFiles(chosen);const rootFiles=chosen.filter(f=>!warehouseFromPath(f)).length;const warehouseFiles=chosen.length-rootFiles;setStatus(`${chosen.length} file ditambahkan: ${rootFiles} file di folder utama/kategori dan ${warehouseFiles} file dari folder gudang.`)}e.target.value=''});$('clearBtn').onclick=()=>{files=[];parsed.clear();renderFiles();setStatus('Daftar file sumber dibersihkan.')};$('fileManageClose').onclick=()=>$('fileManageDialog').close();
 const PROCESS_CHECKS={
  masterBtn:['prod','stm113','stm294','stm295','hrgbeli','supmast','hpg','protect','datawhs','par113','par294','par295','seas','itemdepo','itemwhk','pom113','pom294','pom295','pou294','pou295','keb','nataru','promo','history','stockout'],
  stockOutBtn:['stockout','stockoutbook'],
@@ -341,13 +330,15 @@ const PROCESS_CHECKS={
 };
 const PROCESS_TITLES={masterBtn:'MASTER STOCK',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD'};
 const processActions={masterBtn:runMasterStock,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
+function openFileManager(action){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
+document.querySelectorAll('[data-requirements]').forEach(b=>b.addEventListener('click',()=>openFileManager(b.dataset.requirements)));
 function hasRole(role){return files.some(f=>f.guess===role&&(f.bytes||String(f.content||'').trim()!==''));}
 function missingFor(buttonId){return (PROCESS_CHECKS[buttonId]||[]).filter(role=>!hasRole(role)&&!(role==='itempar'));}
 function showPreflight(buttonId,missing){$('preflightTitle').textContent=`${PROCESS_TITLES[buttonId]} — file belum lengkap`;$('preflightIntro').textContent='Beberapa file sumber belum tersedia. Kamu bisa melengkapi file terlebih dahulu atau tetap melanjutkan proses dengan data yang ada.';$('preflightMissing').innerHTML=missing.map(role=>{const item=ROLES.find(r=>r[0]===role);return `<div class="brd-option missing-option"><span class="missing-mark">!</span><span>${escapeHtml(item?item[1]:role)} belum ada</span></div>`}).join('');$('preflightDialog').dataset.action=buttonId;$('preflightDialog').showModal();}
 function requestProcess(buttonId){if($(buttonId).disabled)return;const missing=missingFor(buttonId);if(missing.length){showPreflight(buttonId,missing);return}processActions[buttonId]();}
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');
 $('preflightCancel').onclick=()=>$('preflightDialog').close();
-$('preflightComplete').onclick=()=>{$('preflightDialog').close();$('uploadCard').scrollIntoView({behavior:'smooth',block:'start'});$('dropzone').focus({preventScroll:true});setStatus('Silakan unggah file yang belum tersedia, lalu klik tombol proses kembali.')};
+$('preflightComplete').onclick=()=>{const id=$('preflightDialog').dataset.action;$('preflightDialog').close();openFileManager(id)};
 $('preflightProceed').onclick=()=>{const id=$('preflightDialog').dataset.action;$('preflightDialog').close();processActions[id]();};
 
 async function runBrd(){const selected=files.filter(f=>f.guess==='brd'&&f.content);if(!$('brdBtn').disabled&&selected.length){$('brdDialogError').textContent='';$('brdExportDialog').showModal();}else if(!selected.length)setStatus('File BRD belum tersedia. Unggah satu atau beberapa file BRD terlebih dahulu.',true);}

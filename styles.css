@@ -213,3 +213,23 @@ footer{color:#9fb4cd}
 .upload-choice:active{transform:scale(.98)}
 .upload-group-heading>span{font-size:10px;white-space:nowrap}
 @media(max-width:420px){.upload-choices{gap:8px}.upload-choice{min-width:108px;padding:9px 12px}.upload-group-heading>span{font-size:9px}}
+
+
+/* v1.9.0 — single-screen process hub with per-process file manager popup */
+.upload-card{display:none!important}
+.process-card{display:block!important;padding:18px;margin-top:22px}
+.action-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.process-item{display:grid;gap:5px}
+.process-item .action-button{width:100%;min-height:66px}
+.required-link{justify-self:start;padding:2px 4px;border:0;background:transparent;color:#ffd629;text-decoration:underline;text-underline-offset:3px;font-size:11px;font-weight:700;cursor:pointer}
+.file-manage-dialog{width:min(520px,calc(100% - 26px))}
+.file-manage-list{display:grid;gap:7px;max-height:min(45vh,390px);overflow:auto;padding:2px 2px 5px}
+.file-manage-list .file-row{background:#174873!important;border:1px solid #426d94!important;border-radius:10px!important;padding:9px 10px!important}
+.file-manage-list .file-row.file-missing{background:rgba(170,35,48,.22)!important;border-color:#a9434c!important}
+.file-manage-list .file-name{color:#fff;white-space:normal;overflow-wrap:anywhere}
+.file-manage-list .file-name small{display:block;color:#c4d9ec;font-size:10px;font-weight:500;margin-top:2px}
+.file-manage-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;color:#d6e6f5;font-size:11px}
+.file-manage-tools .button{font-size:10px;padding:7px 10px;color:#fff;border-color:#6485a6}
+.modal-upload-choices{padding:12px 0 4px}
+.file-manage-dialog .brd-dialog-actions{margin-top:12px}
+@media(max-width:480px){.process-card{padding:13px}.action-grid{gap:15px}.process-item .action-button{min-height:58px}.file-manage-tools{align-items:flex-start;flex-direction:column}}

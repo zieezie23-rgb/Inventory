@@ -246,3 +246,47 @@ footer{color:#9fb4cd}
 .preflight-dialog .preflight-actions{display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:10px}
 .preflight-dialog .preflight-actions button{flex:1 1 0;min-width:0;white-space:nowrap;padding:10px 8px}
 @media(max-width:420px){.preflight-dialog .preflight-actions{gap:6px}.preflight-dialog .preflight-actions button{flex:1 1 0;font-size:10px;padding:9px 5px}.file-manage-actions #clearBtn,.file-manage-actions #fileManageClose{min-width:116px}}
+
+
+/* v1.9.2 — centered text-only process controls and consistent yellow typography. */
+.action-button{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding-left:12px!important;padding-right:12px!important;}
+.action-button .action-copy{flex:0 1 auto!important;align-items:center!important;text-align:center!important;}
+.action-button .action-copy strong{color:#ffd629!important;font-weight:900!important;}
+.required-link{color:#ffd629!important;text-align:center!important;}
+.modal-upload-choices{gap:10px!important;}
+.modal-upload-choices .upload-choice{flex:1 1 0!important;min-width:0!important;background:#174873!important;color:#ffd629!important;border:1px solid #ffd629!important;border-bottom:4px solid #e5252a!important;box-shadow:0 3px 0 #ffd629!important;text-align:center!important;font-size:13px!important;font-weight:900!important;}
+.file-manage-actions #clearBtn,.file-manage-actions #fileManageClose{color:#ffd629!important;}
+.preflight-dialog .preflight-actions button{background:#174873!important;color:#ffd629!important;border:1px solid #ffd629!important;border-bottom:4px solid #e5252a!important;box-shadow:0 3px 0 #ffd629!important;font-weight:850!important;}
+.preflight-dialog .preflight-actions button:hover,.modal-upload-choices .upload-choice:hover{background:#205987!important;}
+/* Replace white/near-white interface copy with the brand yellow. */
+.brd-dialog,.brd-dialog form,.brd-dialog h2,.brd-dialog p,
+.brd-dialog .brd-option,.file-manage-list .file-name,
+.file-manage-list .file-name small,.file-manage-tools,
+.file-manage-list .upload-group-heading,
+.file-manage-list .upload-group-heading span,
+.preflight-dialog .missing-option,.preflight-dialog .missing-mark,
+.brd-dialog .brd-dialog-actions button{color:#ffd629!important;}
+.brd-dialog .brd-dialog-actions button{color:#ffd629!important;}
+@media(max-width:420px){.modal-upload-choices .upload-choice{font-size:11px!important;padding:9px 7px!important}}
+
+
+/* v1.9.3 — seluruh teks yang sebelumnya putih di seluruh aplikasi menjadi kuning. */
+:root{--ink:#ffd629;}
+body{color:#ffd629!important;}
+.topbar,.topbar h1,.topbar p,.topbar .eyebrow,.topbar .version{color:inherit;}
+.button-primary,.button-secondary,.button-quiet,.dropzone,.upload-icon,
+.action-button,.action-button .action-icon,.action-button .action-copy strong,
+.action-button .action-copy small,.action-button .action-arrow,
+.file-name,.file-size,.file-status,.file-count,.status,.metric span,
+.app-footer,footer,.notice,.field,.checkline,.file-manage-list .file-name,
+.file-manage-list .file-name small,.file-manage-tools,
+.file-manage-list .upload-group-heading,.file-manage-list .upload-group-heading span,
+.brd-dialog,.brd-dialog *, .preflight-dialog,.preflight-dialog *,
+.upload-group-heading,.upload-group-heading *, .warehouse-heading,
+.process-card,.process-card *, .card,.card * {
+  color:#ffd629!important;
+}
+/* Keep semantic status colors and intentional dark text on yellow controls. */
+.file-status,.status.ok,.success{color:#6ee7a8!important;}
+.status.error,.file-row.file-missing .file-status{color:#ff8b8b!important;}
+.step,.file-icon,.preflight-dialog #preflightComplete,.upload-choice-folder{color:#123b62!important;}

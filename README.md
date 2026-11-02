@@ -1,4 +1,4 @@
-# Inventory PWA — v2.0.6
+# Inventory PWA — v2.0.7
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -225,3 +225,8 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 ## v2.0.6 — Konsistensi aksen tombol dan multi-file picker
 - Menyamakan aksen bawah tombol aksi popup: garis merah dengan aksen kuning yang konsisten.
 - Menegaskan atribut `multiple` pada pemilih file agar pemilihan beberapa file dalam satu kali dialog didukung.
+
+
+## v2.0.7 — Pembaruan versi integrasi PO Expired
+- Versi aplikasi, footer, dan cache Service Worker diselaraskan ke v2.0.7.
+- PO Expired tetap terintegrasi di dalam halaman utama Inventory.

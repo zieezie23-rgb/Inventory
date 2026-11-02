@@ -352,7 +352,7 @@ function openPoExpired(){
  try { const payload=buildPoExpiredPayload(); window.dispatchEvent(new CustomEvent('inventory-po-payload',{detail:payload})); }
  catch(e){setStatus('PO Expired: '+(e.message||e),true)}
 }
-$('poExpiredBtn').addEventListener('click',openPoExpired);
+window.openPoExpired=openPoExpired;
 $('poExpiredRequirements').addEventListener('click',()=>{openPoExpired();setTimeout(()=>{const card=document.getElementById('bh-seasonal');if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.classList.add('attention');setTimeout(()=>card.classList.remove('attention'),1800)}},120)});
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 

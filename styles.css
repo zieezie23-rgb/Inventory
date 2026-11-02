@@ -384,3 +384,47 @@ body{color:#ffd629!important;}
   line-height:1!important;
 }
 .modal-upload-choices .upload-choice span{color:#ffd629!important;}
+
+/* v1.9.8 — rapikan tautan pilih file dan samakan ketiga tombol preflight. */
+.modal-upload-choices{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:clamp(28px,8vw,64px)!important;
+}
+.modal-upload-choices .upload-choice,
+.modal-upload-choices .upload-choice:hover,
+.modal-upload-choices .upload-choice:focus-visible{
+  display:inline-flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;
+  align-items:center!important;justify-content:center!important;gap:6px!important;
+  padding:8px 2px!important;margin:0!important;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;text-decoration:none!important;color:#ffd629!important;
+  white-space:nowrap!important;
+}
+.modal-upload-choices .upload-plus{
+  display:inline-block!important;flex:0 0 auto!important;width:auto!important;
+  margin:0!important;padding:0!important;color:#ffd629!important;
+  text-decoration:none!important;font-family:Arial,sans-serif!important;
+  font-size:22px!important;font-weight:900!important;line-height:1!important;
+}
+.modal-upload-choices .upload-choice span:last-child{
+  display:inline-block!important;color:#ffd629!important;
+  text-decoration:underline!important;text-decoration-color:#ffd629!important;
+  text-decoration-thickness:1px!important;text-underline-offset:3px!important;
+}
+.preflight-dialog .preflight-actions button,
+.preflight-dialog .preflight-actions button:hover,
+.preflight-dialog .preflight-actions button:focus-visible{
+  appearance:none!important;-webkit-appearance:none!important;
+  background:#174873!important;background-image:none!important;color:#ffd629!important;
+  border:1px solid #ffd629!important;border-bottom:4px solid #e5252a!important;
+  border-radius:12px!important;box-shadow:none!important;
+  min-height:44px!important;padding:10px 8px!important;
+  font:800 12px/1.2 inherit!important;text-align:center!important;
+}
+.preflight-dialog .preflight-actions button::before,
+.preflight-dialog .preflight-actions button::after{
+  content:none!important;display:none!important;box-shadow:none!important;
+}
+
+/* v1.9.9: outline header title in blue. */
+.topbar h1{ -webkit-text-stroke:.65px #0875c9 !important; text-shadow:0 0 .6px #0875c9,0 1px 2px rgba(0,0,0,.22) !important; }

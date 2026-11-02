@@ -536,3 +536,43 @@ body{color:#ffd629!important;}
     padding:9px 5px!important;font-size:11px!important;
   }
 }
+
+/* v2.0.2 — tata letak tombol preflight responsif: tiga tombol selalu muat di dalam dialog. */
+.preflight-dialog .preflight-actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  gap:8px!important;
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+.preflight-dialog .preflight-actions button{
+  display:flex!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:46px!important;
+  height:46px!important;
+  flex:none!important;
+  padding:8px 3px!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  font-size:clamp(10px,2.8vw,12px)!important;
+  white-space:nowrap!important;
+}
+@media(max-width:360px){
+  .preflight-dialog .preflight-actions{gap:5px!important;}
+  .preflight-dialog .preflight-actions button{font-size:10px!important;padding-inline:1px!important;}
+}
+
+
+/* v2.0.3 — pertahankan ukuran asli tombol; rapikan alignment dan visual saja. */
+.brd-dialog .brd-dialog-actions{display:flex!important;justify-content:flex-end!important;align-items:center!important;flex-wrap:wrap!important;gap:9px!important;}
+.preflight-dialog .preflight-actions{display:flex!important;justify-content:flex-start!important;align-items:center!important;flex-wrap:wrap!important;gap:9px!important;width:auto!important;min-width:0!important;overflow:visible!important;}
+.preflight-dialog .preflight-actions button{width:auto!important;min-width:120px!important;max-width:none!important;height:auto!important;min-height:44px!important;flex:0 0 auto!important;padding:11px 15px!important;margin:0!important;font-size:12px!important;white-space:nowrap!important;}
+.brd-dialog .brd-dialog-actions button,.preflight-dialog .preflight-actions button{background:#174873!important;background-image:none!important;color:#ffd629!important;border:1px solid #ffd629!important;border-bottom:4px solid #e5252a!important;border-radius:12px!important;box-shadow:0 3px 0 #ffd629!important;appearance:none!important;-webkit-appearance:none!important;}
+.brd-dialog .brd-dialog-actions button:hover,.preflight-dialog .preflight-actions button:hover{background:#205987!important;}
+.brd-dialog .brd-dialog-actions button::before,.brd-dialog .brd-dialog-actions button::after,.preflight-dialog .preflight-actions button::before,.preflight-dialog .preflight-actions button::after{content:none!important;display:none!important;box-shadow:none!important;}

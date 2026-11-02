@@ -310,3 +310,36 @@ body{color:#ffd629!important;}
 }
 /* Lengkapi juga memakai teks kuning seperti tombol lainnya. */
 .preflight-dialog #preflightComplete{color:#ffd629!important;}
+
+/* v1.9.5 — satu skin untuk seluruh tombol home dan popup. */
+.process-card .action-button,
+.file-manage-dialog .brd-dialog-actions button,
+.preflight-dialog .preflight-actions button,
+.modal-upload-choices .upload-choice{
+  background:#174873!important;
+  color:#ffd629!important;
+  border:1px solid #ffd629!important;
+  border-bottom:4px solid #e5252a!important;
+  border-radius:12px!important;
+  box-shadow:0 3px 0 #ffd629!important;
+  font-weight:900!important;
+  text-align:center!important;
+}
+.process-card .action-button{
+  border-left:1px solid #ffd629!important;
+  min-height:58px!important;
+  padding:12px!important;
+  justify-content:center!important;
+}
+.process-card .action-button::before{display:none!important;}
+.process-card .action-button::after{
+  content:""!important;display:block!important;position:absolute!important;
+  left:0!important;right:0!important;bottom:-4px!important;height:4px!important;
+  background:#ffd629!important;pointer-events:none!important;
+}
+.process-card .action-button .action-copy,
+.process-card .action-button .action-copy strong{color:#ffd629!important;text-align:center!important;}
+.preflight-dialog .preflight-actions button{flex:1 1 0!important;min-width:0!important;white-space:nowrap!important;}
+.upload-plus{color:#ffd629!important;font-size:16px!important;line-height:1!important;}
+.modal-upload-choices .upload-choice{display:flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;}
+.modal-upload-choices .upload-choice span{color:#ffd629!important;}

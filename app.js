@@ -353,6 +353,7 @@ function openPoExpired(){
  catch(e){setStatus('PO Expired: '+(e.message||e),true)}
 }
 $('poExpiredBtn').addEventListener('click',openPoExpired);
+$('poExpiredRequirements').addEventListener('click',()=>{openPoExpired();setTimeout(()=>{const card=document.getElementById('bh-seasonal');if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.classList.add('attention');setTimeout(()=>card.classList.remove('attention'),1800)}},120)});
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');

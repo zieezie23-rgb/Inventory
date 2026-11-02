@@ -598,3 +598,5 @@ body{color:#ffd629!important;}
 
 /* PO Expired terintegrasi langsung ke Inventory */
 #poExpiredDialog{display:none}#poExpiredDialog.po-open{display:block}
+/* Highlight upload Seasonal saat pengguna membuka kebutuhan PO Expired */
+#poExpiredApp #bh-seasonal.attention{outline:3px solid #f2c400;outline-offset:3px;transition:outline-color .2s}

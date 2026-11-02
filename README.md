@@ -1,4 +1,4 @@
-# Inventory PWA — v1.9.9
+# Inventory PWA — v2.0.0
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -174,49 +174,54 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - File G113 tetap dapat berisi seluruh tarikan harian; folder G294 dan G295 dapat berisi STM, PAR, POM, dan POU.
 
 
-## v1.9.9 — Tampilan upload disederhanakan
+## v2.0.0 — Tampilan upload disederhanakan
 - Menghapus tombol terpisah untuk upload folder Tarikan Harian.
 - Mempertahankan area upload sumber yang sudah ada, serta kontrol tampil/sembunyikan dan bersihkan daftar.
 - Logika identitas gudang berdasarkan folder G113/G294/G295 dari v1.7.5 tetap dipertahankan.
 - Untuk mempertahankan identitas folder, folder induk yang berisi G113, G294, dan G295 dapat ditarik ke area upload pada browser desktop yang mendukung folder drag-and-drop.
 
 
-## v1.9.9 — Upload satu area, multi-file dan folder gudang
+## v2.0.0 — Upload satu area, multi-file dan folder gudang
 - Area upload tetap satu; tidak ada tombol upload folder terpisah.
 - Pilih banyak file sekaligus melalui area utama.
 - Pilih folder induk G113/G294/G295 melalui tautan kecil di dalam area upload yang sama agar struktur folder tetap terbaca.
 - Identitas gudang dari folder untuk semua file tetap dipertahankan.
 
 
-## v1.9.9 — Menghapus kontrol sembunyikan daftar
+## v2.0.0 — Menghapus kontrol sembunyikan daftar
 - Tombol “Sembunyikan” dihilangkan karena tidak berfungsi sebagaimana mestinya.
 - Daftar file selalu ditampilkan; tombol “Bersihkan” tetap tersedia.
 - Upload multi-file dan pemilihan folder gudang tetap dipertahankan.
 
 
-## v1.9.9
+## v2.0.0
 - Saat tombol proses ditekan, periksa file sumber yang belum tersedia dan tampilkan popup bergaya BRD.
 - Pilihan Lengkapi mengarahkan pengguna ke area upload; Tetap Proses menjalankan proses dengan data yang tersedia.
 - Master Stock dapat dilanjutkan tanpa STM G113; kolom yang bergantung pada sumber tersebut akan kosong/nol. PRODMAST tetap wajib sebagai daftar dasar barang.
 
-## v1.9.9 — Folder induk ikut terbaca
+## v2.0.0 — Folder induk ikut terbaca
 - Pemilih folder sekarang meneruskan seluruh file hasil pilihan ke proses upload, termasuk file yang berada langsung di folder INVENTORY dan file kategori di luar subfolder gudang.
 - Penandaan G113/G294/G295 tetap berdasarkan segmen jalur folder masing-masing file; file di luar folder gudang tidak lagi dibuang oleh filter.
 
 
-## v1.9.9
+## v2.0.0
 - Halaman utama difokuskan pada tombol proses.
 - Daftar file dan upload dibuka melalui popup per proses.
 - Popup menampilkan hanya file yang diperlukan proses terpilih.
 - Upload banyak file dan pemilihan folder induk tetap tersedia dari popup.
 
 
-## v1.9.9 — Konsistensi tombol popup
+## v2.0.0 — Konsistensi tombol popup
 - Tombol Bersihkan Semua, Tutup, Batal, Lengkapi, dan Tetap Proses memakai tampilan yang sama dengan Pilih Folder/Pilih File.
 - Ukuran dan tata letak tombol tetap mengikuti pengaturan masing-masing popup.
 - Warna teks Lengkapi diseragamkan menjadi kuning.
 
 
-## v1.9.9 — Kontrol pilih folder/file berupa tautan teks
+## v2.0.0 — Kontrol pilih folder/file berupa tautan teks
 - Mengganti ikon plus emoji menjadi simbol + berwarna kuning melalui CSS.
 - Menghilangkan latar, border, dan bentuk tombol pada Pilih Folder dan Pilih File; keduanya tampil sebagai tautan teks bergaris bawah dan tetap dapat diklik.
+
+
+## v2.0.0 — Konsistensi aksen tombol dan multi-file picker
+- Menyamakan aksen bawah tombol aksi popup: garis merah dengan aksen kuning yang konsisten.
+- Menegaskan atribut `multiple` pada pemilih file agar pemilihan beberapa file dalam satu kali dialog didukung.

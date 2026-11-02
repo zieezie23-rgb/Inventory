@@ -343,3 +343,44 @@ body{color:#ffd629!important;}
 .upload-plus{color:#ffd629!important;font-size:16px!important;line-height:1!important;}
 .modal-upload-choices .upload-choice{display:flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;}
 .modal-upload-choices .upload-choice span{color:#ffd629!important;}
+
+/* v1.9.6 — hilangkan garis/efek bertumpuk di bawah tombol Lengkapi dan Tetap Proses. */
+.preflight-dialog .preflight-actions button{
+  border-bottom:1px solid #ffd629!important;
+  box-shadow:none!important;
+  background-image:none!important;
+}
+.preflight-dialog .preflight-actions button::before,
+.preflight-dialog .preflight-actions button::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* v1.9.7 — Pilih Folder/File tampil sebagai tautan teks, bukan tombol. */
+.modal-upload-choices .upload-choice,
+.modal-upload-choices .upload-choice:hover,
+.modal-upload-choices .upload-choice:focus-visible{
+  appearance:none!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  min-height:0!important;
+  padding:8px 4px!important;
+  color:#ffd629!important;
+  text-decoration:underline!important;
+  text-decoration-color:#ffd629!important;
+  text-underline-offset:4px!important;
+  font-weight:700!important;
+  cursor:pointer!important;
+}
+.modal-upload-choices .upload-choice::before,
+.modal-upload-choices .upload-choice::after{content:none!important;display:none!important;}
+.modal-upload-choices .upload-plus{
+  color:#ffd629!important;
+  font-family:Arial,sans-serif!important;
+  font-size:22px!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+.modal-upload-choices .upload-choice span{color:#ffd629!important;}

@@ -486,3 +486,53 @@ body{color:#ffd629!important;}
 .preflight-dialog .preflight-actions button::after,
 #brdExportDialog .brd-dialog-actions button::before,
 #brdExportDialog .brd-dialog-actions button::after{content:none!important;display:none!important;box-shadow:none!important;}
+
+/* v2.0.1 — tombol popup memakai satu komponen visual dan ukuran yang konsisten. */
+.brd-dialog .brd-dialog-actions,
+.preflight-dialog .preflight-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  flex-wrap:nowrap!important;
+}
+.brd-dialog .brd-dialog-actions button,
+.preflight-dialog .preflight-actions button{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  box-sizing:border-box!important;
+  width:150px!important;
+  min-width:150px!important;
+  max-width:150px!important;
+  height:48px!important;
+  min-height:48px!important;
+  flex:0 0 150px!important;
+  padding:10px 12px!important;
+  background:#174873!important;
+  background-image:none!important;
+  color:#ffd629!important;
+  border:1px solid #ffd629!important;
+  border-bottom:4px solid #e5252a!important;
+  border-radius:12px!important;
+  box-shadow:0 3px 0 #ffd629!important;
+  font-family:inherit!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.brd-dialog .brd-dialog-actions button:hover,
+.preflight-dialog .preflight-actions button:hover{background:#205987!important;}
+.brd-dialog .brd-dialog-actions button::before,
+.brd-dialog .brd-dialog-actions button::after,
+.preflight-dialog .preflight-actions button::before,
+.preflight-dialog .preflight-actions button::after{content:none!important;display:none!important;box-shadow:none!important;}
+@media(max-width:420px){
+  .brd-dialog .brd-dialog-actions,.preflight-dialog .preflight-actions{gap:8px!important;}
+  .brd-dialog .brd-dialog-actions button,.preflight-dialog .preflight-actions button{
+    width:auto!important;min-width:0!important;max-width:none!important;
+    flex:1 1 0!important;height:46px!important;min-height:46px!important;
+    padding:9px 5px!important;font-size:11px!important;
+  }
+}

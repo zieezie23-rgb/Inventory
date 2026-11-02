@@ -5,17 +5,175 @@
   <meta name="theme-color" content="#064a91"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
   <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css">
   <title>Inventory</title>
-</head>
+<style id="poExpiredStyles">#poExpiredApp{
+  --paper:#EEF3FA; --surface:#fff; --ink:#1B2733; --muted:#5A6B7C; --line:#D3DBE5;
+  --sheet:#C5D9F1; --blue:#0A56A8; --blue-d:#073F82; --red:#E31E24; --red-d:#B9151A; --yellow:#FDB913; --flag:#FFB7B7; --flag-bg:#FFEBEB; --flag-ink:#7A1F1F;
+  --ok:#1E7A4C; --err:#B3261E;
+  --ui:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --cell:Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+}
+#poExpiredApp *{box-sizing:border-box}
+#poExpiredApp{-webkit-text-size-adjust:100%}
+#poExpiredApp{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 var(--ui);padding-bottom:env(safe-area-inset-bottom)}
+#poExpiredApp .top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--blue);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 18px 20px}
+#poExpiredApp .top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(var(--red) 0 4px,var(--yellow) 4px 8px)}
+#poExpiredApp .top h1{margin:0;font-size:20px;font-weight:650;letter-spacing:.1px}
+#poExpiredApp .top p{margin:2px 0 0;font-size:13px;opacity:.85}
+#poExpiredApp main{max-width:1280px;margin:0 auto;padding:6px 16px 48px}
+#poExpiredApp .step{padding:18px 0;border-bottom:1px solid var(--line)}
+#poExpiredApp .step:last-child{border-bottom:0}
+#poExpiredApp .step-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+#poExpiredApp .step-head h2{margin:0;font-size:17px;font-weight:650}
+#poExpiredApp .num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--blue-d);font-weight:800;font-size:13px}
+#poExpiredApp .step-head .btn{margin-left:auto}
+#poExpiredApp .tablehead{margin-top:22px}
+#poExpiredApp .tablehead .stat{color:var(--muted);font-size:13px}
+#poExpiredApp .tablehead .btn{margin-left:auto}
+
+#poExpiredApp .btn{font:inherit;font-weight:600;border-radius:6px;border:1px solid var(--blue);padding:9px 16px;cursor:pointer;background:var(--blue);color:#fff;min-height:40px}
+#poExpiredApp .btn:hover{background:var(--blue-d)}
+#poExpiredApp .btn.cta{background:var(--red);border-color:var(--red)}
+#poExpiredApp .btn.cta:hover{background:var(--red-d)}
+#poExpiredApp .btn.ghost{background:transparent;color:var(--blue)}
+#poExpiredApp .btn.ghost:hover{background:#E1ECF8}
+#poExpiredApp .btn.small{min-height:34px;padding:5px 12px;font-size:13px}
+#poExpiredApp .btn:disabled{opacity:.45;cursor:not-allowed}
+#poExpiredApp .btn:focus-visible, #poExpiredApp textarea:focus-visible, #poExpiredApp input:focus-visible, #poExpiredApp summary:focus-visible{outline:3px solid #7FA9DE;outline-offset:2px}
+
+#poExpiredApp .bahan{display:grid;grid-template-columns:minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+#poExpiredApp .bh{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:row;align-items:center;gap:12px}
+#poExpiredApp .bh:last-child{border-bottom:0}
+#poExpiredApp .bh b{font-size:14.5px;flex:none;width:92px}
+#poExpiredApp .bh .st{font-size:13px;display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+#poExpiredApp .bh .st .msg{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#poExpiredApp .bh .st .dot{width:9px;height:9px;border-radius:50%;background:#B8C2CE;flex:none}
+#poExpiredApp .bh.ok .dot{background:var(--ok)} #poExpiredApp .bh.err .dot{background:var(--err)} #poExpiredApp .bh.busy .dot{background:#E0A100}
+#poExpiredApp .bh.err .msg{color:var(--err)}
+#poExpiredApp .bh button{flex:none;font:inherit;font-size:13px;font-weight:600;color:var(--blue);background:none;border:0;padding:2px 0;cursor:pointer;text-decoration:underline;margin-left:auto}
+#poExpiredApp .step-head .sum{font-size:13px;color:var(--ok);font-weight:600}
+#poExpiredApp .step-head #btnFold{margin-left:auto}
+#poExpiredApp .step-head #btnFold+#btnPickAll{margin-left:0}
+#poExpiredApp #secBahan.folded .bahan{display:none}
+#poExpiredApp #secBahan.folded .step-head{margin-bottom:0}
+#poExpiredApp .bahan.drag{outline:3px dashed #7FA9DE;outline-offset:3px}
+#poExpiredApp .hint{color:var(--muted);font-size:12.5px;margin:8px 0 0}
+
+#poExpiredApp .inputrow{display:flex;gap:12px;align-items:stretch}
+#poExpiredApp textarea{width:100%;font:15px/1.4 var(--ui);border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface);color:var(--ink);resize:vertical}
+#poExpiredApp #poInput{min-height:0;font-family:Consolas,"SFMono-Regular",Menlo,monospace;font-size:14.5px;text-transform:uppercase}
+#poExpiredApp #poInput::placeholder{text-transform:none;font-family:var(--ui)}
+#poExpiredApp .inputactions{display:flex;flex-direction:column;gap:8px;min-width:116px}
+#poExpiredApp .opts{margin-top:12px;font-size:14px}
+#poExpiredApp .opts summary{cursor:pointer;color:var(--blue);font-weight:600}
+#poExpiredApp .chk{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px}
+#poExpiredApp .chk input{width:18px;height:18px}
+#poExpiredApp .std{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+#poExpiredApp .std label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+#poExpiredApp .std input{width:56px;padding:5px 6px;border:1px solid var(--line);border-radius:5px;font:inherit}
+#poExpiredApp .warn{margin:12px 0 0;padding:10px 12px;border-left:4px solid #E0A100;background:#FFF6DC;border-radius:4px;font-size:13.5px}
+
+#poExpiredApp .concl{background:var(--flag-bg);border:1px solid var(--flag);border-left:6px solid var(--red);border-radius:8px;padding:12px}
+#poExpiredApp .concl textarea{font-family:Consolas,"SFMono-Regular",Menlo,monospace;font-size:14px;background:#fff;border-color:var(--flag);color:var(--flag-ink);font-size:15px;min-height:64px}
+#poExpiredApp .conclbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px}
+#poExpiredApp .conclbar .chk{margin:0}
+
+#poExpiredApp .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff;max-height:78vh}
+#poExpiredApp table.sheet{margin-bottom:18px;border-collapse:collapse;font:14.5px/1.25 var(--cell);table-layout:fixed;color:#000}
+#poExpiredApp .sheet th, #poExpiredApp .sheet td{border:1px solid #000;padding:3px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:28px}
+#poExpiredApp .sheet thead th{background:var(--sheet);font-weight:700;text-align:center;white-space:normal;line-height:1.15;position:sticky;top:0;z-index:2}
+#poExpiredApp .sheet thead th.grp{height:auto}
+#poExpiredApp .sheet th.sp, #poExpiredApp .sheet td.sp{border:0;background:#fff;padding:0}
+#poExpiredApp .sheet thead th.sp{background:#fff}
+#poExpiredApp .sheet td.c{text-align:center}#poExpiredApp .sheet td.r{text-align:right}#poExpiredApp .sheet td.l{text-align:left}
+#poExpiredApp .sheet td.kes{font-weight:600}
+#poExpiredApp .empty{padding:28px;text-align:center;color:var(--muted)}
+
+#poExpiredApp .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#1B2733;color:#fff;padding:10px 16px;border-radius:6px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw;z-index:20}
+#poExpiredApp .toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:640px){
+  #poExpiredApp .inputrow{flex-direction:column}
+  #poExpiredApp .inputactions{flex-direction:row;min-width:0}
+  #poExpiredApp .inputactions .btn{flex:1}
+  #poExpiredApp main{padding:4px 12px 40px}
+}
+@media (prefers-reduced-motion:reduce){#poExpiredApp .toast{transition:none}}
+
+#poExpiredApp{display:none;position:fixed;inset:0;z-index:9999;overflow:auto;background:#EEF3FA;padding:12px 14px calc(20px + env(safe-area-inset-bottom));}#poExpiredApp.po-open{display:block}#poExpiredApp main{max-width:1280px;margin:0 auto;padding:6px 0 36px}#poExpiredApp .top{display:none!important}#poExpiredApp .step{padding-top:12px}#poExpiredApp .po-modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#0A56A8;color:#fff;padding:10px 14px;border-bottom:6px solid #E31E24;margin:-12px -14px 12px;position:sticky;top:-12px;z-index:5}#poExpiredApp .po-modal-head h2{margin:0;color:#fff;font-size:18px}#poExpiredApp .po-modal-head button{background:#fff;color:#0A56A8;border:0;border-radius:6px;padding:8px 14px;font-weight:700}
+</style></head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v2.0.4</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><span class="version">v2.0.6</span></header>
 <main>
   <section class="card process-card" id="processCard"><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button><button class="required-link" data-requirements="masterBtn" type="button">File yang diperlukan</button></div>
     <div class="process-item"><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>STOCK OUT</strong></span></button><button class="required-link" data-requirements="stockOutBtn" type="button">File yang diperlukan</button></div>
     <div class="process-item"><button id="slSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>SL SUPPLIER</strong></span></button><button class="required-link" data-requirements="slSupplierBtn" type="button">File yang diperlukan</button></div>
     <div class="process-item"><button id="rekapSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>BPB SUPPLIER</strong></span></button><button class="required-link" data-requirements="rekapSupplierBtn" type="button">File yang diperlukan</button></div>
+    <div class="process-item"><button id="poExpiredBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>PO EXPIRED</strong></span></button></div>
     <div class="process-item"><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>BRD</strong></span></button><button class="required-link" data-requirements="brdBtn" type="button">File yang diperlukan</button></div>
   </div><div id="status" class="status" role="status" aria-live="polite"></div></section>
+  <div id="poExpiredDialog" aria-hidden="true"><div id="poExpiredApp" class="po-expired-embedded embed"><div class="po-modal-head"><h2>PO EXPIRED</h2><button type="button" class="button button-quiet" id="poExpiredClose">Tutup</button></div>
+<main>
+  <section class="step" id="secBahan">
+    <div class="step-head">
+      <span class="num">1</span>
+      <h2>Bahan</h2>
+      <span id="bahanSum" class="sum"></span>
+      <button id="btnFold" class="btn ghost small" type="button" hidden>Sembunyikan</button>
+      <button id="btnPickAll" class="btn ghost small">Pilih semua file sekaligus</button>
+      <input type="file" id="fileAll" multiple hidden>
+    </div>
+    <div class="bahan" id="bahan"></div>
+  </section>
+
+  <section class="step" id="secInput">
+    <div class="step-head">
+      <span class="num">2</span>
+      <h2>No PO yang dicek</h2>
+    </div>
+    <div class="inputrow">
+      <textarea id="poInput" rows="2" spellcheck="false" autocapitalize="characters" placeholder="Tempel satu atau lebih No PO — pisahkan dengan baris baru, spasi, atau koma&#10;contoh: EHAQ99040"></textarea>
+      <div class="inputactions">
+        <button id="btnRun" class="btn primary cta" disabled>Cek PO</button>
+        <button id="btnClear" class="btn ghost">Kosongkan</button>
+      </div>
+    </div>
+    <details class="opts">
+      <summary>Pengaturan kesimpulan</summary>
+      <label class="chk"><input type="checkbox" id="optDsi"> Aktifkan penilaian “DSI under Standart”</label>
+      <p class="hint">Penilaian ini dicek paling akhir: hanya muncul kalau baris tidak kena Promosi, PO Out, atau Stock Out. Jika semua aturan tidak terpenuhi dan DSI Stock di atas standar, kesimpulannya “DSI stock melebihi standart”. FK dicocokkan sebagai angka (di Excel lama tidak cocok karena FK bertipe teks).</p>
+      <div class="std" id="stdBox"></div>
+    </details>
+    <p id="warn" class="warn" hidden></p>
+  </section>
+
+  <section class="step" id="secHasil" hidden>
+    <div class="step-head">
+      <span class="num">3</span>
+      <h2>Hasil</h2>
+    </div>
+    <div class="step-head tablehead">
+      <h2>Tabel hasil</h2>
+      <span id="stat" class="stat"></span>
+      <button id="btnJpg" class="btn ghost">Export JPEG</button>
+    </div>
+    <div class="tablewrap" id="tableWrap"></div>
+
+    <div class="step-head tablehead"><h2>Kesimpulan</h2></div>
+    <div class="concl">
+      <textarea id="kesimpulan" rows="2" spellcheck="false"></textarea>
+      <div class="conclbar">
+        <button id="btnCopy" class="btn primary">Salin teks</button>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+
+</div>
   <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">File yang diperlukan</h2><span id="fileManageCount" class="file-manage-count"></span></div><p id="fileManageIntro">Status file untuk proses ini.</p><div id="fileManageList" class="file-manage-list"></div><div class="upload-choices modal-upload-choices"><button id="pickDailyFolderLink" class="upload-choice upload-choice-folder" type="button"><span class="upload-plus" aria-hidden="true">+</span><span>Pilih Folder</span></button><button id="pickFilesButton" class="upload-choice upload-choice-files" type="button"><span class="upload-plus" aria-hidden="true">+</span><span>Pilih File</span></button></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
   <input id="filePicker" type="file" multiple="multiple" accept=".csv,.txt,.brd,.xlsx" hidden><input id="dailyFolderPicker" type="file" webkitdirectory directory multiple hidden>
   <dialog id="brdExportDialog" class="brd-dialog">
@@ -48,6 +206,787 @@
     </form>
   </dialog>
   <iframe id="brdEngine" src="brd/engine.html" title="BRD conversion engine" aria-hidden="true" style="display:none;width:0;height:0;border:0"></iframe>
-  <footer class="app-footer">Zie Project • Inventory v2.0.4 @2026</footer>
-</main><script src="vendor/jszip.min.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+  <footer class="app-footer">Zie Project • Inventory v2.0.6 @2026</footer>
+</main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
+(function (root) {
+  'use strict';
+
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var BLN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  var HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+  var BLN_ID = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  var DEFAULT_STD = { 1: 21, 2: 15, 3: 10, 4: 7, 5: 7, 6: 7, 7: 7 };
+
+  /* ---------- util ---------- */
+  function str(v) { return v == null ? '' : String(v).trim(); }
+  function key(v) { return str(v).replace(/\.0+$/, '').replace(/^0+/, ''); }
+  function toNum(v) {
+    if (typeof v === 'number') return isFinite(v) ? v : null;
+    if (typeof v === 'string') {
+      var s = v.trim().replace(/,/g, '');
+      if (s === '' || isNaN(Number(s))) return null;
+      return Number(s);
+    }
+    return null;
+  }
+  function n0(v) { var n = toNum(v); return n == null ? 0 : n; }
+
+  function serialToDate(n) {
+    var d = new Date(Math.round((n - 25569) * 86400000));
+    return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  }
+  function parseDate(v, mdy) {
+    if (v == null || v === '') return null;
+    if (v instanceof Date) return isNaN(v) ? null : new Date(v.getFullYear(), v.getMonth(), v.getDate());
+    if (typeof v === 'number') return (v > 20000 && v < 100000) ? serialToDate(v) : null;
+    var s = String(v).trim(), m;
+    if ((m = /^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/.exec(s))) return new Date(+m[1], +m[2] - 1, +m[3]);
+    if ((m = /^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})/.exec(s))) {
+      var y = +m[3], a = +m[1], b = +m[2]; if (y < 100) y += 2000;
+      /* mdy: format Amerika (bulan/tanggal/tahun) — dipakai kecuali angka pertama jelas bukan bulan (>12) */
+      if (mdy && a <= 12) return new Date(y, a - 1, b);
+      return new Date(y, b - 1, a);
+    }
+    if (/^\d{5}(\.\d+)?$/.test(s)) return serialToDate(Number(s));
+    var t = Date.parse(s);
+    if (!isNaN(t)) { var d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+    return null;
+  }
+
+  /* ---------- CSV ---------- */
+  function detectDelim(text) {
+    var nl = text.indexOf('\n'); var line = text.substring(0, nl < 0 ? Math.min(text.length, 5000) : nl);
+    var best = ',', bc = -1;
+    [',', ';', '\t', '|'].forEach(function (d) { var c = line.split(d).length; if (c > bc) { bc = c; best = d; } });
+    return best;
+  }
+  function parseCSV(text, delim, cb) {
+    var n = text.length;
+    if (text.indexOf('"') < 0) {
+      var start = 0;
+      while (start < n) {
+        var end = text.indexOf('\n', start); if (end < 0) end = n;
+        var line = text.substring(start, end);
+        if (line.charCodeAt(line.length - 1) === 13) line = line.slice(0, -1);
+        start = end + 1;
+        if (line === '') continue;
+        cb(line.split(delim));
+      }
+      return;
+    }
+    var i = 0, rec = [], f = '', inQ = false, dc = delim.charCodeAt(0);
+    while (i < n) {
+      var ch = text.charCodeAt(i);
+      if (inQ) {
+        if (ch === 34) { if (text.charCodeAt(i + 1) === 34) { f += '"'; i += 2; continue; } inQ = false; i++; continue; }
+        f += text[i]; i++; continue;
+      }
+      if (ch === 34) { inQ = true; i++; continue; }
+      if (ch === dc) { rec.push(f); f = ''; i++; continue; }
+      if (ch === 10 || ch === 13) {
+        if (ch === 13 && text.charCodeAt(i + 1) === 10) i++;
+        i++; rec.push(f); f = '';
+        if (rec.length > 1 || rec[0] !== '') cb(rec);
+        rec = []; continue;
+      }
+      f += text[i]; i++;
+    }
+    if (f !== '' || rec.length) { rec.push(f); cb(rec); }
+  }
+
+  /* ---------- parser bahan ---------- */
+  function parsePOM(text) {
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    var delim = detectDelim(text);
+    var head = null, idx = null, rows = [], maxDate = new Map();
+    parseCSV(text, delim, function (rec) {
+      if (!head) {
+        head = rec.map(function (s) { return s.trim().toUpperCase(); });
+        idx = { doc: head.indexOf('DOCNO'), supco: head.indexOf('SUPCO'), prd: head.indexOf('PRDCD'), qty: head.indexOf('QTY'), date: head.indexOf('PO_DATE'), umur: [] };
+        head.forEach(function (h, j) { if (/^UMUR/.test(h)) { if (h === 'UMUR_PO') idx.umur.unshift(j); else idx.umur.push(j); } });
+        var miss = [];
+        if (idx.doc < 0) miss.push('DOCNO'); if (idx.supco < 0) miss.push('SUPCO'); if (idx.prd < 0) miss.push('PRDCD');
+        if (idx.qty < 0) miss.push('QTY'); if (idx.date < 0) miss.push('PO_DATE'); if (!idx.umur.length) miss.push('UMUR_PO');
+        if (miss.length) throw new Error('Kolom tidak ditemukan di POMGG.csv: ' + miss.join(', '));
+        return;
+      }
+      var doc = str(rec[idx.doc]); if (!doc) return;
+      var prd = str(rec[idx.prd]);
+      var dt = parseDate(rec[idx.date], true);
+      var ms = dt ? dt.getTime() : null;
+      var umur = 0;   /* ada beberapa kolom UMUR*: pakai yang pertama berisi (UMUR_PO diutamakan) */
+      for (var u = 0; u < idx.umur.length; u++) { var uv = rec[idx.umur[u]]; if (uv != null && String(uv).trim() !== '') { umur = n0(uv); break; } }
+      var exp = null;
+      if (dt) { var de = new Date(dt.getTime()); de.setDate(de.getDate() + (umur || 0)); exp = de.getTime(); }
+      rows.push({ doc: doc, docU: doc.toUpperCase(), supco: str(rec[idx.supco]), prd: prd, qty: n0(rec[idx.qty]), date: exp });
+      if (ms != null) { var k = key(prd); var o = maxDate.get(k); if (o == null || ms > o) maxDate.set(k, ms); }
+    });
+    if (!head) throw new Error('POMGG.csv kosong.');
+    return { rows: rows, maxDate: maxDate, count: rows.length };
+  }
+
+  var MASTER_F = {
+    prd: [1, 'PRDCD'], desc: [2, 'DESC2'], supco: [10, 'SUPCO'], snama: [11, 'SNAMA'], fk: [12, 'FK'], frac: [16, 'FRAC'],
+    pkm: [19, 'PKM'], ptag: [21, 'PTAG'], avg: [25, 'AVG'], mean: [29, 'MEAN'], stk: [38, 'STKG113'], poout: [45, 'POG113'],
+    keb: [53, 'KEB'], protect: [64, 'PROTECT'], lead: [66, 'LEAD']
+  };
+  function parseMaster(rows) {
+    var h = -1, i;
+    for (i = 0; i < Math.min(rows.length, 15); i++) { if (rows[i] && str(rows[i][0]).toUpperCase() === 'PRDCD') { h = i; break; } }
+    if (h < 0) throw new Error('Header "PRDCD" tidak ditemukan di kolom A (baris 1-15) pada Master Stock.');
+    var head = rows[h].map(function (x) { return str(x).toUpperCase(); });
+    var idx = {}, warn = [];
+    Object.keys(MASTER_F).forEach(function (k) {
+      var pos = MASTER_F[k][0] - 1, name = MASTER_F[k][1], f = head.indexOf(name);
+      if (f >= 0) idx[k] = f; else { idx[k] = pos; warn.push(name + ' (pakai kolom ke-' + (pos + 1) + ')'); }
+    });
+    var map = new Map(), supMap = new Map(), count = 0;
+    for (i = h + 1; i < rows.length; i++) {
+      var r = rows[i]; if (!r) continue;
+      var p = str(r[idx.prd]); if (!/^\d{4,}$/.test(p)) continue;
+      count++;
+      var k = key(p);
+      var sup = str(r[idx.supco]);
+      if (sup) { var su = sup.toUpperCase(); if (!supMap.has(su)) supMap.set(su, str(r[idx.snama])); }
+      if (map.has(k)) continue;
+      var pt = r[idx.ptag];
+      map.set(k, {
+        desc: str(r[idx.desc]), supco: sup, fk: str(r[idx.fk]), frac: n0(r[idx.frac]), pkm: n0(r[idx.pkm]),
+        ptag: (pt == null || pt === '') ? 0 : pt, avg: n0(r[idx.avg]), mean: n0(r[idx.mean]), stk: n0(r[idx.stk]),
+        poout: n0(r[idx.poout]), keb: n0(r[idx.keb]), protect: str(r[idx.protect]).toUpperCase(), lead: n0(r[idx.lead])
+      });
+    }
+    if (!count) throw new Error('Tidak ada baris produk (PRDCD) di Master Stock.');
+    return { map: map, supMap: supMap, count: count, warn: warn };
+  }
+
+  function parseStockOut(rows) {
+    var h = -1, ip = -1, ik = -1, i, j;
+    for (i = 0; i < Math.min(rows.length, 15) && h < 0; i++) {
+      var r = rows[i]; if (!r) continue;
+      var up = r.map(function (x) { return str(x).toUpperCase(); });
+      var a = up.indexOf('PRDCD'), b = up.indexOf('KL');
+      if (a >= 0 && b >= 0) { h = i; ip = a; ik = b; }
+    }
+    if (h < 0) throw new Error('Header "Prdcd" dan "KL" tidak ditemukan di Stock Out.');
+    var map = new Map();
+    for (j = h + 1; j < rows.length; j++) {
+      var rr = rows[j]; if (!rr) continue;
+      var k = key(rr[ip]); if (!k || !/^\d+$/.test(k)) continue;
+      if (!map.has(k)) map.set(k, n0(rr[ik]));
+    }
+    return { map: map, count: map.size };
+  }
+
+  function parsePromo(rows) {
+    var h = -1, i;
+    for (i = 0; i < Math.min(rows.length, 15); i++) { if (rows[i] && str(rows[i][0]).toUpperCase() === 'PLU') { h = i; break; } }
+    if (h < 0) throw new Error('Header "PLU" tidak ditemukan di kolom A pada Promo.');
+    var map = new Map();
+    for (i = h + 1; i < rows.length; i++) {
+      var r = rows[i]; if (!r) continue;
+      var k = key(r[0]); if (!k || !/^\d+$/.test(k) || map.has(k)) continue;
+      var mn = null, mx = null;
+      for (var c = 4; c <= 7; c++) {
+        var d = parseDate(r[c]); if (!d) continue;
+        var t = d.getTime(); if (mn == null || t < mn) mn = t; if (mx == null || t > mx) mx = t;
+      }
+      var tg = r[2];
+      map.set(k, { target: (tg == null || tg === '') ? 0 : tg, jenis: str(r[3]), awal: mn, akhir: mx });
+    }
+    return { map: map, count: map.size };
+  }
+
+  function parseSeasonal(rows) {
+    var h = -1, i;
+    for (i = 0; i < Math.min(rows.length, 15); i++) {
+      if (rows[i] && str(rows[i][0]).toUpperCase() === 'PRDCD' && rows[i].some(function (x) { return str(x).toUpperCase() === 'POLA1'; })) { h = i; break; }
+    }
+    if (h < 0) throw new Error('Header "PRDCD" dan "POLA1" tidak ditemukan di sheet BASIC (baris 1-15).');
+    var head = rows[h].map(function (x) { return str(x).toUpperCase(); });
+    var NAMES = { desc: 'DESC', frac: 'FRAC', pola1: 'POLA1', pola2: 'POLA2', tgt: 'TGT (IN QTY)', po: 'PO (IN QTY)', bpb: 'BPB (IN QTY)', poout: 'PO OUT (IN QTY)' };
+    var idx = {}, miss = [];
+    Object.keys(NAMES).forEach(function (k) { idx[k] = head.indexOf(NAMES[k]); if (idx[k] < 0) miss.push(NAMES[k]); });
+    if (miss.length) throw new Error('Kolom tidak ditemukan di sheet BASIC: ' + miss.join(', '));
+    var map = new Map();
+    for (i = h + 1; i < rows.length; i++) {
+      var r = rows[i]; if (!r) continue;
+      var k = key(r[0]); if (!k || !/^\d+$/.test(k) || map.has(k)) continue;
+      map.set(k, { desc: str(r[idx.desc]), frac: n0(r[idx.frac]), pola1: str(r[idx.pola1]).toUpperCase(), pola2: str(r[idx.pola2]), tgt: n0(r[idx.tgt]), po: n0(r[idx.po]), bpb: n0(r[idx.bpb]), poout: n0(r[idx.poout]) });
+    }
+    if (!map.size) throw new Error('Tidak ada baris produk di sheet BASIC.');
+    return { map: map, count: map.size };
+  }
+
+  /* ---------- hitung ---------- */
+  function dsi(a, L) { return (typeof a === 'number' && typeof L === 'number' && L !== 0) ? a / (L / 30) : ''; }
+  function D(ms) { return ms == null ? '' : new Date(ms); }
+
+  function buildRow(r, S, opts) {
+    var k = key(r.prd);
+    var m = S.master.map.get(k);
+    var promo = S.promo.map.get(k);
+    var sn = S.master.supMap.get(r.supco.toUpperCase());
+    var o = {
+      po: r.doc, tgl: D(r.date), supco: r.supco, snama: sn == null ? 0 : sn, prd: r.prd,
+      desc: m ? m.desc : '', frac: m ? m.frac : '', ptag: m ? m.ptag : '', fk: m ? m.fk : '',
+      avg: m ? m.avg : '', mean: m ? m.mean : '', qty: r.qty,
+      pkm: m ? m.pkm : '', stk: m ? m.stk : '', poout: m ? m.poout : '', keb: m ? m.keb : '', lead: m ? m.lead : ''
+    };
+    o.dsiPo = dsi(r.qty, o.avg);
+    var mx = S.pom.maxDate.get(k); o.maxTgl = mx == null ? '' : new Date(mx);
+    o.over = (m ? Math.max(o.stk + o.poout + r.qty - o.pkm, 0) : '');
+    o.dsiPkm = dsi(o.pkm, o.avg);
+    o.dsiStk = dsi(o.stk, o.avg);
+    o.avgPb = typeof o.avg === 'number' ? o.avg / 30 * 7 : '';
+    o.promoAwal = promo ? D(promo.awal) : '';
+    o.promoAkh = promo ? D(promo.akhir) : '';
+    o.target = promo ? (toNum(promo.target) == null ? promo.target : toNum(promo.target)) : '';
+    o.jenis = promo ? promo.jenis : '';
+    o.ket = m ? (m.protect === 'PROTECT HO' ? 'CMO' : 'Reg') : '';
+    var sea = S.seasonal && S.seasonal.map ? S.seasonal.map.get(k) : null;
+    o.basic = (sea && sea.pola1 === 'BASIC') ? sea : null;
+
+    var std = 0;
+    if (opts.dsiStd) { var sv = (opts.std || DEFAULT_STD)[Number(o.fk)]; std = sv == null ? 0 : sv; }
+    if (o.jenis !== '') o.kes = 'Promosi';
+    else if (typeof o.poout === 'number' && typeof o.pkm === 'number' && o.poout < o.pkm) o.kes = 'PO Out Aktif kecil/ under PKM';
+    else if (S.stockOut.map.get(k) === 1) o.kes = 'Stock Out';
+    else if (typeof o.dsiStk === 'number' && o.dsiStk < std) o.kes = 'DSI under Standart';
+    else if (opts.dsiStd && typeof o.dsiStk === 'number' && o.dsiStk > std) o.kes = 'DSI stock melebihi standart';
+    else o.kes = '';
+    return o;
+  }
+
+  function compute(inputs, S, opts) {
+    opts = opts || {};
+    var want = new Map();
+    inputs.forEach(function (p) { var t = String(p).trim(), u = t.toUpperCase(); if (u && !want.has(u)) want.set(u, t); });
+    var hit = new Set(), rows = [];
+    var pr = S.pom.rows;
+    for (var i = 0; i < pr.length; i++) {
+      if (want.has(pr[i].docU)) { hit.add(pr[i].docU); rows.push(buildRow(pr[i], S, opts)); }
+    }
+    var notFound = [];
+    want.forEach(function (orig, u) { if (!hit.has(u)) notFound.push(orig); });
+    return { rows: rows, notFound: notFound, opts: opts };
+  }
+
+  /* ---------- kesimpulan teks ---------- */
+  var KES_ORDER = ['Promosi', 'Stock Out', 'PO Out Aktif kecil/ under PKM', 'DSI under Standart', 'DSI stock melebihi standart'];
+
+  function nfID(v, dec) {
+    var r = Math.round(v * Math.pow(10, dec)) / Math.pow(10, dec), neg = r < 0;
+    var p = Math.abs(r).toFixed(dec).split('.');
+    var out = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (p[1] && Number(p[1]) ? ',' + p[1].replace(/0+$/, '') : '');
+    return (neg ? '-' : '') + out;
+  }
+  function pct(a, b) { return b > 0 ? nfID(a / b * 100, 1) + '%' : '-'; }
+  function fmtTglID(d) {
+    if (!(d instanceof Date) || isNaN(d)) return '...';
+    return String(d.getDate()).padStart(2, '0') + ' ' + BLN_ID[d.getMonth()] + ' ' + String(d.getFullYear()).slice(2);
+  }
+
+  function aligned(pairs) {
+    var w = 0;
+    pairs.forEach(function (p) { if (p[0].length > w) w = p[0].length; });
+    return pairs.map(function (p) { return p[0] + new Array(w - p[0].length + 1).join(' ') + ' : ' + p[1]; }).join('\n');
+  }
+
+  function buildBasic(items) {
+    var out = 'Selamat pagi pak @Jonathan C\n\nHari ini di DC BGR1 ada kedatangan item basic:\n';
+    items.forEach(function (r) {
+      var b = r.basic, f = b.frac || (typeof r.frac === 'number' ? r.frac : 0) || 1;
+      function ctn(q) { return q / f; }
+      var qtyPo = ctn(r.qty), tgt = ctn(b.tgt), bpb = ctn(b.bpb), pout = ctn(b.poout);
+      var ttl = qtyPo + bpb + pout, kurang = tgt - ttl;
+      out += '\n' +
+        aligned([
+          ['Supp', r.supco + (r.snama ? ' - ' + r.snama : '')],
+          ['No po', r.po],
+          ['Ket', 'PO EXP TGL ' + fmtTglID(r.tgl)]
+        ]) + '\n\n' +
+        aligned([
+          ['Plu', r.prd],
+          ['Desc', r.desc || b.desc]
+        ]) + '\n\n' +
+        aligned([
+          ['Qty PO datang (exp) in ctn', nfID(qtyPo, 2)],
+          ['Target in ctn', nfID(tgt, 2)],
+          ['BPB in ctn', nfID(bpb, 2)],
+          ['PO Out in ctn', nfID(pout, 2)],
+          ['BPB vs Target', pct(b.bpb, b.tgt)],
+          ['PO + BPB vs Target', pct(b.bpb + b.poout, b.tgt)],
+          ['Ttl PO Exp + BPB + PO Out', nfID(ttl, 2)]
+        ]) + '\n\n' +
+        'jika diterima,\n' +
+        aligned([
+          ['Kekurang In ctn', kurang > 0 ? nfID(kurang, 2) : '0 (melebihi target ' + nfID(-kurang, 2) + ')'],
+          ['BPB vs Target', pct(b.bpb + r.qty, b.tgt)]
+        ]) + '\n';
+    });
+    return out + '\nMohon arahannya apakah bisa diterima atau ditolak?';
+  }
+
+  function buildStd(rows) {
+    function has(v) { return rows.some(function (r) { return r.kes === v; }); }
+    var reasons = KES_ORDER.filter(has);
+    var out = (has('DSI stock melebihi standart') ? 'Izin ditolak' : 'Izin diterima') + ' Pak @IDM Pak Rian PR,';
+    if (reasons.length) out += ' Item ' + reasons.join(', ');
+    return out;
+  }
+
+  function buildSummary(res) {
+    var rows = res.rows; if (!rows.length) return '';
+    var basics = rows.filter(function (r) { return r.basic; }), others = rows.filter(function (r) { return !r.basic; });
+    var parts = [];
+    if (basics.length) parts.push(buildBasic(basics));
+    if (others.length) parts.push(buildStd(others));
+    return parts.join('\n\n');
+  }
+
+  /* ---------- kolom & format tampilan (meniru sheet CHECK C:AD + AF) ---------- */
+  var COLS = [
+    { k: 'po', h: 'NO PO EXPIRED', w: 13.4, a: 'c', t: 'txt' },
+    { k: 'tgl', h: 'TGL PO EKSPIRED', w: 12, a: 'r', t: 'date' },
+    { k: 'supco', h: 'SUPCO', w: 9.3, a: 'c', t: 'txt' },
+    { k: 'snama', h: 'SNAMA', w: 40, a: 'l', t: 'txt' },
+    { k: 'prd', h: 'PRDCD', w: 11.9, a: 'c', t: 'txt' },
+    { k: 'desc', h: 'DESC', w: 52, a: 'l', t: 'txt' },
+    { k: 'frac', h: 'FRAC', w: 5.9, a: 'r', t: 'int' },
+    { k: 'ptag', h: 'PTAG', w: 6.3, a: 'r', t: 'int' },
+    { k: 'fk', h: 'FK', w: 5.6, a: 'c', t: 'txt' },
+    { k: 'avg', h: 'AVG SLS', w: 8.1, a: 'c', t: 'int' },
+    { k: 'mean', h: 'Mean', w: 8.1, a: 'c', t: 'dec' },
+    { k: 'qty', h: 'QTY PO EXP', w: 8.6, a: 'r', t: 'int' },
+    { k: 'dsiPo', h: 'DSI PO EXP', w: 7.3, a: 'r', t: 'int' },
+    { k: 'pkm', h: 'PKM DC', w: 8.3, a: 'r', t: 'int' },
+    { k: 'stk', h: 'STOCK DC', w: 9.6, a: 'r', t: 'int' },
+    { k: 'poout', h: 'QTY PO OUT', w: 8.9, a: 'r', t: 'int' },
+    { k: 'maxTgl', h: 'MAX TGL PO OUT', w: 12.1, a: 'r', t: 'date' },
+    { k: 'over', h: 'OVER PKM', w: 8.9, a: 'r', t: 'int' },
+    { k: 'keb', h: 'KBTHN TOKO', w: 9.1, a: 'r', t: 'int' },
+    { k: 'dsiPkm', h: 'DSI PKM', w: 7.7, a: 'r', t: 'dec' },
+    { k: 'dsiStk', h: 'DSI STOCK', w: 8.4, a: 'r', t: 'dec' },
+    { k: 'lead', h: 'LEAD TIME', w: 7.4, a: 'r', t: 'int' },
+    { k: 'avgPb', h: 'AVG PB TOKO (7_HARI)', w: 10.7, a: 'r', t: 'dec' },
+    { k: 'promoAwal', h: 'TGL AWAL', w: 11.7, a: 'r', t: 'date', g: 'promo' },
+    { k: 'promoAkh', h: 'TGL AKH', w: 11.7, a: 'r', t: 'date', g: 'promo' },
+    { k: 'target', h: 'TARGET', w: 13.7, a: 'r', t: 'int', g: 'promo' },
+    { k: 'jenis', h: 'JENIS PROMO', w: 9.3, a: 'l', t: 'txt', g: 'promo' },
+    { k: 'ket', h: 'KET', w: 7.5, a: 'c', t: 'txt' },
+    { spacer: true, w: 1.3 },
+    { k: 'kes', h: 'Kesimpulan', w: 30.1, a: 'l', t: 'txt' }
+  ];
+  COLS.forEach(function (c) { c.px = Math.round(c.w * 7 + 5); });
+
+  function commas(s) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function fmtDate(d) {
+    if (!(d instanceof Date) || isNaN(d)) return '';
+    return d.getDate() + '-' + MON[d.getMonth()] + '-' + String(d.getFullYear()).slice(2);
+  }
+  function fmtCell(c, v) {
+    if (v === '' || v == null) return '';
+    if (c.t === 'date') return fmtDate(v);
+    if (c.t === 'int' || c.t === 'dec') {
+      if (typeof v !== 'number') return String(v);
+      var r = c.t === 'int' ? Math.round(v) : Math.round(v * 100) / 100;
+      if (r === 0) return '-';
+      var neg = r < 0, s = Math.abs(r).toFixed(c.t === 'int' ? 0 : 2).split('.');
+      var o = commas(s[0]) + (s[1] ? '.' + s[1] : '');
+      return neg ? '(' + o + ')' : o;
+    }
+    return String(v);
+  }
+  function fmtTodayID(d) {
+    d = d || new Date();
+    return HARI[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + ' ' + BLN[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  var api = {
+    key: key, toNum: toNum, parseDate: parseDate, parseCSV: parseCSV, detectDelim: detectDelim,
+    parsePOM: parsePOM, parseMaster: parseMaster, parseStockOut: parseStockOut, parsePromo: parsePromo, parseSeasonal: parseSeasonal,
+    compute: compute, buildSummary: buildSummary, COLS: COLS, fmtCell: fmtCell, fmtDate: fmtDate, fmtTodayID: fmtTodayID,
+    DEFAULT_STD: DEFAULT_STD
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PoCore = api;
+})(typeof window !== 'undefined' ? window : this);
+</script><script>/* Pengecekan PO Expired — antarmuka */
+(function () {
+  'use strict';
+  var C = window.PoCore;
+  var $ = function (id) { return document.getElementById(id); };
+
+  var KINDS = [
+    { id: 'master', label: 'Master Stock', hint: 'Master Stock*.xlsb', accept: '.xlsb,.xlsx,.xls', test: /master/i },
+    { id: 'pom', label: 'POMGG', hint: 'POMGG.csv', accept: '.csv,.txt', test: /pom/i },
+    { id: 'stockOut', label: 'Stock Out', hint: 'Stock Out.xlsx', accept: '.xlsx,.xlsb,.xls', test: /stock\s*[-_]?\s*out|stockout/i },
+    { id: 'promo', label: 'Promo', hint: 'Promo.xlsx', accept: '.xlsx,.xlsb,.xls', test: /promo/i },
+    { id: 'seasonal', label: 'Seasonal', hint: 'Laporan Harian Seasonal*.xlsx (sheet BASIC)', accept: '.xlsx,.xlsb,.xls', test: /seasonal/i }
+  ];
+  var S = { master: null, pom: null, stockOut: null, promo: null, seasonal: null };
+  var META = {};
+  var lastRes = null;
+  var PARSE_VER = 3;
+
+  /* ---------- util UI ---------- */
+  var toastTimer;
+  function toast(msg) {
+    var t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+  function tick() { return new Promise(function (r) { setTimeout(r, 30); }); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function hhmm(ts) { var d = new Date(ts); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+  function nf(n) { return Number(n).toLocaleString('id-ID'); }
+
+  /* ---------- penyimpanan (IndexedDB) ---------- */
+  var dbp = null;
+  function db() {
+    if (!dbp) dbp = new Promise(function (res, rej) {
+      var rq = indexedDB.open('po-expired', 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore('kv'); };
+      rq.onsuccess = function () { res(rq.result); };
+      rq.onerror = function () { rej(rq.error); };
+    });
+    return dbp;
+  }
+  function idbGet(k) { return db().then(function (d) { return new Promise(function (res, rej) { var r = d.transaction('kv').objectStore('kv').get(k); r.onsuccess = function () { res(r.result); }; r.onerror = function () { rej(r.error); }; }); }); }
+  function idbSet(k, v) { return db().then(function (d) { return new Promise(function (res, rej) { var t = d.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = function () { rej(t.error); }; }); }); }
+
+  /* ---------- SheetJS (dimuat saat dibutuhkan) ---------- */
+  var XLSX_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js', 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'];
+  var xlsxP = null;
+  function ensureXLSX() {
+    if (window.XLSX) return Promise.resolve(window.XLSX);
+    if (xlsxP) return xlsxP;
+    xlsxP = new Promise(function (res, rej) {
+      var i = 0;
+      (function next() {
+        if (i >= XLSX_URLS.length) { xlsxP = null; return rej(new Error('Pustaka pembaca Excel gagal dimuat. Hubungkan ke internet sekali, lalu coba lagi.')); }
+        var s = document.createElement('script'); s.src = XLSX_URLS[i++]; s.crossOrigin = 'anonymous';
+        s.onload = function () { window.XLSX ? res(window.XLSX) : next(); };
+        s.onerror = function () { s.remove(); next(); };
+        document.head.appendChild(s);
+      })();
+    });
+    return xlsxP;
+  }
+
+  var SHEET_TEST = {
+    master: function (rows) { for (var i = 0; i < Math.min(rows.length, 15); i++) if (rows[i] && String(rows[i][0] == null ? '' : rows[i][0]).trim().toUpperCase() === 'PRDCD') return true; return false; },
+    stockOut: function (rows) { for (var i = 0; i < Math.min(rows.length, 15); i++) { var u = (rows[i] || []).map(function (x) { return String(x == null ? '' : x).trim().toUpperCase(); }); if (u.indexOf('PRDCD') >= 0 && u.indexOf('KL') >= 0) return true; } return false; },
+    promo: function (rows) { for (var i = 0; i < Math.min(rows.length, 15); i++) if (rows[i] && String(rows[i][0] == null ? '' : rows[i][0]).trim().toUpperCase() === 'PLU') return true; return false; }
+  };
+  var PARSERS = { master: C.parseMaster, stockOut: C.parseStockOut, promo: C.parsePromo, seasonal: C.parseSeasonal };
+
+  /* file Seasonal besar (banyak sheet, sheet BASIC sangat lebar): baca hanya sheet BASIC dan batasi kolom */
+  function readSeasonalRows(X, buf) {
+    var names = X.read(buf, { type: 'array', bookSheets: true }).SheetNames;
+    var nm = names.filter(function (n) { return /^basic$/i.test(String(n).trim()); })[0];
+    if (!nm) throw new Error('Sheet "BASIC" tidak ditemukan di file Seasonal.');
+    var wb = X.read(buf, { type: 'array', dense: true, sheets: nm, cellFormula: false, cellStyles: false, cellHTML: false, cellNF: false });
+    var ws = wb.Sheets[nm];
+    var rg = X.utils.decode_range(ws['!ref']); if (rg.e.c > 45) rg.e.c = 45;
+    ws['!ref'] = X.utils.encode_range(rg);
+    return X.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null });
+  }
+
+  function readWorkbookRows(X, buf, kind) {
+    var wb = X.read(buf, { type: 'array', dense: true, cellFormula: false, cellStyles: false, cellHTML: false, cellNF: false });
+    for (var i = 0; i < wb.SheetNames.length; i++) {
+      var rows = X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]], { header: 1, raw: true, defval: null });
+      if (SHEET_TEST[kind](rows)) return rows;
+    }
+    throw new Error('Sheet yang berisi data ' + (KINDS.filter(function (k) { return k.id === kind; })[0].label) + ' tidak ditemukan di file ini.');
+  }
+
+  /* ---------- kartu bahan ---------- */
+  function buildCards() {
+    $('btnFold').onclick = function () { $('secBahan').classList.toggle('folded'); updateBahanFold(); };
+    var box = $('bahan'); box.innerHTML = '';
+    KINDS.forEach(function (k) {
+      var d = document.createElement('div'); d.className = 'bh'; d.id = 'bh-' + k.id; d.title = k.hint;
+      d.innerHTML = '<b>' + k.label + '</b>' +
+        '<div class="st"><span class="dot"></span><span class="msg">Belum ada file</span><button type="button">Pilih file</button></div>' +
+        '<input type="file" hidden accept="' + k.accept + '">';
+      var inp = d.querySelector('input');
+      d.querySelector('button').onclick = function () { inp.click(); };
+      inp.onchange = function () { if (inp.files[0]) loadFile(k.id, inp.files[0]); inp.value = ''; };
+      box.appendChild(d);
+    });
+  }
+  function setCard(kind, state, msg) {
+    var d = $('bh-' + kind); d.className = 'bh ' + state; d.querySelector('.msg').textContent = msg;
+  }
+  function cardOk(kind) {
+    var m = META[kind]; if (!m) return;
+    setCard(kind, 'ok', m.name + ' · ' + nf(m.count) + ' baris · ' + hhmm(m.at));
+  }
+  var allWas = false;
+  function updateBahanFold() {
+    var all = KINDS.every(function (k) { return !!S[k.id]; });
+    var sec = $('secBahan');
+    if (all && !allWas) sec.classList.add('folded');   /* lipat otomatis saat semua bahan baru lengkap */
+    if (!all) sec.classList.remove('folded');
+    allWas = all;
+    $('bahanSum').textContent = all ? 'Semua ' + KINDS.length + ' bahan sudah dimuat' : '';
+    $('btnFold').hidden = !all;
+    $('btnFold').textContent = sec.classList.contains('folded') ? 'Tampilkan' : 'Sembunyikan';
+  }
+  function refreshReady() {
+    updateBahanFold();
+    var ok = !!(S.master && S.pom);
+    $('btnRun').disabled = !ok;
+    var miss = [], note = [];
+    if (!S.stockOut) { miss.push('Stock Out'); note.push('penilaian Stock Out tidak aktif'); }
+    if (!S.promo) { miss.push('Promo'); note.push('kolom promo kosong'); }
+    if (!S.seasonal) { miss.push('Seasonal'); note.push('teks khusus item Basic tidak aktif'); }
+    var w = $('warn');
+    if (ok && miss.length) { w.hidden = false; w.textContent = 'Bahan ' + miss.join(', ') + ' belum dimuat — hasil tetap bisa dihitung, tetapi ' + note.join(', ') + '.'; }
+    else if (!ok) { w.hidden = false; w.textContent = 'Muat Master Stock dan POMGG dulu supaya No PO bisa dicek.'; }
+    else w.hidden = true;
+  }
+
+  async function loadFile(kind, file) {
+    setCard(kind, 'busy', 'Membaca ' + file.name + '…');
+    await tick();
+    try {
+      var data;
+      if (kind === 'pom') {
+        var text = new TextDecoder('utf-8').decode(await file.arrayBuffer());
+        data = C.parsePOM(text);
+      } else {
+        var X = await ensureXLSX();
+        var buf = await file.arrayBuffer();
+        await tick();
+        data = PARSERS[kind](kind === 'seasonal' ? readSeasonalRows(X, buf) : readWorkbookRows(X, buf, kind));
+      }
+      S[kind] = data;
+      META[kind] = { name: file.name, at: Date.now(), count: kind === 'master' || kind === 'pom' ? data.count : data.count };
+      cardOk(kind);
+      if (data.warn && data.warn.length) toast('Master: kolom ' + data.warn.join(', ') + ' tidak ditemukan di header');
+      idbSet(kind, { meta: META[kind], data: data, pv: PARSE_VER }).catch(function () { });
+    } catch (e) {
+      console.error(e);
+      setCard(kind, 'err', e.message || String(e));
+      toast('Gagal membaca ' + file.name);
+    }
+    refreshReady();
+  }
+
+  function classify(file) {
+    var n = file.name;
+    for (var i = 0; i < KINDS.length; i++) if (KINDS[i].test.test(n)) return KINDS[i].id;
+    if (/\.csv$/i.test(n)) return 'pom';
+    return null;
+  }
+  async function loadMany(files) {
+    var list = Array.prototype.slice.call(files);
+    for (var i = 0; i < list.length; i++) {
+      var k = classify(list[i]);
+      if (!k) { toast('Nama file tidak dikenali: ' + list[i].name); continue; }
+      await loadFile(k, list[i]);
+    }
+  }
+
+  /* ---------- pengaturan ---------- */
+  function loadOpts() {
+    var o = {}; try { o = JSON.parse(localStorage.getItem('po_opts') || '{}'); } catch (e) { }
+    $('optDsi').checked = o.dsiStd !== false;
+    var box = $('stdBox'); box.innerHTML = '';
+    for (var f = 1; f <= 7; f++) {
+      var v = (o.std && o.std[f] != null) ? o.std[f] : C.DEFAULT_STD[f];
+      var l = document.createElement('label'); l.innerHTML = 'FK ' + f + ' <input type="number" min="0" data-fk="' + f + '" value="' + v + '">';
+      box.appendChild(l);
+    }
+  }
+  function readOpts() {
+    var std = {}; document.querySelectorAll('#stdBox input').forEach(function (i) { std[i.dataset.fk] = Number(i.value) || 0; });
+    return { dsiStd: $('optDsi').checked, std: std };
+  }
+  function saveOpts() { try { localStorage.setItem('po_opts', JSON.stringify(readOpts())); } catch (e) { } }
+
+  /* ---------- hasil ---------- */
+  function run() {
+    var inputs = $('poInput').value.split(/[\s,;]+/).filter(Boolean);
+    if (!inputs.length) { toast('Isi No PO dulu'); return; }
+    var SS = { master: S.master, pom: S.pom, stockOut: S.stockOut || { map: new Map() }, promo: S.promo || { map: new Map() }, seasonal: S.seasonal || { map: new Map() } };
+    var o = readOpts(); saveOpts();
+    lastRes = C.compute(inputs, SS, o);
+    renderResult();
+  }
+
+  function renderSummary() {
+    if (!lastRes) return;
+    var ta = $('kesimpulan'); ta.value = C.buildSummary(lastRes);
+    ta.style.height = 'auto'; ta.style.height = Math.min(Math.max(ta.scrollHeight + 4, 60), 2400) + 'px';
+  }
+
+  function renderResult() {
+    var r = lastRes, w = $('warn');
+    $('secHasil').hidden = false;
+    if (r.notFound.length) { w.hidden = false; w.textContent = 'Tidak ditemukan di POMGG: ' + r.notFound.join(', '); } else refreshReady();
+    renderSummary();
+    var pos = new Set(r.rows.map(function (x) { return x.po; })).size;
+    $('stat').textContent = r.rows.length + ' item dari ' + pos + ' PO';
+    $('btnJpg').disabled = !r.rows.length;
+    $('btnCopy').disabled = !r.rows.length;
+    if (!r.rows.length) { $('tableWrap').innerHTML = '<div class="empty">Tidak ada item untuk No PO tersebut.</div>'; return; }
+
+    var cols = visCols(r.rows), h1 = '', h2 = '', i, c;
+    var colg = '<colgroup>' + cols.map(function (c) { return '<col style="width:' + c.px + 'px">'; }).join('') + '</colgroup>';
+    for (i = 0; i < cols.length; i++) {
+      c = cols[i];
+      if (c.spacer) { h1 += '<th class="sp" rowspan="2"></th>'; continue; }
+      if (c.g === 'promo') {
+        if (!cols[i - 1] || cols[i - 1].g !== 'promo') h1 += '<th class="grp" colspan="4">PROMOSI (TERDEKAT)</th>';
+        h2 += '<th>' + esc(c.h) + '</th>';
+      } else h1 += '<th rowspan="2">' + esc(c.h) + '</th>';
+    }
+    var body = r.rows.map(function (row) {
+      return '<tr>' + cols.map(function (c) {
+        if (c.spacer) return '<td class="sp"></td>';
+        var t = C.fmtCell(c, row[c.k]);
+        return '<td class="' + c.a + (c.k === 'kes' ? ' kes' : '') + '" title="' + esc(t) + '">' + esc(t) + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
+    var wdt = cols.reduce(function (a, c) { return a + c.px; }, 0);
+    $('tableWrap').innerHTML = '<table class="sheet" style="width:' + wdt + 'px">' + colg + '<thead><tr>' + h1 + '</tr><tr class="r2">' + h2 + '</tr></thead><tbody>' + body + '</tbody></table>';
+    var tr0 = document.querySelector('#tableWrap thead tr'), hh = tr0 ? tr0.getBoundingClientRect().height : 0;
+    document.querySelectorAll('#tableWrap thead tr.r2 th').forEach(function (th) { th.style.top = Math.floor(hh) + 'px'; });
+    $('secHasil').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* kolom Kesimpulan disembunyikan jika ada item basic (basic saja / campur) */
+  function visCols(rows) {
+    var hasBasic = rows.some(function (x) { return x.basic; });
+    return hasBasic ? C.COLS.filter(function (c) { return !c.spacer && c.k !== 'kes'; }) : C.COLS;
+  }
+
+  /* ---------- salin ---------- */
+  function copyText() {
+    var ta = $('kesimpulan'), txt = ta.value;
+    function fallback() { ta.focus(); ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) { } toast(ok ? 'Teks disalin' : 'Gagal menyalin — blok teks lalu salin manual'); }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(function () { toast('Teks disalin'); }, fallback); else fallback();
+  }
+
+  /* ---------- export JPEG (digambar langsung ke canvas) ---------- */
+  function wrapLines(ctx, text, maxW) {
+    var words = String(text).split(/\s+/), lines = [], cur = '';
+    words.forEach(function (w) { var t = cur ? cur + ' ' + w : w; if (cur && ctx.measureText(t).width > maxW) { lines.push(cur); cur = w; } else cur = t; });
+    if (cur) lines.push(cur); return lines;
+  }
+  function exportJPEG() {
+    if (!lastRes || !lastRes.rows.length) return;
+    var rows = lastRes.rows, cols = visCols(rows);
+    var rowH = 26, headH = 52, grpH = 24, titleH = 32, dateH = 24, pad = 14, FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
+    var W = cols.reduce(function (a, c) { return a + c.px; }, 0) + pad * 2;
+    var H = pad + titleH + dateH + grpH + headH + rows.length * rowH + pad;
+    var sc = Math.min(2, Math.sqrt(16e6 / (W * H)), 16000 / Math.max(W, H)); sc = Math.max(sc, 0.4);
+    var cv = document.createElement('canvas'); cv.width = Math.round(W * sc); cv.height = Math.round(H * sc);
+    var ctx = cv.getContext('2d'); ctx.scale(sc, sc);
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#000'; ctx.textBaseline = 'middle';
+    ctx.font = 'bold 21px ' + FONT; ctx.textAlign = 'left'; ctx.fillText('PO EXPIRED DC BOGOR1', pad, pad + titleH / 2);
+    ctx.font = 'bold 15px ' + FONT; ctx.fillText(C.fmtTodayID(new Date()), pad, pad + titleH + dateH / 2);
+    var y0 = pad + titleH + dateH, yh = y0 + grpH;
+    var xs = [], x = pad; cols.forEach(function (c) { xs.push(x); x += c.px; });
+
+    function cell(x, y, w, h, fill) {
+      if (fill) { ctx.fillStyle = fill; ctx.fillRect(x, y, w, h); }
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 1; ctx.strokeRect(x + .5, y + .5, w, h);
+    }
+    // header
+    var gi = cols.map(function (c, i) { return c.g === 'promo' ? i : -1; }).filter(function (i) { return i >= 0; });
+    if (gi.length) {
+      var gx = xs[gi[0]], gw = gi.reduce(function (a, i) { return a + cols[i].px; }, 0);
+      cell(gx, y0, gw, grpH, '#C5D9F1');
+      ctx.fillStyle = '#000'; ctx.font = 'bold 14px ' + FONT; ctx.textAlign = 'center'; ctx.fillText('PROMOSI (TERDEKAT)', gx + gw / 2, y0 + grpH / 2);
+    }
+    cols.forEach(function (c, i) {
+      if (c.spacer) return;
+      var isP = c.g === 'promo', hy = isP ? yh : y0, hh = isP ? headH : grpH + headH;
+      cell(xs[i], hy, c.px, hh, '#C5D9F1');
+      ctx.fillStyle = '#000'; ctx.font = 'bold 14px ' + FONT; ctx.textAlign = 'center';
+      var ls = wrapLines(ctx, c.h, c.px - 8), lh = 16, ty = hy + hh / 2 - (ls.length - 1) * lh / 2;
+      ls.forEach(function (l, n) { ctx.fillText(l, xs[i] + c.px / 2, ty + n * lh); });
+    });
+    // isi
+    ctx.font = '14.5px ' + FONT;
+    rows.forEach(function (row, ri) {
+      var y = yh + headH + ri * rowH;
+      cols.forEach(function (c, i) {
+        if (c.spacer) return;
+        cell(xs[i], y, c.px, rowH, null);
+        var t = C.fmtCell(c, row[c.k]); if (!t) return;
+        ctx.save(); ctx.beginPath(); ctx.rect(xs[i] + 1, y + 1, c.px - 1, rowH - 1); ctx.clip();
+        ctx.fillStyle = '#000'; ctx.font = (c.k === 'kes' ? 'bold ' : '') + '14.5px ' + FONT;
+        if (c.a === 'c') { ctx.textAlign = 'center'; ctx.fillText(t, xs[i] + c.px / 2, y + rowH / 2); }
+        else if (c.a === 'r') { ctx.textAlign = 'right'; ctx.fillText(t, xs[i] + c.px - 5, y + rowH / 2); }
+        else { ctx.textAlign = 'left'; ctx.fillText(t, xs[i] + 5, y + rowH / 2); }
+        ctx.restore();
+      });
+    });
+    cv.toBlob(function (b) {
+      if (!b) { toast('Gagal membuat gambar — kurangi jumlah PO'); return; }
+      var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
+      var a = document.createElement('a'); a.href = URL.createObjectURL(b);
+      a.download = 'PO_Expired_' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '_' + p(d.getHours()) + p(d.getMinutes()) + '.jpg';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      toast('JPEG tersimpan');
+    }, 'image/jpeg', 0.93);
+  }
+
+  /* ---------- init ---------- */
+  async function restore() {
+    for (var i = 0; i < KINDS.length; i++) {
+      try {
+        var rec = await idbGet(KINDS[i].id);
+        /* data hasil baca versi parser lama (mis. tanggal salah) dibuang — file harus diunggah ulang */
+        if (rec && rec.data && rec.pv === PARSE_VER) { S[KINDS[i].id] = rec.data; META[KINDS[i].id] = rec.meta; cardOk(KINDS[i].id); }
+      } catch (e) { }
+    }
+    refreshReady();
+  }
+
+  /* Integrasi Inventory: empat bahan otomatis, Seasonal tetap diunggah manual. */
+  function acceptInventoryPayload(payload) {
+    try {
+      if (payload.masterRows && payload.masterRows.length) { S.master = C.parseMaster(payload.masterRows); META.master={name:'Master Stock dari Inventory',at:Date.now(),count:S.master.count}; cardOk('master'); }
+      if (payload.pomText) { S.pom = C.parsePOM(payload.pomText); META.pom={name:'POM G113 dari Inventory',at:Date.now(),count:S.pom.count}; cardOk('pom'); }
+      if (payload.stockOutRows && payload.stockOutRows.length) { S.stockOut=C.parseStockOut(payload.stockOutRows); META.stockOut={name:'Stock Out dari Inventory',at:Date.now(),count:S.stockOut.count}; cardOk('stockOut'); }
+      if (payload.promoRows && payload.promoRows.length) { S.promo=C.parsePromo(payload.promoRows); META.promo={name:'Promo dari Master Stock Inventory',at:Date.now(),count:S.promo.count}; cardOk('promo'); }
+      refreshReady();
+    } catch(e) { console.error(e); toast('Data Inventory gagal dibaca: '+(e.message||e)); }
+  }
+  window.addEventListener('inventory-po-payload',function(e){ acceptInventoryPayload(e.detail||{}); });
+
+  function init() {
+    $('subtitle').textContent = 'PO EXPIRED DC BOGOR1 · ' + C.fmtTodayID(new Date());
+    buildCards(); loadOpts(); refreshReady();
+    $('btnPickAll').onclick = function () { $('fileAll').click(); };
+    $('fileAll').onchange = function (e) { loadMany(e.target.files); e.target.value = ''; };
+    $('btnRun').onclick = run;
+    $('btnClear').onclick = function () { $('poInput').value = ''; $('poInput').focus(); };
+    $('btnCopy').onclick = copyText;
+    $('btnJpg').onclick = exportJPEG;
+    $('optDsi').onchange = function () { saveOpts(); if (lastRes && $('poInput').value.trim()) run(); };
+    $('stdBox').onchange = function () { saveOpts(); if ($('optDsi').checked && lastRes) run(); };
+    $('poInput').addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') run(); });
+    var bx = $('secBahan');
+    ['dragenter', 'dragover'].forEach(function (n) { bx.addEventListener(n, function (e) { e.preventDefault(); $('bahan').classList.add('drag'); }); });
+    ['dragleave', 'drop'].forEach(function (n) { bx.addEventListener(n, function (e) { e.preventDefault(); $('bahan').classList.remove('drag'); }); });
+    bx.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files.length) loadMany(e.dataTransfer.files); });
+
+    var dp = null;
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); dp = e; $('btnInstall').hidden = false; });
+    $('btnInstall').onclick = function () { if (dp) { dp.prompt(); dp = null; $('btnInstall').hidden = true; } };
+    /* Service worker dikelola oleh Inventory utama. */
+    restore();
+  }
+  init();
+})();
+</script><script src="app.js"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>

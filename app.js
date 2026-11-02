@@ -338,6 +338,23 @@ function hasRole(role){return files.some(f=>f.guess===role&&(f.bytes||String(f.c
 function missingFor(buttonId){return (PROCESS_CHECKS[buttonId]||[]).filter(role=>!hasRole(role)&&!(role==='itempar'));}
 function showPreflight(buttonId,missing){$('preflightTitle').textContent=`${PROCESS_TITLES[buttonId]} — file belum lengkap`;$('preflightIntro').textContent='Beberapa file sumber belum tersedia. Kamu bisa melengkapi file terlebih dahulu atau tetap melanjutkan proses dengan data yang ada.';$('preflightMissing').innerHTML=missing.map(role=>{const item=ROLES.find(r=>r[0]===role);return `<div class="brd-option missing-option"><span class="missing-mark">!</span><span>${escapeHtml(item?item[1]:role)} belum ada</span></div>`}).join('');$('preflightDialog').dataset.action=buttonId;$('preflightDialog').showModal();}
 function requestProcess(buttonId){if($(buttonId).disabled)return;const missing=missingFor(buttonId);if(missing.length){showPreflight(buttonId,missing);return}processActions[buttonId]();}
+
+function buildPoExpiredPayload(){
+ const result=processData(new Date());lastResult=result;
+ const pomFile=files.find(f=>f.guess==='pom113'&&(!warehouseFromPath(f)||warehouseFromPath(f)==='G113'));
+ const pomText=pomFile?pomFile.content:'';
+ const stockRows=getSource('stockout').filter(o=>text(value(o,'STOCK_OUT','STOCKOUT')).toUpperCase()==='Y').map(o=>['PRDCD','KL'].map((h,i)=>i===0?value(o,'PLU','PRDCD'):1));
+ const promoRows=[['PLU','DESC','QTY','JENIS','TGL1','TGL2','TGL3','TGL4'],...result.data.map(r=>[r[0],r[1],r[74],r[75],r[72],r[73],'','']).filter(r=>r.slice(4,8).some(v=>text(v)!==''))];
+ return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows};
+}
+function openPoExpired(){
+ const panel=$('poExpiredApp');panel.classList.add('po-open');$('poExpiredDialog').setAttribute('aria-hidden','false');
+ try { const payload=buildPoExpiredPayload(); window.dispatchEvent(new CustomEvent('inventory-po-payload',{detail:payload})); }
+ catch(e){setStatus('PO Expired: '+(e.message||e),true)}
+}
+$('poExpiredBtn').addEventListener('click',openPoExpired);
+$('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
+
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');
 $('preflightCancel').onclick=()=>$('preflightDialog').close();
 $('preflightComplete').onclick=()=>{const id=$('preflightDialog').dataset.action;$('preflightDialog').close();openFileManager(id)};

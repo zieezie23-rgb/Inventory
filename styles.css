@@ -576,3 +576,20 @@ body{color:#ffd629!important;}
 .brd-dialog .brd-dialog-actions button,.preflight-dialog .preflight-actions button{background:#174873!important;background-image:none!important;color:#ffd629!important;border:1px solid #ffd629!important;border-bottom:4px solid #e5252a!important;border-radius:12px!important;box-shadow:0 3px 0 #ffd629!important;appearance:none!important;-webkit-appearance:none!important;}
 .brd-dialog .brd-dialog-actions button:hover,.preflight-dialog .preflight-actions button:hover{background:#205987!important;}
 .brd-dialog .brd-dialog-actions button::before,.brd-dialog .brd-dialog-actions button::after,.preflight-dialog .preflight-actions button::before,.preflight-dialog .preflight-actions button::after{content:none!important;display:none!important;box-shadow:none!important;}
+
+/* v2.0.4 — tata letak aksi popup sesuai arahan: tombol preflight rata lebar,
+   aksi kiri/kanan di bawah, dan penghitung file sejajar judul popup. */
+.file-manage-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 5px;}
+.file-manage-heading h2{flex:1 1 auto;min-width:0;}
+.file-manage-count{flex:0 0 auto;color:#ffd629!important;font-size:11px;font-weight:800;white-space:nowrap;text-align:right;}
+.file-manage-dialog .file-manage-tools{display:none!important;}
+.file-manage-dialog .file-manage-actions{display:flex!important;justify-content:space-between!important;align-items:center!important;}
+#brdExportDialog .brd-dialog-actions{display:flex!important;justify-content:space-between!important;align-items:center!important;}
+.preflight-dialog .preflight-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important;}
+.preflight-dialog .preflight-actions button{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;width:100%!important;min-width:0!important;max-width:none!important;flex:initial!important;box-sizing:border-box!important;white-space:normal!important;}
+@media(max-width:360px){
+  .file-manage-heading{gap:6px;}
+  .file-manage-count{font-size:10px;}
+  .preflight-dialog .preflight-actions{gap:5px!important;}
+  .preflight-dialog .preflight-actions button{font-size:10px!important;padding-inline:2px!important;}
+}

@@ -812,3 +812,67 @@ body{font-size:16px}
  .file-manage-list details.upload-group>summary.upload-group-heading>span{width:64px!important;min-width:64px!important;font-size:11px!important}
  .file-manage-list details.upload-group>summary.upload-group-heading>i{width:20px!important}
 }
+
+
+/* v2.3.5 — category counters use a fixed column; popup height follows visible content. */
+.file-manage-dialog{
+  box-sizing:border-box!important;
+  width:min(760px,calc(100vw - 24px))!important;
+  height:fit-content!important;
+  min-height:0!important;
+  max-height:calc(100dvh - 24px)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  margin:auto!important;
+  padding:18px 20px!important;
+}
+.file-manage-dialog>form{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+}
+.file-manage-dialog .file-manage-list{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow:visible!important;
+  margin:0!important;
+}
+.file-manage-list details.upload-group>summary.upload-group-heading{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 88px 24px!important;
+  align-items:center!important;
+  justify-items:stretch!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:42px!important;
+  padding:7px 4px!important;
+  column-gap:8px!important;
+}
+.file-manage-list details.upload-group>summary.upload-group-heading>strong{
+  display:block!important; min-width:0!important; margin:0!important; text-align:left!important;
+}
+.file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-count{
+  display:block!important; width:88px!important; min-width:88px!important;
+  margin:0!important; padding:0!important; text-align:center!important;
+  white-space:nowrap!important; font-variant-numeric:tabular-nums!important;
+  justify-self:center!important;
+}
+.file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-toggle{
+  display:block!important; width:24px!important; min-width:24px!important;
+  margin:0!important; padding:0!important; text-align:center!important;
+  justify-self:center!important;
+}
+.file-manage-list details.upload-group>.upload-group-body{
+  display:block!important; height:auto!important; min-height:0!important;
+}
+@media(max-width:560px){
+  .file-manage-dialog{width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important;padding:13px 12px!important}
+  .file-manage-list details.upload-group>summary.upload-group-heading{grid-template-columns:minmax(0,1fr) 76px 22px!important;column-gap:6px!important;min-height:40px!important}
+  .file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-count{width:76px!important;min-width:76px!important;font-size:11px!important}
+  .file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-toggle{width:22px!important;min-width:22px!important}
+}

@@ -74,7 +74,7 @@ function renderFiles(){
     const whRoles={G113:roles.filter(r=>/113$/.test(r)||!/(294|295)$/.test(r)),G294:roles.filter(r=>/294$/.test(r)),G295:roles.filter(r=>/295$/.test(r))};
     body=`<div class="daily-warehouse-grid">${section('G113',whRoles.G113)}${section('G294',whRoles.G294)}${section('G295',whRoles.G295)}</div>`;
    }else body=`<div class="upload-group-rows">${roles.map(renderRole).join('')}</div>`;
-   return `<details class="upload-group" data-upload-group="${group}"><summary class="upload-group-heading"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length}</span><i aria-hidden="true">＋</i></summary><div class="upload-group-body">${body}</div></details>`;
+   return `<details class="upload-group" data-upload-group="${group}"><summary class="upload-group-heading"><strong>${groupNames[group]}</strong><span class="upload-group-count">${roles.filter(hasRole).length}/${roles.length}</span><i class="upload-group-toggle" aria-hidden="true">＋</i></summary><div class="upload-group-body">${body}</div></details>`;
   }).join('');
  }else{
   $('fileManageList').innerHTML=`<div class="upload-group-rows">${required.map(renderRole).join('')}</div>`||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';

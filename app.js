@@ -343,7 +343,7 @@ function buildPoExpiredPayload(){
  const result=processData(new Date());lastResult=result;
  const pomFile=files.find(f=>f.guess==='pom113'&&(!warehouseFromPath(f)||warehouseFromPath(f)==='G113'));
  const pomText=pomFile?pomFile.content:'';
- const stockRows=getSource('stockout').filter(o=>text(value(o,'STOCK_OUT','STOCKOUT')).toUpperCase()==='Y').map(o=>['PRDCD','KL'].map((h,i)=>i===0?value(o,'PLU','PRDCD'):1));
+ const stockRows=[['PRDCD','KL'],...getSource('stockout').filter(o=>text(value(o,'STOCK_OUT','STOCKOUT')).toUpperCase()==='Y').map(o=>[value(o,'PLU','PRDCD'),1])];
  const promoRows=[['PLU','DESC','QTY','JENIS','TGL1','TGL2','TGL3','TGL4'],...result.data.map(r=>[r[0],r[1],r[74],r[75],r[72],r[73],'','']).filter(r=>r.slice(4,8).some(v=>text(v)!==''))];
  return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows};
 }

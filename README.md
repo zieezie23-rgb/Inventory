@@ -1,9 +1,9 @@
-## v2.3.1 — Integrasi BRD ke dalam Inventory
+# Inventory v2.3.2
 
-- Seluruh logika BRD Engine telah digabung langsung ke `app.js` dan berjalan pada dokumen Inventory yang sama; tidak ada iframe, file HTML/JS engine terpisah, atau komunikasi `postMessage`.
-- Seluruh logika konversi BRD dipertahankan dan dipanggil langsung melalui fungsi internal `convertBrdFiles` dari alur proses Inventory.
-- Pilihan ekspor tetap mencakup BRD.DBF, BRD.CSV, MSTG/MSTXH.DBF, NPB.CSV (Alokasi), BPB.CSV, dan Detail NPB.CSV.
-- Upload BRD tetap menggunakan File Manager Inventory dan dapat memproses beberapa file sekaligus.
-- Cache Service Worker dinaikkan ke v2.3.1.
+Perubahan:
+- Memperbaiki kontrol kategori Daftar File & Upload agar dapat dibuka dan ditutup kembali.
+- Kategori Tarikan Harian menampilkan gudang G113, G294, dan G295 dalam tiga kolom berdampingan.
+- Tampilan tiga kolom dipertahankan pada layar HP dengan ukuran teks dan baris yang disesuaikan.
+- Cache Service Worker dinaikkan ke v2.3.2.
 
-Catatan: pemeriksaan sintaks dan integrasi statis dilakukan; proses ekspor perlu diuji dengan file BRD operasional.
+Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsung di folder utama.

@@ -730,3 +730,14 @@ body{font-size:16px}
 .file-manage-list .file-name{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;}
 .file-manage-list .file-status{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;}
 @media(max-width:560px){.file-manage-dialog{max-height:98dvh!important;height:auto!important;padding:13px 12px!important}.file-manage-list .upload-group-rows{grid-template-columns:minmax(0,1fr)!important}.file-manage-list .file-row{min-height:30px!important;padding:4px 1px!important}.file-manage-list .file-name{font-size:13px!important}.file-manage-list .file-status{font-size:10.5px!important}}
+
+/* v2.3.2: restore collapsible file categories and show daily warehouses side by side. */
+.file-manage-list .upload-group-heading{width:100%;font:inherit;text-align:left;cursor:pointer!important;gap:10px;}
+.file-manage-list .upload-group-heading i{font-style:normal;font-size:18px;line-height:1;color:#ffd629;flex:0 0 auto;}
+.file-manage-list .upload-group-body[hidden]{display:none!important;}
+.file-manage-list .daily-warehouse-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start;}
+.file-manage-list .daily-warehouse-grid .warehouse-upload{min-width:0;padding:0 6px 0 0!important;border-right:1px solid rgba(169,200,229,.25)!important;}
+.file-manage-list .daily-warehouse-grid .warehouse-upload:last-child{border-right:0!important;}
+.file-manage-list .daily-warehouse-grid .warehouse-heading{font-size:13px!important;color:#ffd629!important;margin:5px 0 4px!important;}
+.file-manage-list .daily-warehouse-grid .upload-group-rows{grid-template-columns:minmax(0,1fr)!important;}
+@media(max-width:560px){.file-manage-list .daily-warehouse-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;}.file-manage-list .daily-warehouse-grid .warehouse-upload{padding-right:4px!important;}.file-manage-list .daily-warehouse-grid .warehouse-heading{font-size:11px!important;}.file-manage-list .daily-warehouse-grid .file-row{gap:2px!important;flex-wrap:wrap;}.file-manage-list .daily-warehouse-grid .file-name{font-size:11px!important;white-space:normal!important;overflow-wrap:anywhere;}.file-manage-list .daily-warehouse-grid .file-status{font-size:9px!important;}}

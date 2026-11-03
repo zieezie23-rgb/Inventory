@@ -56,12 +56,31 @@ function renderFiles(){
  const action=dialog.dataset.action||'allFiles';
  const required=action==='allFiles'?ROLES.map(r=>r[0]):(PROCESS_CHECKS[action]||[]);
  $('fileManageTitle').textContent=action==='allFiles'?'Daftar File Inventory':`File yang diperlukan — ${PROCESS_TITLES[action]||''}`;
- const renderRole=role=>{const item=ROLES.find(r=>r[0]===role);const matches=files.filter(f=>f.guess===role);const label=item?item[1]:role;return matches.length?matches.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="file-name">${escapeHtml(label)}<small>${escapeHtml(f.relativePath||f.name)}</small></div></div><span class="file-status status-ready">Terunggah</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):`<div class="file-row file-missing"><div class="file-meta"><div class="file-name">${escapeHtml(label)}</div></div><span class="file-status">Belum ada</span></div>`};
+ const renderRole=role=>{
+  const item=ROLES.find(r=>r[0]===role);
+  const matches=files.filter(f=>f.guess===role);
+  const label=item?item[1].split(' — ')[0]:role;
+  return matches.length?matches.map(f=>`<div class="file-row file-ready"><span class="file-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</span><span class="file-status status-ready">Tersedia</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):`<div class="file-row file-missing"><span class="file-name">${escapeHtml(label)}</span><span class="file-status">Belum ada</span></div>`;
+ };
  const groupNames={daily:'Tarikan Harian',bahan:'Bahan',lwa:'Tarikan LWA',update:'File Update'};
- if(action==='masterBtn'||action==='allFiles'){const groups=['daily','bahan','lwa','update'];$('fileManageList').innerHTML=groups.map(group=>{const roles=required.filter(role=>(ROLE_GROUP[role]||'daily')===group);if(!roles.length)return '';const section=(title,list)=>list.length?`<div class="warehouse-upload"><div class="warehouse-heading">${title}</div><div class="upload-group-rows">${list.map(renderRole).join('')}</div></div>`:'';let body='';if(group==='daily'){const whRoles={G113:roles.filter(r=>/113$/.test(r)||!/(294|295)$/.test(r)),G294:roles.filter(r=>/294$/.test(r)),G295:roles.filter(r=>/295$/.test(r))};body=section('GUDANG G113',whRoles.G113)+section('GUDANG G294',whRoles.G294)+section('GUDANG G295',whRoles.G295);}else body=`<div class="upload-group-rows">${roles.map(renderRole).join('')}</div>`;const isCollapsed=collapsedUploadGroups.has(group);return `<section class="upload-group${isCollapsed?' is-collapsed':''}"><button type="button" class="upload-group-heading" data-toggle-upload-group="${group}" aria-expanded="${!isCollapsed}"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length} file <i class="group-chevron" aria-hidden="true">${isCollapsed?'＋':'−'}</i></span></button><div class="upload-group-body"${isCollapsed?' hidden':''}>${body}</div></section>`}).join('')}else{$('fileManageList').innerHTML=required.map(renderRole).join('')||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>'; }
+ if(action==='masterBtn'||action==='allFiles'){
+  const groups=['daily','bahan','lwa','update'];
+  $('fileManageList').innerHTML=groups.map(group=>{
+   const roles=required.filter(role=>(ROLE_GROUP[role]||'daily')===group);
+   if(!roles.length)return '';
+   const section=(title,list)=>list.length?`<div class="warehouse-upload"><div class="warehouse-heading">${title}</div><div class="upload-group-rows">${list.map(renderRole).join('')}</div></div>`:'';
+   let body='';
+   if(group==='daily'){
+    const whRoles={G113:roles.filter(r=>/113$/.test(r)||!/(294|295)$/.test(r)),G294:roles.filter(r=>/294$/.test(r)),G295:roles.filter(r=>/295$/.test(r))};
+    body=section('G113',whRoles.G113)+section('G294',whRoles.G294)+section('G295',whRoles.G295);
+   }else body=`<div class="upload-group-rows">${roles.map(renderRole).join('')}</div>`;
+   return `<section class="upload-group"><h3 class="upload-group-heading"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length}</span></h3>${body}</section>`;
+  }).join('');
+ }else{
+  $('fileManageList').innerHTML=`<div class="upload-group-rows">${required.map(renderRole).join('')}</div>`||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';
+ }
  const ready=required.filter(hasRole).length;
  $('fileManageCount').textContent=`${ready}/${required.length} file tersedia`;
- $('fileManageList').querySelectorAll('[data-toggle-upload-group]').forEach(b=>b.onclick=()=>{const group=b.dataset.toggleUploadGroup;if(collapsedUploadGroups.has(group))collapsedUploadGroups.delete(group);else collapsedUploadGroups.add(group);renderFiles()});
  $('fileManageList').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
 }
 

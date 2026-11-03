@@ -679,3 +679,54 @@ dialog{overscroll-behavior:contain}
 .file-manage-list .warehouse-heading{font-size:12.5px!important;font-weight:800!important;}
 .file-manage-list .upload-group-rows{gap:3px!important;}
 @media(max-width:480px){.file-manage-list .upload-group-heading{padding:10px!important}.file-manage-list .upload-group-heading strong{font-size:13.5px!important}.file-manage-list .upload-group-heading span{font-size:11px!important}}
+
+/* v2.3.0 — file manager tampil langsung, ringkas, tanpa tabel bersarang */
+body{font-size:16px}
+.topbar h1{font-size:24px}
+.section-heading h2{font-size:20.5px}
+.button{font-size:14px}
+.status,.notice,.field,.checkline,.file-name,.dropzone strong{font-size:14px}
+.file-manage-dialog{width:min(760px,calc(100% - 24px))!important;max-height:94dvh!important;overflow-y:auto!important;padding:18px 20px!important}
+.file-manage-dialog .file-manage-heading h2{font-size:21px!important}
+.file-manage-list{display:block!important;max-height:none!important;overflow:visible!important;padding:0!important}
+.file-manage-list .upload-group{margin:0 0 9px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important}
+.file-manage-list .upload-group-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:5px 2px!important;margin:0 0 4px!important;border:0!important;border-bottom:2px solid #ffd629!important;background:transparent!important;color:#ffd629!important;cursor:default!important}
+.file-manage-list .upload-group-heading strong{font-size:15px!important;font-weight:900!important}
+.file-manage-list .upload-group-heading span{font-size:12px!important;color:#c4d9ec!important}
+.file-manage-list .warehouse-upload{margin:0 0 6px!important;padding:0!important;background:transparent!important;border:0!important}
+.file-manage-list .warehouse-heading{margin:3px 0 2px!important;padding:0 2px!important;color:#a9c8e5!important;font-size:12px!important;font-weight:900!important;letter-spacing:.06em!important}
+.file-manage-list .upload-group-rows{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2px 14px!important}
+.file-manage-list .file-row{display:flex!important;align-items:center!important;gap:5px!important;min-width:0!important;min-height:29px!important;padding:3px 5px!important;border:0!important;border-bottom:1px solid #426d94!important;border-radius:0!important;background:transparent!important}
+.file-manage-list .file-row.file-missing{background:rgba(170,35,48,.16)!important;border-bottom-color:#a9434c!important}
+.file-manage-list .file-name{flex:1 1 auto!important;min-width:0!important;color:#fff!important;font-size:13px!important;font-weight:650!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.file-manage-list .file-status{flex:0 0 auto!important;font-size:10px!important;white-space:nowrap!important}
+.file-manage-list .remove-file{flex:0 0 18px!important;padding:0!important;font-size:17px!important;line-height:1!important}
+.file-manage-dialog .file-manage-actions{margin-top:9px!important;padding-top:7px!important;border-top:1px solid #426d94!important}
+.file-manage-dialog .file-manage-actions button{font-size:12px!important;min-height:34px!important}
+.file-manage-count{font-size:12px!important}
+@media(max-width:560px){
+ .file-manage-dialog{width:calc(100% - 14px)!important;padding:13px 12px!important;max-height:95dvh!important}
+ .file-manage-dialog .file-manage-heading{gap:6px!important}
+ .file-manage-dialog .file-manage-heading h2{font-size:17px!important}
+ .file-manage-heading-tools{gap:7px!important}
+ .file-manage-heading-tools .upload-choice{font-size:11px!important;padding:5px 2px!important}
+ .file-manage-list .upload-group-rows{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:1px 7px!important}
+ .file-manage-list .file-row{min-height:27px!important;padding:2px 3px!important;gap:3px!important}
+ .file-manage-list .file-name{font-size:11.5px!important}
+ .file-manage-list .file-status{font-size:9px!important}
+ .file-manage-list .upload-group-heading strong{font-size:13px!important}
+ .file-manage-list .warehouse-heading{font-size:10.5px!important}
+ .file-manage-dialog .file-manage-actions{gap:5px!important}
+ .file-manage-dialog .file-manage-actions button{padding:6px 7px!important;font-size:10px!important}
+ .file-manage-count{font-size:10px!important}
+}
+
+
+/* v2.3.1 — daftar file satu kolom, teks polos, popup lebih tinggi */
+.file-manage-dialog{max-height:98dvh!important;height:auto!important;overflow-y:auto!important;}
+.file-manage-list .upload-group-rows{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;}
+.file-manage-list .file-row{display:flex!important;align-items:center!important;min-height:31px!important;padding:4px 2px!important;margin:0!important;border:0!important;border-bottom:1px solid rgba(66,109,148,.42)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;}
+.file-manage-list .file-row.file-missing{background:transparent!important;border-bottom-color:rgba(169,67,76,.45)!important;}
+.file-manage-list .file-name{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;}
+.file-manage-list .file-status{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;}
+@media(max-width:560px){.file-manage-dialog{max-height:98dvh!important;height:auto!important;padding:13px 12px!important}.file-manage-list .upload-group-rows{grid-template-columns:minmax(0,1fr)!important}.file-manage-list .file-row{min-height:30px!important;padding:4px 1px!important}.file-manage-list .file-name{font-size:13px!important}.file-manage-list .file-status{font-size:10.5px!important}}

@@ -74,14 +74,13 @@ function renderFiles(){
     const whRoles={G113:roles.filter(r=>/113$/.test(r)||!/(294|295)$/.test(r)),G294:roles.filter(r=>/294$/.test(r)),G295:roles.filter(r=>/295$/.test(r))};
     body=`<div class="daily-warehouse-grid">${section('G113',whRoles.G113)}${section('G294',whRoles.G294)}${section('G295',whRoles.G295)}</div>`;
    }else body=`<div class="upload-group-rows">${roles.map(renderRole).join('')}</div>`;
-   const collapsed=collapsedUploadGroups.has(group);return `<section class="upload-group${collapsed?' is-collapsed':''}" data-upload-group="${group}"><button type="button" class="upload-group-heading" data-toggle-upload-group="${group}" aria-expanded="${!collapsed}"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length}</span><i aria-hidden="true">${collapsed?'＋':'−'}</i></button><div class="upload-group-body" ${collapsed?'hidden':''}>${body}</div></section>`;
+   return `<details class="upload-group" data-upload-group="${group}"><summary class="upload-group-heading"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length}</span><i aria-hidden="true">＋</i></summary><div class="upload-group-body">${body}</div></details>`;
   }).join('');
  }else{
   $('fileManageList').innerHTML=`<div class="upload-group-rows">${required.map(renderRole).join('')}</div>`||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';
  }
  const ready=required.filter(hasRole).length;
  $('fileManageCount').textContent=`${ready}/${required.length} file tersedia`;
- $('fileManageList').querySelectorAll('[data-toggle-upload-group]').forEach(b=>b.onclick=()=>{const key=b.dataset.toggleUploadGroup;if(collapsedUploadGroups.has(key))collapsedUploadGroups.delete(key);else collapsedUploadGroups.add(key);renderFiles()});
  $('fileManageList').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
 }
 

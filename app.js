@@ -72,7 +72,7 @@ function parseLrbpbSupplier(content){
   .filter(o=>/^\d{8}$/.test(text(value(o,'PLU')).trim()));
 }
 function detectRole(file,content){const byName=roleGuess(file);if(byName)return byName;const rows=parseCSV(content);const header=(rows[0]||[]).map(norm);const all=header.join('|');if(header.includes('TBL_DC_KODE')||header.some(h=>h.includes('DC_KODE')))return 'brd';if(header.includes('PLU')&&header.includes('STOCK_OUT'))return 'stockout';if(header.includes('TGL_AKHIR')||all.includes('HISTORYTAG'))return 'history';if(['PRDCD','DESC2','DIV','CAT_COD'].every(x=>header.includes(x)))return 'prod';if(header.includes('SUPCO')&&header.includes('SNAMA'))return 'supmast';if(header.includes('GUDANG')&&header.includes('PRDCD')){const vals=rows.slice(1,30).flat().map(x=>String(x).toUpperCase());if(vals.some(x=>x.includes('G294')))return 'stm294';if(vals.some(x=>x.includes('G295')))return 'stm295';if(vals.some(x=>x.includes('G113')))return 'stm113'}if(header.includes('PRDCD')&&header.includes('ACOST'))return 'hrgbeli';if(header.includes('PRDCD')&&header.includes('PTAG'))return 'prod';if(header.includes('PRDCD')&&header.includes('NOREC'))return 'par113';return ''}
-async function addFiles(list){for(const file of list){const detected=roleGuess(file);const isBook=/\.xlsx$/i.test(file.name)&&['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(detected);const isBrd=/\.brd$/i.test(file.name)||roleGuess(file)==='brd';if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){setStatus(`File ${file.name} dilewati. Gunakan CSV/TXT/BRD untuk sumber data dan XLSX untuk file hasil Stock Out / SL Supplier / Rekap Supplier.`,true);continue}const id=Date.now()+Math.floor(Math.random()*100000);try{const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await file.text(),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};if(!isBook&&!isBrd)obj.guess=detectRole(obj,obj.content);files=files.filter(f=>f.guess!==obj.guess||!['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(obj.guess));files.push(obj);parsed.set(id,null)}catch(e){setStatus(`Tidak bisa membaca ${file.name}`,true)}}UPLOAD_GROUP_KEYS.forEach(group=>collapsedUploadGroups.add(group));renderFiles()}
+async function addFiles(list){for(const file of list){const detected=roleGuess(file);const isSeasonalBook=/\.xlsx$/i.test(file.name)&&detected==='seas';const isUpdateBook=/\.xlsx$/i.test(file.name)&&['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(detected);const isBook=isSeasonalBook||isUpdateBook;const isBrd=/\.brd$/i.test(file.name)||detected==='brd';if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){setStatus(`File ${file.name} dilewati. Gunakan CSV/TXT/BRD, XLSX Seasonal, atau XLSX file update.`,true);continue}const id=Date.now()+Math.floor(Math.random()*100000);try{const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await file.text(),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};if(!isBook&&!isBrd)obj.guess=detectRole(obj,obj.content);if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);files.push(obj);parsed.set(id,null)}catch(e){setStatus(`Tidak bisa membaca ${file.name}`,true)}}UPLOAD_GROUP_KEYS.forEach(group=>collapsedUploadGroups.add(group));renderFiles()}
 function setStatus(s,error=false,processing=false){const e=$('status');e.textContent=s;e.className='status'+(error?' error':' ok')+(processing?' processing':'')}
 const PROCESS_BUTTONS=['masterBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn'];
 function beginProcess(id){if(PROCESS_BUTTONS.some(x=>$(x).disabled))return false;PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=true;b.classList.toggle('is-running',x===id);});return true}
@@ -324,13 +324,14 @@ async function runSlSupplier(){if(!beginProcess('slSupplierBtn'))return;setStatu
 function downloadBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
 $('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});const folderPicker=$('dailyFolderPicker');$('pickDailyFolderLink').addEventListener('click',()=>folderPicker.click());$('pickFilesButton').addEventListener('click',()=>$('filePicker').click());folderPicker.addEventListener('change',e=>{const chosen=[...e.target.files];if(!chosen.length){setStatus('Tidak ada file yang dipilih.',true)}else{addFiles(chosen);const rootFiles=chosen.filter(f=>!warehouseFromPath(f)).length;const warehouseFiles=chosen.length-rootFiles;setStatus(`${chosen.length} file ditambahkan: ${rootFiles} file di folder utama/kategori dan ${warehouseFiles} file dari folder gudang.`)}e.target.value=''});$('clearBtn').onclick=()=>{files=[];parsed.clear();renderFiles();setStatus('Daftar file sumber dibersihkan.')};$('fileManageClose').onclick=()=>$('fileManageDialog').close();
 const PROCESS_CHECKS={
+ poExpiredBtn:['seas'],
  masterBtn:['prod','stm113','stm294','stm295','hrgbeli','supmast','hpg','protect','datawhs','par113','par294','par295','seas','itemdepo','itemwhk','pom113','pom294','pom295','pou113','pou294','pou295','keb','nataru','promo','history','stockout'],
  stockOutBtn:['stockout','stockoutbook'],
  slSupplierBtn:['prod','stm113','pom113','slsupplierbook'],
  rekapSupplierBtn:['lrbpbsupplier','rekapsupplierbook'],
  brdBtn:['brd']
 };
-const PROCESS_TITLES={masterBtn:'MASTER STOCK',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD'};
+const PROCESS_TITLES={poExpiredBtn:'PO EXPIRED',masterBtn:'MASTER STOCK',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD'};
 const processActions={masterBtn:runMasterStock,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
 function openFileManager(action){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
 document.querySelectorAll('[data-requirements]').forEach(b=>b.addEventListener('click',()=>openFileManager(b.dataset.requirements)));
@@ -345,7 +346,8 @@ function buildPoExpiredPayload(){
  const pomText=pomFile?pomFile.content:'';
  const stockRows=[['PRDCD','KL'],...getSource('stockout').filter(o=>text(value(o,'STOCK_OUT','STOCKOUT')).toUpperCase()==='Y').map(o=>[value(o,'PLU','PRDCD'),1])];
  const promoRows=[['PLU','DESC','QTY','JENIS','TGL1','TGL2','TGL3','TGL4'],...result.data.map(r=>[r[0],r[1],r[74],r[75],r[72],r[73],'','']).filter(r=>r.slice(4,8).some(v=>text(v)!==''))];
- return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows};
+ const seasonalFile=files.find(f=>f.guess==='seas'&&f.bytes);
+ return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows,seasonalBytes:seasonalFile?seasonalFile.bytes:null,seasonalName:seasonalFile?seasonalFile.name:''};
 }
 function openPoExpired(){
  const panel=$('poExpiredApp');panel.classList.add('po-open');$('poExpiredDialog').setAttribute('aria-hidden','false');
@@ -353,7 +355,7 @@ function openPoExpired(){
  catch(e){setStatus('PO Expired: '+(e.message||e),true)}
 }
 window.openPoExpired=openPoExpired;
-$('poExpiredRequirements').addEventListener('click',()=>{openPoExpired();setTimeout(()=>{const card=document.getElementById('bh-seasonal');if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.classList.add('attention');setTimeout(()=>card.classList.remove('attention'),1800)}},120)});
+$('poExpiredRequirements').addEventListener('click',()=>openFileManager('poExpiredBtn'));
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');

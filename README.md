@@ -1,4 +1,4 @@
-# Inventory PWA — v2.1.8
+# Inventory PWA — v2.2.0
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -250,13 +250,29 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Cache Service Worker dinaikkan ke v2.1.6.
 
 
-## v2.1.8 — Perbaikan tampilan tahapan PO Expired
+## v2.2.0 — Perbaikan tampilan tahapan PO Expired
 - Mengatasi konflik selector CSS `.step` global Inventory dengan section PO Expired.
 - Memastikan bagian Bahan, Input No PO, dan Hasil tampil penuh di dalam modal.
-- Versi aplikasi, footer, dan cache Service Worker dinaikkan ke v2.1.8.
+- Versi aplikasi, footer, dan cache Service Worker dinaikkan ke v2.2.0.
 
 
-## v2.1.8 — Memunculkan tahapan PO Expired
+## v2.2.0 — Memunculkan tahapan PO Expired
 - Mengatasi aturan global `.step{display:none!important}` yang menyembunyikan seluruh bagian PO Expired.
 - Tahap Bahan dan Input No PO dipaksa tampil; tahap Hasil tetap mengikuti status hasil pemeriksaan.
-- Versi aplikasi dan cache Service Worker dinaikkan ke v2.1.8.
+- Versi aplikasi dan cache Service Worker dinaikkan ke v2.2.0.
+
+
+## v2.2.0 — PO Expired hanya menampilkan upload Seasonal
+- Kartu upload manual dibatasi hanya untuk file Seasonal.
+- Master Stock, POM G113, Stock Out, dan Promo tetap diterima otomatis dari Inventory dan tidak ditampilkan sebagai pilihan upload.
+- Status bahan menampilkan status Seasonal saja.
+
+
+## v2.2.0 — Integrasi Seasonal dan penyederhanaan PO Expired
+
+- Popup PO Expired tidak lagi menampilkan panel daftar bahan atau upload manual.
+- Popup langsung menampilkan input No PO dan hasil/kesimpulan.
+- File Seasonal `.xlsx` dapat diunggah dari daftar file Inventory melalui tombol `File Seasonal` di bawah PO EXPIRED.
+- Data Seasonal dikirim otomatis ke modul PO Expired bersama Master Stock, POM G113, Stock Out, dan Promo.
+- File Seasonal tetap disimpan sebagai sumber bersama Inventory, tidak ada upload ganda di dalam popup.
+- Versi aplikasi, footer, dan cache Service Worker dinaikkan ke v2.2.0.

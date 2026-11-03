@@ -1,18 +1,23 @@
-## v2.2.4 — Penyempurnaan interaksi popup dan tombol
+## v2.2.5 — Perbaikan popup Daftar File & Upload
+- Memperbaiki error JavaScript saat membuka popup: elemen pengantar sudah dihapus dari HTML sehingga akses ke elemen tersebut menyebabkan popup gagal dibuka.
+- Tombol Daftar File & Upload, Pilih Folder, dan Pilih File kini tampil sebagai teks bergaris bawah tanpa bentuk tombol.
+- Versi aplikasi dan cache Service Worker dinaikkan ke v2.2.5.
+
+## v2.2.5 — Penyempurnaan interaksi popup dan tombol
 
 - Jarak antar tombol diperlebar.
 - Semua popup dapat digeser dengan menarik area judulnya.
 - Notifikasi proses dipindahkan ke atas seluruh tombol proses.
-- Versi dan cache Service Worker dinaikkan ke v2.2.4.
+- Versi dan cache Service Worker dinaikkan ke v2.2.5.
 
-## v2.2.4 — Penyempurnaan popup Daftar File & Upload
+## v2.2.5 — Penyempurnaan popup Daftar File & Upload
 
 - Menghapus teks pengantar popup.
 - Seasonal dipindahkan ke kategori File Update.
 - Tombol Pilih Folder dan Pilih File berada di kanan atas sejajar judul.
 - Penghitung file dipindahkan ke tengah di antara Bersihkan Semua dan Tutup.
 - Tarikan Harian dipisah menjadi Gudang G113, G294, G295, dan Umum.
-- Cache Service Worker dinaikkan ke v2.2.4.
+- Cache Service Worker dinaikkan ke v2.2.5.
 
 ## v2.2.2 — Tombol Daftar File & Upload di kanan atas header
 
@@ -20,7 +25,7 @@
 - Menghapus tombol tersebut dari panel tombol proses.
 - Daftar file, Pilih Folder, dan Pilih File tetap tersedia di dialog pengelolaan file.
 
-# Inventory PWA — v2.2.4
+# Inventory PWA — v2.2.5
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 

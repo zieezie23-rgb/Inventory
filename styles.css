@@ -639,3 +639,27 @@ body{color:#ffd629!important;}
 .brd-dialog form>h2,.file-manage-heading,.po-modal-head{touch-action:pan-y;user-select:none;-webkit-user-select:none}
 dialog{overscroll-behavior:contain}
 @media(max-width:480px){.action-grid{gap:15px 13px!important}.file-manage-actions,.brd-dialog-actions,.preflight-actions{gap:10px!important}.file-manage-heading-tools{gap:9px!important}}
+
+/* v2.2.5 — kontrol file manager berupa tautan teks, tanpa bentuk tombol. */
+.topbar .header-file-manager,
+.topbar .header-file-manager:hover,
+.topbar .header-file-manager:focus-visible{
+  appearance:none!important;background:transparent!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;min-height:0!important;
+  padding:8px 2px!important;color:#ffd629!important;text-decoration:underline!important;
+  text-decoration-color:#ffd629!important;text-underline-offset:4px!important;
+  font-size:10px!important;font-weight:900!important;cursor:pointer!important;
+}
+.topbar .header-file-manager::before,.topbar .header-file-manager::after{display:none!important;content:none!important}
+.file-manage-heading-tools .upload-choice,
+.file-manage-heading-tools .upload-choice:hover,
+.file-manage-heading-tools .upload-choice:focus-visible{
+  appearance:none!important;background:transparent!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;min-height:0!important;
+  padding:8px 3px!important;color:#ffd629!important;text-decoration:underline!important;
+  text-decoration-color:#ffd629!important;text-underline-offset:4px!important;
+  font-size:10px!important;font-weight:800!important;cursor:pointer!important;
+}
+.file-manage-heading-tools .upload-choice::before,
+.file-manage-heading-tools .upload-choice::after{display:none!important;content:none!important}
+@media(max-width:650px){.topbar .header-file-manager{font-size:8px!important;padding:8px 1px!important}}

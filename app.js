@@ -53,13 +53,13 @@ const OPTIONAL_ROLES=new Set(['itempar','brd']);
 function renderFiles(){
  const dialog=$('fileManageDialog');
  if(!dialog)return;
- const action=dialog.dataset.action||'masterBtn';
- const required=PROCESS_CHECKS[action]||[];
- $('fileManageTitle').textContent=`File yang diperlukan — ${PROCESS_TITLES[action]||''}`;
- $('fileManageIntro').textContent='File yang sudah tersedia akan ditandai Terunggah. Kamu bisa menambahkan file atau memilih folder INVENTORY di sini.';
+ const action=dialog.dataset.action||'allFiles';
+ const required=action==='allFiles'?ROLES.map(r=>r[0]):(PROCESS_CHECKS[action]||[]);
+ $('fileManageTitle').textContent=action==='allFiles'?'Daftar File Inventory':`File yang diperlukan — ${PROCESS_TITLES[action]||''}`;
+ $('fileManageIntro').textContent=action==='allFiles'?'Kelola seluruh file sumber Inventory dari satu tempat. Pilih folder atau pilih file untuk menambahkan data.':'File yang sudah tersedia akan ditandai Terunggah. Kamu bisa menambahkan file atau memilih folder INVENTORY di sini.';
  const renderRole=role=>{const item=ROLES.find(r=>r[0]===role);const matches=files.filter(f=>f.guess===role);const label=item?item[1]:role;return matches.length?matches.map(f=>`<div class="file-row file-ready"><div class="file-meta"><div class="file-name">${escapeHtml(label)}<small>${escapeHtml(f.relativePath||f.name)}</small></div></div><span class="file-status status-ready">Terunggah</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):`<div class="file-row file-missing"><div class="file-meta"><div class="file-name">${escapeHtml(label)}</div></div><span class="file-status">Belum ada</span></div>`};
  const groupNames={daily:'Tarikan Harian',bahan:'Bahan',lwa:'Tarikan LWA',update:'File Update'};
- if(action==='masterBtn'){const groups=['daily','bahan','lwa','update'];$('fileManageList').innerHTML=groups.map(group=>{const roles=required.filter(role=>(ROLE_GROUP[role]||'daily')===group);if(!roles.length)return '';return `<section class="upload-group"><div class="upload-group-heading"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length} file</span></div><div class="upload-group-rows">${roles.map(renderRole).join('')}</div></section>`}).join('')}else{$('fileManageList').innerHTML=required.map(renderRole).join('')||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';}
+ if(action==='masterBtn'||action==='allFiles'){const groups=['daily','bahan','lwa','update'];$('fileManageList').innerHTML=groups.map(group=>{const roles=required.filter(role=>(ROLE_GROUP[role]||'daily')===group);if(!roles.length)return '';return `<section class="upload-group"><div class="upload-group-heading"><strong>${groupNames[group]}</strong><span>${roles.filter(hasRole).length}/${roles.length} file</span></div><div class="upload-group-rows">${roles.map(renderRole).join('')}</div></section>`}).join('')}else{$('fileManageList').innerHTML=required.map(renderRole).join('')||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';}
  const ready=required.filter(hasRole).length;
  $('fileManageCount').textContent=`${ready}/${required.length} file tersedia`;
  $('fileManageList').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
@@ -333,8 +333,8 @@ const PROCESS_CHECKS={
 };
 const PROCESS_TITLES={poExpiredBtn:'PO EXPIRED',masterBtn:'MASTER STOCK',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD'};
 const processActions={masterBtn:runMasterStock,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
-function openFileManager(action){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
-document.querySelectorAll('[data-requirements]').forEach(b=>b.addEventListener('click',()=>openFileManager(b.dataset.requirements)));
+function openFileManager(action='allFiles'){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
+$('openFileManagerButton').addEventListener('click',()=>openFileManager('allFiles'));
 function hasRole(role){return files.some(f=>f.guess===role&&(f.bytes||String(f.content||'').trim()!==''));}
 function missingFor(buttonId){return (PROCESS_CHECKS[buttonId]||[]).filter(role=>!hasRole(role)&&!(role==='itempar'));}
 function showPreflight(buttonId,missing){$('preflightTitle').textContent=`${PROCESS_TITLES[buttonId]} — file belum lengkap`;$('preflightIntro').textContent='Beberapa file sumber belum tersedia. Kamu bisa melengkapi file terlebih dahulu atau tetap melanjutkan proses dengan data yang ada.';$('preflightMissing').innerHTML=missing.map(role=>{const item=ROLES.find(r=>r[0]===role);return `<div class="brd-option missing-option"><span class="missing-mark">!</span><span>${escapeHtml(item?item[1]:role)} belum ada</span></div>`}).join('');$('preflightDialog').dataset.action=buttonId;$('preflightDialog').showModal();}
@@ -355,7 +355,6 @@ function openPoExpired(){
  catch(e){setStatus('PO Expired: '+(e.message||e),true)}
 }
 window.openPoExpired=openPoExpired;
-$('poExpiredRequirements').addEventListener('click',()=>openFileManager('poExpiredBtn'));
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');

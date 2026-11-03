@@ -600,3 +600,17 @@ body{color:#ffd629!important;}
 #poExpiredDialog{display:none;position:fixed;inset:0;z-index:9998;background:rgba(8,20,36,.68);padding:0;overflow:auto}#poExpiredDialog[aria-hidden="false"]{display:block}
 /* Highlight upload Seasonal saat pengguna membuka kebutuhan PO Expired */
 #poExpiredApp #bh-seasonal.attention{outline:3px solid #f2c400;outline-offset:3px;transition:outline-color .2s}
+
+
+/* v2.2.1 — satu pintu pengelolaan file di pojok kanan atas halaman utama */
+.file-manager-launch-row{display:flex;justify-content:flex-end;align-items:center;margin:0 0 12px}
+.file-manager-launch{min-height:36px;padding:8px 15px;border-radius:9px;background:#ffd629!important;color:#123b62!important;border:1px solid #ffd629!important;border-bottom:3px solid #e5252a!important;font-size:11px;font-weight:900;letter-spacing:.25px}
+.file-manager-launch:active{transform:scale(.98)}
+
+
+/* v2.2.2 — tombol pengelolaan file berada di kanan atas header */
+.file-manager-launch-row{display:none!important}
+.topbar{position:relative;align-items:center}
+.header-file-manager{margin-left:auto;flex:0 0 auto;white-space:nowrap;min-height:36px;padding:8px 13px;border-radius:9px;background:#ffd629!important;color:#123b62!important;border:1px solid #ffd629!important;border-bottom:3px solid #e5252a!important;font-size:10px;font-weight:900;letter-spacing:.2px}
+.version{margin-left:0;flex:0 0 auto}
+@media(max-width:650px){.topbar{gap:8px;padding-left:10px;padding-right:10px}.brand-logo{width:48px;height:48px;flex-basis:48px}.topbar h1{font-size:22px}.eyebrow{font-size:7px}.header-file-manager{font-size:8px;padding:7px 8px;min-height:32px;letter-spacing:0}.version{position:absolute;right:10px;bottom:2px;font-size:8px}.topbar{padding-bottom:15px}}

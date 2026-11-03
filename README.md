@@ -1,4 +1,4 @@
-# Inventory PWA — v2.1.7
+# Inventory PWA — v2.1.8
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -250,7 +250,13 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Cache Service Worker dinaikkan ke v2.1.6.
 
 
-## v2.1.7 — Perbaikan tampilan tahapan PO Expired
+## v2.1.8 — Perbaikan tampilan tahapan PO Expired
 - Mengatasi konflik selector CSS `.step` global Inventory dengan section PO Expired.
 - Memastikan bagian Bahan, Input No PO, dan Hasil tampil penuh di dalam modal.
-- Versi aplikasi, footer, dan cache Service Worker dinaikkan ke v2.1.7.
+- Versi aplikasi, footer, dan cache Service Worker dinaikkan ke v2.1.8.
+
+
+## v2.1.8 — Memunculkan tahapan PO Expired
+- Mengatasi aturan global `.step{display:none!important}` yang menyembunyikan seluruh bagian PO Expired.
+- Tahap Bahan dan Input No PO dipaksa tampil; tahap Hasil tetap mengikuti status hasil pemeriksaan.
+- Versi aplikasi dan cache Service Worker dinaikkan ke v2.1.8.

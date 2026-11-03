@@ -1,4 +1,4 @@
-# Inventory PWA — v2.1.1
+# Inventory PWA — v2.1.2
 
 Aplikasi PWA pemrosesan lokal untuk menyusun 77 kolom Master Stock berdasarkan sumber yang dipilih. Ekspor menjadi `.xlsx` dengan acuan gaya workbook Master Stock: lebar kolom, judul tanggal, dua baris header, merge cells, border, format sel, serta freeze panes.
 
@@ -227,18 +227,18 @@ Versi 1.4.8: upload file Stock Out DC.xlsx terakhir sebagai workbook lanjutan; p
 - Menegaskan atribut `multiple` pada pemilih file agar pemilihan beberapa file dalam satu kali dialog didukung.
 
 
-## v2.1.1 — Pembaruan versi integrasi PO Expired
-- Versi aplikasi, footer, dan cache Service Worker diselaraskan ke v2.1.1.
+## v2.1.2 — Pembaruan versi integrasi PO Expired
+- Versi aplikasi, footer, dan cache Service Worker diselaraskan ke v2.1.2.
 - PO Expired tetap terintegrasi di dalam halaman utama Inventory.
 
 
-## v2.1.1 — File yang diperlukan PO Expired
+## v2.1.2 — File yang diperlukan PO Expired
 - Menambahkan tautan “File yang diperlukan” di bawah tombol PO EXPIRED.
 - Tautan membuka popup PO Expired dan mengarahkan pengguna ke kartu upload Seasonal, karena Seasonal tetap merupakan input manual.
-- Menyelaraskan versi aplikasi dan cache Service Worker ke v2.1.1.
+- Menyelaraskan versi aplikasi dan cache Service Worker ke v2.1.2.
 
 
-## v2.1.1 — Perbaikan teks CSS PO Expired
+## v2.1.2 — Perbaikan teks CSS PO Expired
 - Menghapus deklarasi CSS PO Expired yang sebelumnya berada di luar tag style sehingga tampil sebagai teks di atas header.
 - Memindahkan aturan tampilan dialog ke styles.css dan mengikat visibilitasnya pada aria-hidden agar popup tetap dapat dibuka dan ditutup.
-- Menaikkan versi aplikasi dan cache Service Worker ke v2.1.1.
+- Menaikkan versi aplikasi dan cache Service Worker ke v2.1.2.

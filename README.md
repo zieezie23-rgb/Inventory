@@ -1,9 +1,9 @@
-# Inventory v2.3.5
+# Inventory v2.3.6
 
 Perubahan:
-- Memperbaiki kontrol kategori Daftar File & Upload agar dapat dibuka dan ditutup kembali.
-- Kategori Tarikan Harian menampilkan gudang G113, G294, dan G295 dalam tiga kolom berdampingan.
-- Tampilan tiga kolom dipertahankan pada layar HP dengan ukuran teks dan baris yang disesuaikan.
-- Cache Service Worker dinaikkan ke v2.3.5.
+- Panel pembungkus tombol proses di halaman utama dihilangkan; tombol tampil langsung di halaman.
+- Notifikasi proses tetap berada di atas tombol.
+- Tombol proses menggunakan gradasi biru dengan highlight dan aksen kuning-merah agar lebih menarik, tetap konsisten dengan tema Inventory.
+- Versi aplikasi dan cache Service Worker dinaikkan ke v2.3.6.
 
 Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsung di folder utama.

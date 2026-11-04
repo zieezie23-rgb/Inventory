@@ -876,3 +876,60 @@ body{font-size:16px}
   .file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-count{width:76px!important;min-width:76px!important;font-size:11px!important}
   .file-manage-list details.upload-group>summary.upload-group-heading>.upload-group-toggle{width:22px!important;min-width:22px!important}
 }
+
+
+/* v2.3.6 — tombol proses langsung di halaman, tanpa panel pembungkus; gradasi biru. */
+#processCard{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  margin:18px 0 16px!important;
+}
+#processCard .status{
+  margin:0 0 14px!important;
+  padding:0 4px!important;
+}
+#processCard .action-grid{
+  gap:18px!important;
+}
+#processCard .action-button{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:linear-gradient(135deg,#1689dc 0%,#0875c9 28%,#07549b 66%,#06376f 100%)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  border-bottom:4px solid #ffd629!important;
+  border-radius:14px!important;
+  box-shadow:0 7px 16px rgba(3,48,94,.24),inset 0 1px 0 rgba(255,255,255,.35)!important;
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease!important;
+}
+#processCard .action-button::before{
+  content:""!important;display:block!important;position:absolute!important;
+  inset:0 0 auto 0!important;height:48%!important;z-index:-1!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.19),rgba(255,255,255,0))!important;
+  pointer-events:none!important;
+}
+#processCard .action-button::after{
+  content:""!important;display:block!important;position:absolute!important;
+  left:0!important;right:0!important;bottom:-4px!important;height:4px!important;
+  background:linear-gradient(90deg,#e5252a 0%,#ffd629 52%,#e5252a 100%)!important;
+  pointer-events:none!important;
+}
+#processCard .action-button .action-copy,
+#processCard .action-button .action-copy strong{
+  position:relative!important;color:#fff!important;text-align:center!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.28)!important;
+}
+#processCard .action-button:hover{
+  filter:brightness(1.08) saturate(1.08)!important;
+  box-shadow:0 10px 20px rgba(3,48,94,.3),inset 0 1px 0 rgba(255,255,255,.42)!important;
+  transform:translateY(-1px)!important;
+}
+#processCard .action-button:active{transform:translateY(1px) scale(.99)!important}
+@media(max-width:650px){
+  #processCard{margin:14px 0!important}
+  #processCard .action-grid{gap:13px!important}
+}

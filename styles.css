@@ -934,236 +934,9 @@ body{font-size:16px}
   #processCard .action-grid{gap:13px!important}
 }
 
-
-/* v2.3.8 — aksen bawah tombol proses berupa dua garis bertumpuk: merah di atas, kuning di bawah. */
-#processCard .action-button{
-  border-bottom:0!important;
-  padding-bottom:calc(1em + 6px)!important;
-}
-#processCard .action-button::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:0!important;
-  right:0!important;
-  bottom:0!important;
-  height:6px!important;
-  background:linear-gradient(to bottom,#e5252a 0 50%,#ffd629 50% 100%)!important;
-  pointer-events:none!important;
-}
-
-
-/* v2.3.9 — aksen merah-kuning di sisi atas, transisi gradasi lebih lembut, teks kuning tebal, tombol lebih tinggi. */
-#processCard .action-button{
-  min-height:78px!important;
-  height:auto!important;
-  padding:25px 14px 17px!important;
-  background:linear-gradient(135deg,#238bd0 0%,#167fc4 22%,#0d70b5 48%,#0a5b9d 74%,#08477f 100%)!important;
-  border:1px solid rgba(255,255,255,.24)!important;
-  border-top:0!important;
-  border-bottom:0!important;
-  box-shadow:0 7px 16px rgba(3,48,94,.22),inset 0 1px 0 rgba(255,255,255,.25)!important;
-}
-#processCard .action-button::before{
-  content:""!important;display:block!important;position:absolute!important;
-  left:0!important;right:0!important;top:0!important;bottom:auto!important;
-  height:7px!important;z-index:2!important;border-radius:14px 14px 0 0!important;
-  background:linear-gradient(to bottom,#e5252a 0%,#e5252a 48%,#ffd629 52%,#ffd629 100%)!important;
-  pointer-events:none!important;
-}
-#processCard .action-button::after{display:none!important;content:none!important}
-#processCard .action-button .action-copy,
-#processCard .action-button .action-copy strong{
-  color:#ffe45c!important;font-weight:900!important;
-  text-shadow:0 1px 2px rgba(0,0,0,.42)!important;
-}
-@media(max-width:650px){
-  #processCard .action-button{min-height:72px!important;padding:23px 10px 15px!important}
-}
-
-
-/* v2.4.0 — aksen dipisah di dua sisi tombol: merah di atas, kuning di bawah. */
-#processCard .action-button{
-  position:relative!important;
-  overflow:hidden!important;
-  border-top:0!important;
-  border-bottom:0!important;
-  padding-top:25px!important;
-  padding-bottom:23px!important;
-}
-#processCard .action-button::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:0!important;right:0!important;top:0!important;bottom:auto!important;
-  height:6px!important;z-index:3!important;
-  border-radius:14px 14px 0 0!important;
-  background:linear-gradient(180deg,#f04a50 0%,#e5252a 100%)!important;
-  pointer-events:none!important;
-}
-#processCard .action-button::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:0!important;right:0!important;top:auto!important;bottom:0!important;
-  height:6px!important;z-index:3!important;
-  border-radius:0 0 14px 14px!important;
-  background:linear-gradient(180deg,#ffe45c 0%,#ffd629 100%)!important;
-  pointer-events:none!important;
-}
-#processCard .action-button .action-copy,
-#processCard .action-button .action-copy strong{
-  color:#ffe45c!important;font-weight:900!important;
-}
-@media(max-width:650px){
-  #processCard .action-button{padding-top:23px!important;padding-bottom:21px!important}
-}
-
-
-/* v2.4.1: aksen sudut diagonal — merah kiri atas, kuning kanan bawah. */
-.action-button{
-  position:relative!important;
-  overflow:hidden!important;
-  isolation:isolate;
-  border-left:0!important;
-  border-bottom:0!important;
-  background:linear-gradient(142deg,#1688d6 0%,#0875c9 38%,#064a91 100%)!important;
-}
-.action-button::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  z-index:0!important;
-  top:0!important;left:0!important;right:auto!important;bottom:auto!important;
-  width:25px!important;height:25px!important;
-  background:linear-gradient(135deg,#ff555b 0%,#d71925 100%)!important;
-  clip-path:polygon(0 0,100% 0,0 100%)!important;
-  border-radius:0 0 5px 0!important;
-  pointer-events:none!important;
-}
-.action-button::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  z-index:0!important;
-  top:auto!important;left:auto!important;right:0!important;bottom:0!important;
-  width:25px!important;height:25px!important;
-  background:linear-gradient(315deg,#ffe66b 0%,#ffd000 100%)!important;
-  clip-path:polygon(100% 0,100% 100%,0 100%)!important;
-  border-radius:5px 0 0 0!important;
-  pointer-events:none!important;
-}
-.action-button .action-copy,.action-button .action-icon{position:relative;z-index:1}
-.action-button .action-copy strong{color:#ffd629!important;font-weight:900!important}
-
-/* v2.4.3: kemiringan diagonal aksen sudut 30 derajat. */
-#processCard .action-button{
-  position:relative!important;
-  overflow:hidden!important;
-  isolation:isolate!important;
-}
-#processCard .action-button::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  top:0!important;left:0!important;right:auto!important;bottom:auto!important;
-  width:36px!important;height:21px!important;
-  z-index:2!important;
-  background:linear-gradient(135deg,#ff6268 0%,#d71925 100%)!important;
-  clip-path:polygon(0 0,100% 0,0 100%)!important;
-  border-radius:0 0 7px 0!important;
-  pointer-events:none!important;
-}
-#processCard .action-button::after{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  top:auto!important;left:auto!important;right:0!important;bottom:0!important;
-  width:36px!important;height:21px!important;
-  z-index:2!important;
-  background:linear-gradient(315deg,#ffe96a 0%,#f2bd00 100%)!important;
-  clip-path:polygon(100% 0,100% 100%,0 100%)!important;
-  border-radius:7px 0 0 0!important;
-  pointer-events:none!important;
-}
-#processCard .action-button .action-copy,
-#processCard .action-button .action-icon{
-  position:relative!important;z-index:3!important;
-}
-@media(max-width:650px){
-  #processCard .action-button::before,
-  #processCard .action-button::after{width:32px!important;height:18px!important}
-}
-
-/* v2.4.4: gradasi utama tombol merah-biru-kuning. */
-#processCard .action-button{
-  background:linear-gradient(110deg,#d71925 0%,#b51f4b 18%,#0875c9 52%,#07549b 72%,#f2bd00 100%)!important;
-  background-size:100% 100%!important;
-}
-#processCard .action-button .action-copy strong{
-  color:#fff!important;
-  text-shadow:0 1px 3px rgba(0,25,65,.65)!important;
-}
-
-
-/* v2.4.5: gradasi tiga warna dipaksa pada seluruh tombol proses; sudut aksen 30 derajat. */
-#processCard button.action-button,
-#processCard button.action-button.action-master,
-#processCard button.action-button.action-stockout,
-#processCard button.action-button.action-brd{
-  background-color:#0875c9!important;
-  background-image:linear-gradient(90deg,#d71925 0%,#0875c9 50%,#f2bd00 100%)!important;
-  background-repeat:no-repeat!important;
-  background-size:100% 100%!important;
-}
-#processCard button.action-button::before{
-  width:40px!important;height:40px!important;
-  clip-path:polygon(0 0,100% 0,0 57.735%)!important;
-}
-#processCard button.action-button::after{
-  width:40px!important;height:40px!important;
-  clip-path:polygon(100% 42.265%,100% 100%,0 100%)!important;
-}
-@media(max-width:650px){
-  #processCard button.action-button::before,
-  #processCard button.action-button::after{width:34px!important;height:34px!important}
-}
-#processCard button.action-button .action-copy strong{
-  color:#fff!important;font-weight:900!important;
-  text-shadow:0 1px 3px rgba(0,0,0,.65)!important;
-}
-
-/* v2.4.6: tombol proses tanpa aksen sudut; gradasi diagonal 30 derajat.
-   Komposisi warna: merah 15%, biru 70%, kuning 15%. */
-#processCard button.action-button,
-#processCard button.action-button.action-master,
-#processCard button.action-button.action-stockout,
-#processCard button.action-button.action-brd{
-  background: linear-gradient(30deg,
-    #d71925 0%,
-    #d71925 15%,
-    #0875c9 15%,
-    #0875c9 85%,
-    #f2bd00 85%,
-    #f2bd00 100%
-  ) !important;
-  background-image: linear-gradient(30deg,
-    #d71925 0%,
-    #d71925 15%,
-    #0875c9 15%,
-    #0875c9 85%,
-    #f2bd00 85%,
-    #f2bd00 100%
-  ) !important;
-}
-#processCard button.action-button::before,
-#processCard button.action-button::after{
-  display:none !important;
-  content:none !important;
-}
-
-
-/* v2.4.7 — override final untuk tombol proses: gradasi diagonal 30° dari horizontal. */
+/* v2.5.1 — satu gradasi menyatu, arah kiri-bawah ke kanan-atas (/), 30° dari horizontal.
+   Sudut CSS 60deg menghasilkan arah visual 30° di atas garis horizontal.
+   Komposisi: merah 15%, biru 70%, kuning 15%, dengan transisi lembut. */
 #processCard .action-grid button.action-button,
 #processCard button#masterBtn,
 #processCard button#stockOutBtn,
@@ -1173,34 +946,6 @@ body{font-size:16px}
 #processCard button#brdBtn {
   background-color: #0875c9 !important;
   background-image: linear-gradient(60deg,
-    #d71925 0%, #d71925 15%,
-    #0875c9 15%, #0875c9 85%,
-    #f2bd00 85%, #f2bd00 100%
-  ) !important;
-  background-repeat: no-repeat !important;
-  background-size: 100% 100% !important;
-}
-#processCard .action-grid button.action-button::before,
-#processCard .action-grid button.action-button::after,
-#processCard button#masterBtn::before, #processCard button#masterBtn::after,
-#processCard button#stockOutBtn::before, #processCard button#stockOutBtn::after,
-#processCard button#slSupplierBtn::before, #processCard button#slSupplierBtn::after,
-#processCard button#rekapSupplierBtn::before, #processCard button#rekapSupplierBtn::after,
-#processCard button#poExpiredBtn::before, #processCard button#poExpiredBtn::after,
-#processCard button#brdBtn::before, #processCard button#brdBtn::after {
-  display: none !important; content: none !important;
-}
-
-
-/* v2.4.8 — gradasi warna menyatu, bukan blok/aksen. Arah diagonal 30° dari horizontal. */
-#processCard .action-grid button.action-button,
-#processCard button#masterBtn,
-#processCard button#stockOutBtn,
-#processCard button#slSupplierBtn,
-#processCard button#rekapSupplierBtn,
-#processCard button#poExpiredBtn,
-#processCard button#brdBtn {
-  background: linear-gradient(60deg,
     #d71925 0%,
     #d71925 10%,
     #0875c9 20%,
@@ -1208,42 +953,11 @@ body{font-size:16px}
     #f2bd00 90%,
     #f2bd00 100%
   ) !important;
-  background-color: #0875c9 !important;
-  background-size: 100% 100% !important;
   background-repeat: no-repeat !important;
-}
-#processCard .action-grid button.action-button::before,
-#processCard .action-grid button.action-button::after,
-#processCard button#masterBtn::before, #processCard button#masterBtn::after,
-#processCard button#stockOutBtn::before, #processCard button#stockOutBtn::after,
-#processCard button#slSupplierBtn::before, #processCard button#slSupplierBtn::after,
-#processCard button#rekapSupplierBtn::before, #processCard button#rekapSupplierBtn::after,
-#processCard button#poExpiredBtn::before, #processCard button#poExpiredBtn::after,
-#processCard button#brdBtn::before, #processCard button#brdBtn::after {
-  display: none !important;
-  content: none !important;
+  background-size: 100% 100% !important;
 }
 
-/* v2.5.0 — arah gradasi 30° dihitung dari 0° vertikal ke atas (searah jarum jam). */
-#processCard .action-grid button.action-button,
-#processCard button#masterBtn,
-#processCard button#stockOutBtn,
-#processCard button#slSupplierBtn,
-#processCard button#rekapSupplierBtn,
-#processCard button#poExpiredBtn,
-#processCard button#brdBtn {
-  background: linear-gradient(30deg,
-    #d71925 0%,
-    #d71925 10%,
-    #0875c9 20%,
-    #0875c9 80%,
-    #f2bd00 90%,
-    #f2bd00 100%
-  ) !important;
-  background-color: #0875c9 !important;
-  background-size: 100% 100% !important;
-  background-repeat: no-repeat !important;
-}
+/* Hilangkan pseudo-element aksen lama; tombol hanya menampilkan gradasi utama. */
 #processCard .action-grid button.action-button::before,
 #processCard .action-grid button.action-button::after,
 #processCard button#masterBtn::before, #processCard button#masterBtn::after,
@@ -1252,6 +966,6 @@ body{font-size:16px}
 #processCard button#rekapSupplierBtn::before, #processCard button#rekapSupplierBtn::after,
 #processCard button#poExpiredBtn::before, #processCard button#poExpiredBtn::after,
 #processCard button#brdBtn::before, #processCard button#brdBtn::after {
-  display: none !important;
   content: none !important;
+  display: none !important;
 }

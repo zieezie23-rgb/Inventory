@@ -1,9 +1,9 @@
-# Inventory v2.5.7
+# Inventory v2.5.8
 
 Perubahan:
-- Ekspor BRD kembali menghasilkan setiap file secara terpisah sesuai format aslinya (DBF/CSV), tidak dikemas menjadi ZIP.
-- Unduhan BRD dijalankan satu per satu dengan jeda singkat untuk membantu browser mobile memproses setiap file.
-- Perbaikan status mesin BRD tetap dipertahankan.
-- Versi header aplikasi, footer, stylesheet, README, dan cache Service Worker diseragamkan ke v2.5.7.
+- Outline tombol diganti menjadi garis putus-putus berwarna kuning.
+- Garis bawah header ditambahkan dengan garis putus-putus kuning.
+- Gradasi tombol proses 120 derajat dan perbaikan ekspor BRD dari versi sebelumnya tetap dipertahankan.
+- Versi header aplikasi, footer, stylesheet, README, dan cache Service Worker diseragamkan ke v2.5.8.
 
 Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsung di folder utama.

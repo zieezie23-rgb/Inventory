@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#064a91"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.5.9">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.0">
   <title>Inventory</title>
 <style id="poExpiredStyles">#poExpiredApp{
   --paper:#EEF3FA; --surface:#fff; --ink:#1B2733; --muted:#5A6B7C; --line:#D3DBE5;
@@ -149,7 +149,7 @@
 
 </style></head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.5.9</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.0</span></header>
 <main>
   <section class="card process-card" id="processCard"><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button></div>
@@ -158,6 +158,7 @@
     <div class="process-item"><button id="rekapSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>BPB SUPPLIER</strong></span></button></div>
     <div class="process-item"><button id="poExpiredBtn" class="button action-button action-brd" type="button" onclick="window.openPoExpired && window.openPoExpired()"><span class="action-copy"><strong>PO EXPIRED</strong></span></button></div>
     <div class="process-item"><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>BRD</strong></span></button></div>
+    <div class="process-item"><button id="checkItemBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>CHECK ITEM</strong></span></button></div>
   </div></section>
   <div id="poExpiredDialog" aria-hidden="true"><div id="poExpiredApp" class="po-expired-embedded embed"><div class="po-modal-head"><div class="po-modal-title"><h2>PO EXPIRED</h2><p id="subtitle">PO EXPIRED DC BOGOR1</p></div><button type="button" class="button button-quiet" id="poExpiredClose">Tutup</button></div>
 <main>
@@ -221,7 +222,7 @@
 
 </div>
   <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">Daftar File Inventory</h2><div class="file-manage-heading-tools"><button id="pickDailyFolderLink" class="upload-choice upload-choice-folder" type="button">Pilih Folder</button><button id="pickFilesButton" class="upload-choice upload-choice-files" type="button">Pilih File</button></div></div><div id="fileManageList" class="file-manage-list"></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><span id="fileManageCount" class="file-manage-count"></span><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
-  <input id="filePicker" type="file" multiple="multiple" accept=".csv,.txt,.brd,.xlsx" hidden><input id="dailyFolderPicker" type="file" webkitdirectory directory multiple hidden>
+  <input id="filePicker" type="file" multiple="multiple" accept=".csv,.txt,.brd,.xlsx,.xls,.xlsm,.xlsb" hidden><input id="dailyFolderPicker" type="file" webkitdirectory directory multiple hidden>
   <dialog id="brdExportDialog" class="brd-dialog">
     <form method="dialog" id="brdExportForm">
       <h2>Pilih file BRD yang ingin diekspor</h2>
@@ -260,7 +261,20 @@
       <input id="selectAll" type="checkbox"><button id="processBtn" type="button"></button><div id="brdEngineStatus" class="status"></div>
     </div>
   </div>
-  <footer class="app-footer">Zie Project • Inventory v2.5.9 @2026</footer>
+  <dialog id="checkItemSsftDialog" class="brd-dialog check-item-dialog">
+    <div class="check-item-head"><h2>CHECK ITEM — LANGKAH 2</h2><button type="button" class="button button-quiet" id="checkItemSsftClose">Tutup</button></div>
+    <p id="checkItemStep1Notice" class="check-item-notice"></p>
+    <p id="checkItemPrdcdCount" class="check-item-muted"></p>
+    <label class="check-item-upload"><strong>UPLOAD SS-FT</strong><input id="checkItemSsftFile" type="file" accept=".xlsx,.xls,.xlsm,.xlsb,.csv,.txt"></label>
+    <p id="checkItemStep2Message" class="check-item-message" role="status" aria-live="polite"></p>
+    <div class="brd-dialog-actions"><button type="button" class="button button-quiet" id="checkItemSsftRun">PROSES</button></div>
+  </dialog>
+  <dialog id="checkItemResultDialog" class="brd-dialog check-item-result-dialog">
+    <div class="check-item-head"><h2>HASIL CHECK ITEM</h2><button type="button" class="button button-quiet" id="checkItemResultClose">Tutup</button></div>
+    <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
+    <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
+  </dialog>
+  <footer class="app-footer">Zie Project • Inventory v2.6.0 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

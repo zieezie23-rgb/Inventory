@@ -987,7 +987,7 @@ body{font-size:16px}
 }
 
 
-/* v2.5.9 — garis putus-putus kuning dengan segmen sedikit lebih panjang. */
+/* v2.6.0 — garis putus-putus kuning dengan segmen sedikit lebih panjang. */
 button,
 .button,
 input[type="button"],
@@ -1011,3 +1011,26 @@ input[type="reset"],
 .topbar {
   border-bottom: 2px dashed #ffd629 !important;
 }
+
+
+/* v2.6.0 — Check Item menyatu dengan dialog dan tema Inventory */
+.check-item-dialog{width:min(1100px,calc(100% - 24px));max-width:1100px;max-height:calc(100dvh - 28px);overflow:auto;padding:20px;background:linear-gradient(155deg,#123b68 0%,#082747 100%);color:#fff;border:1px solid #47749f;border-top:5px solid #ffd629;border-radius:10px;box-shadow:0 22px 70px #0009}
+.check-item-dialog::backdrop{background:rgba(1,10,25,.82);backdrop-filter:blur(5px)}
+.check-item-dialog h2,.check-item-dialog h3{color:#fff;margin:0 0 12px}
+.check-item-dialog p{color:#d2e4f7}
+.check-item-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.check-item-head h2{margin:0;font-size:19px}
+.check-item-notice{padding:11px 13px;border-left:4px solid #ffd629;background:#174873;border-radius:4px;font-weight:700;white-space:pre-wrap}
+.check-item-muted,.check-item-message{font-size:13px;white-space:pre-wrap}
+.check-item-upload{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:2px dashed #ffd629;background:#174873;color:#ffd629;border-radius:6px;font-weight:800}
+.check-item-upload input{max-width:65%;color:#fff}
+.check-item-dialog .button{color:#ffd629}
+.check-item-result-dialog{width:min(1200px,calc(100% - 18px))}
+.check-item-result-dialog .subpanel{margin:16px 0;padding:14px;background:#0d2c4c;border:1px solid #426b91;border-radius:6px;overflow:hidden}
+.check-item-result-dialog .panelhead,.check-item-result-dialog .controls{display:flex;gap:8px;flex-wrap:wrap}
+.check-item-result-dialog .tablewrap{max-height:55vh;overflow:auto}
+.check-item-result-dialog table{border-collapse:collapse;min-width:100%;font-size:12px;color:#fff}
+.check-item-result-dialog th,.check-item-result-dialog td{border:1px solid #56799a;padding:5px 7px;white-space:nowrap}
+.check-item-result-dialog th{position:sticky;top:0;background:#0a56a8;color:#fff;z-index:1}
+.check-item-result-dialog .kesimpulan{white-space:pre-wrap;color:#fff;background:#09213b;border:1px solid #56799a;border-radius:5px;padding:12px;overflow:auto}
+@media(max-width:600px){.check-item-dialog{padding:14px}.check-item-head h2{font-size:16px}.check-item-upload{align-items:flex-start;flex-direction:column}.check-item-upload input{max-width:100%;width:100%}.check-item-result-dialog .subpanel{padding:9px}.check-item-result-dialog .tablewrap{max-height:48vh}}

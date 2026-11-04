@@ -1172,7 +1172,6 @@ async function executeBrdExport(picked){
     updateBtn();
     return;
   }
-  if(typeof JSZip === 'undefined') throw new Error('Komponen ZIP belum tersedia. Muat ulang aplikasi lalu coba lagi.');
 
   const base = (detectedName || 'BRD').toUpperCase();
   processBtn.disabled = true;
@@ -1180,39 +1179,42 @@ async function executeBrdExport(picked){
   statusEl.textContent = '⏳ Menyiapkan ' + picked.length + ' file ekspor...';
 
   try{
-    const zip = new JSZip();
-    const done = [];
+    const outputs = [];
     const info = [];
-    const add = (content, name) => { zip.file(name, content); done.push(name); };
+    const add = (content, name, mime) => outputs.push({content, name, mime});
 
-    // MSTG.DBF dan MSTXH isinya sama, jadi cukup dihitung sekali.
+    // MSTG.DBF dan MSTXH berisi data yang sama; cukup dihitung sekali.
     const mstg = (picked.includes('mstg') || picked.includes('mstxh')) ? buildMstgBrd(rawText) : null;
 
-    if(picked.includes('brd')) add(buildBrdDbf(rawText).bytes, base + '.DBF');
-    if(picked.includes('csv')) add(rawText, base + '.CSV');
-    if(picked.includes('mstg')) add(mstg.bytes, 'MSTG.DBF');
-    if(picked.includes('mstxh')) add(mstg.bytes, getMstxhName(mstg.year, mstg.month));
+    if(picked.includes('brd')) add(buildBrdDbf(rawText).bytes, base + '.DBF', 'application/octet-stream');
+    if(picked.includes('csv')) add(rawText, base + '.CSV', 'text/csv;charset=utf-8');
+    if(picked.includes('mstg')) add(mstg.bytes, 'MSTG.DBF', 'application/octet-stream');
+    if(picked.includes('mstxh')) add(mstg.bytes, getMstxhName(mstg.year, mstg.month), 'application/octet-stream');
     if(mstg) info.push(mstg.selected + ' baris MSTG');
 
-    const typeResults = {};
     for(const k of ['bpb','npb']){
       if(!picked.includes(k)) continue;
-      typeResults[k] = buildTypeCsv(rawText, k.toUpperCase());
-      add(typeResults[k].text, k === 'npb' ? 'Detail NPB.csv' : 'BPB.csv');
-      info.push(k.toUpperCase() + ': ' + typeResults[k].selected + ' baris');
+      const result = buildTypeCsv(rawText, k.toUpperCase());
+      add(result.text, k === 'npb' ? 'Detail NPB.csv' : 'BPB.csv', 'text/csv;charset=utf-8');
+      info.push(k.toUpperCase() + ': ' + result.selected + ' baris');
     }
     if(picked.includes('alokasi')){
       const alokasi = buildAlokasiCsv(rawText);
-      add(alokasi.text, 'NPB.csv');
+      add(alokasi.text, 'NPB.csv', 'text/csv;charset=utf-8');
       info.push(alokasi.selected + ' baris alokasi');
     }
 
-    if(!done.length) throw new Error('Tidak ada file yang berhasil disiapkan.');
-    statusEl.textContent = '⏳ Membuat satu paket unduhan...';
-    const blob = await zip.generateAsync({type:'blob', compression:'DEFLATE', compressionOptions:{level:6}});
-    downloadBlob(blob, base + '_EXPORT.zip', 'application/zip');
+    if(!outputs.length) throw new Error('Tidak ada file yang berhasil disiapkan.');
+    statusEl.textContent = '⏳ Mengunduh ' + outputs.length + ' file satu per satu...';
+    // Unduh setiap hasil dengan nama dan ekstensi aslinya, bukan membungkusnya ke ZIP.
+    // Jeda antar-unduhan membantu browser mobile memproses setiap tautan unduhan.
+    for(let i=0; i<outputs.length; i++){
+      const file = outputs[i];
+      downloadBlob(file.content, file.name, file.mime);
+      if(i < outputs.length - 1) await new Promise(resolve => setTimeout(resolve, 700));
+    }
     statusEl.className = 'status ok';
-    statusEl.textContent = '✓ Berhasil! Paket ' + base + '_EXPORT.zip berisi ' + done.length + ' file: ' + done.join(', ') + (info.length ? ' (' + info.join(', ') + ')' : '') + '.';
+    statusEl.textContent = '✓ Berhasil menyiapkan ' + outputs.length + ' file terpisah: ' + outputs.map(x => x.name).join(', ') + (info.length ? ' (' + info.join(', ') + ')' : '') + '.';
   }catch(err){
     statusEl.className = 'status err';
     statusEl.textContent = '✗ Gagal membuat file: ' + (err && err.message ? err.message : String(err));
@@ -1236,7 +1238,7 @@ function downloadBlob(content, filename, mime){
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 

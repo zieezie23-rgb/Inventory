@@ -934,8 +934,8 @@ body{font-size:16px}
   #processCard .action-grid{gap:13px!important}
 }
 
-/* v2.5.2 — satu gradasi menyatu, arah kiri-atas ke kanan-bawah (\).
-   Sudut CSS 135deg mengarahkan gradasi dari kiri-atas menuju kanan-bawah.
+/* v2.5.3 — satu gradasi menyatu dengan sudut 120 derajat.
+   Komposisi: merah 15%, biru 70%, kuning 15%, dengan transisi lembut.
    Komposisi: merah 15%, biru 70%, kuning 15%, dengan transisi lembut. */
 #processCard .action-grid button.action-button,
 #processCard button#masterBtn,
@@ -945,7 +945,7 @@ body{font-size:16px}
 #processCard button#poExpiredBtn,
 #processCard button#brdBtn {
   background-color: #0875c9 !important;
-  background-image: linear-gradient(135deg,
+  background-image: linear-gradient(120deg,
     #d71925 0%,
     #d71925 10%,
     #0875c9 20%,
@@ -968,4 +968,20 @@ body{font-size:16px}
 #processCard button#brdBtn::before, #processCard button#brdBtn::after {
   content: none !important;
   display: none !important;
+}
+
+
+/* v2.5.3 — bentuk UI lebih tegas dengan sudut yang lebih kecil. */
+*, *::before, *::after {
+  border-radius: 6px !important;
+}
+#processCard .action-grid button.action-button,
+#processCard button#masterBtn,
+#processCard button#stockOutBtn,
+#processCard button#slSupplierBtn,
+#processCard button#rekapSupplierBtn,
+#processCard button#poExpiredBtn,
+#processCard button#brdBtn {
+  border: 1.5px solid rgba(255,255,255,.72) !important;
+  box-shadow: 0 3px 0 rgba(0,0,0,.28) !important;
 }

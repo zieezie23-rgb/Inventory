@@ -1056,7 +1056,7 @@ body{font-size:16px}
 .action-button .action-copy,.action-button .action-icon{position:relative;z-index:1}
 .action-button .action-copy strong{color:#ffd629!important;font-weight:900!important}
 
-/* v2.4.2: sudut aksen dibuat lebih tebal; merah kiri-atas dan kuning kanan-bawah. */
+/* v2.4.3: kemiringan diagonal aksen sudut 30 derajat. */
 #processCard .action-button{
   position:relative!important;
   overflow:hidden!important;
@@ -1067,7 +1067,7 @@ body{font-size:16px}
   display:block!important;
   position:absolute!important;
   top:0!important;left:0!important;right:auto!important;bottom:auto!important;
-  width:36px!important;height:36px!important;
+  width:36px!important;height:21px!important;
   z-index:2!important;
   background:linear-gradient(135deg,#ff6268 0%,#d71925 100%)!important;
   clip-path:polygon(0 0,100% 0,0 100%)!important;
@@ -1079,7 +1079,7 @@ body{font-size:16px}
   display:block!important;
   position:absolute!important;
   top:auto!important;left:auto!important;right:0!important;bottom:0!important;
-  width:36px!important;height:36px!important;
+  width:36px!important;height:21px!important;
   z-index:2!important;
   background:linear-gradient(315deg,#ffe96a 0%,#f2bd00 100%)!important;
   clip-path:polygon(100% 0,100% 100%,0 100%)!important;
@@ -1092,5 +1092,15 @@ body{font-size:16px}
 }
 @media(max-width:650px){
   #processCard .action-button::before,
-  #processCard .action-button::after{width:32px!important;height:32px!important}
+  #processCard .action-button::after{width:32px!important;height:18px!important}
+}
+
+/* v2.4.4: gradasi utama tombol merah-biru-kuning. */
+#processCard .action-button{
+  background:linear-gradient(110deg,#d71925 0%,#b51f4b 18%,#0875c9 52%,#07549b 72%,#f2bd00 100%)!important;
+  background-size:100% 100%!important;
+}
+#processCard .action-button .action-copy strong{
+  color:#fff!important;
+  text-shadow:0 1px 3px rgba(0,25,65,.65)!important;
 }

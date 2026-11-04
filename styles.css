@@ -1132,3 +1132,32 @@ body{font-size:16px}
   color:#fff!important;font-weight:900!important;
   text-shadow:0 1px 3px rgba(0,0,0,.65)!important;
 }
+
+/* v2.4.6: tombol proses tanpa aksen sudut; gradasi diagonal 30 derajat.
+   Komposisi warna: merah 15%, biru 70%, kuning 15%. */
+#processCard button.action-button,
+#processCard button.action-button.action-master,
+#processCard button.action-button.action-stockout,
+#processCard button.action-button.action-brd{
+  background: linear-gradient(30deg,
+    #d71925 0%,
+    #d71925 15%,
+    #0875c9 15%,
+    #0875c9 85%,
+    #f2bd00 85%,
+    #f2bd00 100%
+  ) !important;
+  background-image: linear-gradient(30deg,
+    #d71925 0%,
+    #d71925 15%,
+    #0875c9 15%,
+    #0875c9 85%,
+    #f2bd00 85%,
+    #f2bd00 100%
+  ) !important;
+}
+#processCard button.action-button::before,
+#processCard button.action-button::after{
+  display:none !important;
+  content:none !important;
+}

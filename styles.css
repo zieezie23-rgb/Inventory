@@ -1200,7 +1200,7 @@ body{font-size:16px}
 #processCard button#rekapSupplierBtn,
 #processCard button#poExpiredBtn,
 #processCard button#brdBtn {
-  background: linear-gradient(30deg,
+  background: linear-gradient(60deg,
     #d71925 0%,
     #d71925 10%,
     #0875c9 20%,

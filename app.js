@@ -408,7 +408,7 @@ const resetBtn = document.getElementById('resetBtn');
 const configCard = document.getElementById('configCard');
 const previewNames = document.querySelectorAll('.previewName');
 const processBtn = document.getElementById('processBtn');
-const statusEl = document.getElementById('status');
+const statusEl = document.getElementById('brdEngineStatus');
 
 dropzone.addEventListener('click', () => fileInput.click());
 dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
@@ -1172,49 +1172,51 @@ async function executeBrdExport(picked){
     updateBtn();
     return;
   }
+  if(typeof JSZip === 'undefined') throw new Error('Komponen ZIP belum tersedia. Muat ulang aplikasi lalu coba lagi.');
 
   const base = (detectedName || 'BRD').toUpperCase();
   processBtn.disabled = true;
   statusEl.className = 'status';
-  statusEl.textContent = '⏳ Memproses ' + picked.length + ' file terpilih...';
+  statusEl.textContent = '⏳ Menyiapkan ' + picked.length + ' file ekspor...';
 
   try{
+    const zip = new JSZip();
     const done = [];
     const info = [];
-    const send = async (content, name, mime) => {
-      await new Promise(res => setTimeout(res, 300));
-      downloadBlob(content, name, mime);
-      done.push(name);
-    };
+    const add = (content, name) => { zip.file(name, content); done.push(name); };
 
-    // MSTG.DBF dan MSTXH isinya sama, jadi cukup dihitung sekali
+    // MSTG.DBF dan MSTXH isinya sama, jadi cukup dihitung sekali.
     const mstg = (picked.includes('mstg') || picked.includes('mstxh')) ? buildMstgBrd(rawText) : null;
 
-    if(picked.includes('brd'))  await send(buildBrdDbf(rawText).bytes, base + '.DBF', 'application/octet-stream');
-    if(picked.includes('csv'))  await send(rawText, base + '.CSV', 'text/csv');
-    if(picked.includes('mstg')) await send(mstg.bytes, 'MSTG.DBF', 'application/octet-stream');
-    if(picked.includes('mstxh')){
-      // MSTDCI/MSTDPO[yy].[bulan] — isinya sama dengan MSTG.DBF (format DBF)
-      await send(mstg.bytes, getMstxhName(mstg.year, mstg.month), 'application/octet-stream');
-    }
-    if(mstg) info.push(mstg.selected + ' baris mstg');
-    ['bpb','npb'].forEach(k => { if(picked.includes(k)) info.push(k.toUpperCase() + ': ' + buildTypeCsv(rawText, k.toUpperCase()).selected + ' baris'); });
+    if(picked.includes('brd')) add(buildBrdDbf(rawText).bytes, base + '.DBF');
+    if(picked.includes('csv')) add(rawText, base + '.CSV');
+    if(picked.includes('mstg')) add(mstg.bytes, 'MSTG.DBF');
+    if(picked.includes('mstxh')) add(mstg.bytes, getMstxhName(mstg.year, mstg.month));
+    if(mstg) info.push(mstg.selected + ' baris MSTG');
+
+    const typeResults = {};
     for(const k of ['bpb','npb']){
       if(!picked.includes(k)) continue;
-      const r = buildTypeCsv(rawText, k.toUpperCase());
-      await send(r.text, k === 'npb' ? 'Detail NPB.csv' : 'BPB.csv', 'text/csv');
+      typeResults[k] = buildTypeCsv(rawText, k.toUpperCase());
+      add(typeResults[k].text, k === 'npb' ? 'Detail NPB.csv' : 'BPB.csv');
+      info.push(k.toUpperCase() + ': ' + typeResults[k].selected + ' baris');
     }
     if(picked.includes('alokasi')){
       const alokasi = buildAlokasiCsv(rawText);
-      await send(alokasi.text, 'NPB.csv', 'text/csv');
+      add(alokasi.text, 'NPB.csv');
       info.push(alokasi.selected + ' baris alokasi');
     }
 
+    if(!done.length) throw new Error('Tidak ada file yang berhasil disiapkan.');
+    statusEl.textContent = '⏳ Membuat satu paket unduhan...';
+    const blob = await zip.generateAsync({type:'blob', compression:'DEFLATE', compressionOptions:{level:6}});
+    downloadBlob(blob, base + '_EXPORT.zip', 'application/zip');
     statusEl.className = 'status ok';
-    statusEl.textContent = '✓ Berhasil! ' + done.join(', ') + ' sudah diunduh' + (info.length ? ' (' + info.join(', ') + ')' : '') + '.';
+    statusEl.textContent = '✓ Berhasil! Paket ' + base + '_EXPORT.zip berisi ' + done.length + ' file: ' + done.join(', ') + (info.length ? ' (' + info.join(', ') + ')' : '') + '.';
   }catch(err){
     statusEl.className = 'status err';
-    statusEl.textContent = '✗ Gagal membuat file: ' + err.message;
+    statusEl.textContent = '✗ Gagal membuat file: ' + (err && err.message ? err.message : String(err));
+    throw err;
   }finally{
     updateBtn();
   }

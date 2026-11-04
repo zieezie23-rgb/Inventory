@@ -1190,3 +1190,36 @@ body{font-size:16px}
 #processCard button#brdBtn::before, #processCard button#brdBtn::after {
   display: none !important; content: none !important;
 }
+
+
+/* v2.4.8 — gradasi warna menyatu, bukan blok/aksen. Arah diagonal 30° dari horizontal. */
+#processCard .action-grid button.action-button,
+#processCard button#masterBtn,
+#processCard button#stockOutBtn,
+#processCard button#slSupplierBtn,
+#processCard button#rekapSupplierBtn,
+#processCard button#poExpiredBtn,
+#processCard button#brdBtn {
+  background: linear-gradient(30deg,
+    #d71925 0%,
+    #d71925 10%,
+    #0875c9 20%,
+    #0875c9 80%,
+    #f2bd00 90%,
+    #f2bd00 100%
+  ) !important;
+  background-color: #0875c9 !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+#processCard .action-grid button.action-button::before,
+#processCard .action-grid button.action-button::after,
+#processCard button#masterBtn::before, #processCard button#masterBtn::after,
+#processCard button#stockOutBtn::before, #processCard button#stockOutBtn::after,
+#processCard button#slSupplierBtn::before, #processCard button#slSupplierBtn::after,
+#processCard button#rekapSupplierBtn::before, #processCard button#rekapSupplierBtn::after,
+#processCard button#poExpiredBtn::before, #processCard button#poExpiredBtn::after,
+#processCard button#brdBtn::before, #processCard button#brdBtn::after {
+  display: none !important;
+  content: none !important;
+}

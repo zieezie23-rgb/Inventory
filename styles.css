@@ -934,8 +934,8 @@ body{font-size:16px}
   #processCard .action-grid{gap:13px!important}
 }
 
-/* v2.5.1 — satu gradasi menyatu, arah kiri-bawah ke kanan-atas (/), 30° dari horizontal.
-   Sudut CSS 60deg menghasilkan arah visual 30° di atas garis horizontal.
+/* v2.5.2 — satu gradasi menyatu, arah kiri-atas ke kanan-bawah (\).
+   Sudut CSS 135deg mengarahkan gradasi dari kiri-atas menuju kanan-bawah.
    Komposisi: merah 15%, biru 70%, kuning 15%, dengan transisi lembut. */
 #processCard .action-grid button.action-button,
 #processCard button#masterBtn,
@@ -945,7 +945,7 @@ body{font-size:16px}
 #processCard button#poExpiredBtn,
 #processCard button#brdBtn {
   background-color: #0875c9 !important;
-  background-image: linear-gradient(60deg,
+  background-image: linear-gradient(135deg,
     #d71925 0%,
     #d71925 10%,
     #0875c9 20%,

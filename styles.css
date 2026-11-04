@@ -987,14 +987,14 @@ body{font-size:16px}
 }
 
 
-/* v2.5.8 — outline tombol putus-putus kuning dan garis bawah header. */
+/* v2.5.9 — garis putus-putus kuning dengan segmen sedikit lebih panjang. */
 button,
 .button,
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
 .upload-choice {
-  border: 1.5px dashed #ffd629 !important;
+  border: 2px dashed #ffd629 !important;
 }
 
 /* Tombol proses tetap mempertahankan gradasi 120 derajat. */
@@ -1005,7 +1005,7 @@ input[type="reset"],
 #processCard button#rekapSupplierBtn,
 #processCard button#poExpiredBtn,
 #processCard button#brdBtn {
-  border: 1.5px dashed #ffd629 !important;
+  border: 2px dashed #ffd629 !important;
 }
 
 .topbar {

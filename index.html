@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#064a91"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.3">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.5">
   <title>Inventory</title>
 <style id="poExpiredStyles">#poExpiredApp{
   --paper:#EEF3FA; --surface:#fff; --ink:#1B2733; --muted:#5A6B7C; --line:#D3DBE5;
@@ -149,7 +149,7 @@
 
 </style></head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.3</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.5</span></header>
 <main>
   <section class="card process-card" id="processCard"><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button></div>
@@ -274,7 +274,7 @@
     <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
     <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.6.3 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.6.5 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

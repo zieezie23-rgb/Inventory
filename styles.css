@@ -1119,3 +1119,101 @@ footer,.app-footer{background:rgba(5,13,8,.96)!important;color:#8dbb95!important
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #a4ff68!important;outline-offset:3px!important}
 ::selection{background:#7dff45!important;color:#07130b!important}
 @media(prefers-reduced-motion:no-preference){.action-button,.button,.upload-choice{transition:transform .16s ease,box-shadow .16s ease,background .16s ease!important}}
+
+
+/* v2.6.4 — penyelarasan menyeluruh tema Cyberpunk Neon Green */
+:root{
+  --cyber-bg:#050b08;--cyber-panel:#0b1910;--cyber-panel-2:#10251a;
+  --cyber-green:#75ff55;--cyber-green-soft:#baff9b;--cyber-text:#e5ffeb;
+  --cyber-muted:#9ab8a1;--cyber-border:#397a49;--cyber-amber:#ffc45c;--cyber-red:#ff6685;
+}
+/* Versi di header berupa teks polos, tanpa badge/pill/shape. */
+.topbar .version{
+  display:inline!important;padding:0!important;margin-left:12px!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:#aaff91!important;font-size:12px!important;
+  font-weight:700!important;letter-spacing:.04em!important;white-space:nowrap!important;
+  text-shadow:0 0 9px rgba(117,255,85,.45)!important;
+}
+/* Netralisasi sisa warna tema lama pada semua tombol, termasuk tombol di modal. */
+button, .button, .button-primary, .button-secondary, .button-quiet,
+input[type="button"],input[type="submit"],input[type="reset"],.upload-choice,
+.action-button,.file-manager-launch,.modal button,.dialog button,
+dialog button,.brd-dialog button,.preflight-dialog button,
+.file-manage-dialog button,.check-item-dialog button,.check-item-result-dialog button{
+  color:var(--cyber-green-soft)!important;
+  background:linear-gradient(135deg,#173d24 0%,#0b1b11 100%)!important;
+  border:1px solid var(--cyber-green)!important;
+  border-bottom:2px solid var(--cyber-green)!important;
+  box-shadow:0 0 9px rgba(117,255,85,.13),inset 0 1px rgba(255,255,255,.045)!important;
+  text-shadow:0 0 7px rgba(117,255,85,.18)!important;
+}
+button:hover,.button:hover,.button-primary:hover,.button-secondary:hover,
+.button-quiet:hover,.upload-choice:hover,.action-button:hover,
+.file-manager-launch:hover,dialog button:hover{
+  color:#eaffdf!important;background:linear-gradient(135deg,#245b31 0%,#102b19 100%)!important;
+  border-color:#b0ff79!important;box-shadow:0 0 16px rgba(117,255,85,.28)!important;
+}
+button:disabled,.button:disabled,input:disabled{
+  color:#68836d!important;background:#101a13!important;border-color:#34523a!important;
+  box-shadow:none!important;opacity:.65!important;
+}
+/* Hapus aksen merah-kuning dan gradasi biru lama pada tombol proses. */
+#processCard .action-grid button.action-button,#processCard button#masterBtn,
+#processCard button#stockOutBtn,#processCard button#slSupplierBtn,
+#processCard button#rekapSupplierBtn,#processCard button#poExpiredBtn,
+#processCard button#brdBtn,#processCard button#checkItemBtn{
+  color:#d4ffc7!important;background:linear-gradient(135deg,#194729 0%,#0b1b11 100%)!important;
+  border:1px solid #83ff5c!important;border-bottom:2px solid #83ff5c!important;
+  box-shadow:0 0 0 1px rgba(120,255,87,.1),0 0 15px rgba(75,255,88,.16)!important;
+}
+#processCard .action-copy,#processCard .action-copy strong,
+#processCard .action-icon{color:#caffb7!important}
+/* Warna teks seluruh bagian dan komponen turunan. */
+body,main,section,article,aside,header,footer,label,legend,
+.card,.hero,.process-card,.upload-card,.subpanel,
+.file-manage-dialog,.brd-dialog,.preflight-dialog,
+.check-item-dialog,.check-item-result-dialog{
+  color:var(--cyber-text)!important;
+}
+h1,h2,h3,h4,h5,h6,.section-heading,.section-heading h2,
+.subheading h3,.file-manage-heading h2,.modal-title{
+  color:var(--cyber-green-soft)!important;text-shadow:0 0 8px rgba(117,255,85,.18)!important;
+}
+p,small,.muted,.footnote,.status,.field,.checkline,
+.file-meta,.file-size,.file-count,.dropzone small{color:var(--cyber-muted)!important}
+a,.link,.text-link{color:#9dff79!important}
+/* Tabel, daftar, popup, dan panel lama. */
+table{color:var(--cyber-text)!important;background:#09170e!important}
+thead,th{background:#173d24!important;color:#caffb7!important}
+td{color:#e1f9e4!important;background:rgba(8,22,13,.88)!important}
+th,td{border-color:#356b40!important}
+.file-row,.map-item,.metric,.upload-group,.warehouse-upload,
+.empty-state,.file-manage-list,.subpanel,.brd-option,.missing-option{
+  background:rgba(9,26,15,.94)!important;border-color:#356b40!important;color:var(--cyber-text)!important;
+}
+/* Badge versi satu-satunya elemen yang tidak diberi bentuk; label/status tetap konsisten. */
+.success,.status.ok,.mapped,.file-status.available{color:#8dff9b!important}
+.status.error,.error,.file-status.missing{color:var(--cyber-red)!important}
+.warning,.status.warning{color:var(--cyber-amber)!important}
+.notice,.notice.subtle,.success{background:#10291a!important;border-color:#397a49!important;color:#caffc7!important}
+.topbar{border-bottom:2px dashed #75ff55!important}
+
+/* v2.6.5 — tidak menggunakan teks putih; seluruh tipografi mengikuti palet neon hijau */
+:root{--cyber-text:#c8f7c4;--cyber-green-soft:#baff9b;--cyber-muted:#8fbd98}
+body,body *{color:#baff9b!important}
+body .topbar,body .topbar *{color:#aaff70!important}
+body p,body small,body .muted,body .footnote,body .status,body .field,
+body .checkline,body .file-size,body .file-count,body .dropzone small,
+body footer,body .app-footer{color:#8fbd98!important}
+body h1,body h2,body h3,body h4,body h5,body h6,
+body .section-heading,body .section-heading h2,body .subheading h3,
+body .file-manage-heading h2,body .modal-title{color:#aaff70!important}
+body th,body thead th{color:#caffad!important}
+body td,body table,body .file-name,body .file-manage-list .file-name{color:#c8f7c4!important}
+body button,body .button,body input,body select,body textarea,
+body .action-button,body .brd-option,body .missing-option{color:#baff9b!important}
+body input::placeholder,body textarea::placeholder{color:#789e80!important}
+body .status.error,body .error,body .file-status.missing{color:#ff7792!important}
+body .status.ok,body .success,body .mapped,body .file-status.available{color:#8dff9b!important}
+body .warning,body .status.warning{color:#ffc45c!important}

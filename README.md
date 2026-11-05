@@ -1,3 +1,20 @@
+# Inventory v2.8.7
+
+## v2.8.7 — Indikator progress PO EXPIRED
+- Progress PO EXPIRED ditampilkan pada halaman utama saat menyiapkan sumber data dan saat tombol proses di popup dijalankan.
+- Tombol proses di popup dinonaktifkan sementara agar proses tidak dijalankan berulang.
+- Logika perhitungan PO EXPIRED tidak diubah; hanya status/progress dan pengaturan alur UI yang ditambahkan.
+
+## v2.8.6 — Penyederhanaan Raw Material dan progress proses/upload
+- Menghapus panel sumber, status, dan tombol proses yang ditandai pada popup Raw Material; popup kini fokus menampilkan hasil tabel.
+- Tombol RAW MATERIAL di halaman utama langsung memulai proses. Jika sumber belum lengkap, aplikasi menampilkan sumber yang kurang pada status utama dan membuka Daftar File.
+- Progress proses Raw Material ditampilkan di halaman utama, dengan tahapan dan persentase selama perhitungan berjalan.
+- Progress upload file ditampilkan pada halaman utama dan popup Daftar File, termasuk nama file yang sedang dibaca dan persentase total.
+- Daftar file kategori Bahan menggunakan dua kolom, termasuk pada layar ponsel.
+- Perhitungan inti Raw Material dipertahankan; proses rekap/detail dijalankan bertahap agar progress dapat diperbarui tanpa membekukan tampilan.
+- Tombol + Pilih Folder dan + Pilih File tetap berupa teks bergaris bawah.
+- Cache Service Worker dan referensi aset diperbarui ke v2.8.6.
+
 # Inventory v2.8.5
 
 ## v2.8.5 — Perbaikan POMGG.CSV dan tombol file

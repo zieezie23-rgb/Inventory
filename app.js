@@ -91,14 +91,19 @@ function parseLrbpbSupplier(content){
   .filter(o=>/^\d{8}$/.test(text(value(o,'PLU')).trim()));
 }
 function detectRole(file,content){const rows=parseCSV(content);const header=(rows[0]||[]).map(norm);const all=header.join('|');/* POM exports can be named POMGG.CSV without the warehouse code in the filename. Identify them from their actual transaction columns first, then map the warehouse from GUDANG values. */if(['RECID','GUDANG','PRDCD','PO_DATE','BPB_DATE','BPB_QTY','NOPB'].every(h=>header.includes(h))){const whs=new Set(rows.slice(1,100).map(r=>String(r[header.indexOf('GUDANG')]||'').trim().toUpperCase()).filter(Boolean));if(whs.has('G294'))return 'pom294';if(whs.has('G295'))return 'pom295';return 'pom113'}const byName=roleGuess(file);if(byName)return byName;if(header.includes('TBL_DC_KODE')||header.some(h=>h.includes('DC_KODE')))return 'brd';if(header.includes('PLU')&&header.includes('STOCK_OUT'))return 'stockout';if(header.includes('TGL_AKHIR')||all.includes('HISTORYTAG'))return 'history';if(['PRDCD','DESC2','DIV','CAT_COD'].every(x=>header.includes(x)))return 'prod';if(header.includes('SUPCO')&&header.includes('SNAMA'))return 'supmast';if(header.includes('GUDANG')&&header.includes('PRDCD')){const vals=rows.slice(1,30).flat().map(x=>String(x).toUpperCase());if(vals.some(x=>x.includes('G294')))return 'stm294';if(vals.some(x=>x.includes('G295')))return 'stm295';if(vals.some(x=>x.includes('G113')))return 'stm113'}if(header.includes('PRDCD')&&header.includes('ACOST'))return 'hrgbeli';if(header.includes('PRDCD')&&header.includes('PTAG'))return 'prod';if(header.includes('PRDCD')&&header.includes('NOREC'))return 'par113';return ''}
-async function readInventoryTextFile(file){
- const buffer=await file.arrayBuffer();
+function readFileWithProgress(file,onProgress){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onprogress=e=>{if(e.lengthComputable&&onProgress)onProgress(e.loaded,e.total)};reader.onerror=()=>reject(reader.error||new Error('Gagal membaca file'));reader.onload=()=>resolve(reader.result);reader.readAsArrayBuffer(file)})}
+async function readInventoryTextFile(file,onProgress){
+ const buffer=await readFileWithProgress(file,onProgress);
  try{return new TextDecoder('utf-8',{fatal:true}).decode(buffer)}
  catch(e){return new TextDecoder('windows-1252').decode(buffer)}
 }
+function updateHomeProgress(label,percent,show=true){[['homeProgress','homeProgressLabel','homeProgressValue','homeProgressBar'],['fileUploadProgress','fileUploadProgressLabel','fileUploadProgressValue','fileUploadProgressBar']].forEach(ids=>{const box=$(ids[0]);if(!box)return;box.hidden=!show;if(!show)return;$(ids[1]).textContent=label;$(ids[2]).textContent=Math.max(0,Math.min(100,Math.round(percent)))+'%';$(ids[3]).style.width=Math.max(0,Math.min(100,percent))+'%'})}
 async function addFiles(list){
- for(const file of list){
-  const detected=roleGuess(file);
+ const incoming=Array.from(list);if(!incoming.length)return;
+ const totalBytes=incoming.reduce((n,f)=>n+(f.size||0),0)||incoming.length;let completedBytes=0,added=0,failed=[];
+ setStatus(`Menyiapkan ${incoming.length} file…`,false,true);updateHomeProgress('Mengunggah dan membaca file',0,true);
+ for(let index=0;index<incoming.length;index++){
+  const file=incoming[index],detected=roleGuess(file);
   const isPomCsv=/POM/i.test(file.name)&&/\.csv$/i.test(file.name);
   const isSeasonalBook=/\.xlsx$/i.test(file.name)&&detected==='seas';
   const isUpdateBook=/\.xlsx$/i.test(file.name)&&['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(detected);
@@ -106,31 +111,33 @@ async function addFiles(list){
   const isSpreadsheet=/\.(xlsx|xls|xlsm|xlsb)$/i.test(file.name);
   const isBook=isSeasonalBook||isUpdateBook||isCheckItemBook||isSpreadsheet;
   const isBrd=/\.brd$/i.test(file.name)||detected==='brd';
-  if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){setStatus(`File ${file.name} dilewati. Format file belum didukung.`,true);continue}
+  const base=totalBytes?completedBytes/totalBytes*100:index/incoming.length*100;
+  const weight=totalBytes?(file.size||0)/totalBytes*100:100/incoming.length;
+  const onRead=(loaded,total)=>{const part=total?loaded/total:0;updateHomeProgress(`Membaca ${index+1}/${incoming.length}: ${file.name}`,base+weight*part,true)};
+  if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){failed.push(file.name+' (format tidak didukung)');completedBytes+=file.size||0;continue}
   const id=Date.now()+Math.floor(Math.random()*100000);
   try{
-   const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await readInventoryTextFile(file),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};
+   const bytes=await readFileWithProgress(file,onRead);
+   let content='';if(!isBook&&!isBrd){try{content=new TextDecoder('utf-8',{fatal:true}).decode(bytes)}catch(e){content=new TextDecoder('windows-1252').decode(bytes)}}
+   const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content,bytes:isBook?bytes:null,guess:isBook?detected:(isBrd?'brd':'')};
    if(!isBook&&!isBrd)obj.guess=isPomCsv?detected:detectRole(obj,obj.content);
    // Deteksi sumber Raw Material berdasarkan struktur kolom, bukan nama file.
    if(!isBrd&&!isPomCsv&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
-    try{
-     if(!window.XLSX&&typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();
-     const rawInfo=isBook?await window.InventoryRawMaterial.detectBuffer(obj.bytes,file.name):window.InventoryRawMaterial.detectText(obj.content,file.name);
-     if(rawInfo&&rawInfo.role){obj.rawRole=rawInfo.role;obj.rawRows=rawInfo.rows;
-      const roleMap={lpp:'lppplano',plu:'rawplu',display:'rawdisplay',storage:'rawstorage'};
-      if(roleMap[rawInfo.role]&&(!obj.guess||rawInfo.role!=='lpp'||obj.guess===''))obj.guess=roleMap[rawInfo.role];
-     }
-    }catch(rawErr){console.warn('Deteksi Raw Material dilewati untuk '+file.name,rawErr)}
+    try{if(!window.XLSX&&typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();const rawInfo=isBook?await window.InventoryRawMaterial.detectBuffer(obj.bytes,file.name):window.InventoryRawMaterial.detectText(obj.content,file.name);if(rawInfo&&rawInfo.role){obj.rawRole=rawInfo.role;obj.rawRows=rawInfo.rows;const roleMap={lpp:'lppplano',plu:'rawplu',display:'rawdisplay',storage:'rawstorage'};if(roleMap[rawInfo.role]&&(!obj.guess||rawInfo.role!=='lpp'||obj.guess===''))obj.guess=roleMap[rawInfo.role]}}catch(rawErr){console.warn('Deteksi Raw Material dilewati untuk '+file.name,rawErr)}
    }
    if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);
-   files.push(obj);parsed.set(id,null);
-  }catch(e){setStatus(`Tidak bisa membaca ${file.name}`,true)}
+   files.push(obj);parsed.set(id,null);added++;
+  }catch(e){failed.push(file.name+' (gagal dibaca)');console.error('Gagal membaca '+file.name,e)}
+  completedBytes+=file.size||0;updateHomeProgress(`Selesai membaca ${index+1}/${incoming.length} file`,totalBytes?(completedBytes/totalBytes*100):((index+1)/incoming.length*100),true);
  }
  UPLOAD_GROUP_KEYS.forEach(group=>collapsedUploadGroups.add(group));renderFiles();
  if(window.InventoryRawMaterial&&window.InventoryRawMaterial.refresh)window.InventoryRawMaterial.refresh();
+ updateHomeProgress(failed.length?`${added} file selesai, ${failed.length} gagal`:`${added} file berhasil ditambahkan`,100,true);
+ setStatus(failed.length?`Upload selesai. ${added} berhasil; ${failed.join(', ')}.`:`Upload selesai. ${added} file berhasil ditambahkan.`,failed.length>0);
+ setTimeout(()=>updateHomeProgress('',0,false),4500);
 }
 function setStatus(s,error=false,processing=false){const e=$('status');e.textContent=s;e.className='status'+(error?' error':' ok')+(processing?' processing':'')}
-const PROCESS_BUTTONS=['masterBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn'];
+const PROCESS_BUTTONS=['poExpiredBtn','masterBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn'];
 function beginProcess(id){if(PROCESS_BUTTONS.some(x=>$(x).disabled))return false;PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=true;b.classList.toggle('is-running',x===id);});return true}
 function endProcess(){PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=false;b.classList.remove('is-running')})}
 function setExportStatus(s,error=false,processing=false){const e=$('exportStatus');e.textContent=s;e.className='status export-status'+(error?' error':' ok')+(processing?' processing':'')}
@@ -406,12 +413,24 @@ function buildPoExpiredPayload(){
  const seasonalFile=files.find(f=>f.guess==='seas'&&f.bytes);
  return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows,seasonalBytes:seasonalFile?seasonalFile.bytes:null,seasonalName:seasonalFile?seasonalFile.name:''};
 }
-function openPoExpired(){
+async function openPoExpired(){
+ if(!beginProcess('poExpiredBtn'))return;
+ updateHomeProgress('Menyiapkan data PO EXPIRED…',5,true);
  const panel=$('poExpiredApp');panel.classList.add('po-open');$('poExpiredDialog').setAttribute('aria-hidden','false');
- try { const payload=buildPoExpiredPayload(); window.dispatchEvent(new CustomEvent('inventory-po-payload',{detail:payload})); }
- catch(e){setStatus('PO Expired: '+(e.message||e),true)}
+ try {
+  await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,35)));
+  updateHomeProgress('Membaca Master Stock dan sumber PO…',20,true);
+  await new Promise(r=>setTimeout(r,35));
+  const payload=buildPoExpiredPayload();
+  updateHomeProgress('Mengirim data ke pemeriksaan PO EXPIRED…',85,true);
+  window.dispatchEvent(new CustomEvent('inventory-po-payload',{detail:payload}));
+  updateHomeProgress('Data PO EXPIRED siap diproses',100,true);
+  setTimeout(()=>updateHomeProgress('',0,false),1800);
+ } catch(e){setStatus('PO Expired: '+(e.message||e),true);updateHomeProgress('PO EXPIRED gagal disiapkan',100,true);setTimeout(()=>updateHomeProgress('',0,false),3500)}
+ finally{endProcess()}
 }
 window.openPoExpired=openPoExpired;
+window.addEventListener('inventory-po-progress',e=>{const d=e.detail||{};updateHomeProgress(d.label||'Memproses PO EXPIRED…',d.percent||0,d.show!==false);if(d.done)setTimeout(()=>updateHomeProgress('',0,false),1800)});
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 
 $('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');

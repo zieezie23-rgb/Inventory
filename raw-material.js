@@ -278,13 +278,31 @@ function sourceState(){
  ];
  return {src,defs,ready:defs.every(x=>x.ready)};
 }
-function renderSourceState(){
- const state=sourceState(),box=$rm('rawMaterialSources');
- box.innerHTML=state.defs.map(x=>`<div class="raw-source-row ${x.ready?'is-ready':'is-missing'}"><span class="raw-source-mark">${x.ready?'✓':'!'}</span><div class="raw-source-copy"><strong>${x.title}</strong><small>${x.ready?`${x.count.toLocaleString('id-ID')} baris · ${x.detail}`:x.detail}</small></div><span class="raw-source-state">${x.ready?'SIAP':'BELUM ADA'}</span></div>`).join('');
- const missing=state.defs.filter(x=>!x.ready);
- $rm('rawMaterialProcess').disabled=!state.ready;
- $rm('rawMaterialStatus').textContent=state.ready?'Semua sumber lengkap. Tekan Proses Raw Material untuk menghitung dua tabel.':`Belum lengkap: ${missing.map(x=>x.title).join(', ')}.`;
- return state;
+function renderSourceState(){return sourceState()}
+function rmHomeProgress(label,percent,show=true){const box=$rm('homeProgress');if(!box)return;box.hidden=!show;if(!show)return;$rm('homeProgressLabel').textContent=label;$rm('homeProgressValue').textContent=Math.round(percent)+'%';$rm('homeProgressBar').style.width=percent+'%'}
+function rmHomeStatus(message,error=false,processing=false){if(typeof setStatus==='function')setStatus(message,error,processing);else if($rm('status'))$rm('status').textContent=message}
+async function buildResultProgressive(src,onProgress){
+ const master=src.master||[],lpp=src.lpp||[],display=src.display||[],storage=src.storage||[],pluRows=src.plu||[];
+ onProgress('Menyusun indeks sumber data',5);await new Promise(r=>setTimeout(r,0));
+ const mm=indexBy(master,'PRDCD'),lm=groupBy(lpp,'PLU'),dm=groupBy(display,'PLU'),sm=groupBy(storage,'PLU');
+ let items=pluRows.length?pluRows.map(r=>plu(r.PRDCD)).filter(Boolean):[...lm.keys()].filter(k=>mm.has(k));items=[...new Set(items)];
+ const summary=[];
+ for(let i=0;i<items.length;i++){
+  const p=items[i],m=mm.get(p)||{},lr=lm.get(p)||[],dr=dm.get(p)||[],sr=sm.get(p)||[];
+  const drStock=dr.filter(x=>num(x.QTY)>0),srStock=sr.filter(x=>num(x.QTY_IN_STORAGE)>0),frac=num(m.FRAC)||1,storageQty=sum(srStock.map(x=>num(x.QTY_IN_STORAGE)))*frac,rakDisplay=maxNum(drStock.map(x=>x.RAK)),rakStorage=maxNum(srStock.map(x=>x.RAK));
+  summary.push({prdcd:p,desc2:m.DESC2||((pluRows.find(x=>plu(x.PRDCD)===p)||{}).DESC||''),alamat:m.ALAMAT||'',frac:m.FRAC||'',lpp:sum(lr.map(x=>x.QTY_LPP)),display:sum(drStock.map(x=>x.QTY)),storage:storageQty,minDisplay:minDate(drStock.map(x=>x.TGL_EXP)),minStorage:minDate(srStock.map(x=>x.TGL_EXP)),rakDisplay:Math.max(4,rakDisplay||0),rakStorage:Math.max(4,rakStorage||0)});
+  if(i%500===0){onProgress('Menghitung rekap item',8+(i/Math.max(1,items.length))*48);await new Promise(r=>setTimeout(r,0))}
+ }
+ let filteredSummary=summary.filter(r=>r.lpp>0||r.display>0||r.storage>0);filteredSummary.forEach((r,i)=>r.no=i+1);const summaryFinal=filteredSummary;
+ onProgress('Menyusun detail Display, Storage, dan Put Pick',62);await new Promise(r=>setTimeout(r,0));
+ const detail=[];
+ for(let i=0;i<summaryFinal.length;i++){
+  const item=summaryFinal[i],dr=(dm.get(item.prdcd)||[]).filter(x=>num(x.QTY)>0),srRaw=(sm.get(item.prdcd)||[]).filter(x=>num(x.QTY_IN_STORAGE)>0),sr=groupByExpiry(srRaw,'QTY_IN_STORAGE'),lr=lm.get(item.prdcd)||[],putpick=lr.length?sum(lr.map(x=>x.PUTPICK)):0,displayFirst=dr.length?num(dr[0].QTY):0,rowCount=Math.max(dr.length,sr.length,1);
+  detail.push({no:i+1,prdcd:item.prdcd,desc2:shortDesc(item.desc2),frac:item.frac,lpp:item.lpp,display:displayFirst+putpick,displayExp:dr.length?dateText(dr[0].TGL_EXP):'',storage:sr.length?sr[0].qty*num(item.frac||1):0,storageExp:sr.length?dateText(sr[0].TGL_EXP):'',putpick,selisih:(displayFirst+putpick)+(sr.length?sr[0].qty*num(item.frac||1):0)-item.lpp,rowCount});
+  for(let j=1;j<rowCount;j++){const sd=sr[j];detail.push({no:'',prdcd:'',desc2:'',frac:'',lpp:'',display:'',displayExp:'',storage:sd?(sd.qty*num(item.frac||1)):'',storageExp:sd?dateText(sd.TGL_EXP):'',putpick:'',selisih:'',continuation:true})}
+  if(i%300===0){onProgress('Menyusun detail hasil',64+(i/Math.max(1,summaryFinal.length))*28);await new Promise(r=>setTimeout(r,0))}
+ }
+ onProgress('Menyiapkan tabel hasil',95);await new Promise(r=>setTimeout(r,0));return {summary:summaryFinal,detail};
 }
 function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
 function colgroup(totalCols,equalFrom,firstWidths){const used=firstWidths.reduce((a,b)=>a+b,0),remainCols=totalCols-equalFrom,eachPct=remainCols>0?((100-used)/remainCols):0;let html='<colgroup>';for(let i=0;i<totalCols;i++){const w=i<equalFrom?firstWidths[i]:eachPct;html+="<col style='width:"+w.toFixed(2)+"%'>"}return html+'</colgroup>'}
@@ -300,30 +318,29 @@ function renderResult(res){
  res.detail.forEach(r=>{dh.push([r.no,r.prdcd,r.desc2,r.frac,r.lpp,r.display,r.displayExp,r.storage,r.storageExp,r.putpick,r.selisih]);if(r.rowCount>1)MERGE_COLS.forEach(c=>merges.push({s:{r:excelRow,c},e:{r:excelRow+r.rowCount-1,c}}));excelRow++});
  renderDetailTable($rm('rmDetailTable'),dh,res.detail,{equalFrom:3,firstWidths:[5,10,26]});$rm('rmDetailCount').textContent=res.detail.length+' baris';lastDetailAOA=dh;lastDetailMerges=merges;
 }
-function exportAOA(aoa,filename,merges){if(!aoa||aoa.length<2){$rm('rawMaterialStatus').textContent='Belum ada data untuk diekspor.';return}const ws=XLSX.utils.aoa_to_sheet(aoa);if(merges&&merges.length)ws['!merges']=merges.map(m=>({s:m.s,e:m.e}));const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sheet1');XLSX.writeFile(wb,filename)}
+function exportAOA(aoa,filename,merges){if(!aoa||aoa.length<2){rmHomeStatus('Belum ada data untuk diekspor.',true);return}const ws=XLSX.utils.aoa_to_sheet(aoa);if(merges&&merges.length)ws['!merges']=merges.map(m=>({s:m.s,e:m.e}));const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sheet1');XLSX.writeFile(wb,filename)}
 async function runRawMaterial(){
- const state=renderSourceState();$rm('rawMaterialResults').hidden=true;
- if(!state.ready){$rm('rawMaterialDialog').showModal();return}
- const btn=$rm('rawMaterialBtn');if(typeof beginProcess==='function'&&!beginProcess('rawMaterialBtn'))return;
- $rm('rawMaterialDialog').showModal();$rm('rawMaterialStatus').textContent='Membentuk Master Stock dari Inventory dan menghitung Raw Material…';$rm('rawMaterialProcess').disabled=true;
+ const state=renderSourceState();
+ if(!state.ready){const missing=state.defs.filter(x=>!x.ready).map(x=>x.title);rmHomeStatus('Raw Material belum bisa diproses. File belum lengkap: '+missing.join(', ')+'. Silakan lengkapi melalui Daftar File.',true);if(typeof openFileManager==='function')openFileManager('allFiles');return}
+ if(typeof beginProcess==='function'&&!beginProcess('rawMaterialBtn'))return;
+ rmHomeProgress('Menyiapkan Raw Material',2,true);rmHomeStatus('Raw Material sedang diproses. Jangan tutup aplikasi…',false,true);
  try{
+  await new Promise(r=>setTimeout(r,40));
   if(typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();
-  const masterData=getInventoryMaster();
-  const master=masterData.map(r=>({PRDCD:r[0],DESC2:r[1],ALAMAT:r[8],FRAC:r[15]}));
-  const current=sourceState().src;
-  const src={master,lpp:current.lpp.rawRows,display:current.display.rawRows,storage:current.storage.rawRows,plu:current.plu.rawRows};
-  const result=buildResult(src);lastResult=result;renderResult(result);
-  $rm('rawMaterialResults').hidden=false;$rm('rawMaterialStatus').textContent=`Selesai. ${result.summary.length.toLocaleString('id-ID')} item masuk Rekap dan ${result.detail.length.toLocaleString('id-ID')} baris Detail.`;
-  $rm('rawMaterialResults').scrollIntoView({behavior:'smooth',block:'nearest'});
- }catch(e){console.error(e);$rm('rawMaterialStatus').textContent='Proses gagal: '+(e.message||String(e));}
- finally{$rm('rawMaterialProcess').disabled=!sourceState().ready;if(typeof endProcess==='function')endProcess()}
+  rmHomeProgress('Membentuk Master Stock dari Inventory',5,true);
+  const masterData=getInventoryMaster(),master=masterData.map(r=>({PRDCD:r[0],DESC2:r[1],ALAMAT:r[8],FRAC:r[15]}));
+  const current=sourceState().src,src={master,lpp:current.lpp.rawRows,display:current.display.rawRows,storage:current.storage.rawRows,plu:current.plu.rawRows};
+  const result=await buildResultProgressive(src,(label,pct)=>rmHomeProgress(label,pct,true));lastResult=result;
+  renderResult(result);$rm('rawMaterialResults').hidden=false;
+  rmHomeProgress('Selesai',100,true);rmHomeStatus(`Raw Material selesai. ${result.summary.length.toLocaleString('id-ID')} item masuk Rekap dan ${result.detail.length.toLocaleString('id-ID')} baris Detail.`);
+  $rm('rawMaterialDialog').showModal();$rm('rawMaterialResults').scrollIntoView({behavior:'smooth',block:'nearest'});
+ }catch(e){console.error(e);rmHomeStatus('Proses Raw Material gagal: '+(e.message||String(e)),true);rmHomeProgress('Proses gagal',100,true)}
+ finally{if(typeof endProcess==='function')endProcess();setTimeout(()=>rmHomeProgress('',0,false),5000)}
 }
 function init(){
  if(typeof window.XLSX==='undefined'&&typeof checkItemEnsureXLSX==='function'){}
  $rm('rawMaterialBtn').addEventListener('click',runRawMaterial);
- $rm('rawMaterialProcess').addEventListener('click',runRawMaterial);
  $rm('rawMaterialClose').addEventListener('click',()=>$rm('rawMaterialDialog').close());
- $rm('rawMaterialOpenFiles').addEventListener('click',()=>{$rm('rawMaterialDialog').close();openFileManager('allFiles')});
  $rm('rmExportSummary').addEventListener('click',()=>exportAOA(lastSummaryAOA,'Rekap_Item.xlsx'));
  $rm('rmExportDetail').addEventListener('click',()=>exportAOA(lastDetailAOA,'Detail_Display_Storage.xlsx',lastDetailMerges));
  document.querySelectorAll('[data-rm-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rm-tab]').forEach(x=>x.classList.toggle('active',x===b));$rm('rmSummaryPanel').hidden=b.dataset.rmTab!=='summary';$rm('rmDetailPanel').hidden=b.dataset.rmTab!=='detail'}));

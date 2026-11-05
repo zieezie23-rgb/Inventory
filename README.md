@@ -1,11 +1,11 @@
-# Inventory v2.7.7
+# Inventory v2.7.9
 
-## v2.7.7 — Ikon header dicerminkan vertikal
-- Ikon aplikasi pada hero header dibalik secara vertikal (atas-bawah) menggunakan transform CSS.
-- Posisi, ukuran ikon, layout, dan fungsi aplikasi tidak diubah.
-- JavaScript aplikasi dan template Excel tidak diubah.
+## v2.7.9 — Ikon header diperbesar dan dipindahkan
+- Ikon aplikasi diperbesar dan ditempatkan di pojok kanan bawah header, menempel pada garis/border header.
+- Pencerminan horizontal kanan-kiri tetap dipertahankan.
+- Perubahan hanya pada CSS header; JavaScript aplikasi dan template Excel tidak diubah.
 
-# Inventory v2.7.7
+# Inventory v2.7.9
 
 ## v2.7.6 — Penyesuaian header, popup file, dan ikon menu
 - Menghilangkan panel gelap di belakang ikon aplikasi pada hero; gambar ikon ditampilkan tanpa bingkai/background CSS.
@@ -83,8 +83,8 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Memperbarui versi stylesheet dan cache Service Worker ke v2.7.6.
 
 
-## v2.7.8 — Horizontal flip header icon
+## v2.7.9 — Horizontal flip header icon
 - Mengubah pencerminan ikon header dari vertikal (atas-bawah) menjadi horizontal (kanan-kiri) menggunakan scaleX(-1).
 - Posisi, ukuran, dan layout ikon tetap sama.
 - Tidak mengubah app.js, template, atau alur fungsi aplikasi.
-- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.8.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.9.

@@ -1346,6 +1346,7 @@ body .action-button .action-copy{gap:5px!important;}
   --ok:#8dff9b; --err:#ff7792;
 }
 #poExpiredApp .step-head h2,#poExpiredApp .bh b,#poExpiredApp .step-head .num{color:#c8f7c4}
+#poExpiredApp #secInput,#poExpiredApp #secHasil{background:transparent!important;border:0!important;box-shadow:none!important;}
 #poExpiredApp .btn.ghost{color:#c8f7c4;border-color:#6e94ba;background:#173f68}
 #poExpiredApp .btn.ghost:hover{background:#24547f}
 #poExpiredApp .bh .st .msg{color:#e6effb}
@@ -1368,14 +1369,13 @@ body .action-button .action-copy{gap:5px!important;}
 #poExpiredApp .po-modal-head button{border:1px solid #75ff55;padding:7px 13px;font-weight:850;cursor:pointer;}
 #poExpiredApp main{max-width:none;margin:0 auto;padding:0 2px 24px}
 #poExpiredApp .step{
-  /* styles.css Inventory menyembunyikan .step dengan display:none!important.
-     Modul PO Expired memakai .step sebagai section, jadi tampilkan kembali
-     dengan prioritas yang sama dan reset layout badge global. */
+  /* Modul PO Expired memakai .step sebagai section, bukan badge global.
+     Pertahankan section transparan agar tidak membentuk bidang hijau muda. */
   display:block!important;visibility:visible!important;opacity:1!important;
   width:100%;height:auto;min-width:0;min-height:0;flex:none;
-  place-items:initial;background:transparent;color:inherit;
+  place-items:initial;background:transparent!important;color:inherit;
+  border:0!important;box-shadow:none!important;
   border-radius:0;font-weight:400;font-size:inherit;
-  border-color:var(--line,#356b40)
 }
 #poExpiredApp #secBahan{display:none!important}#poExpiredApp #secInput{display:block!important;visibility:visible!important;}
 #poExpiredApp .bahan,#poExpiredApp textarea,#poExpiredApp .tablewrap{background:#0b2543;border-color:#315a80;color:#c8f7c4}

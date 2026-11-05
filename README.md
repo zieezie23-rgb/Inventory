@@ -1,4 +1,10 @@
-# Inventory v2.7.1
+# Inventory v2.7.2
+
+## v2.7.2 — Hilangkan latar bidang pada bagian No PO dan Hasil PO Expired
+- Bagian No PO yang dicek (1) dan Hasil (2) dibuat transparan; bidang hijau muda yang mengganggu dihilangkan.
+- Tidak mengubah ukuran, jarak, struktur HTML, JavaScript, maupun alur kerja.
+- Cache Service Worker dan query stylesheet dinaikkan ke v2.7.2.
+
 
 ## v2.7.1 — Link pemilih file tanpa shape dan perapihan PO Expired
 - Semua tombol memakai tampilan panel hijau gelap, outline neon, dan aksen neon di bagian bawah.

@@ -1,3 +1,14 @@
+# Inventory v2.7.4
+
+## v2.7.4 — Header Command Center dirapikan
+- Menghapus header lama agar tidak tampil ganda dengan Command Center.
+- Mengganti emblem dekoratif dengan ikon aplikasi Inventory yang sebenarnya.
+- Menghapus kalimat tagline di hero.
+- Memindahkan versi aplikasi ke pojok kanan atas hero.
+- Mengganti jumlah modul dengan akses teks bergaris bawah: Pilih File, Pilih Folder, dan Daftar File.
+- Memindahkan kontrol pemilih file/folder yang sudah ada tanpa mengubah ID maupun event handler.
+- app.js, template Excel, fungsi, dan alur proses tidak diubah.
+
 # Inventory v2.7.2
 
 ## v2.7.2 — Hilangkan latar bidang pada bagian No PO dan Hasil PO Expired
@@ -49,8 +60,8 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Header, footer, CSS query, and Service Worker cache version synchronized to v2.6.8.
 
 
-## v2.7.3 — Inventory Command Center Home
+## v2.7.4 — Inventory Command Center Home
 - Memperbarui tampilan halaman awal dengan hero panel bertema cyberpunk neon green, identitas sistem, dan ringkasan 7 modul.
 - Memperjelas kartu menu dengan ikon, deskripsi singkat, dan indikator arah; layout tetap responsif untuk ponsel.
 - Semua ID tombol, event handler, dan urutan modul dipertahankan. Tidak mengubah app.js, template Excel, atau logika proses.
-- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.3.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.4.

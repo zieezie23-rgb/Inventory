@@ -1385,53 +1385,150 @@ body .action-button .action-copy{gap:5px!important;}
 #poExpiredApp .hint,#poExpiredApp .tablehead .stat{color:#8fbd98}
 @media(max-width:640px){#poExpiredDialog{padding:8px 7px calc(8px + env(safe-area-inset-bottom))}#poExpiredApp,#poExpiredApp.po-open{width:100%;height:94dvh;max-height:94dvh;border-radius:15px;padding:0 11px 18px}#poExpiredApp .po-modal-head{margin:0 -11px 8px;padding:12px 11px}#poExpiredApp main{padding:0 1px 20px}}
 
+/* v2.7.1 — komponen seragam dan tautan pemilih file tanpa bentuk tombol */
+:root {
+  --cyber-bg: #050b08;
+  --cyber-panel: #0b1910;
+  --cyber-panel-raised: #102b19;
+  --cyber-border: #356b40;
+  --cyber-green: #75ff55;
+  --cyber-text: #c8f7c4;
+  --cyber-muted: #8fbd98;
+}
 
-/* v2.6.8 — PO Expired mengikuti tema Anime Cyberpunk Neon Green */
-#poExpiredApp,#poExpiredApp.po-open{--paper:#050b08; --surface:#0b1910; --ink:#c8f7c4; --muted:#8fbd98; --line:#356b40;
-  --sheet:#173d24; --blue:#1b5630; --blue-d:#123c25; --red:#75ff55; --red-d:#398a45; --yellow:#75ff55; --flag:#397a49; --flag-bg:#10251a; --flag-ink:#c8f7c4;
-  --ok:#8dff9b; --err:#ff7792;background:linear-gradient(145deg,#10251a,#07130b)!important;color:#baff9b!important;border-color:#397a49!important;border-top:2px dashed #75ff55!important}
-#poExpiredApp .po-modal-head{background:linear-gradient(110deg,#07130b,#173d24)!important;border:0!important;border-bottom:2px dashed #75ff55!important;color:#baff9b!important}
-#poExpiredApp .po-modal-head h2,#poExpiredApp .po-modal-title p{color:#baff9b!important}
-#poExpiredApp .po-modal-head button,#poExpiredApp .btn{border:1px solid #75ff55!important;border-bottom:2px solid #75ff55!important;}
-#poExpiredApp .bahan,#poExpiredApp textarea,#poExpiredApp .tablewrap{background:#09170e!important;border-color:#356b40!important;color:#c8f7c4!important}
-#poExpiredApp .bh,#poExpiredApp .step{border-color:#356b40!important}
-#poExpiredApp .step-head h2,#poExpiredApp .bh b,#poExpiredApp .bh .st .msg,#poExpiredApp .hint,#poExpiredApp .tablehead .stat{color:#baff9b!important}
-#poExpiredApp .num{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
-#poExpiredApp .warn{background:#332b16!important;color:#ffe3a3!important;border-left-color:#ffc45c!important}
-#poExpiredApp .concl{background:#27151b!important;border-color:#8d4053!important}
-#poExpiredApp .concl textarea{background:#09170e!important;color:#ffdce4!important;border-color:#8d4053!important}
-#poExpiredApp .tablewrap{background:#09170e!important}
-#poExpiredApp table.sheet{color:#c8f7c4!important;background:#09170e!important}
-#poExpiredApp .sheet th,#poExpiredApp .sheet td{border-color:#356b40!important;background:#09170e!important;color:#c8f7c4!important}
-#poExpiredApp .sheet thead th{background:#173d24!important;color:#baff9b!important}
-#poExpiredApp .sheet th.sp,#poExpiredApp .sheet td.sp,#poExpiredApp .sheet thead th.sp{background:#09170e!important}
-#poExpiredApp .toast{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
-#poExpiredDialog{background:rgba(1,10,4,.84)!important}
-
-
-
-
-/* v2.7.0 — satu skin tombol global. Deklarasi ukuran, padding, font-size, dan layout lama tetap dipertahankan. */
-:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .upload-choice, .required-link, .remove-file) {
+/* Kontrol navigasi/pemilih file tampil sebagai teks bergaris bawah saja. */
+.upload-choice,
+.file-manager-launch {
   appearance: none;
-  background: #102b19;
-  color: #75ff55;
-  border-color: #75ff55;
+  background: transparent !important;
+  color: var(--cyber-green) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.upload-choice:hover,
+.file-manager-launch:hover {
+  background: transparent !important;
+  color: #baff9b !important;
+  box-shadow: none !important;
+}
+
+/* Skin tombol utama: hanya warna, garis, dan efek; ukuran/layout mengikuti aturan komponen asal. */
+:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .remove-file) {
+  appearance: none;
+  background: var(--cyber-panel-raised);
+  color: var(--cyber-green);
+  border-color: var(--cyber-green);
   border-style: solid;
-  border-radius: 12px;
-  outline: 1px solid #75ff55;
-  outline-offset: -1px;
-  box-shadow: inset 0 -5px 0 #75ff55;
+  border-radius: 10px;
+  box-shadow: inset 0 -5px 0 var(--cyber-green);
   text-decoration: none;
 }
-:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .upload-choice, .required-link, .remove-file):hover {
+:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .remove-file):hover {
   background: #194729;
 }
-:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .upload-choice, .required-link, .remove-file):focus-visible {
+:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .remove-file):focus-visible {
   outline: 2px solid #baff9b;
   outline-offset: 2px;
 }
-:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .upload-choice, .required-link, .remove-file):disabled {
-  opacity: .55;
+:where(button, input[type="button"], input[type="submit"], input[type="reset"], .button, .action-button, .remove-file):disabled {
+  background: #10251a;
+  color: #8fbd98;
+  border-color: #397a49;
+  box-shadow: inset 0 -5px 0 #397a49;
+  opacity: .62;
   cursor: not-allowed;
 }
+
+/* PO Expired: hapus sisa biru/merah/ungu/cokelat dari panel, tombol, dan area kesimpulan. */
+#poExpiredApp,
+#poExpiredApp.po-open {
+  background: linear-gradient(145deg, #10251a, #07130b) !important;
+  color: var(--cyber-text) !important;
+  border-color: var(--cyber-border) !important;
+}
+#poExpiredApp .po-modal-head {
+  background: linear-gradient(110deg, #07130b, #173d24) !important;
+  border: 0 !important;
+  border-bottom: 2px dashed var(--cyber-green) !important;
+  color: var(--cyber-text) !important;
+}
+#poExpiredApp .po-modal-head h2,
+#poExpiredApp .po-modal-title p,
+#poExpiredApp .step-head h2,
+#poExpiredApp .bh b,
+#poExpiredApp .bh .st .msg,
+#poExpiredApp .hint,
+#poExpiredApp .tablehead .stat {
+  color: var(--cyber-text) !important;
+}
+#poExpiredApp .po-modal-head button,
+#poExpiredApp .btn,
+#poExpiredApp .btn.ghost,
+#poExpiredApp .btn.primary,
+#poExpiredApp .btn.cta {
+  background: var(--cyber-panel-raised) !important;
+  color: var(--cyber-green) !important;
+  border: 1px solid var(--cyber-green) !important;
+  border-bottom: 5px solid var(--cyber-green) !important;
+  box-shadow: none !important;
+}
+#poExpiredApp .btn:disabled {
+  background: #10251a !important;
+  color: #8fbd98 !important;
+  border-color: #397a49 !important;
+  opacity: .62 !important;
+}
+#poExpiredApp .bahan,
+#poExpiredApp textarea,
+#poExpiredApp .tablewrap,
+#poExpiredApp .bh,
+#poExpiredApp .concl,
+#poExpiredApp .warn,
+#poExpiredApp .std,
+#poExpiredApp .opts {
+  background: #09170e !important;
+  border-color: var(--cyber-border) !important;
+  color: var(--cyber-text) !important;
+}
+#poExpiredApp .warn {
+  border-left: 4px solid var(--cyber-green) !important;
+  color: #baff9b !important;
+}
+#poExpiredApp .concl {
+  border: 1px solid var(--cyber-border) !important;
+  border-left: 5px solid var(--cyber-green) !important;
+}
+#poExpiredApp .concl textarea {
+  background: #050f09 !important;
+  color: var(--cyber-text) !important;
+  border: 1px solid var(--cyber-border) !important;
+}
+#poExpiredApp .num {
+  background: #173d24 !important;
+  color: var(--cyber-green) !important;
+  border: 1px solid var(--cyber-green) !important;
+}
+#poExpiredApp .sheet,
+#poExpiredApp .sheet th,
+#poExpiredApp .sheet td,
+#poExpiredApp .sheet th.sp,
+#poExpiredApp .sheet td.sp {
+  background: #09170e !important;
+  color: var(--cyber-text) !important;
+  border-color: var(--cyber-border) !important;
+}
+#poExpiredApp .sheet thead th {
+  background: #173d24 !important;
+  color: #baff9b !important;
+}
+#poExpiredApp .toast {
+  background: #173d24 !important;
+  color: #baff9b !important;
+  border: 1px solid var(--cyber-green) !important;
+}
+#poExpiredDialog { background: rgba(1,10,4,.84) !important; }

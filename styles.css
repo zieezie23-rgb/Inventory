@@ -1217,3 +1217,59 @@ body input::placeholder,body textarea::placeholder{color:#789e80!important}
 body .status.error,body .error,body .file-status.missing{color:#ff7792!important}
 body .status.ok,body .success,body .mapped,body .file-status.available{color:#8dff9b!important}
 body .warning,body .status.warning{color:#ffc45c!important}
+
+
+/* v2.6.6 — final theme audit: remove remaining legacy blue/red/yellow surfaces */
+:root{color-scheme:dark;--navy:#174729;--blue:#75ff55;--ink:#c8f7c4;--muted:#8fbd98;--line:#356b40;--bg:#050b08;--white:#0b1910;--green:#8dff9b;--amber:#332b16;--red:#ff7792;--shadow:0 8px 28px rgba(0,0,0,.38)}
+html,body{background:#050b08!important;color:#baff9b!important}
+body{background-image:linear-gradient(rgba(117,255,85,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(117,255,85,.035) 1px,transparent 1px),radial-gradient(ellipse at 50% -20%,rgba(39,120,57,.22),transparent 58%)!important;background-size:32px 32px,32px 32px,auto!important}
+.topbar{background:linear-gradient(110deg,#07130b 0%,#102b19 55%,#07130b 100%)!important;border-bottom:2px dashed #75ff55!important;color:#aaff70!important}
+.topbar p,.topbar .eyebrow{color:#8fbd98!important}
+.card,.hero,.process-card,.upload-card,.subpanel{background:linear-gradient(145deg,#10251a,#09150e)!important;border:1px solid #356b40!important;border-radius:14px!important;box-shadow:0 8px 26px rgba(0,0,0,.32),inset 0 1px rgba(186,255,155,.035)!important}
+.hero{border-top:2px dashed #75ff55!important;border-bottom:2px dashed #75ff55!important}
+.hero h2,.hero p,.pill,.hero-icon{color:#baff9b!important;background:#10251a!important;border-color:#75ff55!important}
+.step,.section-heading .step{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
+.notice,.notice.subtle{background:#10291a!important;border:1px solid #397a49!important;color:#caffc7!important}
+.dropzone{background:rgba(9,26,15,.85)!important;border:1.5px dashed #75ff55!important;color:#baff9b!important}
+.dropzone:hover,.dropzone.dragover{background:#173d24!important;border-color:#b0ff79!important}
+.upload-icon,.file-icon{background:#173d24!important;color:#baff9b!important;border:1px solid #397a49!important}
+.map-item,.map-item select,.field input,.field select,.field textarea{background:#09170e!important;color:#baff9b!important;border-color:#356b40!important}
+.file-row,.metric,.empty-state,.mapping-grid .map-item{background:rgba(9,26,15,.94)!important;border-color:#356b40!important}
+.app-footer{background:rgba(5,11,8,.96)!important;border-top:1px dashed #397a49!important;color:#8fbd98!important}
+.action-master,.action-stockout,.action-brd,#processCard .action-button{background:linear-gradient(135deg,#194729,#0b1b11)!important;border:1px solid #83ff5c!important;border-bottom:2px solid #83ff5c!important;color:#d4ffc7!important}
+.action-button::after{background:#75ff55!important}
+.brd-dialog,.preflight-dialog,.file-manage-dialog,.check-item-dialog,.check-item-result-dialog,dialog{background:linear-gradient(145deg,#10251a,#07130b)!important;color:#baff9b!important;border:1px solid #397a49!important;border-top:2px dashed #75ff55!important}
+.brd-dialog .brd-option,.preflight-dialog .missing-option,.brd-dialog .brd-all{background:#10291a!important;color:#baff9b!important;border:1px solid #397a49!important}
+.brd-dialog #brdExportSubmit,.preflight-dialog #preflightProceed,.preflight-dialog #preflightComplete{background:linear-gradient(135deg,#245b31,#102b19)!important;color:#d4ffc7!important;border:1px solid #83ff5c!important;border-bottom:2px solid #83ff5c!important}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid #b0ff79!important;outline-offset:3px!important}
+
+/* v2.6.7 — strict no-white typography + roomier home action buttons */
+:root{--cyber-text:#c8f7c4;--cyber-heading:#aaff70;--cyber-muted:#8fbd98}
+html,body,body *{color:var(--cyber-text)!important}
+body h1,body h2,body h3,body h4,body h5,body h6,
+body .section-heading,body .section-heading h2,body .subheading h3,
+body .action-copy strong,body .modal-title,body th,body thead th{color:var(--cyber-heading)!important}
+body p,body small,body .muted,body .footnote,body .status,body .field,
+body .checkline,body .file-size,body .file-count,body .dropzone small,
+body footer,body .app-footer,body .action-copy small{color:var(--cyber-muted)!important}
+body .status.error,body .error,body .file-status.missing{color:#ff7792!important}
+body .status.ok,body .success,body .mapped,body .file-status.available{color:#8dff9b!important}
+body .warning,body .status.warning{color:#ffc45c!important}
+body input::placeholder,body textarea::placeholder{color:#789e80!important}
+/* Override legacy white glyph/text declarations in every interactive surface. */
+body button,body button *,body .button,body .button *,body a,
+body .action-button,body .action-button *,body .brd-option,
+body .missing-option,body .upload-choice,body .required-link{color:#baff9b!important}
+body .action-button .action-copy strong,body .action-button .action-copy small{color:#baff9b!important}
+body .action-grid{gap:16px 14px!important}
+body .process-item .action-button,body #processCard .action-button{
+  min-height:82px!important;height:82px!important;padding:18px 14px 20px!important;
+  border-radius:13px!important;line-height:1.3!important
+}
+body .action-button .action-copy{gap:5px!important}
+@media(max-width:700px){
+  body .action-grid{gap:14px 12px!important}
+  body .process-item .action-button,body #processCard .action-button{
+    min-height:76px!important;height:76px!important;padding:16px 10px 18px!important
+  }
+}

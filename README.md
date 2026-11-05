@@ -1,27 +1,22 @@
-# Inventory v2.6.5
+# Inventory v2.6.7
 
-## v2.6.5 — Tipografi Neon Green
-- Seluruh teks putih diganti dengan gradasi warna hijau neon, hijau muda, dan hijau redup sesuai hierarki.
-- Warna status error dan peringatan tetap dibedakan untuk keterbacaan.
+## v2.6.7 — Tipografi tanpa putih dan tombol utama lebih lega
+- Seluruh teks antarmuka dipaksa mengikuti palet hijau neon; tidak menggunakan teks putih.
+- Jarak antar tombol utama diperbesar.
+- Tinggi tombol utama ditambah untuk desktop dan mobile.
+- Fungsi aplikasi, struktur data, dan template tetap dipertahankan.
 
+# Inventory v2.6.6
 
-Perubahan:
-- Outline tombol diganti menjadi garis putus-putus berwarna kuning.
-- Garis bawah header ditambahkan dengan garis putus-putus kuning.
-- Gradasi tombol proses 120 derajat dan perbaikan ekspor BRD dari versi sebelumnya tetap dipertahankan.
-- Versi header aplikasi, footer, stylesheet, README, dan cache Service Worker diseragamkan ke v2.6.5.
+## v2.6.6 — Audit konsistensi tema Anime Cyberpunk Neon Green
+- Menetralkan sisa palet tema lama (biru, merah, kuning) pada header, panel, tombol proses, dialog, tabel, dan modul PO Expired.
+- Menyamakan tampilan modul PO Expired dengan palet gelap dan aksen neon hijau.
+- Memperbarui warna tema PWA dan cache stylesheet.
+- Fitur, alur proses, dan format data tetap dipertahankan.
+
+## v2.6.5 — Check Item terintegrasi dan tema Anime Cyberpunk
+- Tombol Check Item terintegrasi langsung pada halaman Inventory.
+- Tema gelap dengan aksen neon hijau, efek grid/scanline, panel futuristik, dan tombol bercahaya.
+- Fitur dan format data tetap dipertahankan.
 
 Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsung di folder utama.
-
-
-## v2.6.5 — Check Item terintegrasi
-- Tombol Check Item terintegrasi langsung pada halaman Inventory.
-- Memakai PRODMAST, POM G113, LaporanHistoryTag, dan hasil perhitungan Master Stock Inventory yang sudah tersedia.
-- LaporanLPPvsPlano masuk kategori Tarikan LWA; REG 4 bulan masuk Tarikan Harian G113.
-- Proses bertahap: hasil tahap pertama tampil pada halaman Inventory, popup SS-FT, lalu popup hasil akhir.
-
-
-## v2.6.5 — Tema Anime Cyberpunk
-- Mengubah tampilan aplikasi menjadi gelap dengan aksen neon hijau, efek grid/scanline, panel futuristik, dan tombol bercahaya.
-- Fitur, alur proses, dan format data aplikasi tetap dipertahankan.
-- Versi header, footer, stylesheet, README, dan cache Service Worker disinkronkan ke v2.6.5.

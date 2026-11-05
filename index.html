@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#064a91"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.5">
+  <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.7">
   <title>Inventory</title>
 <style id="poExpiredStyles">#poExpiredApp{
   --paper:#EEF3FA; --surface:#fff; --ink:#1B2733; --muted:#5A6B7C; --line:#D3DBE5;
@@ -147,9 +147,30 @@
 #poExpiredApp .hint,#poExpiredApp .tablehead .stat{color:#bdcde1}
 @media(max-width:640px){#poExpiredDialog{padding:8px 7px calc(8px + env(safe-area-inset-bottom))}#poExpiredApp,#poExpiredApp.po-open{width:100%;height:94dvh;max-height:94dvh;border-radius:15px;padding:0 11px 18px}#poExpiredApp .po-modal-head{margin:0 -11px 8px;padding:12px 11px}#poExpiredApp main{padding:0 1px 20px}}
 
+
+/* v2.6.7 — PO Expired mengikuti tema Anime Cyberpunk Neon Green */
+#poExpiredApp,#poExpiredApp.po-open{--paper:#050b08;--surface:#0b1910;--ink:#c8f7c4;--muted:#8fbd98;--line:#356b40;--sheet:#173d24;--blue:#75ff55;--blue-d:#245b31;--red:#ff7792;--red-d:#d94d6c;--yellow:#75ff55;--flag:#ff7792;--flag-bg:#27151b;--flag-ink:#ffdce4;--ok:#8dff9b;--err:#ff7792;background:linear-gradient(145deg,#10251a,#07130b)!important;color:#baff9b!important;border-color:#397a49!important;border-top:2px dashed #75ff55!important}
+#poExpiredApp .po-modal-head{background:linear-gradient(110deg,#07130b,#173d24)!important;border:0!important;border-bottom:2px dashed #75ff55!important;color:#baff9b!important}
+#poExpiredApp .po-modal-head h2,#poExpiredApp .po-modal-title p{color:#baff9b!important}
+#poExpiredApp .po-modal-head button,#poExpiredApp .btn{background:linear-gradient(135deg,#194729,#0b1b11)!important;color:#baff9b!important;border:1px solid #75ff55!important;border-bottom:2px solid #75ff55!important}
+#poExpiredApp .bahan,#poExpiredApp textarea,#poExpiredApp .tablewrap{background:#09170e!important;border-color:#356b40!important;color:#c8f7c4!important}
+#poExpiredApp .bh,#poExpiredApp .step{border-color:#356b40!important}
+#poExpiredApp .step-head h2,#poExpiredApp .bh b,#poExpiredApp .bh .st .msg,#poExpiredApp .hint,#poExpiredApp .tablehead .stat{color:#baff9b!important}
+#poExpiredApp .num{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
+#poExpiredApp .warn{background:#332b16!important;color:#ffe3a3!important;border-left-color:#ffc45c!important}
+#poExpiredApp .concl{background:#27151b!important;border-color:#8d4053!important}
+#poExpiredApp .concl textarea{background:#09170e!important;color:#ffdce4!important;border-color:#8d4053!important}
+#poExpiredApp .tablewrap{background:#09170e!important}
+#poExpiredApp table.sheet{color:#c8f7c4!important;background:#09170e!important}
+#poExpiredApp .sheet th,#poExpiredApp .sheet td{border-color:#356b40!important;background:#09170e!important;color:#c8f7c4!important}
+#poExpiredApp .sheet thead th{background:#173d24!important;color:#baff9b!important}
+#poExpiredApp .sheet th.sp,#poExpiredApp .sheet td.sp,#poExpiredApp .sheet thead th.sp{background:#09170e!important}
+#poExpiredApp .toast{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
+#poExpiredDialog{background:rgba(1,10,4,.84)!important}
+
 </style></head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.5</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.7</span></header>
 <main>
   <section class="card process-card" id="processCard"><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button></div>
@@ -274,7 +295,7 @@
     <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
     <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.6.5 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.6.7 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

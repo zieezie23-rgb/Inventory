@@ -1,6 +1,6 @@
-# Inventory v2.6.7
+# Inventory v2.6.8
 
-## v2.6.7 — Tipografi tanpa putih dan tombol utama lebih lega
+## v2.6.8 — Tipografi tanpa putih dan tombol utama lebih lega
 - Seluruh teks antarmuka dipaksa mengikuti palet hijau neon; tidak menggunakan teks putih.
 - Jarak antar tombol utama diperbesar.
 - Tinggi tombol utama ditambah untuk desktop dan mobile.
@@ -20,3 +20,10 @@
 - Fitur dan format data tetap dipertahankan.
 
 Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsung di folder utama.
+
+
+## v2.6.8 theme correction
+- Final Anime Cyberpunk Neon Green override is loaded after embedded legacy styles, including PO Expired.
+- Replaced remaining legacy white/blue/red/yellow UI surfaces with coordinated dark green neon styling (semantic warning/error colors retained).
+- Increased home action button height and spacing.
+- Header, footer, CSS query, and Service Worker cache version synchronized to v2.6.8.

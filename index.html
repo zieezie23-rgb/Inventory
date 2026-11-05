@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.7">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.6.8">
   <title>Inventory</title>
 <style id="poExpiredStyles">#poExpiredApp{
   --paper:#EEF3FA; --surface:#fff; --ink:#1B2733; --muted:#5A6B7C; --line:#D3DBE5;
@@ -148,7 +148,7 @@
 @media(max-width:640px){#poExpiredDialog{padding:8px 7px calc(8px + env(safe-area-inset-bottom))}#poExpiredApp,#poExpiredApp.po-open{width:100%;height:94dvh;max-height:94dvh;border-radius:15px;padding:0 11px 18px}#poExpiredApp .po-modal-head{margin:0 -11px 8px;padding:12px 11px}#poExpiredApp main{padding:0 1px 20px}}
 
 
-/* v2.6.7 — PO Expired mengikuti tema Anime Cyberpunk Neon Green */
+/* v2.6.8 — PO Expired mengikuti tema Anime Cyberpunk Neon Green */
 #poExpiredApp,#poExpiredApp.po-open{--paper:#050b08;--surface:#0b1910;--ink:#c8f7c4;--muted:#8fbd98;--line:#356b40;--sheet:#173d24;--blue:#75ff55;--blue-d:#245b31;--red:#ff7792;--red-d:#d94d6c;--yellow:#75ff55;--flag:#ff7792;--flag-bg:#27151b;--flag-ink:#ffdce4;--ok:#8dff9b;--err:#ff7792;background:linear-gradient(145deg,#10251a,#07130b)!important;color:#baff9b!important;border-color:#397a49!important;border-top:2px dashed #75ff55!important}
 #poExpiredApp .po-modal-head{background:linear-gradient(110deg,#07130b,#173d24)!important;border:0!important;border-bottom:2px dashed #75ff55!important;color:#baff9b!important}
 #poExpiredApp .po-modal-head h2,#poExpiredApp .po-modal-title p{color:#baff9b!important}
@@ -168,9 +168,55 @@
 #poExpiredApp .toast{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
 #poExpiredDialog{background:rgba(1,10,4,.84)!important}
 
-</style></head>
+</style><style id="cyberpunk-final-theme-v268">
+/* v2.6.8 — definitive Anime Cyberpunk Neon Green theme override */
+:root{color-scheme:dark;--cyber-bg:#050b08;--cyber-panel:#0b1910;--cyber-panel2:#10251a;--cyber-neon:#75ff55;--cyber-text:#c8f7c4;--cyber-head:#aaff70;--cyber-muted:#8fbd98;--cyber-border:#356b40}
+html,body{background:#050b08!important;color:#c8f7c4!important}
+body{background-image:linear-gradient(rgba(117,255,85,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(117,255,85,.035) 1px,transparent 1px),radial-gradient(ellipse at 50% -20%,rgba(39,120,57,.22),transparent 58%)!important;background-size:32px 32px,32px 32px,auto!important}
+/* No white typography: all visible app text uses green shades. */
+body,body *{color:#c8f7c4!important}
+body h1,body h2,body h3,body h4,body h5,body h6,body strong,body th,body label,body .action-copy strong{color:#aaff70!important}
+body p,body small,body .muted,body .footnote,body .status,body .field,body .checkline,body .file-size,body .file-count,body footer,body .app-footer,body .hint,body .step-head .stat{color:#8fbd98!important}
+body .status.error,body .error,body .warn,body .file-status.missing{color:#ff7792!important}
+body .status.ok,body .success,body .mapped,body .file-status.available{color:#8dff9b!important}
+body .warning{color:#ffc45c!important}
+body input::placeholder,body textarea::placeholder{color:#789e80!important}
+/* Main shell and every card/panel */
+.topbar,.topbar *{color:#aaff70!important}.topbar{background:linear-gradient(110deg,#07130b,#102b19 55%,#07130b)!important;border-bottom:2px dashed #75ff55!important;box-shadow:0 5px 25px #45ff5a20!important}
+.card,.hero,.process-card,.upload-card,.subpanel,.metric,.map-item,.file-row,.upload-group,.warehouse-upload,.empty-state,.notice,.notice.subtle,.success,.file-manage-list,.bahan,.tablewrap,.concl,.std,.bh{background:linear-gradient(145deg,#10251a,#09150e)!important;color:#c8f7c4!important;border-color:#356b40!important;box-shadow:0 7px 22px #0005!important}
+.hero,.process-card{border-top:1px dashed #75ff55!important}.hero h2,.section-heading h2,.subheading h3,.step-head h2,.file-manage-heading h2{color:#aaff70!important}.hero p,.subheading p,.footnote{color:#8fbd98!important}
+/* Buttons: same green neon surface, no legacy blue/red/yellow. */
+button,button *, .button,.button-primary,.button-secondary,.button-quiet,.btn,.upload-choice,.action-button,.file-manager-launch,.required-link,input[type=button],input[type=submit],input[type=reset],dialog button{color:#baff9b!important;background:linear-gradient(135deg,#194729,#0b1b11)!important;border:1px solid #75ff55!important;border-bottom:2px solid #75ff55!important;box-shadow:0 0 12px #75ff5522!important;text-shadow:0 0 7px #75ff5522!important}
+button:hover,.button:hover,.btn:hover,.action-button:hover,.upload-choice:hover,dialog button:hover{background:linear-gradient(135deg,#245b31,#102b19)!important;border-color:#b0ff79!important;box-shadow:0 0 18px #75ff5544!important}
+button:disabled,.button:disabled,.btn:disabled{color:#789e80!important;background:#101a13!important;border-color:#34523a!important;box-shadow:none!important}
+#processCard .action-grid{gap:18px 16px!important}
+#processCard .process-item .action-button,#processCard .action-button{height:86px!important;min-height:86px!important;padding:18px 14px!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important;line-height:1.3!important}
+#processCard .action-copy{display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important}
+#processCard .action-copy strong{color:#baff9b!important;letter-spacing:.055em!important}
+#processCard .action-button:before,#processCard .action-button:after{border-color:#75ff55!important;background:#75ff55!important}
+@media(max-width:700px){#processCard .action-grid{gap:15px 13px!important}#processCard .process-item .action-button,#processCard .action-button{height:78px!important;min-height:78px!important;padding:15px 9px!important}}
+/* Inputs, upload zones, data grids */
+input,select,textarea,.field input,.map-item select,#poExpiredApp input,#poExpiredApp textarea{background:#07140c!important;color:#c8f7c4!important;border:1px solid #39754a!important;accent-color:#75ff55!important}
+.dropzone{background:#0b1d11!important;color:#baff9b!important;border:1px dashed #75ff55!important}.dropzone span,.dropzone small{color:#8fbd98!important}.upload-icon,.file-icon,.step .num,.step .step-head .num{background:#173d24!important;color:#baff9b!important;border:1px solid #75ff55!important}
+table,table td,.sheet,.sheet td{background:#09170e!important;color:#c8f7c4!important;border-color:#356b40!important}th,.sheet th,thead th,.sheet thead th{background:#173d24!important;color:#baff9b!important}
+/* All modal variants, including legacy embedded PO Expired */
+dialog,.brd-dialog,.preflight-dialog,.file-manage-dialog,.check-item-dialog,.check-item-result-dialog,#poExpiredDialog #poExpiredApp,#poExpiredApp.po-open{background:linear-gradient(145deg,#10251a,#07130b)!important;color:#c8f7c4!important;border-color:#397a49!important;box-shadow:0 0 30px #49ff5c2b,0 24px 70px #000c!important}
+dialog h1,dialog h2,dialog h3,dialog h4,dialog strong,dialog label,#poExpiredApp h1,#poExpiredApp h2,#poExpiredApp h3{color:#aaff70!important}
+dialog p,dialog small,#poExpiredApp p,#poExpiredApp .hint,#poExpiredApp .stat{color:#8fbd98!important}
+dialog button,#poExpiredApp button,#poExpiredApp .btn{color:#baff9b!important;background:linear-gradient(135deg,#194729,#0b1b11)!important;border:1px solid #75ff55!important;border-bottom:2px solid #75ff55!important}
+.brd-option,.missing-option,.check-item-upload,.check-item-notice,.file-manage-list .file-row{background:#10291a!important;color:#baff9b!important;border-color:#397a49!important}
+#poExpiredApp .top,#poExpiredApp .po-modal-head{background:linear-gradient(110deg,#07130b,#173d24)!important;color:#baff9b!important;border-bottom:2px dashed #75ff55!important}
+#poExpiredApp .top *,#poExpiredApp .po-modal-head *{color:#baff9b!important}
+#poExpiredApp .bahan,#poExpiredApp .bh,#poExpiredApp .tablewrap,#poExpiredApp .concl,#poExpiredApp .std{background:#09170e!important;color:#c8f7c4!important;border-color:#356b40!important}
+#poExpiredApp .sheet th,#poExpiredApp table.sheet thead th{background:#173d24!important;color:#baff9b!important}#poExpiredApp .sheet td,#poExpiredApp table.sheet td{background:#09170e!important;color:#c8f7c4!important}
+#poExpiredApp .warn{background:#332b16!important;color:#ffc45c!important;border-color:#8a6a2e!important}#poExpiredApp .concl textarea{background:#09170e!important;color:#c8f7c4!important}
+footer,.app-footer{background:rgba(5,11,8,.97)!important;color:#8fbd98!important;border-top:1px dashed #397a49!important}
+::selection{background:#75ff55!important;color:#07130b!important}
+
+</style>
+</head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.7</span></header>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.6.8</span></header>
 <main>
   <section class="card process-card" id="processCard"><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button></div>
@@ -295,7 +341,7 @@
     <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
     <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.6.7 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.6.8 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

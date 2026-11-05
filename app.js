@@ -99,6 +99,7 @@ async function readInventoryTextFile(file){
 async function addFiles(list){
  for(const file of list){
   const detected=roleGuess(file);
+  const isPomCsv=/POM/i.test(file.name)&&/\.csv$/i.test(file.name);
   const isSeasonalBook=/\.xlsx$/i.test(file.name)&&detected==='seas';
   const isUpdateBook=/\.xlsx$/i.test(file.name)&&['stockoutbook','slsupplierbook','rekapsupplierbook'].includes(detected);
   const isCheckItemBook=/\.(xlsx|xls|xlsm|xlsb)$/i.test(file.name)&&['lppplano','reg'].includes(detected);
@@ -109,9 +110,9 @@ async function addFiles(list){
   const id=Date.now()+Math.floor(Math.random()*100000);
   try{
    const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await readInventoryTextFile(file),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};
-   if(!isBook&&!isBrd)obj.guess=detectRole(obj,obj.content);
+   if(!isBook&&!isBrd)obj.guess=isPomCsv?detected:detectRole(obj,obj.content);
    // Deteksi sumber Raw Material berdasarkan struktur kolom, bukan nama file.
-   if(!isBrd&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
+   if(!isBrd&&!isPomCsv&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
     try{
      if(!window.XLSX&&typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();
      const rawInfo=isBook?await window.InventoryRawMaterial.detectBuffer(obj.bytes,file.name):window.InventoryRawMaterial.detectText(obj.content,file.name);

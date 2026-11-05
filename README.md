@@ -1,11 +1,11 @@
-# Inventory v2.8.4
+# Inventory v2.8.5
 
-## v2.8.4 — Perbaikan deteksi POM dan cache aplikasi
-- Deteksi file POM kini memprioritaskan struktur kolom transaksi POM (RECID, GUDANG, PRDCD, PO_DATE, BPB_DATE, BPB_QTY, NOPB), bukan hanya nama file.
-- Gudang POM dipetakan dari nilai kolom GUDANG (G113/G294/G295), sehingga nama seperti POMGG.CSV tetap dikenali.
-- Tombol + Pilih Folder dan + Pilih File dipertahankan sebagai tautan teks tanpa kotak dengan garis bawah.
-- Cache Service Worker dan URL app.js diperbarui untuk menghindari pemakaian JavaScript versi lama.
-- Tidak mengubah logika perhitungan Inventory maupun Raw Material.
+## v2.8.5 — Perbaikan POMGG.CSV dan tombol file
+- File bernama POMGG.CSV langsung dipetakan sebagai POM G113 saat diunggah, tanpa menjalankan pemindaian CSV tambahan yang berat.
+- Pemrosesan POM tetap memakai parser POM utama Inventory.
+- Tombol + Pilih Folder dan + Pilih File menggunakan gaya teks tanpa kotak, tetap bergaris bawah.
+- Cache Service Worker dan referensi aset diperbarui ke v2.8.5.
+- Logika perhitungan Inventory dan Raw Material tidak diubah.
 
 # Inventory v2.8.3
 

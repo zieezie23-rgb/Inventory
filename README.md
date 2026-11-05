@@ -1,11 +1,17 @@
-# Inventory v2.6.9
+# Inventory v2.7.0
 
-## v2.6.9 — CSS refactor tema Neon Green
+## v2.7.0 — Seragamkan skin tombol Neon Green
+- Semua tombol memakai tampilan panel hijau gelap, outline neon, dan aksen neon di bagian bawah.
+- Ukuran, padding, font-size, min-height, width, serta layout tombol yang sudah ada dipertahankan.
+- Deklarasi skin tombol lama dibersihkan; app.js dan alur kerja tidak diubah.
+
+
+## v2.7.0 — CSS refactor tema Neon Green
 - Menghapus kedua blok `<style>` inline dari HTML.
 - Memindahkan stylesheet PO Expired ke `styles.css` dan menggabungkannya dalam satu file stylesheet.
 - Menghapus blok override global v2.6.8 yang sebelumnya menimpa CSS lama.
 - Mengganti palet biru/merah/kuning lama pada komponen dialog, tombol, panel, dan progress menjadi palet Anime Cyberpunk Neon Green pada deklarasi sumbernya.
-- Cache Service Worker dan query stylesheet dinaikkan ke v2.6.9.
+- Cache Service Worker dan query stylesheet dinaikkan ke v2.7.0.
 
 
 ## v2.6.8 — Tipografi tanpa putih dan tombol utama lebih lega

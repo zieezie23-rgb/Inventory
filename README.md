@@ -1,15 +1,22 @@
-# Inventory v2.7.5
+# Inventory v2.7.7
 
-## v2.7.5 — Penyesuaian header, popup file, dan ikon menu
+## v2.7.7 — Ikon header dicerminkan vertikal
+- Ikon aplikasi pada hero header dibalik secara vertikal (atas-bawah) menggunakan transform CSS.
+- Posisi, ukuran ikon, layout, dan fungsi aplikasi tidak diubah.
+- JavaScript aplikasi dan template Excel tidak diubah.
+
+# Inventory v2.7.7
+
+## v2.7.6 — Penyesuaian header, popup file, dan ikon menu
 - Menghilangkan panel gelap di belakang ikon aplikasi pada hero; gambar ikon ditampilkan tanpa bingkai/background CSS.
 - Di halaman awal hanya tersisa tautan teks bergaris bawah “Daftar File”.
 - Tombol “Pilih Folder” dan “Pilih File” dipindahkan ke pojok kanan atas header popup Daftar File Inventory. ID tombol dipertahankan agar event handler tetap bekerja.
 - Ikon pada tujuh tombol menu utama tidak lagi memakai kotak/shape; ukuran ikon dan teks diperbesar tanpa mengubah tinggi, padding, atau susunan kartu menu.
 - Logika aplikasi, app.js, template Excel, dan alur proses tidak diubah.
 
-# Inventory v2.7.5
+# Inventory v2.7.6
 
-## v2.7.5 — Header Command Center dirapikan
+## v2.7.6 — Header Command Center dirapikan
 - Menghapus header lama agar tidak tampil ganda dengan Command Center.
 - Mengganti emblem dekoratif dengan ikon aplikasi Inventory yang sebenarnya.
 - Menghapus kalimat tagline di hero.
@@ -69,8 +76,15 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Header, footer, CSS query, and Service Worker cache version synchronized to v2.6.8.
 
 
-## v2.7.5 — Inventory Command Center Home
+## v2.7.6 — Inventory Command Center Home
 - Memperbarui tampilan halaman awal dengan hero panel bertema cyberpunk neon green, identitas sistem, dan ringkasan 7 modul.
 - Memperjelas kartu menu dengan ikon, deskripsi singkat, dan indikator arah; layout tetap responsif untuk ponsel.
 - Semua ID tombol, event handler, dan urutan modul dipertahankan. Tidak mengubah app.js, template Excel, atau logika proses.
-- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.5.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.6.
+
+
+## v2.7.8 — Horizontal flip header icon
+- Mengubah pencerminan ikon header dari vertikal (atas-bawah) menjadi horizontal (kanan-kiri) menggunakan scaleX(-1).
+- Posisi, ukuran, dan layout ikon tetap sama.
+- Tidak mengubah app.js, template, atau alur fungsi aplikasi.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.8.

@@ -47,3 +47,10 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Replaced remaining legacy white/blue/red/yellow UI surfaces with coordinated dark green neon styling (semantic warning/error colors retained).
 - Increased home action button height and spacing.
 - Header, footer, CSS query, and Service Worker cache version synchronized to v2.6.8.
+
+
+## v2.7.3 — Inventory Command Center Home
+- Memperbarui tampilan halaman awal dengan hero panel bertema cyberpunk neon green, identitas sistem, dan ringkasan 7 modul.
+- Memperjelas kartu menu dengan ikon, deskripsi singkat, dan indikator arah; layout tetap responsif untuk ponsel.
+- Semua ID tombol, event handler, dan urutan modul dipertahankan. Tidak mengubah app.js, template Excel, atau logika proses.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.3.

@@ -3,21 +3,32 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.7.2">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.7.3">
   <title>Inventory</title>
 
 </head>
 <body>
-<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">TOOLS OPERASIONAL</div><h1>Inventory</h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.7.2</span></header>
-<main>
-  <section class="card process-card" id="processCard"><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
-    <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-copy"><strong>MASTER STOCK</strong></span></button></div>
-    <div class="process-item"><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>STOCK OUT</strong></span></button></div>
-    <div class="process-item"><button id="slSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>SL SUPPLIER</strong></span></button></div>
-    <div class="process-item"><button id="rekapSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-copy"><strong>BPB SUPPLIER</strong></span></button></div>
-    <div class="process-item"><button id="poExpiredBtn" class="button action-button action-brd" type="button" onclick="window.openPoExpired && window.openPoExpired()"><span class="action-copy"><strong>PO EXPIRED</strong></span></button></div>
-    <div class="process-item"><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>BRD</strong></span></button></div>
-    <div class="process-item"><button id="checkItemBtn" class="button action-button action-brd" type="button"><span class="action-copy"><strong>CHECK ITEM</strong></span></button></div>
+<header class="topbar"><img class="brand-logo" src="./assets/icon.png" alt="Logo Inventory"><div class="brand-title"><div class="eyebrow">OPERATIONAL CONTROL CENTER</div><h1>INVENTORY<span class="brand-dot">.</span></h1></div><button id="openFileManagerButton" class="button file-manager-launch header-file-manager" type="button">DAFTAR FILE &amp; UPLOAD</button><span class="version">v2.7.3</span></header>
+<main class="home-main">
+  <section class="home-hero" aria-label="Status sistem Inventory">
+    <div class="hero-grid-glow" aria-hidden="true"></div>
+    <div class="home-hero-copy">
+      <div class="home-kicker"><span class="live-dot"></span> SYSTEM WORKSPACE</div>
+      <h2>INVENTORY<br><span>COMMAND CENTER</span></h2>
+      <p>Semua proses operasional dalam satu ruang kerja.</p>
+      <div class="hero-meta"><span>7 MODUL TERSEDIA</span><i></i><span>LOCAL WORKSPACE</span></div>
+    </div>
+    <div class="hero-emblem" aria-hidden="true"><div class="emblem-ring"><span>INV</span><b>+</b></div><div class="emblem-line"></div></div>
+    <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
+  </section>
+  <section class="card process-card" id="processCard"><div class="module-heading"><div><span class="module-kicker">SELECT MODULE</span><h2>Menu Operasional</h2></div><span class="module-count">07 <small>MODULES</small></span></div><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
+    <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-icon" aria-hidden="true">▦</span><span class="action-copy"><strong>MASTER STOCK</strong><small>Data stok utama</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⇧</span><span class="action-copy"><strong>STOCK OUT</strong><small>Proses barang keluar</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="slSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⌁</span><span class="action-copy"><strong>SL SUPPLIER</strong><small>Data supplier</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="rekapSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">▤</span><span class="action-copy"><strong>BPB SUPPLIER</strong><small>Penerimaan supplier</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="poExpiredBtn" class="button action-button action-brd" type="button" onclick="window.openPoExpired && window.openPoExpired()"><span class="action-icon" aria-hidden="true">◷</span><span class="action-copy"><strong>PO EXPIRED</strong><small>Pemeriksaan PO</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-icon" aria-hidden="true">▧</span><span class="action-copy"><strong>BRD</strong><small>Proses dokumen BRD</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="checkItemBtn" class="button action-button action-brd" type="button"><span class="action-icon" aria-hidden="true">⌕</span><span class="action-copy"><strong>CHECK ITEM</strong><small>Pencarian item</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
   </div></section>
   <div id="poExpiredDialog" aria-hidden="true"><div id="poExpiredApp" class="po-expired-embedded embed"><div class="po-modal-head"><div class="po-modal-title"><h2>PO EXPIRED</h2><p id="subtitle">PO EXPIRED DC BOGOR1</p></div><button type="button" class="button button-quiet" id="poExpiredClose">Tutup</button></div>
 <main>
@@ -133,7 +144,7 @@
     <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
     <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.7.2 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.7.3 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

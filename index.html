@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.8.1">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.8.3">
   <title>Inventory</title>
 
 </head>
@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v2.8.1</span>
+    <span class="hero-version">v2.8.3</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
@@ -91,7 +91,7 @@
 
 
 </div>
-  <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">Daftar File Inventory</h2><div class="file-manage-heading-tools" aria-label="Tambah file"><button id="pickDailyFolderLink" class="home-quick-link" type="button">Pilih Folder</button><button id="pickFilesButton" class="home-quick-link" type="button">Pilih File</button></div></div><div id="fileManageList" class="file-manage-list"></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><span id="fileManageCount" class="file-manage-count"></span><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
+  <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">Daftar File Inventory</h2><div class="file-manage-heading-tools" aria-label="Tambah file"><button id="pickDailyFolderLink" class="home-quick-link" type="button">+ Pilih Folder</button><button id="pickFilesButton" class="home-quick-link" type="button">+ Pilih File</button></div></div><div id="fileManageList" class="file-manage-list"></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><span id="fileManageCount" class="file-manage-count"></span><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
   <input id="filePicker" type="file" multiple="multiple" accept=".csv,.txt,.brd,.xlsx,.xls,.xlsm,.xlsb" hidden><input id="dailyFolderPicker" type="file" webkitdirectory directory multiple hidden>
   <dialog id="brdExportDialog" class="brd-dialog">
     <form method="dialog" id="brdExportForm">
@@ -157,7 +157,7 @@
       <div id="rmDetailPanel" class="raw-material-table-panel" hidden><div class="raw-material-table-wrap"><table id="rmDetailTable"></table></div><div class="raw-material-export"><span id="rmDetailCount"></span><button type="button" class="button button-primary" id="rmExportDetail">Export Tabel 2</button></div></div>
     </section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.8.1 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.8.3 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -940,7 +940,7 @@
   }
   init();
 })();
-</script><script src="app.js"></script><script src="raw-material.js?v=2.8.1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script src="app.js"></script><script src="raw-material.js?v=2.8.3"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

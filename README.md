@@ -1,3 +1,11 @@
+# Inventory v2.8.3
+
+## v2.8.3 — Label tautan tambah file
+- Mengubah label di pojok kanan atas popup Daftar File menjadi “+ Pilih Folder” dan “+ Pilih File”.
+- Kedua kontrol tetap berupa teks tanpa kotak/background/border, dengan garis bawah.
+- ID tombol, event handler, dan fungsi pemilihan file/folder tidak diubah.
+- Cache Service Worker diperbarui ke v2.8.3.
+
 # Inventory v2.8.1
 
 ## v2.8.0 — Ikon header diperbesar dan dipindahkan

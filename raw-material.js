@@ -202,10 +202,55 @@ function buildResult(src){
 function shortDesc(s){return String(s||"").trim()}
 
 function detectRows(rows,name){return {role:classify(name||'',rows),rows};}
+function parseCsvText(text){
+  const source=String(text||'').replace(/^\uFEFF/,'');
+  const candidates=[',',';','\t','|'];
+  const sample=source.split(/\r?\n/).slice(0,8);
+  const countOutsideQuotes=(line,delimiter)=>{
+    let count=0,quoted=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'&&line[i+1]==='"'&&quoted){i++;continue}
+      if(ch==='"'){quoted=!quoted;continue}
+      if(ch===delimiter&&!quoted)count++;
+    }
+    return count;
+  };
+  const delimiter=candidates.map(d=>({d,score:sample.reduce((n,line)=>n+countOutsideQuotes(line,d),0)})).sort((a,b)=>b.score-a.score)[0].d;
+  const rows=[];let row=[],field='',quoted=false;
+  for(let i=0;i<source.length;i++){
+    const ch=source[i];
+    if(ch==='"'){
+      if(quoted&&source[i+1]==='"'){field+='"';i++}
+      else quoted=!quoted;
+    }else if(ch===delimiter&&!quoted){row.push(field);field=''}
+    else if((ch==='\n'||ch==='\r')&&!quoted){
+      if(ch==='\r'&&source[i+1]==='\n')i++;
+      row.push(field);field='';
+      if(row.some(v=>String(v).trim()!==''))rows.push(row);
+      row=[];
+    }else field+=ch;
+  }
+  row.push(field);if(row.some(v=>String(v).trim()!==''))rows.push(row);
+  return rows;
+}
+function rowsFromCsvText(text){
+  const aoa=parseCsvText(text);
+  const hIdx=findHeaderRow(aoa);
+  const headers=(aoa[hIdx]||[]).map(cleanKey);
+  const rows=[];
+  for(let r=hIdx+1;r<aoa.length;r++){
+    const arr=aoa[r]||[],o={};
+    headers.forEach((h,ci)=>{if(h)o[h]=arr[ci]??""});
+    if(Object.values(o).some(v=>String(v).trim()!==''))rows.push(o);
+  }
+  return rows;
+}
 function detectText(text,name){
+  const txt=String(text||'').replace(/^\uFEFF/,'');
+  if(/\.(csv|txt)$/i.test(String(name||'')))return detectRows(rowsFromCsvText(txt),name);
   if(!window.XLSX)throw new Error('Pustaka Excel belum siap.');
-  let txt=String(text||'');
-  let wb=XLSX.read(txt,{type:'string',raw:true});
+  const wb=XLSX.read(txt,{type:'string',raw:true});
   const ws=wb.Sheets[wb.SheetNames[0]];
   return detectRows(ws?rowsFromSheet(ws):[],name);
 }

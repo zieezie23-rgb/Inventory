@@ -91,6 +91,11 @@ function parseLrbpbSupplier(content){
   .filter(o=>/^\d{8}$/.test(text(value(o,'PLU')).trim()));
 }
 function detectRole(file,content){const byName=roleGuess(file);if(byName)return byName;const rows=parseCSV(content);const header=(rows[0]||[]).map(norm);const all=header.join('|');if(header.includes('TBL_DC_KODE')||header.some(h=>h.includes('DC_KODE')))return 'brd';if(header.includes('PLU')&&header.includes('STOCK_OUT'))return 'stockout';if(header.includes('TGL_AKHIR')||all.includes('HISTORYTAG'))return 'history';if(['PRDCD','DESC2','DIV','CAT_COD'].every(x=>header.includes(x)))return 'prod';if(header.includes('SUPCO')&&header.includes('SNAMA'))return 'supmast';if(header.includes('GUDANG')&&header.includes('PRDCD')){const vals=rows.slice(1,30).flat().map(x=>String(x).toUpperCase());if(vals.some(x=>x.includes('G294')))return 'stm294';if(vals.some(x=>x.includes('G295')))return 'stm295';if(vals.some(x=>x.includes('G113')))return 'stm113'}if(header.includes('PRDCD')&&header.includes('ACOST'))return 'hrgbeli';if(header.includes('PRDCD')&&header.includes('PTAG'))return 'prod';if(header.includes('PRDCD')&&header.includes('NOREC'))return 'par113';return ''}
+async function readInventoryTextFile(file){
+ const buffer=await file.arrayBuffer();
+ try{return new TextDecoder('utf-8',{fatal:true}).decode(buffer)}
+ catch(e){return new TextDecoder('windows-1252').decode(buffer)}
+}
 async function addFiles(list){
  for(const file of list){
   const detected=roleGuess(file);
@@ -103,7 +108,7 @@ async function addFiles(list){
   if(!isBook&&!isBrd&&!/\.(csv|txt)$/i.test(file.name)){setStatus(`File ${file.name} dilewati. Format file belum didukung.`,true);continue}
   const id=Date.now()+Math.floor(Math.random()*100000);
   try{
-   const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await file.text(),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};
+   const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content:isBook?'':await readInventoryTextFile(file),bytes:isBook?await file.arrayBuffer():null,guess:isBook?detected:(isBrd?'brd':'')};
    if(!isBook&&!isBrd)obj.guess=detectRole(obj,obj.content);
    // Deteksi sumber Raw Material berdasarkan struktur kolom, bukan nama file.
    if(!isBrd&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){

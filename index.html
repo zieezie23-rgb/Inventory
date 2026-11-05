@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.7.4">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.7.5">
   <title>Inventory</title>
 
 </head>
@@ -17,10 +17,10 @@
       <div class="hero-meta"><span>LOCAL WORKSPACE</span></div>
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v2.7.4</span>
+    <span class="hero-version">v2.7.5</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
-  <section class="card process-card" id="processCard"><div class="module-heading"><div><span class="module-kicker">SELECT MODULE</span><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="pickFilesButton" class="home-quick-link" type="button">Pilih File</button><button id="pickDailyFolderLink" class="home-quick-link" type="button">Pilih Folder</button><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
+  <section class="card process-card" id="processCard"><div class="module-heading"><div><span class="module-kicker">SELECT MODULE</span><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-icon" aria-hidden="true">▦</span><span class="action-copy"><strong>MASTER STOCK</strong><small>Data stok utama</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⇧</span><span class="action-copy"><strong>STOCK OUT</strong><small>Proses barang keluar</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="slSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⌁</span><span class="action-copy"><strong>SL SUPPLIER</strong><small>Data supplier</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
@@ -90,7 +90,7 @@
 
 
 </div>
-  <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">Daftar File Inventory</h2></div><div id="fileManageList" class="file-manage-list"></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><span id="fileManageCount" class="file-manage-count"></span><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
+  <dialog id="fileManageDialog" class="brd-dialog file-manage-dialog"><form method="dialog"><div class="file-manage-heading"><h2 id="fileManageTitle">Daftar File Inventory</h2><div class="file-manage-heading-tools" aria-label="Tambah file"><button id="pickDailyFolderLink" class="home-quick-link" type="button">Pilih Folder</button><button id="pickFilesButton" class="home-quick-link" type="button">Pilih File</button></div></div><div id="fileManageList" class="file-manage-list"></div><div class="brd-dialog-actions file-manage-actions"><button id="clearBtn" class="button button-quiet" type="button">Bersihkan Semua</button><span id="fileManageCount" class="file-manage-count"></span><button type="button" class="button button-quiet" id="fileManageClose">Tutup</button></div></form></dialog>
   <input id="filePicker" type="file" multiple="multiple" accept=".csv,.txt,.brd,.xlsx,.xls,.xlsm,.xlsb" hidden><input id="dailyFolderPicker" type="file" webkitdirectory directory multiple hidden>
   <dialog id="brdExportDialog" class="brd-dialog">
     <form method="dialog" id="brdExportForm">
@@ -143,7 +143,7 @@
     <div class="subpanel" id="bb_panel" hidden><h3>Barang Baru &amp; Open TAG</h3><div class="panelhead"><div class="controls"><button id="bb_exportBtn" class="button" disabled>Export Excel</button><button id="bb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="bb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="bb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="bb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
     <div class="subpanel" id="itb_panel" hidden><h3>Item Tidak Bergerak</h3><div class="panelhead"><div class="controls"><button id="itb_exportBtn" class="button" disabled>Export Excel</button><button id="itb_exportJpgBtn" class="button" disabled>Export JPG</button></div></div><p id="itb_summary">Belum ada hasil.</p><div class="tablewrap"><table id="itb_resultTable"><thead></thead><tbody></tbody></table></div><h3>Kesimpulan</h3><pre id="itb_kesimpulan" class="kesimpulan">Belum ada hasil.</pre></div>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.7.4 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.7.5 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

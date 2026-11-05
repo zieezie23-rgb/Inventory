@@ -1,11 +1,11 @@
-# Inventory v2.7.9
+# Inventory v2.8.0
 
-## v2.7.9 — Ikon header diperbesar dan dipindahkan
+## v2.8.0 — Ikon header diperbesar dan dipindahkan
 - Ikon aplikasi diperbesar dan ditempatkan di pojok kanan bawah header, menempel pada garis/border header.
 - Pencerminan horizontal kanan-kiri tetap dipertahankan.
 - Perubahan hanya pada CSS header; JavaScript aplikasi dan template Excel tidak diubah.
 
-# Inventory v2.7.9
+# Inventory v2.8.0
 
 ## v2.7.6 — Penyesuaian header, popup file, dan ikon menu
 - Menghilangkan panel gelap di belakang ikon aplikasi pada hero; gambar ikon ditampilkan tanpa bingkai/background CSS.
@@ -83,8 +83,16 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Memperbarui versi stylesheet dan cache Service Worker ke v2.7.6.
 
 
-## v2.7.9 — Horizontal flip header icon
+## v2.8.0 — Horizontal flip header icon
 - Mengubah pencerminan ikon header dari vertikal (atas-bawah) menjadi horizontal (kanan-kiri) menggunakan scaleX(-1).
 - Posisi, ukuran, dan layout ikon tetap sama.
 - Tidak mengubah app.js, template, atau alur fungsi aplikasi.
-- Memperbarui versi stylesheet dan cache Service Worker ke v2.7.9.
+- Memperbarui versi stylesheet dan cache Service Worker ke v2.8.0.
+
+
+## v2.8.0 — Home spacing and PO Expired compact layout
+- Menghapus label LOCAL WORKSPACE dan SELECT MODULE pada halaman awal.
+- Menambah jarak antar kartu/tombol menu utama.
+- Memperbaiki aturan `hidden` pada bagian Hasil PO Expired agar tidak muncul sebelum ada hasil.
+- Popup PO Expired kini mengikuti tinggi konten, dengan batas maksimum layar dan scroll bila konten panjang; ruang kosong bawah dikurangi.
+- Tidak mengubah logika JavaScript, ID kontrol, maupun template Excel.

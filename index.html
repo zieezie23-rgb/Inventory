@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v2.8.7</span>
+    <span class="hero-version">v2.8.9</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -148,13 +148,19 @@
     <div class="raw-material-head"><div><p class="raw-material-kicker">INVENTORY WORKFLOW</p><h2>RAW MATERIAL</h2></div><button type="button" class="button button-quiet" id="rawMaterialClose">Tutup</button></div>
     
     <section id="rawMaterialResults" class="raw-material-results" hidden>
-      <div class="raw-material-next"><strong>Langkah selanjutnya</strong><span>Periksa Tabel 1 (Rekap Item) dan Tabel 2 (Detail Display / Storage / Put Pick), lalu ekspor tabel yang diperlukan.</span></div>
-      <div class="raw-material-tabs"><button type="button" class="active" data-rm-tab="summary">Tabel 1 — Rekap</button><button type="button" data-rm-tab="detail">Tabel 2 — Detail</button></div>
-      <div id="rmSummaryPanel" class="raw-material-table-panel"><div class="raw-material-table-wrap"><table id="rmSummaryTable"></table></div><div class="raw-material-export"><span id="rmSummaryCount"></span><button type="button" class="button button-primary" id="rmExportSummary">Export Tabel 1</button></div></div>
-      <div id="rmDetailPanel" class="raw-material-table-panel" hidden><div class="raw-material-table-wrap"><table id="rmDetailTable"></table></div><div class="raw-material-export"><span id="rmDetailCount"></span><button type="button" class="button button-primary" id="rmExportDetail">Export Tabel 2</button></div></div>
+      <div class="raw-material-table-toolbar">
+        <div class="raw-material-tabs"><button type="button" class="active" data-rm-tab="summary">Tabel 1 — Rekap</button><button type="button" data-rm-tab="detail">Tabel 2 — Detail</button></div>
+        <div class="raw-material-toolbar-actions">
+          <span id="rmSummaryCount"></span><span id="rmDetailCount"></span>
+          <button type="button" class="button button-primary" id="rmExportSummary">Export Tabel 1</button>
+          <button type="button" class="button button-primary" id="rmExportDetail">Export Tabel 2</button>
+        </div>
+      </div>
+      <div id="rmSummaryPanel" class="raw-material-table-panel"><div class="raw-material-table-wrap"><table id="rmSummaryTable"></table></div></div>
+      <div id="rmDetailPanel" class="raw-material-table-panel" hidden><div class="raw-material-table-wrap"><table id="rmDetailTable"></table></div></div>
     </section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.8.7 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.8.9 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';

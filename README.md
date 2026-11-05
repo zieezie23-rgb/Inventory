@@ -1,4 +1,10 @@
-# Inventory v2.8.7
+# Inventory v2.8.9
+
+## v2.8.8 — Perapian panel hasil Raw Material
+- Menghapus panel “Langkah selanjutnya” pada popup Raw Material.
+- Memindahkan tombol ekspor ke baris yang sama dengan tab Tabel 1 dan Tabel 2, rata kanan.
+- Tombol ekspor mengikuti tab aktif; Export Tabel 1 untuk Rekap dan Export Tabel 2 untuk Detail.
+- Menghapus area ekspor lama di bawah tabel.
 
 ## v2.8.7 — Indikator progress PO EXPIRED
 - Progress PO EXPIRED ditampilkan pada halaman utama saat menyiapkan sumber data dan saat tombol proses di popup dijalankan.
@@ -139,3 +145,8 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - LPP vs Plano yang sudah ada digunakan sebagai sumber LPP; Planogram Display dan Storage dikenali dari header kolom dan masuk kategori Tarikan LWA.
 - Proses Raw Material menampilkan pemeriksaan kelengkapan sumber dan hasil dua tabel dalam popup, dengan ekspor terpisah.
 - Mesin perhitungan Check Raw Material dipindahkan tanpa mengubah rumus pembentukan dua tabel.
+
+## v2.8.9 — Perbaikan input No PO
+- Memulihkan pointer/touch interaction pada kolom No PO di popup PO EXPIRED.
+- Memastikan textarea dapat menerima fokus dan input teks pada browser perangkat sentuh.
+- Tidak mengubah rumus maupun alur pemeriksaan PO EXPIRED.

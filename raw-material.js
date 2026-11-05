@@ -343,7 +343,7 @@ function init(){
  $rm('rawMaterialClose').addEventListener('click',()=>$rm('rawMaterialDialog').close());
  $rm('rmExportSummary').addEventListener('click',()=>exportAOA(lastSummaryAOA,'Rekap_Item.xlsx'));
  $rm('rmExportDetail').addEventListener('click',()=>exportAOA(lastDetailAOA,'Detail_Display_Storage.xlsx',lastDetailMerges));
- document.querySelectorAll('[data-rm-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-rm-tab]').forEach(x=>x.classList.toggle('active',x===b));$rm('rmSummaryPanel').hidden=b.dataset.rmTab!=='summary';$rm('rmDetailPanel').hidden=b.dataset.rmTab!=='detail'}));
+ document.querySelectorAll('[data-rm-tab]').forEach(b=>b.addEventListener('click',()=>{const summary=b.dataset.rmTab==='summary';document.querySelectorAll('[data-rm-tab]').forEach(x=>x.classList.toggle('active',x===b));$rm('rmSummaryPanel').hidden=!summary;$rm('rmDetailPanel').hidden=summary;}));
  $rm('rawMaterialDialog').addEventListener('close',()=>{$rm('rawMaterialResults').hidden=true});
 }
 function initWithInventory(api){getInventoryFiles=api.getFiles;getInventoryMaster=api.getMasterRows;getInventoryMasterCount=api.getMasterCount;init();renderSourceState()}

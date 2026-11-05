@@ -1,4 +1,4 @@
-# Inventory v2.8.0
+# Inventory v2.8.1
 
 ## v2.8.0 — Ikon header diperbesar dan dipindahkan
 - Ikon aplikasi diperbesar dan ditempatkan di pojok kanan bawah header, menempel pada garis/border header.
@@ -96,3 +96,12 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Memperbaiki aturan `hidden` pada bagian Hasil PO Expired agar tidak muncul sebelum ada hasil.
 - Popup PO Expired kini mengikuti tinggi konten, dengan batas maksimum layar dan scroll bila konten panjang; ruang kosong bawah dikurangi.
 - Tidak mengubah logika JavaScript, ID kontrol, maupun template Excel.
+
+
+## v2.8.1 — Integrasi Raw Material
+- Menambahkan menu RAW MATERIAL sebagai satu tombol pada Command Center.
+- Menggunakan Master Stock yang dibentuk dari sumber Inventory (PRODMAST dan data terkait), tanpa upload Master Stock terpisah.
+- PLU.csv terdeteksi dari struktur kolom dan masuk kategori Bahan.
+- LPP vs Plano yang sudah ada digunakan sebagai sumber LPP; Planogram Display dan Storage dikenali dari header kolom dan masuk kategori Tarikan LWA.
+- Proses Raw Material menampilkan pemeriksaan kelengkapan sumber dan hasil dua tabel dalam popup, dengan ekspor terpisah.
+- Mesin perhitungan Check Raw Material dipindahkan tanpa mengubah rumus pembentukan dua tabel.

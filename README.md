@@ -1,8 +1,14 @@
-# Inventory v2.9.8
+# Inventory v2.9.9
+
+## v2.9.9 — Raw Material membaca sumber langsung
+- Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.
+- Filter barang dan pemetaan ALAMAT mengikuti aturan Master Stock yang sama.
+- Sumber STM G113 kini menjadi syarat kesiapan Raw Material karena dibutuhkan untuk ALAMAT.
+
 
 ## v2.9.8 — Ekspor Raw Material dalam satu workbook
 - Tombol ekspor Rekap dan Detail digabung menjadi satu tombol Export.
-- Satu file `Check Raw Material [dd mmm yy].xlsx` berisi sheet `Rekap` dan `Detail`.
+- Satu file `Check Raw Material dd mmm yy.xlsx` berisi sheet `Rekap` dan `Detail`.
 - Kolom tanggal tetap disimpan sebagai nilai tanggal Excel dengan format `dd mmm yy`.
 - Tombol navigasi tabel disingkat menjadi `Rekap` dan `Detail`; perhitungan tidak diubah.
 

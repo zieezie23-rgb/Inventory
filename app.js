@@ -179,6 +179,17 @@ function filterWarehouse(rows,wh){return rows.filter(o=>{const folderWh=text(val
 function firstMap(rows,field='PRDCD'){const m=new Map();rows.forEach(o=>{const k=key(value(o,field,'PLU'));if(k&&!m.has(k))m.set(k,o)});return m}
 // STM location data can contain valid stock rows with blank LT/RAK/BAR/CELL. Prefer a row with actual location fields for each PRDCD, rather than letting a blank row mask a populated one.
 function stmLocationMap(rows){const m=new Map();for(const o of rows){const k=key(value(o,'PRDCD','PLU'));if(!k)continue;const hasLoc=['LT','RAK','BAR','CELL'].some(f=>text(value(o,f))!=='');const old=m.get(k);const oldHasLoc=old&&['LT','RAK','BAR','CELL'].some(f=>text(value(old,f))!=='');if(!old||(hasLoc&&!oldHasLoc))m.set(k,o)}return m}
+// Raw Material hanya membutuhkan subset Master Stock. Ambil langsung dari PRODMAST dan STM G113,
+// dengan filter barang dan aturan pemilihan lokasi yang sama seperti processData(), tanpa membangun 77 kolom.
+function getRawMaterialMasterRows(){
+ const prod=allRows('prod');if(!prod.length)throw Error('File PRODMAST belum tersedia atau tidak terbaca.');
+ const stmRows=allRows('stm113');if(!stmRows.length)throw Error('File STM G113 belum tersedia atau tidak terbaca. Raw Material memerlukan sumber ALAMAT.');
+ const validProd=prod.filter(p=>{const prd=key(value(p,'PRDCD'));return !!prd&&text(value(p,'PRDCD')).trim().toUpperCase()!=='PRDCD'&&!['F','T','G'].some(prefix=>text(value(p,'DIV')).trim().toUpperCase().startsWith(prefix))&&!text(value(p,'CAT_COD')).trim().startsWith('8')});
+ const stm113=filterWarehouse(stmRows,'G113');
+ const loc1=stmLocationMap(stm113.filter(o=>text(value(o,'LOKASI')).padStart(2,'0')==='01'));
+ return validProd.map(p=>{const prd=key(value(p,'PRDCD')),st=loc1.get(prd)||{};const alamat=['LT','RAK','BAR','CELL'].map(f=>text(value(st,f))).join('-').replace(/^-+|-+$/,'');return {PRDCD:prd,DESC2:value(p,'DESC2','DESC'),ALAMAT:alamat,FRAC:value(p,'FRAC')}});
+}
+function getRawMaterialMasterCount(){return allRows('prod').length&&allRows('stm113').length?allRows('prod').length:0}
 function sumBy(rows,field,qualify=()=>true){const m=new Map();for(const o of rows){if(!qualify(o))continue;const k=key(value(o,'PRDCD','PLU'));if(k)m.set(k,(m.get(k)||0)+num(value(o,field)))}return m}
 function zone(lt){const x=text(lt).toUpperCase();const groups={'01':'BO BP BQ BR','02':'BS BT BU BV','03':'BW BX BY BZ CA CB CC CD','04':'CE CF CG CH','05':'CI CJ CK CL CM CN','06':'CO CP CQ CR CS CT','07':'CU CV CW CX','08':'CY CZ DA DB','09':'AB AC','10':'AD AE','11':'AF AG AH AI','12':'AJ AK AL AM','13':'AN AO AP AQ','14':'AZ BA BB BC BD BE','15':'BF BG BH BI BJ BK','16':'DT','17':'DJ','18':'BM','19':'BN','20':'AV AW','21':'AX AY'};for(const [z,ls] of Object.entries(groups))if(ls.split(' ').includes(x))return z;return x==='99'?'':''}
 function round(v,n=0){const p=10**n;return Math.round((v+Number.EPSILON)*p)/p}

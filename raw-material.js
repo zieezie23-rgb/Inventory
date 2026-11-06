@@ -270,7 +270,7 @@ function sourceState(){
  try{masterCount=getInventoryMasterCount();masterReady=masterCount>0}catch(e){}
  const src={master:null,lpp:pick('lpp'),display:pick('display'),storage:pick('storage'),plu:pick('plu')};
  const defs=[
-  {key:'master',title:'Master Stock dari Inventory',ready:masterReady,count:masterCount,detail:'Dibentuk dari sumber Master Stock Inventory'},
+  {key:'master',title:'PRODMAST + STM G113 — sumber Master Stock',ready:masterReady,count:masterCount,detail:'Diambil langsung dari sumber, tanpa membentuk ulang Master Stock'},
   {key:'plu',title:'PLU.csv — kategori Bahan',ready:!!(src.plu&&src.plu.rawRows.length),count:src.plu?.rawRows?.length||0,detail:src.plu?.name||'Belum diunggah'},
   {key:'lpp',title:'LPP vs Plano — sumber Inventory',ready:!!(src.lpp&&src.lpp.rawRows.length),count:src.lpp?.rawRows?.length||0,detail:src.lpp?.name||'Belum diunggah'},
   {key:'display',title:'Listing Planogram Display — Tarikan LWA',ready:!!(src.display&&src.display.rawRows.length),count:src.display?.rawRows?.length||0,detail:src.display?.name||'Belum diunggah'},
@@ -349,8 +349,8 @@ async function runRawMaterial(){
  try{
   await new Promise(r=>setTimeout(r,40));
   if(typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();
-  rmHomeProgress('Membentuk Master Stock dari Inventory',5,true);
-  const masterData=getInventoryMaster(),master=masterData.map(r=>({PRDCD:r[0],DESC2:r[1],ALAMAT:r[8],FRAC:r[15]}));
+  rmHomeProgress('Membaca PRODMAST dan STM G113 langsung',5,true);
+  const master=getInventoryMaster();
   const current=sourceState().src,src={master,lpp:current.lpp.rawRows,display:current.display.rawRows,storage:current.storage.rawRows,plu:current.plu.rawRows};
   const result=await buildResultProgressive(src,(label,pct)=>rmHomeProgress(label,pct,true));lastResult=result;
   renderResult(result);$rm('rawMaterialResults').hidden=false;
@@ -369,5 +369,5 @@ function init(){
 }
 function initWithInventory(api){getInventoryFiles=api.getFiles;getInventoryMaster=api.getMasterRows;getInventoryMasterCount=api.getMasterCount;init();renderSourceState()}
 window.InventoryRawMaterial={detectText,detectBuffer,refresh:renderSourceState,init:initWithInventory,buildResult};
-if(typeof files!=='undefined'&&typeof allRows==='function'&&typeof processData==='function'){initWithInventory({getFiles:()=>files,getMasterCount:()=>allRows('prod').length,getMasterRows:()=>{if(!allRows('prod').length)throw new Error('File PRODMAST belum tersedia di Inventory.');return processData(new Date()).data;}})}
+if(typeof files!=='undefined'&&typeof allRows==='function'&&typeof getRawMaterialMasterRows==='function'){initWithInventory({getFiles:()=>files,getMasterCount:getRawMaterialMasterCount,getMasterRows:getRawMaterialMasterRows})}
 })();

@@ -1,6 +1,6 @@
-3.1.2
+3.1.4
 
-## v3.1.2 — Modul History (tambahan terpisah)
+## v3.1.4 — Modul History (tambahan terpisah)
 - Menambahkan tombol HISTORY tanpa mengubah alur proses modul operasional yang sudah ada.
 - PRDCD dibatasi hanya dari PRODMAST dan hanya item yang memiliki ZONA pada LT STM G113 lokasi 01.
 - Parameter dibaca langsung dari PRODMAST, STM G113, HPG, HRGBELI, dan SUPMAST; tidak membangun Master Stock.
@@ -31,7 +31,7 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.1.2
+# Inventory v3.1.4
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.
@@ -249,3 +249,19 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - File berekstensi `.BRD` kini didekode menjadi teks saat diunggah (UTF-8 dengan fallback Windows-1252), sehingga isi file tersedia untuk mesin konversi BRD.
 - Memperbaiki penyebab file BRD terdaftar tetapi tidak dapat dipilih/diproses: sebelumnya konten BRD sengaja dikosongkan saat pembacaan.
 - Tidak mengubah parser, format ekspor, maupun rumus/aturan konversi BRD.
+
+## v3.1.4 — Analisa tren History 3 bulan
+- History membandingkan STOCK OUT harian selama rentang 3 bulan dan menampilkan tren jumlah item STOCK OUT.
+- Analisa pengadaan dibagi menjadi 14 hari, 30 hari, dan 3 bulan: Tidak ada PO, Tidak ada kedatangan, serta SL <100%.
+- POM dipisahkan berdasarkan tanggal PO dan tanggal BPB pada baris RECID R; RECID 1 tetap dikecualikan mengikuti filter perhitungan yang sudah digunakan aplikasi.
+- Pemeriksaan BPB sesuai PO melihat STOCK pada hari berikutnya.
+- Ranking 50 item memakai penurunan STOCK dari tanggal awal ke akhir periode; ranking 50 SUPCO memakai jumlah item yang menurun.
+- Tanggal akhir History mengikuti tanggal STOCK aktual terakhir yang terisi pada REG, bukan hanya TGLUPD. MEAN HPG terbaru dipakai sebagai patokan tetap sepanjang periode.
+
+
+## v3.1.4 — History berbasis nilai rupiah
+- Grafik PO 14 hari, BPB, STOCK, dan STOCK OUT menggunakan nilai rupiah berdasarkan ACOST; SL Supplier tetap persentase.
+- Nilai PO dan BPB pada analisa 14 hari, 30 hari, dan 3 bulan ditampilkan dalam rupiah, sedangkan SL tetap persentase.
+- Peringkat 50 item dan 50 SUPCO diurutkan berdasarkan dampak penurunan nilai STOCK (Rp), bukan qty.
+- Ringkasan penyebab penurunan diurutkan berdasarkan dampak rupiah; jumlah item tetap disertakan sebagai informasi pendamping.
+- Kolom BPB dan STOCK harian pada tabel serta export History ditampilkan dalam rupiah.

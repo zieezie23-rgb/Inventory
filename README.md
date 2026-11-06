@@ -1,4 +1,9 @@
-# Inventory v2.9.5
+# Inventory v2.9.6
+
+## v2.9.6 — Koreksi notifikasi jumlah file
+- Notifikasi Daftar File kini menghitung file fisik yang dimuat, bukan jumlah jenis sumber/slot. File REG bulanan dihitung masing-masing.
+- Tidak mengubah pemetaan file, proses, maupun perhitungan Inventory.
+
 
 ## v2.9.5 — Perbaikan ekspor XLSX dan CSV
 - Memisahkan fungsi unduhan ekspor BRD dari fungsi unduhan XLSX Inventory agar tidak saling menimpa akibat nama fungsi yang sama.

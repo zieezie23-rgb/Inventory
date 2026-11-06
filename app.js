@@ -82,8 +82,8 @@ function renderFiles(){
  }else{
   $('fileManageList').innerHTML=`<div class="upload-group-rows">${required.map(renderRole).join('')}</div>`||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';
  }
- const ready=required.filter(hasRole).length;
- $('fileManageCount').textContent=`${ready}/${required.length} jenis sumber tersedia`;
+ const readyFiles=files.filter(f=>required.includes(f.guess)&&(f.bytes||String(f.content||'').trim()!=='' )).length;
+ $('fileManageCount').textContent=`${readyFiles} file tersedia`;
  $('fileManageList').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const id=Number(b.dataset.remove);files=files.filter(f=>f.id!==id);parsed.delete(id);renderFiles()});
 }
 

@@ -1,4 +1,4 @@
-# Inventory v2.8.9
+# Inventory v2.9.0
 
 ## v2.8.8 — Perapian panel hasil Raw Material
 - Menghapus panel “Langkah selanjutnya” pada popup Raw Material.
@@ -146,7 +146,11 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Proses Raw Material menampilkan pemeriksaan kelengkapan sumber dan hasil dua tabel dalam popup, dengan ekspor terpisah.
 - Mesin perhitungan Check Raw Material dipindahkan tanpa mengubah rumus pembentukan dua tabel.
 
-## v2.8.9 — Perbaikan input No PO
+## v2.9.0 — Perbaikan BRD dan input PO EXPIRED
 - Memulihkan pointer/touch interaction pada kolom No PO di popup PO EXPIRED.
 - Memastikan textarea dapat menerima fokus dan input teks pada browser perangkat sentuh.
 - Tidak mengubah rumus maupun alur pemeriksaan PO EXPIRED.
+
+- File berekstensi `.BRD` kini didekode menjadi teks saat diunggah (UTF-8 dengan fallback Windows-1252), sehingga isi file tersedia untuk mesin konversi BRD.
+- Memperbaiki penyebab file BRD terdaftar tetapi tidak dapat dipilih/diproses: sebelumnya konten BRD sengaja dikosongkan saat pembacaan.
+- Tidak mengubah parser, format ekspor, maupun rumus/aturan konversi BRD.

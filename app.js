@@ -118,7 +118,7 @@ async function addFiles(list){
   const id=Date.now()+Math.floor(Math.random()*100000);
   try{
    const bytes=await readFileWithProgress(file,onRead);
-   let content='';if(!isBook&&!isBrd){try{content=new TextDecoder('utf-8',{fatal:true}).decode(bytes)}catch(e){content=new TextDecoder('windows-1252').decode(bytes)}}
+   let content='';if(!isBook){try{content=new TextDecoder('utf-8',{fatal:true}).decode(bytes)}catch(e){content=new TextDecoder('windows-1252').decode(bytes)}}
    const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content,bytes:isBook?bytes:null,guess:isBook?detected:(isBrd?'brd':'')};
    if(!isBook&&!isBrd)obj.guess=isPomCsv?detected:detectRole(obj,obj.content);
    // Deteksi sumber Raw Material berdasarkan struktur kolom, bukan nama file.

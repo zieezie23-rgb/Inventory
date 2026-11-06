@@ -1,6 +1,6 @@
-3.1.0
+3.1.2
 
-## v3.1.1 — Modul History (tambahan terpisah)
+## v3.1.2 — Modul History (tambahan terpisah)
 - Menambahkan tombol HISTORY tanpa mengubah alur proses modul operasional yang sudah ada.
 - PRDCD dibatasi hanya dari PRODMAST dan hanya item yang memiliki ZONA pada LT STM G113 lokasi 01.
 - Parameter dibaca langsung dari PRODMAST, STM G113, HPG, HRGBELI, dan SUPMAST; tidak membangun Master Stock.
@@ -31,7 +31,7 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.1.1
+# Inventory v3.1.2
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

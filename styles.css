@@ -1650,7 +1650,7 @@ body .action-button .action-copy{gap:5px!important;}
 @media(prefers-reduced-motion:reduce){.home-progress-track.is-indeterminate span::after{animation:none;left:32%;width:36%;opacity:.55}}
 
 
-/* v3.1.0 — HISTORY add-on. Styles are scoped to the new dialog only. */
+/* v3.1.2 — HISTORY add-on. Styles are scoped to the new dialog only. */
 .history-dialog{width:min(1320px,calc(100% - 20px));max-height:94dvh;overflow:auto;padding:18px;background:#07150d;color:#caffb8;border:1px solid rgba(117,255,85,.48);border-radius:18px;box-shadow:0 22px 70px rgba(0,0,0,.72),0 0 28px rgba(72,255,67,.12)}
 .history-dialog::backdrop{background:rgba(0,8,5,.84);backdrop-filter:blur(5px)}
 .history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}.history-head h2{margin:0;color:#caffb8}.history-head p{margin:4px 0 0;color:#9ac9a2;font-size:11px}.history-actions{display:flex;gap:8px;flex-wrap:wrap}

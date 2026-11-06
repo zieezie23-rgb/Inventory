@@ -1,4 +1,15 @@
-# Inventory v2.9.6
+# Inventory v2.9.8
+
+## v2.9.8 — Ekspor Raw Material dalam satu workbook
+- Tombol ekspor Rekap dan Detail digabung menjadi satu tombol Export.
+- Satu file `Check Raw Material [dd mmm yy].xlsx` berisi sheet `Rekap` dan `Detail`.
+- Kolom tanggal tetap disimpan sebagai nilai tanggal Excel dengan format `dd mmm yy`.
+- Tombol navigasi tabel disingkat menjadi `Rekap` dan `Detail`; perhitungan tidak diubah.
+
+## v2.9.7 — Tanggal Excel Raw Material sebagai nilai tanggal
+- Kolom tanggal pada ekspor Rekap Item dan Detail Display/Storage disimpan sebagai nilai tanggal Excel, bukan teks.
+- Format tampilan sel Excel menggunakan `dd mmm yy`; tampilan tabel aplikasi tetap `DD MMM YY`.
+- Perhitungan dan penyusunan data Raw Material tidak diubah.
 
 ## v2.9.6 — Koreksi notifikasi jumlah file
 - Notifikasi Daftar File kini menghitung file fisik yang dimuat, bukan jumlah jenis sumber/slot. File REG bulanan dihitung masing-masing.

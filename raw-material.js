@@ -318,7 +318,29 @@ function renderResult(res){
  res.detail.forEach(r=>{dh.push([r.no,r.prdcd,r.desc2,r.frac,r.lpp,r.display,r.displayExp,r.storage,r.storageExp,r.putpick,r.selisih]);if(r.rowCount>1)MERGE_COLS.forEach(c=>merges.push({s:{r:excelRow,c},e:{r:excelRow+r.rowCount-1,c}}));excelRow++});
  renderDetailTable($rm('rmDetailTable'),dh,res.detail,{equalFrom:3,firstWidths:[5,10,26]});$rm('rmDetailCount').textContent=res.detail.length+' baris';lastDetailAOA=dh;lastDetailMerges=merges;
 }
-function exportAOA(aoa,filename,merges){if(!aoa||aoa.length<2){rmHomeStatus('Belum ada data untuk diekspor.',true);return}const ws=XLSX.utils.aoa_to_sheet(aoa);if(merges&&merges.length)ws['!merges']=merges.map(m=>({s:m.s,e:m.e}));const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sheet1');XLSX.writeFile(wb,filename)}
+function dateTextToExcelSerial(v){
+ if(typeof v!=='string'||!v.trim())return null;
+ const m=v.trim().match(/^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{2})$/);if(!m)return null;
+ const months=MONTHS_ID.map(x=>x.toLowerCase()),month=months.indexOf(m[2].toLowerCase());if(month<0)return null;
+ const year=Number(m[3])+(Number(m[3])<70?2000:1900),day=Number(m[1]);
+ const d=new Date(Date.UTC(year,month,day));if(d.getUTCFullYear()!==year||d.getUTCMonth()!==month||d.getUTCDate()!==day)return null;
+ return (d.getTime()-Date.UTC(1899,11,30))/86400000;
+}
+function makeRawMaterialSheet(aoa,merges,dateCols=[]){
+ const exportData=aoa.map((row,i)=>row.map((v,j)=>i>0&&dateCols.includes(j)?(dateTextToExcelSerial(v)??''):v));
+ const ws=XLSX.utils.aoa_to_sheet(exportData);
+ dateCols.forEach(col=>{for(let r=1;r<exportData.length;r++){const addr=XLSX.utils.encode_cell({r,c:col}),cell=ws[addr];if(cell&&typeof cell.v==='number'){cell.t='n';cell.z='dd mmm yy';}}});
+ if(merges&&merges.length)ws['!merges']=merges.map(m=>({s:m.s,e:m.e}));
+ return ws;
+}
+function exportRawMaterialWorkbook(){
+ if(!lastSummaryAOA||lastSummaryAOA.length<2||!lastDetailAOA||lastDetailAOA.length<2){rmHomeStatus('Belum ada data untuk diekspor.',true);return}
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,makeRawMaterialSheet(lastSummaryAOA,null,[8,9]),'Rekap');
+ XLSX.utils.book_append_sheet(wb,makeRawMaterialSheet(lastDetailAOA,lastDetailMerges,[6,8]),'Detail');
+ const d=new Date(),dd=String(d.getDate()).padStart(2,'0'),mmm=MONTHS_ID[d.getMonth()],yy=String(d.getFullYear()).slice(-2);
+ XLSX.writeFile(wb,`Check Raw Material ${dd} ${mmm} ${yy}.xlsx`,{cellDates:false});
+}
 async function runRawMaterial(){
  const state=renderSourceState();
  if(!state.ready){const missing=state.defs.filter(x=>!x.ready).map(x=>x.title);rmHomeStatus('Raw Material belum bisa diproses. File belum lengkap: '+missing.join(', ')+'. Silakan lengkapi melalui Daftar File.',true);if(typeof openFileManager==='function')openFileManager('allFiles');return}
@@ -341,8 +363,7 @@ function init(){
  if(typeof window.XLSX==='undefined'&&typeof checkItemEnsureXLSX==='function'){}
  $rm('rawMaterialBtn').addEventListener('click',runRawMaterial);
  $rm('rawMaterialClose').addEventListener('click',()=>$rm('rawMaterialDialog').close());
- $rm('rmExportSummary').addEventListener('click',()=>exportAOA(lastSummaryAOA,'Rekap_Item.xlsx'));
- $rm('rmExportDetail').addEventListener('click',()=>exportAOA(lastDetailAOA,'Detail_Display_Storage.xlsx',lastDetailMerges));
+ $rm('rmExport').addEventListener('click',exportRawMaterialWorkbook);
  document.querySelectorAll('[data-rm-tab]').forEach(b=>b.addEventListener('click',()=>{const summary=b.dataset.rmTab==='summary';document.querySelectorAll('[data-rm-tab]').forEach(x=>x.classList.toggle('active',x===b));$rm('rmSummaryPanel').hidden=!summary;$rm('rmDetailPanel').hidden=summary;}));
  $rm('rawMaterialDialog').addEventListener('close',()=>{$rm('rawMaterialResults').hidden=true});
 }

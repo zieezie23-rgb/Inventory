@@ -1,9 +1,15 @@
-3.0.3
+3.1.0
 
-- CHECK ITEM tahap 1 dan tahap 2 kini menampilkan indikator progres pada halaman utama.
-- Tahap dengan durasi yang belum dapat diukur memakai animasi indeterminate; tahap terukur memakai persentase progres.
-- Progress bar tetap tanpa outline dan menggunakan animasi kilau yang sama dengan indikator proses lainnya.
-- Status selesai dan gagal ditampilkan, lalu indikator disembunyikan otomatis.
+## v3.1.0 — Modul History (tambahan terpisah)
+- Menambahkan tombol HISTORY tanpa mengubah alur proses modul operasional yang sudah ada.
+- PRDCD dibatasi hanya dari PRODMAST dan hanya item yang memiliki ZONA pada LT STM G113 lokasi 01.
+- Parameter dibaca langsung dari PRODMAST, STM G113, HPG, HRGBELI, dan SUPMAST; tidak membangun Master Stock.
+- STOCK dan PTAG harian dibaca dari kolom STOCKnn dan TAGnn pada REG bulanan.
+- Tanggal akhir mengikuti TGLUPD REG dikurangi satu hari (H-1); pemeriksaan memastikan seluruh bulan pada rentang tiga bulan tersedia.
+- BPB harian diambil dari BPB_DATE/BPB_QTY POM. SL Supplier dihitung per item dengan PO/BPB bergulir 14 hari hingga H-1.
+- Menampilkan tabel dua tingkat, grafik gabungan, grafik item, grafik SUPCO, analisis shortage terhadap MEAN, serta ranking 50 item dan 50 SUPCO.
+- Ekspor satu XLSX berisi lima sheet: Grafik (3 chart Excel), Rekap, Analisa, 50 Item Terbesar, dan 50 SUPCO Terbesar.
+- Pembacaan REG dan POM dilakukan streaming per baris agar tidak membuat array objek raksasa di memori.
 
 ## v3.0.3 — Standarisasi indikator progres
 
@@ -25,7 +31,7 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.0.3
+# Inventory v3.1.0
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

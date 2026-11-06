@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.0.3">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.1.0">
   <title>Inventory</title>
 
 </head>
@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v3.0.3</span>
+    <span class="hero-version">v3.1.0</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -28,6 +28,7 @@
     <div class="process-item"><button id="poExpiredBtn" class="button action-button action-brd" type="button" onclick="window.openPoExpired && window.openPoExpired()"><span class="action-icon" aria-hidden="true">◷</span><span class="action-copy"><strong>PO EXPIRED</strong><small>Pemeriksaan PO</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="brdBtn" class="button action-button action-brd" type="button"><span class="action-icon" aria-hidden="true">▧</span><span class="action-copy"><strong>BRD</strong><small>Proses dokumen BRD</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="checkItemBtn" class="button action-button action-brd" type="button"><span class="action-icon" aria-hidden="true">⌕</span><span class="action-copy"><strong>CHECK ITEM</strong><small>Pencarian item</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
+    <div class="process-item"><button id="historyBtn" class="button action-button action-master" type="button"><span class="action-icon" aria-hidden="true">◷</span><span class="action-copy"><strong>HISTORY</strong><small>Riwayat stok, PTAG &amp; BPB</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="rawMaterialBtn" class="button action-button action-master" type="button"><span class="action-icon" aria-hidden="true">▤</span><span class="action-copy"><strong>RAW MATERIAL</strong><small>Rekap item, display &amp; storage</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
   </div></section>
   <div id="poExpiredDialog" aria-hidden="true"><div id="poExpiredApp" class="po-expired-embedded embed"><div class="po-modal-head"><div class="po-modal-title"><h2>PO EXPIRED</h2><p id="subtitle">PO EXPIRED DC BOGOR1</p></div><button type="button" class="button button-quiet" id="poExpiredClose">Tutup</button></div>
@@ -159,7 +160,18 @@
       <div id="rmDetailPanel" class="raw-material-table-panel" hidden><div class="raw-material-table-wrap"><table id="rmDetailTable"></table></div></div>
     </section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v3.0.3 @2026</footer>
+  <dialog id="historyDialog" class="brd-dialog history-dialog">
+    <div class="history-head"><div><p class="raw-material-kicker">INVENTORY ANALYTICS</p><h2>HISTORY</h2><p id="historySummary">Menyiapkan riwayat…</p></div><div class="history-actions"><button type="button" class="button button-primary" id="historyExport">Export XLSX</button><button type="button" class="button button-quiet" id="historyClose">Tutup</button></div></div>
+    <section class="history-chart-grid">
+      <article class="history-chart-card"><h3>BPB • STOCK • SL SUPPLIER</h3><div id="historyChartAll"></div></article>
+      <article class="history-chart-card"><div class="history-chart-title"><h3>GRAFIK PER ITEM</h3><select id="historyItemSelect" aria-label="Pilih item"></select></div><div id="historyChartItem"></div></article>
+      <article class="history-chart-card"><div class="history-chart-title"><h3>GRAFIK PER SUPCO</h3><select id="historySupSelect" aria-label="Pilih supplier"></select></div><div id="historyChartSup"></div></article>
+    </section>
+    <section class="history-section"><h3>Analisa STOCK di bawah MEAN</h3><div class="history-table-wrap"><table id="historyAnalysis"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>MEAN</th><th>STOCK</th><th>SHORTAGE Rp</th><th>Analisa</th></tr></thead><tbody></tbody></table></div></section>
+    <section class="history-section"><div class="history-table-toolbar"><h3>Rekap History Harian</h3><div class="history-pagination"><span id="historyPageInfo"></span><button type="button" class="button button-quiet" id="historyPrev">‹</button><button type="button" class="button button-quiet" id="historyNext">›</button></div></div><div class="history-table-wrap history-wide-table"><table id="historyTable"></table></div></section>
+    <p class="history-note">SL Supplier dihitung dari POM: total BPB Qty ÷ total PO Qty pada 14 hari sebelum tanggal history (H-1). Analisa konsumsi tinggi adalah indikasi, bukan bukti penjualan.</p>
+  </dialog>
+  <footer class="app-footer">Zie Project • Inventory v3.1.0 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -966,7 +978,7 @@
   }
   init();
 })();
-</script><script src="app.js?v=3.0.3"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script src="app.js?v=3.1.0"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

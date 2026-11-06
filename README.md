@@ -1,13 +1,29 @@
-# Inventory v2.9.2
+# Inventory v2.9.4
 
-## v2.9.2 — Persiapan PO EXPIRED sebelum popup dibuka
+## v2.9.4 — Koreksi jumlah Tarikan Harian dan kategori laporan Seasonal
+- Penghitung Tarikan Harian kini menghitung file fisik, bukan hanya jenis/slot sumber. Empat file REG bulanan dihitung masing-masing sehingga 22 file Tarikan Harian ditampilkan sebagai 22 file.
+- Penghitung ringkasan Daftar File diberi label “jenis sumber” agar tidak disalahartikan sebagai jumlah file fisik.
+- Workbook `Laporan Harian Seasonal` dipindahkan dari kategori Bahan ke kategori File Update.
+- Pemetaan peran workbook Seasonal dan pemakaiannya pada proses PO EXPIRED tetap dipertahankan; perubahan kategori tidak mengubah proses atau perhitungan.
+- Logika Inventory, PO EXPIRED, SL SUPPLIER, dan Raw Material selain tampilan kategori/penghitung tidak diubah.
+
+# Inventory v2.9.3
+
+## v2.9.3 — Optimasi proses SL SUPPLIER
+- Menghapus pemanggilan `processData()` penuh dari pembuatan SL SUPPLIER.
+- Membentuk hanya kolom MASTER STOCK yang benar-benar dipakai, dengan aturan filter PRODMAST, pemetaan HRGBELI/SUPMAST, dan PKM STM G113 yang sama.
+- Membaca POM G113 satu kali untuk agregasi PO/BPB pada rentang 14 hari yang sama.
+- Menampilkan tahapan dan progres pemrosesan SL SUPPLIER di halaman utama.
+- Struktur workbook, sheet tanggal, format baris, serta rumus SL tetap dipertahankan.
+
+## v2.9.3 — Persiapan PO EXPIRED sebelum popup dibuka
 - Persiapan data PO EXPIRED sekarang dijalankan dari halaman utama setelah tombol PO EXPIRED ditekan.
 - Progress persiapan tampil di halaman utama; popup baru dibuka setelah Master Stock, POM, data pendukung, dan parsing laporan Seasonal selesai.
 - Jika persiapan gagal, popup tidak dibuka dan pesan kesalahan ditampilkan di halaman utama.
 - Pemeriksaan No PO tetap baru berjalan setelah tombol Cek PO ditekan.
 
 
-## v2.9.2 — Perbaikan pemetaan bahan Seasonal untuk PO EXPIRED
+## v2.9.3 — Perbaikan pemetaan bahan Seasonal untuk PO EXPIRED
 - Memisahkan `seas.csv` (sumber indikator Seasonal untuk Master Stock) dari workbook `Laporan Harian Seasonal` (sumber angka Target, PO, BPB, dan PO Out untuk PO EXPIRED).
 - `seas.csv` dan workbook laporan Seasonal kini masuk kategori **Bahan** pada Daftar File.
 - Workbook laporan Seasonal dikenali berdasarkan nama laporan dan ekstensi Excel, tidak lagi tertangkap sebagai file `SEAS`.

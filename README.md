@@ -1,4 +1,11 @@
-# Inventory v2.9.4
+# Inventory v2.9.5
+
+## v2.9.5 — Perbaikan ekspor XLSX dan CSV
+- Memisahkan fungsi unduhan ekspor BRD dari fungsi unduhan XLSX Inventory agar tidak saling menimpa akibat nama fungsi yang sama.
+- Ekspor MASTER STOCK, STOCK OUT, BPB SUPPLIER, Rekap Supplier, dan SL SUPPLIER kembali menggunakan downloader yang menerima Blob XLSX dengan benar.
+- Ekspor CSV BRD diberi MIME `text/csv;charset=utf-8` dan UTF-8 BOM tunggal agar karakter lebih mudah dikenali aplikasi spreadsheet.
+- Tidak mengubah data, delimiter CSV (tetap koma), format workbook, maupun rumus/perhitungan Inventory.
+
 
 ## v2.9.4 — Koreksi jumlah Tarikan Harian dan kategori laporan Seasonal
 - Penghitung Tarikan Harian kini menghitung file fisik, bukan hanya jenis/slot sumber. Empat file REG bulanan dihitung masing-masing sehingga 22 file Tarikan Harian ditampilkan sebagai 22 file.

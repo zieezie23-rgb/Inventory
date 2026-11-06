@@ -1294,7 +1294,7 @@ async function executeBrdExport(picked){
     // Jeda antar-unduhan membantu browser mobile memproses setiap tautan unduhan.
     for(let i=0; i<outputs.length; i++){
       const file = outputs[i];
-      downloadBlob(file.content, file.name, file.mime);
+      downloadBrdBlob(file.content, file.name, file.mime);
       if(i < outputs.length - 1) await new Promise(resolve => setTimeout(resolve, 700));
     }
     statusEl.className = 'status ok';
@@ -1313,8 +1313,14 @@ processBtn.addEventListener('click', () => {
   executeBrdExport(checked);
 });
 
-function downloadBlob(content, filename, mime){
-  const blob = new Blob([content], {type: mime});
+function downloadBrdBlob(content, filename, mime){
+  // BRD exports use their own downloader so they cannot shadow Inventory's XLSX Blob downloader.
+  // Add one UTF-8 BOM to CSV files for reliable character detection in spreadsheet applications.
+  const isCsv = String(mime || '').toLowerCase().startsWith('text/csv');
+  const payload = isCsv && typeof content === 'string' && !content.startsWith('\uFEFF')
+    ? '\uFEFF' + content
+    : content;
+  const blob = content instanceof Blob ? content : new Blob([payload], {type: mime || 'application/octet-stream'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

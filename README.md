@@ -1,4 +1,14 @@
-# Inventory v2.9.0
+# Inventory v2.9.1
+
+## v2.9.1 — Perbaikan pemetaan bahan Seasonal untuk PO EXPIRED
+- Memisahkan `seas.csv` (sumber indikator Seasonal untuk Master Stock) dari workbook `Laporan Harian Seasonal` (sumber angka Target, PO, BPB, dan PO Out untuk PO EXPIRED).
+- `seas.csv` dan workbook laporan Seasonal kini masuk kategori **Bahan** pada Daftar File.
+- Workbook laporan Seasonal dikenali berdasarkan nama laporan dan ekstensi Excel, tidak lagi tertangkap sebagai file `SEAS`.
+- Penentuan item BASIC kini mengikuti indikator `SEASONAL`/rincian pada data Master Stock, bukan nilai `POLA1` di laporan Seasonal.
+- Kolom kuantitas Seasonal tetap dibaca dari sheet `BASIC` pada workbook laporan.
+- Pemeriksaan PO EXPIRED meminta kedua sumber Seasonal tersebut agar klasifikasi BASIC dan angka laporan sama-sama tersedia.
+- Logika hitung PO, POM, Stock Out, Promo, dan Raw Material tidak diubah.
+
 
 ## v2.8.8 — Perapian panel hasil Raw Material
 - Menghapus panel “Langkah selanjutnya” pada popup Raw Material.

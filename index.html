@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.9.0">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=2.9.1">
   <title>Inventory</title>
 
 </head>
@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v2.9.0</span>
+    <span class="hero-version">v2.9.1</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -160,7 +160,7 @@
       <div id="rmDetailPanel" class="raw-material-table-panel" hidden><div class="raw-material-table-wrap"><table id="rmDetailTable"></table></div></div>
     </section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v2.9.0 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v2.9.1 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -283,7 +283,7 @@
   var MASTER_F = {
     prd: [1, 'PRDCD'], desc: [2, 'DESC2'], supco: [10, 'SUPCO'], snama: [11, 'SNAMA'], fk: [12, 'FK'], frac: [16, 'FRAC'],
     pkm: [19, 'PKM'], ptag: [21, 'PTAG'], avg: [25, 'AVG'], mean: [29, 'MEAN'], stk: [38, 'STKG113'], poout: [45, 'POG113'],
-    keb: [53, 'KEB'], protect: [64, 'PROTECT'], lead: [66, 'LEAD']
+    keb: [53, 'KEB'], protect: [64, 'PROTECT'], lead: [66, 'LEAD'], seasonal: [59, 'SEASONAL']
   };
   function parseMaster(rows) {
     var h = -1, i;
@@ -308,7 +308,7 @@
       map.set(k, {
         desc: str(r[idx.desc]), supco: sup, fk: str(r[idx.fk]), frac: n0(r[idx.frac]), pkm: n0(r[idx.pkm]),
         ptag: (pt == null || pt === '') ? 0 : pt, avg: n0(r[idx.avg]), mean: n0(r[idx.mean]), stk: n0(r[idx.stk]),
-        poout: n0(r[idx.poout]), keb: n0(r[idx.keb]), protect: str(r[idx.protect]).toUpperCase(), lead: n0(r[idx.lead])
+        poout: n0(r[idx.poout]), keb: n0(r[idx.keb]), protect: str(r[idx.protect]).toUpperCase(), lead: n0(r[idx.lead]), seasonal: str(r[idx.seasonal]).toUpperCase(), seasonalDetail: str(r[idx.seasonal + 1])
       });
     }
     if (!count) throw new Error('Tidak ada baris produk (PRDCD) di Master Stock.');
@@ -355,11 +355,11 @@
   function parseSeasonal(rows) {
     var h = -1, i;
     for (i = 0; i < Math.min(rows.length, 15); i++) {
-      if (rows[i] && str(rows[i][0]).toUpperCase() === 'PRDCD' && rows[i].some(function (x) { return str(x).toUpperCase() === 'POLA1'; })) { h = i; break; }
+      if (rows[i] && str(rows[i][0]).toUpperCase() === 'PRDCD' && rows[i].some(function (x) { return str(x).toUpperCase() === 'TGT (IN QTY)'; })) { h = i; break; }
     }
-    if (h < 0) throw new Error('Header "PRDCD" dan "POLA1" tidak ditemukan di sheet BASIC (baris 1-15).');
+    if (h < 0) throw new Error('Header "PRDCD" dan "TGT (IN QTY)" tidak ditemukan di sheet BASIC (baris 1-15).');
     var head = rows[h].map(function (x) { return str(x).toUpperCase(); });
-    var NAMES = { desc: 'DESC', frac: 'FRAC', pola1: 'POLA1', pola2: 'POLA2', tgt: 'TGT (IN QTY)', po: 'PO (IN QTY)', bpb: 'BPB (IN QTY)', poout: 'PO OUT (IN QTY)' };
+    var NAMES = { desc: 'DESC', frac: 'FRAC', pola2: 'POLA2', tgt: 'TGT (IN QTY)', po: 'PO (IN QTY)', bpb: 'BPB (IN QTY)', poout: 'PO OUT (IN QTY)' };
     var idx = {}, miss = [];
     Object.keys(NAMES).forEach(function (k) { idx[k] = head.indexOf(NAMES[k]); if (idx[k] < 0) miss.push(NAMES[k]); });
     if (miss.length) throw new Error('Kolom tidak ditemukan di sheet BASIC: ' + miss.join(', '));
@@ -367,7 +367,7 @@
     for (i = h + 1; i < rows.length; i++) {
       var r = rows[i]; if (!r) continue;
       var k = key(r[0]); if (!k || !/^\d+$/.test(k) || map.has(k)) continue;
-      map.set(k, { desc: str(r[idx.desc]), frac: n0(r[idx.frac]), pola1: str(r[idx.pola1]).toUpperCase(), pola2: str(r[idx.pola2]), tgt: n0(r[idx.tgt]), po: n0(r[idx.po]), bpb: n0(r[idx.bpb]), poout: n0(r[idx.poout]) });
+      map.set(k, { desc: str(r[idx.desc]), frac: n0(r[idx.frac]), pola2: str(r[idx.pola2]), tgt: n0(r[idx.tgt]), po: n0(r[idx.po]), bpb: n0(r[idx.bpb]), poout: n0(r[idx.poout]) });
     }
     if (!map.size) throw new Error('Tidak ada baris produk di sheet BASIC.');
     return { map: map, count: map.size };
@@ -400,7 +400,8 @@
     o.jenis = promo ? promo.jenis : '';
     o.ket = m ? (m.protect === 'PROTECT HO' ? 'CMO' : 'Reg') : '';
     var sea = S.seasonal && S.seasonal.map ? S.seasonal.map.get(k) : null;
-    o.basic = (sea && sea.pola1 === 'BASIC') ? sea : null;
+    var masterSeasonal = m ? (m.seasonal + ' ' + m.seasonalDetail).toUpperCase() : '';
+    o.basic = (sea && /\bBASIC\b/.test(masterSeasonal)) ? sea : null;
 
     var std = 0;
     if (opts.dsiStd) { var sv = (opts.std || DEFAULT_STD)[Number(o.fk)]; std = sv == null ? 0 : sv; }
@@ -574,12 +575,12 @@
 
   /* Hanya Seasonal yang perlu dipilih manual. Master Stock, POM G113, Stock Out, dan Promo dipasok otomatis oleh Inventory. */
   var KINDS = [
-    { id: 'seasonal', label: 'Seasonal', hint: 'Laporan Harian Seasonal*.xlsx (sheet BASIC)', accept: '.xlsx,.xlsb,.xls', test: /seasonal/i }
+    { id: 'seasonal', label: 'Laporan Seasonal', hint: 'Laporan Harian Seasonal*.xlsx (sheet BASIC)', accept: '.xlsx,.xlsb,.xls', test: /seasonal/i }
   ];
   var S = { master: null, pom: null, stockOut: null, promo: null, seasonal: null };
   var META = {};
   var lastRes = null;
-  var PARSE_VER = 3;
+  var PARSE_VER = 4;
 
   /* ---------- util UI ---------- */
   var toastTimer;
@@ -959,7 +960,7 @@
   }
   init();
 })();
-</script><script src="app.js?v=2.9.0"></script><script src="raw-material.js?v=2.9.0"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script src="app.js?v=2.9.1"></script><script src="raw-material.js?v=2.9.1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

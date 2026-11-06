@@ -1,4 +1,9 @@
-# Inventory v2.9.9
+## v3.0.0 — Penyederhanaan struktur JavaScript
+- Seluruh fungsi Raw Material kini berada di app.js.
+- Referensi raw-material.js di index.html dan Service Worker dihapus.
+- Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
+
+# Inventory v3.0.0
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

@@ -100,7 +100,7 @@ async function readInventoryTextFile(file,onProgress){
  try{return new TextDecoder('utf-8',{fatal:true}).decode(buffer)}
  catch(e){return new TextDecoder('windows-1252').decode(buffer)}
 }
-function renderProgressBox(boxId,label,percent,show=true){const box=$(boxId);if(!box)return;box.hidden=!show;if(!show)return;const value=Math.max(0,Math.min(100,Number(percent)||0));const labelId=boxId==='homeProgress'?'homeProgressLabel':'fileUploadProgressLabel';const valueId=boxId==='homeProgress'?'homeProgressValue':'fileUploadProgressValue';const barId=boxId==='homeProgress'?'homeProgressBar':'fileUploadProgressBar';$(labelId).textContent=label;$(valueId).textContent=Math.round(value)+'%';const bar=$(barId);bar.style.width=value+'%';const track=bar.parentElement;track.classList.toggle('is-active',value<100);track.setAttribute('aria-valuenow',String(Math.round(value)));track.setAttribute('aria-valuetext',label)}
+function renderProgressBox(boxId,label,percent,show=true){const box=$(boxId);if(!box)return;box.hidden=!show;if(!show)return;const indeterminate=percent===null||percent===undefined;const value=Math.max(0,Math.min(100,Number(percent)||0));const labelId=boxId==='homeProgress'?'homeProgressLabel':'fileUploadProgressLabel';const valueId=boxId==='homeProgress'?'homeProgressValue':'fileUploadProgressValue';const barId=boxId==='homeProgress'?'homeProgressBar':'fileUploadProgressBar';$(labelId).textContent=label;$(valueId).textContent=indeterminate?'':Math.round(value)+'%';const bar=$(barId);bar.style.width=indeterminate?'100%':value+'%';const track=bar.parentElement;track.classList.toggle('is-active',indeterminate||value<100);track.classList.toggle('is-indeterminate',indeterminate);if(!indeterminate)track.setAttribute('aria-valuenow',String(Math.round(value)));else track.removeAttribute('aria-valuenow');track.setAttribute('aria-valuetext',label)}
 function updateHomeProgress(label,percent,show=true){renderProgressBox('homeProgress',label,percent,show);renderProgressBox('fileUploadProgress',label,percent,show)}
 async function addFiles(list){
  const incoming=Array.from(list);if(!incoming.length)return;
@@ -1611,6 +1611,7 @@ function checkItemMasterRows(){
  return result.rows;
 }
 async function checkItemBuildFirstStep(){
+ updateHomeProgress('CHECK ITEM: memuat pustaka Excel…',null,true);await new Promise(r=>setTimeout(r,0));
  await checkItemEnsureXLSX();
  const prodFile=files.find(f=>f.guess==='prod'&&f.content);
  const pomFile=files.find(f=>f.guess==='pom113'&&f.content);
@@ -1619,26 +1620,32 @@ async function checkItemBuildFirstStep(){
  const regFiles=files.filter(f=>f.guess==='reg'&&(f.content||f.bytes));
  const missing=[];if(!prodFile)missing.push('PRODMAST');if(!pomFile)missing.push('POM G113');if(!histFile)missing.push('LaporanHistoryTag');if(!stockFile)missing.push('LaporanLPPvsPlano');if(regFiles.length<4)missing.push(`REG 4 bulan (tersedia ${regFiles.length})`);
  if(missing.length)throw new Error('File belum lengkap: '+missing.join(', ')+'. Lengkapi melalui Daftar File & Upload.');
+ updateHomeProgress('CHECK ITEM: membaca PRODMAST, POM, History Tag, dan LPP…',null,true);await new Promise(r=>setTimeout(r,0));
  const [prodRows,pomRows,histRows,stockRows]=await Promise.all([checkItemRows(prodFile),checkItemRows(pomFile),checkItemRows(histFile),checkItemRows(stockFile)]);
+ updateHomeProgress('CHECK ITEM: menyiapkan data Master Stock…',28,true);await new Promise(r=>setTimeout(r,0));
  const masterRows=checkItemMasterRows();
+ updateHomeProgress('CHECK ITEM: menghitung Barang Baru & Open TAG…',42,true);await new Promise(r=>setTimeout(r,0));
  const bbMaster=bb_parseMaster(masterRows);if(!bbMaster||!bbMaster.size)throw new Error('Hasil Master Stock Inventory belum memiliki data lokasi LT. Pastikan sumber STM G113 tersedia.');
  const bahan={prodmast:bb_parseProdmast(prodRows),pomgg:bb_parsePomgg(pomRows),master:bbMaster,stock:bb_parseStock(stockRows),histag:bb_parseHistag(histRows)};
  bbState.prodmast=bahan.prodmast;bbState.pomgg=bahan.pomgg;bbState.master=bahan.master;bbState.stock=bahan.stock;bbState.histag=bahan.histag;
  bbState.kandidat=bb_computeCandidates(bahan);
+ updateHomeProgress('CHECK ITEM: membaca 4 file REG…',62,true);await new Promise(r=>setTimeout(r,0));
  const itbMaster=itb_parseMaster(masterRows);
  const itbStock=itb_parseStock(stockRows);
  const regBlocks=[];
- for(const rf of regFiles){const rows=await checkItemRows(rf);const blocks=itb_parseRegRows(rows);regBlocks.push(...blocks)}
+ for(let i=0;i<regFiles.length;i++){const rows=await checkItemRows(regFiles[i]);const blocks=itb_parseRegRows(rows);regBlocks.push(...blocks);updateHomeProgress(`CHECK ITEM: membaca REG ${i+1}/${regFiles.length}…`,62+Math.round((i+1)/regFiles.length*18),true);await new Promise(r=>setTimeout(r,0))}
  if(regBlocks.length<4)throw new Error(`REG/PRG terbaca ${regBlocks.length} blok; dibutuhkan minimal 4 bulan.`);
+ updateHomeProgress('CHECK ITEM: menghitung Item Tidak Bergerak…',84,true);await new Promise(r=>setTimeout(r,0));
  const bahan2={master:itbMaster,stock:itbStock,regIndex:itb_buildRegIndex(regBlocks)};
  itbState.master=bahan2.master;itbState.stock=bahan2.stock;itbState.regIndex=bahan2.regIndex;
  itbState.kandidat=itb_computeCandidates(bahan2);
+ updateHomeProgress('CHECK ITEM: menyiapkan hasil tahap 1…',100,true);
  return {bbCandidates:bbState.kandidat,itbCandidates:itbState.kandidat};
 }
 async function runCheckItem(){
  if($('checkItemBtn').disabled)return;
  if(!beginProcess('checkItemBtn'))return;
- setStatus('CHECK ITEM: memproses tahap 1 — membaca sumber dan menghitung kandidat…',false,true);
+ setStatus('CHECK ITEM: memproses tahap 1 — membaca sumber dan menghitung kandidat…',false,true);updateHomeProgress('CHECK ITEM: memulai pemeriksaan…',null,true);
  try{
   const {bbCandidates,itbCandidates}=await checkItemBuildFirstStep();
   combinedPrdcd=[...new Set([...bbCandidates,...itbCandidates])];
@@ -1651,22 +1658,22 @@ async function runCheckItem(){
   $('checkItemSsftFile').value='';
   $('checkItemSsftDialog').showModal();
  }catch(e){console.error(e);setStatus('CHECK ITEM gagal: '+(e.message||String(e)),true,false)}
- finally{endProcess()}
+ finally{endProcess();setTimeout(()=>updateHomeProgress('',0,false),2200)}
 }
 async function processCheckItemSsft(){
  const file=$('checkItemSsftFile').files[0];
  if(!file){$('checkItemStep2Message').textContent='Upload file SS-FT terlebih dahulu.';return}
  $('checkItemSsftRun').disabled=true;
- $('checkItemStep2Message').textContent='Membaca SS-FT dan menghitung hasil…';
+ $('checkItemStep2Message').textContent='Membaca SS-FT dan menghitung hasil…';updateHomeProgress('CHECK ITEM tahap 2: membaca SS-FT…',null,true);setStatus('CHECK ITEM tahap 2: membaca SS-FT dan menghitung hasil…',false,true);
  try{
-  await checkItemEnsureXLSX();
+  await checkItemEnsureXLSX();updateHomeProgress('CHECK ITEM tahap 2: memproses Barang Baru & Open TAG…',35,true);await new Promise(r=>setTimeout(r,0));
   $('step3')?.setAttribute('hidden','');
   const rows=await bb_readAny(file);const stats=bb_parseSsft(rows);const bbArr=bb_buildRekap(bbState,stats);bbState.rows=bbArr;bb_render(bbArr);bb_renderKesimpulan();$('bb_exportBtn').disabled=!bbArr.length;$('bb_exportJpgBtn').disabled=!bbArr.length;$('bb_panel').hidden=false;
-  const wb=await itb_readAny(file);const ssRows=itb_sheetRows(wb,'SS-FT');const ss=itb_ssStats(ssRows);const itbArr=itb_computeResult(itbState,ss);itbState.rows=itbArr;itb_render(itbArr);itb_renderKesimpulan();$('itb_exportBtn').disabled=!itbArr.length;$('itb_exportJpgBtn').disabled=!itbArr.length;$('itb_panel').hidden=false;
+  updateHomeProgress('CHECK ITEM tahap 2: memproses Item Tidak Bergerak…',70,true);await new Promise(r=>setTimeout(r,0));const wb=await itb_readAny(file);const ssRows=itb_sheetRows(wb,'SS-FT');const ss=itb_ssStats(ssRows);const itbArr=itb_computeResult(itbState,ss);itbState.rows=itbArr;itb_render(itbArr);itb_renderKesimpulan();$('itb_exportBtn').disabled=!itbArr.length;$('itb_exportJpgBtn').disabled=!itbArr.length;$('itb_panel').hidden=false;
   $('checkItemStep2Message').textContent=`Tahap 2 selesai. Barang Baru & Open TAG: ${bbArr.length.toLocaleString('id-ID')} item. Item Tidak Bergerak: ${itbArr.length.toLocaleString('id-ID')} item.`;
   $('checkItemSsftDialog').close();$('checkItemResultDialog').showModal();
-  setStatus('CHECK ITEM selesai. Hasil tahap 2 sudah tersedia.',false,false);
- }catch(e){console.error(e);$('checkItemStep2Message').textContent='Proses SS-FT gagal: '+(e.message||String(e));setStatus('CHECK ITEM tahap 2 gagal: '+(e.message||String(e)),true,false)}
+  setStatus('CHECK ITEM selesai. Hasil tahap 2 sudah tersedia.',false,false);updateHomeProgress('CHECK ITEM selesai',100,true);setTimeout(()=>updateHomeProgress('',0,false),2500);
+ }catch(e){console.error(e);$('checkItemStep2Message').textContent='Proses SS-FT gagal: '+(e.message||String(e));setStatus('CHECK ITEM tahap 2 gagal: '+(e.message||String(e)),true,false);updateHomeProgress('CHECK ITEM tahap 2 gagal',100,true);setTimeout(()=>updateHomeProgress('',0,false),4000)}
  finally{$('checkItemSsftRun').disabled=false}
 }
 $('checkItemBtn').addEventListener('click',runCheckItem);

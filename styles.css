@@ -1643,3 +1643,8 @@ body .action-button .action-copy{gap:5px!important;}
   -webkit-touch-callout:default!important;
   cursor:text!important;
 }
+/* Progress tanpa angka: gerakan indeterminate untuk pekerjaan yang durasinya belum terukur. */
+.home-progress-track.is-indeterminate span{width:100%!important;background:rgba(73,217,76,.24)}
+.home-progress-track.is-indeterminate span::after{inset:0 auto 0 -38%;width:38%;background:linear-gradient(90deg,transparent,rgba(170,255,114,.95),transparent);animation:progressIndeterminate 1.15s ease-in-out infinite}
+@keyframes progressIndeterminate{from{left:-38%}to{left:110%}}
+@media(prefers-reduced-motion:reduce){.home-progress-track.is-indeterminate span::after{animation:none;left:32%;width:36%;opacity:.55}}

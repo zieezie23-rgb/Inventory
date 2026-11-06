@@ -1,4 +1,11 @@
-## v3.0.2 — Standarisasi indikator progres
+3.0.3
+
+- CHECK ITEM tahap 1 dan tahap 2 kini menampilkan indikator progres pada halaman utama.
+- Tahap dengan durasi yang belum dapat diukur memakai animasi indeterminate; tahap terukur memakai persentase progres.
+- Progress bar tetap tanpa outline dan menggunakan animasi kilau yang sama dengan indikator proses lainnya.
+- Status selesai dan gagal ditampilkan, lalu indikator disembunyikan otomatis.
+
+## v3.0.3 — Standarisasi indikator progres
 
 - Menyatukan tampilan progres proses dan unggah file melalui renderer yang sama.
 - Progress bar memakai gerakan kilau yang berjalan selama proses aktif; angka persentase tetap mengikuti progres yang dilaporkan proses.
@@ -18,7 +25,7 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.0.2
+# Inventory v3.0.3
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

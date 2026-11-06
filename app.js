@@ -415,19 +415,33 @@ function buildPoExpiredPayload(){
 }
 async function openPoExpired(){
  if(!beginProcess('poExpiredBtn'))return;
+ const panel=$('poExpiredApp'),dialog=$('poExpiredDialog');
+ // Persiapan dilakukan di halaman utama. Popup tetap tertutup sampai seluruh data
+ // termasuk laporan Seasonal selesai diparsing oleh modul PO EXPIRED.
  updateHomeProgress('Menyiapkan data PO EXPIRED…',5,true);
- const panel=$('poExpiredApp');panel.classList.add('po-open');$('poExpiredDialog').setAttribute('aria-hidden','false');
  try {
   await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,35)));
   updateHomeProgress('Membaca Master Stock dan sumber PO…',20,true);
-  await new Promise(r=>setTimeout(r,35));
+  await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,35)));
   const payload=buildPoExpiredPayload();
-  updateHomeProgress('Mengirim data ke pemeriksaan PO EXPIRED…',85,true);
+  updateHomeProgress('Memuat dan membaca laporan Seasonal…',65,true);
+  await new Promise(r=>requestAnimationFrame(r));
+  const ready=new Promise((resolve,reject)=>{
+   let timer=setTimeout(()=>{window.removeEventListener('inventory-po-payload-ready',onReady);reject(new Error('Waktu persiapan data PO EXPIRED habis.'))},120000);
+   function onReady(e){clearTimeout(timer);window.removeEventListener('inventory-po-payload-ready',onReady);const d=e.detail||{};if(d.ok)resolve();else reject(new Error(d.error||'Data PO EXPIRED gagal disiapkan.'))}
+   window.addEventListener('inventory-po-payload-ready',onReady);
+  });
   window.dispatchEvent(new CustomEvent('inventory-po-payload',{detail:payload}));
-  updateHomeProgress('Data PO EXPIRED siap diproses',100,true);
+  await ready;
+  updateHomeProgress('Data PO EXPIRED siap — membuka pemeriksaan…',100,true);
+  await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,120)));
+  panel.classList.add('po-open');dialog.setAttribute('aria-hidden','false');
   setTimeout(()=>updateHomeProgress('',0,false),1800);
- } catch(e){setStatus('PO Expired: '+(e.message||e),true);updateHomeProgress('PO EXPIRED gagal disiapkan',100,true);setTimeout(()=>updateHomeProgress('',0,false),3500)}
- finally{endProcess()}
+ } catch(e){
+  setStatus('PO EXPIRED gagal disiapkan: '+(e.message||e),true);
+  updateHomeProgress('Persiapan PO EXPIRED gagal',100,true);
+  setTimeout(()=>updateHomeProgress('',0,false),4000);
+ } finally{endProcess()}
 }
 window.openPoExpired=openPoExpired;
 window.addEventListener('inventory-po-progress',e=>{const d=e.detail||{};updateHomeProgress(d.label||'Memproses PO EXPIRED…',d.percent||0,d.show!==false);if(d.done)setTimeout(()=>updateHomeProgress('',0,false),1800)});

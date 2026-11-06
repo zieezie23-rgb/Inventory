@@ -1,6 +1,13 @@
-# Inventory v2.9.1
+# Inventory v2.9.2
 
-## v2.9.1 — Perbaikan pemetaan bahan Seasonal untuk PO EXPIRED
+## v2.9.2 — Persiapan PO EXPIRED sebelum popup dibuka
+- Persiapan data PO EXPIRED sekarang dijalankan dari halaman utama setelah tombol PO EXPIRED ditekan.
+- Progress persiapan tampil di halaman utama; popup baru dibuka setelah Master Stock, POM, data pendukung, dan parsing laporan Seasonal selesai.
+- Jika persiapan gagal, popup tidak dibuka dan pesan kesalahan ditampilkan di halaman utama.
+- Pemeriksaan No PO tetap baru berjalan setelah tombol Cek PO ditekan.
+
+
+## v2.9.2 — Perbaikan pemetaan bahan Seasonal untuk PO EXPIRED
 - Memisahkan `seas.csv` (sumber indikator Seasonal untuk Master Stock) dari workbook `Laporan Harian Seasonal` (sumber angka Target, PO, BPB, dan PO Out untuk PO EXPIRED).
 - `seas.csv` dan workbook laporan Seasonal kini masuk kategori **Bahan** pada Daftar File.
 - Workbook laporan Seasonal dikenali berdasarkan nama laporan dan ekstensi Excel, tidak lagi tertangkap sebagai file `SEAS`.

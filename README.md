@@ -1,9 +1,16 @@
+## v3.0.1 — Optimasi persiapan PO EXPIRED
+
+- PO EXPIRED tidak lagi menjalankan `processData()` atau membangun seluruh Master Stock.
+- Data yang dibutuhkan PO EXPIRED dirakit langsung dari PRODMAST, HRGBELI, SUPMAST, STM G113, PAR G113, HPG, POM G113, KEB, PROTECT, SEAS, PROMO, dan Stock Out.
+- Data Seasonal tetap dimuat dari laporan Seasonal khusus.
+- Struktur tabel, perhitungan, dan alur pemeriksaan PO EXPIRED dipertahankan.
+
 ## v3.0.0 — Penyederhanaan struktur JavaScript
 - Seluruh fungsi Raw Material kini berada di app.js.
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.0.0
+# Inventory v3.0.1
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

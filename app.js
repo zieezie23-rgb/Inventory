@@ -428,14 +428,58 @@ function missingFor(buttonId){return (PROCESS_CHECKS[buttonId]||[]).filter(role=
 function showPreflight(buttonId,missing){$('preflightTitle').textContent=`${PROCESS_TITLES[buttonId]} — file belum lengkap`;$('preflightIntro').textContent='Beberapa file sumber belum tersedia. Kamu bisa melengkapi file terlebih dahulu atau tetap melanjutkan proses dengan data yang ada.';$('preflightMissing').innerHTML=missing.map(role=>{const item=ROLES.find(r=>r[0]===role);return `<div class="brd-option missing-option"><span class="missing-mark">!</span><span>${escapeHtml(item?item[1]:role)} belum ada</span></div>`}).join('');$('preflightDialog').dataset.action=buttonId;$('preflightDialog').showModal();}
 function requestProcess(buttonId){if($(buttonId).disabled)return;const missing=missingFor(buttonId);if(missing.length){showPreflight(buttonId,missing);return}processActions[buttonId]();}
 
+// PO EXPIRED hanya membentuk subset data yang benar-benar dipakai modulnya.
+// Tidak menjalankan processData() / membangun 77 kolom Master Stock.
+function buildPoExpiredMasterRows(processDate=new Date()){
+ const prod=firstMap(allRows('prod'));
+ if(!prod.size)throw Error('File PRODMAST belum tersedia atau tidak terbaca.');
+ const hr=firstMap(allRows('hrgbeli'));
+ const sup=firstMap(allRows('supmast'),'SUPCO');
+ const hpg=firstMap(allRows('hpg'));
+ const par=firstMap(allRows('par113'));
+ const seas=firstMap(allRows('seas'));
+ const protectSet=new Set(allRows('protect').map(o=>key(value(o,'PLU','PRDCD'))).filter(Boolean));
+ const kebQty=sumBy(allRows('keb'),'KEB_QTY');
+ const stmRows=filterWarehouse(allRows('stm113'),'G113');
+ const loc1=stmLocationMap(stmRows.filter(o=>text(value(o,'LOKASI')).padStart(2,'0')==='01'));
+ const pomRows=filterWarehouse(allRows('pom113'),'G113');
+ const day=new Date(processDate);day.setHours(0,0,0,0);
+ const rangeStart=new Date(day);rangeStart.setDate(rangeStart.getDate()-14);
+ const poSum=new Map();
+ for(const o of pomRows){
+  const rec=text(value(o,'RECID')).toUpperCase(),poDate=dateVal(value(o,'PO_DATE'));
+  if(rec==='1'||!poDate||poDate<rangeStart||poDate>=day)continue;
+  const k=key(value(o,'PRDCD'));if(!k)continue;
+  const cur=poSum.get(k)||{po:0};cur.po+=num(value(o,'QTY'));poSum.set(k,cur);
+ }
+ const rows=[H1];
+ for(const [k,p] of prod){
+  if(!k||text(value(p,'PRDCD')).trim().toUpperCase()==='PRDCD')continue;
+  if(['F','T','G'].some(prefix=>text(value(p,'DIV')).trim().toUpperCase().startsWith(prefix))||text(value(p,'CAT_COD')).trim().startsWith('8'))continue;
+  const h=hr.get(k)||{},supco=text(value(h,'SUPCO')||value(p,'SUPCO'));
+  const sp=sup.get(key(supco))||{},hp=hpg.get(k)||{},pg=par.get(k)||{},st=loc1.get(k)||{},seaRow=seas.get(k)||{};
+  const jenis=value(seaRow,'JENIS');
+  const r=Array(77).fill('');
+  r[0]=k;r[1]=value(p,'DESC2','DESC');r[9]=supco;r[10]=value(sp,'SNAMA');
+  r[11]=value(h,'BARU');r[15]=num(value(p,'FRAC'));r[18]=num(value(st,'MAX','QTY_MAX'));
+  r[20]=value(p,'PTAG')===''?0:value(p,'PTAG');r[24]=num(value(pg,'QTYAVG','SLSAVG'));
+  r[28]=num(value(hp,'MEAN'));r[37]=num(value(st,'QTY'));r[44]=poSum.get(k)?.po||0;
+  r[52]=kebQty.get(k)||0;r[58]=['TERKAIT','BASIC'].includes(jenis)?jenis:'0';
+  r[59]=r[58]==='0'?'0':value(seaRow,'RINCIAN')||'0';
+  r[63]=protectSet.has(k)?'PROTECT HO':'NON PROTECT HO';r[65]=value(sp,'LEAD');
+  rows.push(r);
+ }
+ if(rows.length===1)throw Error('Tidak ada item PRODMAST yang memenuhi filter untuk PO EXPIRED.');
+ return rows;
+}
 function buildPoExpiredPayload(){
- const result=processData(new Date());lastResult=result;
+ const masterRows=buildPoExpiredMasterRows(new Date());
  const pomFile=files.find(f=>f.guess==='pom113'&&(!warehouseFromPath(f)||warehouseFromPath(f)==='G113'));
  const pomText=pomFile?pomFile.content:'';
  const stockRows=[['PRDCD','KL'],...getSource('stockout').filter(o=>text(value(o,'STOCK_OUT','STOCKOUT')).toUpperCase()==='Y').map(o=>[value(o,'PLU','PRDCD'),1])];
- const promoRows=[['PLU','DESC','QTY','JENIS','TGL1','TGL2','TGL3','TGL4'],...result.data.map(r=>[r[0],r[1],r[74],r[75],r[72],r[73],'','']).filter(r=>r.slice(4,8).some(v=>text(v)!==''))];
+ const promoRows=[['PLU','DESC','QTY','JENIS','TGL1','TGL2','TGL3','TGL4'],...getSource('promo').map(o=>[value(o,'PRDCD','PLU'),value(o,'DESC','DESC2'),value(o,'QTY','QTY_TGT'),value(o,'JNS_PRO','JENIS_PRO'),value(o,'TGL_AWAL'),value(o,'TGL_AKH','TGL_AKHIR'),'','']).filter(r=>r[0]&&r.slice(4,8).some(v=>text(v)!==''))];
  const seasonalFile=files.find(f=>f.guess==='seasonalbook'&&f.bytes);
- return {masterRows:result.rows,pomText,stockOutRows:stockRows,promoRows,seasonalBytes:seasonalFile?seasonalFile.bytes:null,seasonalName:seasonalFile?seasonalFile.name:''};
+ return {masterRows,pomText,stockOutRows:stockRows,promoRows,seasonalBytes:seasonalFile?seasonalFile.bytes:null,seasonalName:seasonalFile?seasonalFile.name:''};
 }
 async function openPoExpired(){
  if(!beginProcess('poExpiredBtn'))return;
@@ -445,7 +489,7 @@ async function openPoExpired(){
  updateHomeProgress('Menyiapkan data PO EXPIRED…',5,true);
  try {
   await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,35)));
-  updateHomeProgress('Membaca Master Stock dan sumber PO…',20,true);
+  updateHomeProgress('Membaca sumber data PO EXPIRED…',20,true);
   await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,35)));
   const payload=buildPoExpiredPayload();
   updateHomeProgress('Memuat dan membaca laporan Seasonal…',65,true);

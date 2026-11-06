@@ -1,3 +1,11 @@
+## v3.0.2 — Standarisasi indikator progres
+
+- Menyatukan tampilan progres proses dan unggah file melalui renderer yang sama.
+- Progress bar memakai gerakan kilau yang berjalan selama proses aktif; angka persentase tetap mengikuti progres yang dilaporkan proses.
+- Outline/border pada jalur dan isi progress bar dihilangkan.
+- Animasi berhenti saat progres mencapai 100% atau indikator disembunyikan.
+- Menghilangkan kedipan teks status agar informasi proses tetap stabil dan animasi terpusat pada progress bar.
+
 ## v3.0.1 — Optimasi persiapan PO EXPIRED
 
 - PO EXPIRED tidak lagi menjalankan `processData()` atau membangun seluruh Master Stock.
@@ -10,7 +18,7 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.0.1
+# Inventory v3.0.2
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.

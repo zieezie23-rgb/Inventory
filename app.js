@@ -100,7 +100,8 @@ async function readInventoryTextFile(file,onProgress){
  try{return new TextDecoder('utf-8',{fatal:true}).decode(buffer)}
  catch(e){return new TextDecoder('windows-1252').decode(buffer)}
 }
-function updateHomeProgress(label,percent,show=true){[['homeProgress','homeProgressLabel','homeProgressValue','homeProgressBar'],['fileUploadProgress','fileUploadProgressLabel','fileUploadProgressValue','fileUploadProgressBar']].forEach(ids=>{const box=$(ids[0]);if(!box)return;box.hidden=!show;if(!show)return;$(ids[1]).textContent=label;$(ids[2]).textContent=Math.max(0,Math.min(100,Math.round(percent)))+'%';$(ids[3]).style.width=Math.max(0,Math.min(100,percent))+'%'})}
+function renderProgressBox(boxId,label,percent,show=true){const box=$(boxId);if(!box)return;box.hidden=!show;if(!show)return;const value=Math.max(0,Math.min(100,Number(percent)||0));const labelId=boxId==='homeProgress'?'homeProgressLabel':'fileUploadProgressLabel';const valueId=boxId==='homeProgress'?'homeProgressValue':'fileUploadProgressValue';const barId=boxId==='homeProgress'?'homeProgressBar':'fileUploadProgressBar';$(labelId).textContent=label;$(valueId).textContent=Math.round(value)+'%';const bar=$(barId);bar.style.width=value+'%';const track=bar.parentElement;track.classList.toggle('is-active',value<100);track.setAttribute('aria-valuenow',String(Math.round(value)));track.setAttribute('aria-valuetext',label)}
+function updateHomeProgress(label,percent,show=true){renderProgressBox('homeProgress',label,percent,show);renderProgressBox('fileUploadProgress',label,percent,show)}
 async function addFiles(list){
  const incoming=Array.from(list);if(!incoming.length)return;
  const totalBytes=incoming.reduce((n,f)=>n+(f.size||0),0)||incoming.length;let completedBytes=0,added=0,failed=[];
@@ -1957,7 +1958,7 @@ function sourceState(){
  return {src,defs,ready:defs.every(x=>x.ready)};
 }
 function renderSourceState(){return sourceState()}
-function rmHomeProgress(label,percent,show=true){const box=$rm('homeProgress');if(!box)return;box.hidden=!show;if(!show)return;$rm('homeProgressLabel').textContent=label;$rm('homeProgressValue').textContent=Math.round(percent)+'%';$rm('homeProgressBar').style.width=percent+'%'}
+function rmHomeProgress(label,percent,show=true){if(typeof renderProgressBox==='function')renderProgressBox('homeProgress',label,percent,show)}
 function rmHomeStatus(message,error=false,processing=false){if(typeof setStatus==='function')setStatus(message,error,processing);else if($rm('status'))$rm('status').textContent=message}
 async function buildResultProgressive(src,onProgress){
  const master=src.master||[],lpp=src.lpp||[],display=src.display||[],storage=src.storage||[],pluRows=src.plu||[];

@@ -1,3 +1,21 @@
+## v3.3.3 — Perbaikan kesimpulan transisi dari Tidak ada PO ke SL
+- Tidak ada PO pada awal periode → SL 0%: kesimpulan “Mulai ada PO, tetapi Tidak ada Kedatangan”.
+- Tidak ada PO pada awal periode → SL <100%: kesimpulan “Mulai ada PO dan kedatangan”.
+- Tidak ada PO pada awal periode → SL 100%: kesimpulan “Mulai ada PO dengan kedatangan penuh”.
+- Mempertahankan aturan SL 0% → SL 0% = “Tidak ada Kedatangan”.
+
+## v3.3.2 — Klasifikasi SL 0% tanpa kedatangan
+
+- Jika kategori SL pada 7 hari awal dan periode berjalan sama-sama SL 0%, kesimpulan langsung menjadi “Tidak ada Kedatangan”.
+- Kondisi tersebut tidak lagi dianalisis sebagai tren nilai kedatangan meningkat, menurun, atau stabil.
+- Aturan kondisi awal Tidak ada PO dan klasifikasi kategori SL lainnya tetap dipertahankan.
+
+## v3.3.1 — Perbaikan kondisi awal Tidak ada PO
+
+- Jika 7 hari awal tidak memiliki PO dan periode berjalan memiliki PO, tren diklasifikasikan SL naik.
+- Menghapus keluaran SL tidak dapat dibandingkan untuk kondisi awal Tidak ada PO.
+- Jika seluruh periode tidak memiliki PO, hasil tetap hanya Tidak ada PO.
+
 ## v3.3.0 — Klasifikasi SL 0% dan SL 100%
 
 - Jika kategori awal dan akhir sama-sama SL 0%, hasil tetap ditampilkan sebagai SL 0%.
@@ -34,7 +52,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.0
+# Inventory v3.3.3
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

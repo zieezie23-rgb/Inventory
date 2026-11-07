@@ -1,9 +1,16 @@
-## v3.2.7 — Koreksi status Tidak ada PO dan SL awal periode
+## v3.2.8 — Filter RECID dan periode SL berdasarkan tanggal PO
 
-- Jika total QTY PO pada periode = 0, kesimpulan hanya menampilkan “Tidak ada PO”; tidak menghasilkan kesimpulan SL stabil atau tren kedatangan.
-- Menambahkan kolom SL Awal Periode sebelum SL akhir/periode pada tabel Analisa Penyebab dan sheet Export Excel. SL Awal dihitung dari 7 hari pertama pada masing-masing rentang periode.
-- Nilai SL di atas 0% tetapi di bawah 1% ditampilkan sebagai 1%; perhitungan dan klasifikasi tetap menggunakan nilai aslinya.
-- Struktur dan fungsi History lainnya dipertahankan.
+- Perhitungan History hanya memakai RECID R, H, dan blank.
+- Periode ditentukan oleh PO_DATE; BPB_QTY dari PO terpilih dihitung tanpa filter BPB_DATE.
+- SL 14 hari mengikuti aturan tanggal PO yang sama.
+
+## v3.2.7 — Perbaikan pencocokan PO dan BPB pada perhitungan SL
+
+- BPB hanya dihitung untuk baris PO yang tanggal PO-nya termasuk dalam periode yang sedang dianalisis.
+- Penerimaan dari PO yang dibuat di luar periode tidak lagi menambah SL periode tersebut.
+- Tidak ada pembatasan angka SL secara paksa; nilai tetap berasal dari hasil pencocokan sumber.
+- Periode tanpa PO menghasilkan keterangan “Tidak ada PO”.
+- Tampilan SL positif di bawah 1% dibulatkan menjadi 1%, sesuai permintaan.
 
 ## v3.2.7 — Perbaikan dasar hitung SL dan tren periode
 
@@ -14,7 +21,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.2.7
+# Inventory v3.2.8
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

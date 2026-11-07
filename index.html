@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.2.7">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.2.8">
   <title>Inventory</title>
 
 </head>
@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v3.2.7</span>
+    <span class="hero-version">v3.2.8</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -172,7 +172,7 @@
     <section data-history-page="items" class="history-page" hidden><section class="history-section"><h3>50 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>STOCK Awal (Rp)</th><th>STOCK Akhir (Rp)</th><th>Penurunan (Rp)</th><th>PO 3 Bulan (Rp)</th><th>BPB 3 Bulan (Rp)</th><th>SL 3 Bulan</th></tr></thead><tbody></tbody></table></div></section></section>
     <section data-history-page="supco" class="history-page" hidden><section class="history-section"><h3>50 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Jumlah Item Turun</th><th>Total Penurunan (Rp)</th><th>STOCK OUT</th><th>Tanpa PO</th><th>SL 0%</th><th>SL &lt;100%</th><th>SL 100%, STOCK OUT H+1</th></tr></thead><tbody></tbody></table></div></section></section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v3.2.7 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v3.2.8 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -979,7 +979,7 @@
   }
   init();
 })();
-</script><script src="app.js?v=3.2.7"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script src="app.js?v=3.2.8"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

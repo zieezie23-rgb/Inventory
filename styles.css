@@ -1718,7 +1718,7 @@ body .action-button .action-copy{gap:5px!important;}
 @media(max-width:700px){.history-head{align-items:flex-start}.history-head h2{font-size:17px}.history-actions{gap:4px}.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}.history-actions .history-close{width:32px;height:32px;font-size:30px}.history-tabs button{min-height:44px;padding:6px 3px;font-size:9px}.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(220px,1.8fr) repeat(3,minmax(60px,.55fr)) repeat(3,minmax(75px,.65fr));gap:7px;font-size:10px}}
 
 
-/* History v3.2.3 — rapatkan ringkasan pada layar sempit */
+/* History v3.2.4 — rapatkan ringkasan pada layar sempit */
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
 .history-cause-header,.history-cause-row{min-width:760px;grid-template-columns:minmax(190px,1.7fr) repeat(3,minmax(62px,.55fr)) repeat(3,minmax(72px,.65fr));gap:6px;padding:6px 4px;font-size:10px}
 .history-cause-header b,.history-cause-row strong{text-align:right;white-space:nowrap}

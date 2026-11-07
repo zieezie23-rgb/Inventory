@@ -1,6 +1,15 @@
-# Inventory v3.2.3
+## v3.2.4 — Perbaikan dasar hitung SL dan tren periode
 
-## v3.2.3 — Validasi kategori SL, tren, dan ringkasan mobile
+- SL per periode dihitung dari total kuantitas BPB bertanggal BPB_DATE dalam rentang yang sama dibagi total kuantitas PO bertanggal PO_DATE dalam rentang tersebut.
+- Rentang periode total: 14 hari, 30 hari, dan 3 bulan kalender sampai H-1.
+- Tren 2 minggu membandingkan 7 hari pertama dengan 7 hari terakhir; 1 bulan membandingkan 15 hari pertama dengan 15 hari terakhir; 3 bulan membandingkan 30 hari pertama dengan 30 hari terakhir.
+- Kategori SL: Tidak ada PO (PO=0), SL 0% (PO ada dan BPB=0), SL <100% (1–99%), SL 100% (100% atau lebih).
+- Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
+- Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
+
+# Inventory v3.2.4
+
+## v3.2.4 — Validasi kategori SL, tren, dan ringkasan mobile
 
 - Tren SL disederhanakan menjadi keterangan ringkas, misalnya “SL turun, nilai kedatangan meningkat” atau “SL naik, nilai kedatangan menurun”; tidak lagi menampilkan kategori SL asal dan tujuan.
 - Perbandingan nilai kedatangan menggunakan nilai BPB (Rp), bukan jumlah transaksi kedatangan.
@@ -8,7 +17,7 @@
 - Ringkasan Item dan SUPCO menambahkan selisih 3 bulan dikurangi 2 minggu, selain selisih antarperiode yang sudah tersedia.
 - Tinggi tombol X disamakan dengan tombol Export pada desktop dan perangkat kecil.
 
-## v3.2.3 — Penyederhanaan tren SL dan selisih periode
+## v3.2.4 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.
@@ -55,9 +64,9 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.2.3
+# Inventory v3.2.4
 
-## v3.2.3 — Penyederhanaan tren SL dan selisih periode
+## v3.2.4 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.

@@ -1,4 +1,12 @@
-## v3.3.3 — Perbaikan kesimpulan transisi dari Tidak ada PO ke SL
+## v3.3.4 — Perbaikan kesimpulan dan filter Analisa History
+
+- Frasa transisi dari kondisi tanpa PO menggunakan awalan **Ada PO**.
+- Kesimpulan `SL 0%` ke `SL 0%` menjadi **SL 0%, tidak ada kedatangan**.
+- Kondisi SL yang stabil di bawah 100% ditulis **SL stabil <100%**; stabil 100% juga diberi label eksplisit.
+- Keterangan tunggal yang berdiri sendiri hanya **Tidak ada PO**.
+- Filter Analisa Penyebab dipisah menjadi **Periode** dan **Jenis Kesimpulan**. Periode menentukan kolom kesimpulan yang digunakan untuk menyaring item.
+- Ringkasan keterangan menghitung kesimpulan, bukan mencampur kategori SL dengan kesimpulan.
+
 - Tidak ada PO pada awal periode → SL 0%: kesimpulan “Mulai ada PO, tetapi Tidak ada Kedatangan”.
 - Tidak ada PO pada awal periode → SL <100%: kesimpulan “Mulai ada PO dan kedatangan”.
 - Tidak ada PO pada awal periode → SL 100%: kesimpulan “Mulai ada PO dengan kedatangan penuh”.
@@ -52,7 +60,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.3
+# Inventory v3.3.4
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

@@ -1725,3 +1725,7 @@ body .action-button .action-copy{gap:5px!important;}
 .history-cause-row>span{white-space:normal;line-height:1.25}
 .history-cause-check{min-width:0}
 @media(max-width:700px){.history-cause-header,.history-cause-row{min-width:680px;grid-template-columns:minmax(170px,1.6fr) repeat(3,minmax(55px,.5fr)) repeat(3,minmax(62px,.58fr));gap:4px;padding:5px 3px;font-size:9px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
+
+/* History v3.3.4 — dua filter analisa yang jelas */
+.history-filter-group{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.history-filter-hint{margin:0 0 8px;color:#9ac9a2;font-size:10px;text-align:right}
+@media(max-width:700px){.history-table-toolbar{align-items:flex-start;flex-direction:column}.history-filter-group{width:100%;justify-content:flex-start}.history-filter-label{flex:1;min-width:0;align-items:flex-start;flex-direction:column}.history-filter-label select{max-width:none;width:100%}.history-filter-hint{text-align:left}}

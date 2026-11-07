@@ -1,4 +1,10 @@
-## v3.3.4 — Perbaikan kesimpulan dan filter Analisa History
+## v3.3.5 — Perbaikan error ringkasan History
+
+- Ringkasan jumlah item dan SUPCO sekarang dihitung dari satu kesimpulan per item untuk masing-masing periode.
+- Tidak lagi mencampurkan kategori SL (CAUSE) dengan teks kesimpulan (TREND), sehingga tidak ada akses `.add()` ke kelompok yang tidak terbentuk.
+- Fungsi modul Inventory lainnya dipertahankan.
+
+## v3.3.5 — Perbaikan kesimpulan dan filter Analisa History
 
 - Frasa transisi dari kondisi tanpa PO menggunakan awalan **Ada PO**.
 - Kesimpulan `SL 0%` ke `SL 0%` menjadi **SL 0%, tidak ada kedatangan**.
@@ -60,7 +66,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.4
+# Inventory v3.3.5
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

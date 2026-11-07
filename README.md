@@ -1,4 +1,11 @@
-## v3.3.6 — Ringkasan dan Rekap History
+## v3.3.7 — Perapihan Ringkasan, SUPCO, dan Export
+
+- Kesimpulan ringkasan dipindahkan ke bawah tabel rekap penyebab.
+- Header dan kolom kesimpulan 50 SUPCO dibuat membungkus teks dengan lebar lebih rapat.
+- Export menambahkan sheet “Kesimpulan Ringkasan” dan merapikan lebar kolom pada sheet 50 SUPCO.
+- Perhitungan SL, trend, dan analisa penyebab tidak diubah.
+
+## v3.3.7 — Ringkasan dan Rekap History
 
 - Nilai selisih negatif ditampilkan dalam tanda kurung dan warna merah tanpa tanda minus.
 - Ringkasan dilengkapi teks kesimpulan penyebab terbanyak untuk periode 2 minggu, 1 bulan, dan 3 bulan.
@@ -76,7 +83,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.6
+# Inventory v3.3.7
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

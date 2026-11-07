@@ -1,4 +1,13 @@
-# Inventory v3.1.8
+# Inventory v3.1.9
+
+## v3.1.9 — Analisa penyebab eksklusif dan tren SL Supplier
+
+- Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
+- Menambahkan perbandingan SL dan jumlah hari kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode).
+- Ringkasan penyebab menampilkan jumlah item untuk 14 hari, 1 bulan, dan 3 bulan, termasuk rincian per SUPCO; tidak menampilkan rupiah.
+- Persentase nol ditampilkan sebagai 0%.
+- Menambahkan filter keterangan pada tabel Analisa Penyebab.
+- Tab History ditata menyerupai tumpukan file.
 
 ## v3.1.8 — Koreksi History dan export
 - Istilah BPB lengkap diganti menjadi SL 100%.
@@ -38,7 +47,16 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.1.8
+# Inventory v3.1.9
+
+## v3.1.9 — Analisa penyebab eksklusif dan tren SL Supplier
+
+- Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
+- Menambahkan perbandingan SL dan jumlah hari kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode).
+- Ringkasan penyebab menampilkan jumlah item untuk 14 hari, 1 bulan, dan 3 bulan, termasuk rincian per SUPCO; tidak menampilkan rupiah.
+- Persentase nol ditampilkan sebagai 0%.
+- Menambahkan filter keterangan pada tabel Analisa Penyebab.
+- Tab History ditata menyerupai tumpukan file.
 
 ## v3.1.8 — Koreksi History dan export
 - Istilah BPB lengkap diganti menjadi SL 100%.

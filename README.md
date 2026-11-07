@@ -1,3 +1,13 @@
+## v3.3.6 — Ringkasan dan Rekap History
+
+- Nilai selisih negatif ditampilkan dalam tanda kurung dan warna merah tanpa tanda minus.
+- Ringkasan dilengkapi teks kesimpulan penyebab terbanyak untuk periode 2 minggu, 1 bulan, dan 3 bulan.
+- Keterangan penjelas lama pada ringkasan dihapus.
+- Header Rekap Harian dirapatkan; jumlah baris dan navigasi dipindahkan ke kanan atas sejajar judul.
+- Tabel 50 Item Terbesar ditambahkan kolom Kesimpulan.
+- Empat kolom kesimpulan pada 50 SUPCO Terbesar menggunakan kriteria analisa.
+- Perhitungan SL, klasifikasi trend, dan hasil Analisa Penyebab tidak diubah.
+
 ## v3.3.5 — Perbaikan error ringkasan History
 
 - Ringkasan jumlah item dan SUPCO sekarang dihitung dari satu kesimpulan per item untuk masing-masing periode.
@@ -66,7 +76,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.5
+# Inventory v3.3.6
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

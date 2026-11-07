@@ -1726,6 +1726,20 @@ body .action-button .action-copy{gap:5px!important;}
 .history-cause-check{min-width:0}
 @media(max-width:700px){.history-cause-header,.history-cause-row{min-width:680px;grid-template-columns:minmax(170px,1.6fr) repeat(3,minmax(55px,.5fr)) repeat(3,minmax(62px,.58fr));gap:4px;padding:5px 3px;font-size:9px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
 
-/* History v3.3.5 — dua filter analisa yang jelas */
+/* History v3.3.6 — dua filter analisa yang jelas */
 .history-filter-group{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.history-filter-hint{margin:0 0 8px;color:#9ac9a2;font-size:10px;text-align:right}
 @media(max-width:700px){.history-table-toolbar{align-items:flex-start;flex-direction:column}.history-filter-group{width:100%;justify-content:flex-start}.history-filter-label{flex:1;min-width:0;align-items:flex-start;flex-direction:column}.history-filter-label select{max-width:none;width:100%}.history-filter-hint{text-align:left}}
+
+/* History update: ringkasan kesimpulan, header harian, dan tabel peringkat */
+.history-summary-conclusion{margin:0 0 12px;padding:9px 11px;border:1px solid #285236;border-radius:7px;background:rgba(13,35,21,.42);color:#caffb8}
+.history-summary-conclusion h4{margin:0 0 5px;color:#baff9b;font-size:12px;line-height:1.4}
+.history-summary-conclusion ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.history-summary-conclusion li{font-size:11px;line-height:1.45;color:#d5f5d0}
+.history-summary-conclusion li b{color:#baff9b}
+.history-negative{color:#ff646e!important;font-weight:800}
+.history-daily-toolbar{flex-direction:row!important;align-items:center!important}
+.history-daily-toolbar .history-pagination{margin-left:auto;justify-content:flex-end;flex-wrap:nowrap}
+.history-wide-table thead tr:first-child th{height:26px;min-height:26px;padding-top:4px;padding-bottom:4px;line-height:18px}
+.history-wide-table thead tr:nth-child(2) th{top:26px;height:26px;padding-top:4px;padding-bottom:4px;line-height:18px}
+#historyTopItems td:last-child,#historyTopSup td:nth-child(n+6){text-align:left;white-space:normal;min-width:170px}
+@media(max-width:700px){.history-daily-toolbar{flex-direction:row!important;align-items:center!important}.history-daily-toolbar h3{font-size:11px}.history-daily-toolbar .history-pagination{margin-left:auto;gap:4px}.history-daily-toolbar .history-pagination span{font-size:9px}.history-daily-toolbar .history-pagination .button{min-width:27px;padding:4px 7px}}

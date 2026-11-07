@@ -1,4 +1,11 @@
-3.1.7
+# Inventory v3.1.8
+
+## v3.1.8 — Koreksi History dan export
+- Istilah BPB lengkap diganti menjadi SL 100%.
+- STOCK OUT dibatasi pada STOCK < MEAN dengan PTAG E, D, S, L, atau kosong.
+- Peringkat 50 SUPCO berdasarkan jumlah item yang mengalami penurunan STOCK.
+- Tab History satu baris bergaya dokumen; ringkasan penyebab berupa daftar.
+- Penyelarasan angka, SUPCO, dan SL diperbaiki; sheet grafik dan format tabel ekspor dibenahi.
 
 ## v3.1.4 — Modul History (tambahan terpisah)
 - Menambahkan tombol HISTORY tanpa mengubah alur proses modul operasional yang sudah ada.
@@ -31,7 +38,15 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.1.7
+# Inventory v3.1.8
+
+## v3.1.8 — Koreksi History dan export
+- Istilah BPB lengkap diganti menjadi SL 100%.
+- STOCK OUT dibatasi pada STOCK < MEAN dengan PTAG E, D, S, L, atau kosong.
+- Peringkat 50 SUPCO berdasarkan jumlah item yang mengalami penurunan STOCK.
+- Tab History satu baris bergaya dokumen; ringkasan penyebab berupa daftar.
+- Penyelarasan angka, SUPCO, dan SL diperbaiki; sheet grafik dan format tabel ekspor dibenahi.
+
 
 ## v2.9.9 — Raw Material membaca sumber langsung
 - Raw Material mengambil subset data langsung dari PRODMAST dan STM G113 tanpa menjalankan ulang proses pembentukan Master Stock 77 kolom.
@@ -267,7 +282,7 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Kolom BPB dan STOCK harian pada tabel serta export History ditampilkan dalam rupiah.
 
 
-## v3.1.7 — Penyempurnaan tampilan History dan export
+## v3.1.8 — Penyempurnaan tampilan History dan export
 - Popup History dibagi menjadi tab Ringkasan, 50 Item & SUPCO, Analisa Penyebab, dan Rekap Harian agar tidak menjadi satu halaman panjang.
 - Grafik per item dan per SUPCO diganti dengan tabel peringkat 50 item dan 50 SUPCO terbesar.
 - Grafik STOCK OUT kini menampilkan nilai STOCK (Rp) dari item yang berstatus STOCK OUT, bukan nilai kekurangan terhadap MEAN.
@@ -278,9 +293,9 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 - Catatan kecil di bagian bawah popup dihapus.
 
 
-## v3.1.7 — Grafik STOCK OUT
+## v3.1.8 — Grafik STOCK OUT
 - Grafik STOCK OUT menampilkan dua seri dengan sumbu terpisah: jumlah item STOCK OUT dan nilai STOCK dalam rupiah.
 - Sheet Grafik pada export XLSX menambahkan kolom jumlah item STOCK OUT, sementara nilai STOCK tetap rupiah.
 
 
-Pembaruan v3.1.7: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.
+Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.

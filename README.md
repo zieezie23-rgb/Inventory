@@ -1,4 +1,11 @@
-## v3.2.6 — Perbaikan dasar hitung SL dan tren periode
+## v3.2.7 — Koreksi status Tidak ada PO dan SL awal periode
+
+- Jika total QTY PO pada periode = 0, kesimpulan hanya menampilkan “Tidak ada PO”; tidak menghasilkan kesimpulan SL stabil atau tren kedatangan.
+- Menambahkan kolom SL Awal Periode sebelum SL akhir/periode pada tabel Analisa Penyebab dan sheet Export Excel. SL Awal dihitung dari 7 hari pertama pada masing-masing rentang periode.
+- Nilai SL di atas 0% tetapi di bawah 1% ditampilkan sebagai 1%; perhitungan dan klasifikasi tetap menggunakan nilai aslinya.
+- Struktur dan fungsi History lainnya dipertahankan.
+
+## v3.2.7 — Perbaikan dasar hitung SL dan tren periode
 
 - SL per periode dihitung dari total kuantitas BPB bertanggal BPB_DATE dalam rentang yang sama dibagi total kuantitas PO bertanggal PO_DATE dalam rentang tersebut.
 - Rentang periode total: 14 hari, 30 hari, dan 3 bulan kalender sampai H-1.
@@ -7,9 +14,9 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.2.6
+# Inventory v3.2.7
 
-## v3.2.6 — Validasi kategori SL, tren, dan ringkasan mobile
+## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 
 - Tren SL disederhanakan menjadi keterangan ringkas, misalnya “SL turun, nilai kedatangan meningkat” atau “SL naik, nilai kedatangan menurun”; tidak lagi menampilkan kategori SL asal dan tujuan.
 - Perbandingan nilai kedatangan menggunakan nilai BPB (Rp), bukan jumlah transaksi kedatangan.
@@ -17,7 +24,7 @@
 - Ringkasan Item dan SUPCO menambahkan selisih 3 bulan dikurangi 2 minggu, selain selisih antarperiode yang sudah tersedia.
 - Tinggi tombol X disamakan dengan tombol Export pada desktop dan perangkat kecil.
 
-## v3.2.6 — Penyederhanaan tren SL dan selisih periode
+## v3.2.7 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.
@@ -64,9 +71,9 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.2.6
+# Inventory v3.2.7
 
-## v3.2.6 — Penyederhanaan tren SL dan selisih periode
+## v3.2.7 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.

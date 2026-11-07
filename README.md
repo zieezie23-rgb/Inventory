@@ -1,6 +1,14 @@
-# Inventory v3.2.1
+# Inventory v3.2.2
 
-## v3.2.1 — Analisa penyebab eksklusif dan tren SL Supplier
+## v3.2.2 — Penyederhanaan tren SL dan selisih periode
+
+- Tren SL disederhanakan menjadi keterangan ringkas, misalnya “SL turun, nilai kedatangan meningkat” atau “SL naik, nilai kedatangan menurun”; tidak lagi menampilkan kategori SL asal dan tujuan.
+- Perbandingan nilai kedatangan menggunakan nilai BPB (Rp), bukan jumlah transaksi kedatangan.
+- Daftar keterangan ringkasan diurutkan berdasarkan kategori SL, kemudian arah perubahan SL dan nilai kedatangan.
+- Ringkasan Item dan SUPCO menambahkan selisih 3 bulan dikurangi 2 minggu, selain selisih antarperiode yang sudah tersedia.
+- Tinggi tombol X disamakan dengan tombol Export pada desktop dan perangkat kecil.
+
+## v3.2.2 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.
@@ -47,9 +55,9 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.2.1
+# Inventory v3.2.2
 
-## v3.2.1 — Analisa penyebab eksklusif dan tren SL Supplier
+## v3.2.2 — Penyederhanaan tren SL dan selisih periode
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.

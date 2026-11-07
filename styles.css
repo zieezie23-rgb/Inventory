@@ -1688,7 +1688,7 @@ body .action-button .action-copy{gap:5px!important;}
 
 /* History v3.2.0 — summary by cause, distinct SUPCO counts and period deltas */
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
-.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(145px,1.2fr) repeat(3,minmax(155px,1fr)) repeat(2,minmax(90px,.65fr));gap:10px}
+.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(145px,1.2fr) repeat(3,minmax(155px,1fr)) repeat(3,minmax(90px,.65fr));gap:10px}
 .history-cause-row strong{white-space:nowrap}
 .history-cause-row .history-cause-delta{color:#ffc978}
 .history-cause-check{min-width:940px}
@@ -1698,11 +1698,11 @@ body .action-button .action-copy{gap:5px!important;}
 @media(max-width:700px){.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}}
 
 
-/* History v3.2.1 — document-map tabs, aligned actions and separated cause summaries */
+/* History v3.2.2 — concise SL trend and 3-month vs 2-week variance */
 .history-head{align-items:flex-start}
 .history-actions{margin-left:auto;justify-content:flex-end;align-items:center;flex-wrap:nowrap;min-width:max-content}
 .history-actions #historyExport{order:1}
-.history-actions .history-close{order:2;width:38px;height:38px;padding:0;margin:0 0 0 4px;border:0;background:transparent;color:#d9ffd0;font:700 34px/1 Arial,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:none;border-radius:0}
+.history-actions .history-close{order:2;width:36px;height:36px;padding:0;margin:0 0 0 4px;border:0;background:transparent;color:#d9ffd0;font:700 34px/1 Arial,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:none;border-radius:0}
 .history-actions .history-close:hover{color:#fff}
 .history-tabs{display:flex;flex-wrap:nowrap;gap:0;overflow-x:auto;white-space:normal;align-items:stretch;margin:0 0 14px;padding:0;border-bottom:1px solid #47724d;scrollbar-width:thin}
 .history-tabs button{position:relative;isolation:auto;flex:1 1 0;min-width:0;min-height:42px;display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;overflow-wrap:anywhere;border:1px solid #31583b;border-bottom:0;border-right:0;background:#0d2114;color:#9ac9a2;border-radius:8px 8px 0 0;padding:7px 6px;margin:0;font-family:inherit;font-size:11px;line-height:1.2;font-weight:700;cursor:pointer;box-shadow:none}
@@ -1711,8 +1711,8 @@ body .action-button .action-copy{gap:5px!important;}
 .history-cause-table-block{min-width:0;margin:0 0 14px}
 .history-cause-table-block h4{margin:0 0 6px;color:#baff9b;font-size:12px}
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
-.history-cause-header,.history-cause-row{min-width:900px;grid-template-columns:minmax(260px,1.8fr) repeat(3,minmax(75px,.55fr)) repeat(2,minmax(95px,.65fr));gap:10px;align-items:center}
+.history-cause-header,.history-cause-row{min-width:1080px;grid-template-columns:minmax(260px,1.8fr) repeat(3,minmax(75px,.55fr)) repeat(3,minmax(95px,.65fr));gap:10px;align-items:center}
 .history-cause-header b,.history-cause-row strong{text-align:right;white-space:nowrap}
 .history-cause-row>span{white-space:normal;line-height:1.35}
 .history-cause-check{margin-top:8px}
-@media(max-width:700px){.history-head{align-items:flex-start}.history-head h2{font-size:17px}.history-actions{gap:4px}.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}.history-actions .history-close{width:32px;height:32px;font-size:30px}.history-tabs button{min-height:44px;padding:6px 3px;font-size:9px}.history-cause-header,.history-cause-row{min-width:790px;grid-template-columns:minmax(220px,1.8fr) repeat(3,minmax(60px,.55fr)) repeat(2,minmax(75px,.65fr));gap:7px;font-size:10px}}
+@media(max-width:700px){.history-head{align-items:flex-start}.history-head h2{font-size:17px}.history-actions{gap:4px}.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}.history-actions .history-close{width:32px;height:32px;font-size:30px}.history-tabs button{min-height:44px;padding:6px 3px;font-size:9px}.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(220px,1.8fr) repeat(3,minmax(60px,.55fr)) repeat(3,minmax(75px,.65fr));gap:7px;font-size:10px}}

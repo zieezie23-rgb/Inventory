@@ -1,6 +1,6 @@
-# Inventory v3.2.0
+# Inventory v3.2.1
 
-## v3.2.0 — Analisa penyebab eksklusif dan tren SL Supplier
+## v3.2.1 — Analisa penyebab eksklusif dan tren SL Supplier
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.
@@ -47,9 +47,9 @@
 - Referensi raw-material.js di index.html dan Service Worker dihapus.
 - Fungsi deteksi file, perhitungan, tabel, dan ekspor Raw Material dipertahankan.
 
-# Inventory v3.2.0
+# Inventory v3.2.1
 
-## v3.2.0 — Analisa penyebab eksklusif dan tren SL Supplier
+## v3.2.1 — Analisa penyebab eksklusif dan tren SL Supplier
 
 - Setiap item analisa hanya memperoleh satu kesimpulan penyebab pada masing-masing periode 14 hari, 1 bulan, dan 3 bulan. Jumlah kategori per periode sama dengan jumlah item yang masuk analisa.
 - Menambahkan perbandingan kategori SL (0%, <100%, 100%) dan jumlah kedatangan untuk 14 hari (dibanding 14 hari sebelumnya), 1 bulan (dibanding 1 bulan sebelumnya), dan 3 bulan (awal vs akhir periode). Kategori 100% memakai nilai SL tepat 100% atau lebih; nilai di bawah 100% tetap <100%. Jika PO tidak tersedia, ditulis “Tidak ada PO”.

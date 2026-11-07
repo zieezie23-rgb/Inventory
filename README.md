@@ -1,3 +1,16 @@
+## v3.3.0 — Klasifikasi SL 0% dan SL 100%
+
+- Jika kategori awal dan akhir sama-sama SL 0%, hasil tetap ditampilkan sebagai SL 0%.
+- Jika kategori awal dan akhir sama-sama SL 100%, hasil tetap ditampilkan sebagai SL 100%.
+- Perubahan angka di dalam kategori SL <100% tetap stabil.
+- Perubahan antar kategori 0%, <100%, dan 100% diklasifikasikan naik/turun.
+
+## v3.2.9 — Perbaikan klasifikasi tren SL berbasis kategori
+
+- Tren SL membandingkan kategori SL awal periode dengan kategori SL periode berjalan, bukan regresi angka persentase.
+- Perubahan dalam kategori SL <100% (misalnya 50% ke 70% atau 70% ke 50%) tetap stabil.
+- Perubahan SL 100% ke SL <100% diklasifikasikan turun; SL 0% ke SL <100% diklasifikasikan naik.
+
 ## v3.2.8 — Filter RECID dan periode SL berdasarkan tanggal PO
 
 - Perhitungan History hanya memakai RECID R, H, dan blank.
@@ -21,7 +34,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.2.8
+# Inventory v3.3.0
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

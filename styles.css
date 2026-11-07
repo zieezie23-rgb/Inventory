@@ -1674,7 +1674,7 @@ body .action-button .action-copy{gap:5px!important;}
 .history-chart-grid{grid-template-columns:1fr 1fr}
 .history-chart-card:first-child{grid-column:auto}
 @media(max-width:700px){.history-tabs{gap:17px}.history-tabs button{padding:8px 1px 9px}.history-cause-list li{grid-template-columns:minmax(130px,1fr) 75px minmax(100px,120px);gap:8px;font-size:10px}.history-chart-grid{grid-template-columns:1fr}.history-chart-card:first-child{grid-column:auto}}
-/* History v3.1.9: file-stack tabs, concise cause summary and analysis filter */
+/* History v3.2.0: file-stack tabs, concise cause summary and analysis filter */
 .history-tabs{display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;white-space:nowrap;align-items:flex-end;margin:0 0 14px;padding:5px 3px 0;border-bottom:1px solid #285236;scrollbar-width:thin}
 .history-tabs button{position:relative;isolation:isolate;flex:0 0 auto;border:1px solid #31583b;border-bottom:0;background:#102719;color:#9ac9a2;border-radius:7px 7px 0 0;padding:8px 12px 9px;margin-top:4px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;box-shadow:2px -2px 0 #07170d,4px -4px 0 #1b3824}
 .history-tabs button.is-active{background:#1b3d25;color:#e0ffda;border-color:#79ad70;box-shadow:2px -2px 0 #07170d,4px -4px 0 #1b3824;transform:translateY(1px)}
@@ -1693,3 +1693,14 @@ body .action-button .action-copy{gap:5px!important;}
 #historyAnalysis td:nth-child(3){text-align:center}
 @media(max-width:700px){.history-tabs{gap:6px}.history-tabs button{padding:7px 9px;font-size:10px}.history-cause-header,.history-cause-row{grid-template-columns:minmax(110px,1.2fr) repeat(3,minmax(65px,1fr));gap:7px;font-size:10px}.history-filter-label select{max-width:150px;min-width:110px}}
 .history-supco-causes td:first-child{text-align:center!important}
+
+/* History v3.2.0 — summary by cause, distinct SUPCO counts and period deltas */
+.history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
+.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(145px,1.2fr) repeat(3,minmax(155px,1fr)) repeat(2,minmax(90px,.65fr));gap:10px}
+.history-cause-row strong{white-space:nowrap}
+.history-cause-row .history-cause-delta{color:#ffc978}
+.history-cause-check{min-width:940px}
+
+/* v3.2.0: tombol aksi History seragam */
+.history-actions .button{min-width:108px;height:36px;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:700px){.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}}

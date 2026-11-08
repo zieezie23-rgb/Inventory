@@ -1,11 +1,27 @@
-## v3.3.7 — Perapihan Ringkasan, SUPCO, dan Export
+## v3.4.0 — Penyaringan LT History
+
+- Seluruh proses History hanya menyertakan item dengan LT berupa huruf.
+- LT angka (termasuk 00, 90, 91, 92, dan 95) serta LT kosong dikecualikan.
+- Penyaringan dilakukan pada sumber daftar item History sehingga berlaku konsisten untuk tabel, grafik, analisis STOCK OUT, SL Supplier, ringkasan, Top 50, dan seluruh sheet export.
+- Fungsi di luar History dan pemetaan `zone()` untuk proses lain tidak diubah.
+
+## v3.3.8 — Sinkronisasi Grafik STOCK dan Perbaikan Kriteria STOCK OUT
+
+- Garis STOCK (Rp) pada grafik utama dan grafik STOCK OUT kini menggunakan agregat total STOCK yang sama per tanggal, dari seluruh item History ber-ZONA.
+- Seri jumlah item STOCK OUT tetap dihitung terpisah.
+- STOCK OUT hanya dihitung jika STOCK < MEAN, MEAN > 0, dan PTAG termasuk E, D, S, L, atau kosong.
+- Pengecualian MEAN = 0 dan filter PTAG diterapkan konsisten pada jumlah STOCK OUT harian, STOCK OUT Days, ringkasan shortage, supplier, serta kondisi kedatangan penuh yang langsung diikuti STOCK OUT.
+- Sheet export Grafik dan Grafik STOCK OUT mengikuti angka STOCK total yang sama.
+- Perhitungan SL dan analisa penyebab lainnya tidak diubah.
+
+## v3.3.8 — Perapihan Ringkasan, SUPCO, dan Export
 
 - Kesimpulan ringkasan dipindahkan ke bawah tabel rekap penyebab.
 - Header dan kolom kesimpulan 50 SUPCO dibuat membungkus teks dengan lebar lebih rapat.
 - Export menambahkan sheet “Kesimpulan Ringkasan” dan merapikan lebar kolom pada sheet 50 SUPCO.
 - Perhitungan SL, trend, dan analisa penyebab tidak diubah.
 
-## v3.3.7 — Ringkasan dan Rekap History
+## v3.3.8 — Ringkasan dan Rekap History
 
 - Nilai selisih negatif ditampilkan dalam tanda kurung dan warna merah tanpa tanda minus.
 - Ringkasan dilengkapi teks kesimpulan penyebab terbanyak untuk periode 2 minggu, 1 bulan, dan 3 bulan.
@@ -83,7 +99,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.3.7
+# Inventory v3.4.0
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

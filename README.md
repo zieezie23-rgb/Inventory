@@ -1,4 +1,12 @@
-## v3.5.1 — Ringkasan STOCK OUT dan perapihan tabel SUPCO
+## v3.5.2 — Detail Ringkasan STOCK OUT dan tab Top 20 gabungan
+
+- Kolom Keterangan pada Ringkasan StockOut rata kiri.
+- Baris Ringkasan StockOut dapat dipilih untuk menampilkan daftar item dengan kolom PRDCD, DESC2, SUPCO, SNAMA, PTAG, STOCK, PERIODE, SL, dan KETERANGAN.
+- Daftar item STOCK OUT dapat diekspor ke JPEG.
+- Tab 20 Item Terbesar dan 20 SUPCO Terbesar digabung menjadi satu tab; kedua tabel tetap menampilkan 20 baris.
+- Export Excel tetap mempertahankan sheet Top 50 item dan Top 50 SUPCO.
+
+## v3.5.2 — Ringkasan STOCK OUT dan perapihan tabel SUPCO
 
 - Header tabel 20 SUPCO terbesar dapat membungkus teks; isi baris tetap satu baris/tidak wrap.
 - Export History Stock Out menambahkan kolom Periode, SL, dan Keterangan berdasarkan STOCK OUT berturut-turut.
@@ -112,7 +120,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.5.1
+# Inventory v3.5.2
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

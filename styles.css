@@ -1756,7 +1756,14 @@ body .action-button .action-copy{gap:5px!important;}
 #historyTopSup td{padding:5px 6px}
 
 
-/* v3.5.1: SUPCO terbesar — wrap header only, keep data rows on one line */
+/* v3.5.2: SUPCO terbesar — wrap header only, keep data rows on one line */
 #historyTopSup th{white-space:normal!important;overflow-wrap:anywhere;word-break:normal}
 #historyTopSup td{white-space:nowrap!important;overflow-wrap:normal;word-break:normal}
 #historyTopSup td:nth-child(3){min-width:120px;max-width:170px}
+
+/* History StockOut detail and summary alignment */
+#historyStockOutSummary th:nth-child(2),#historyStockOutSummary td:nth-child(2){text-align:left!important}
+#historyStockOutSummary tbody tr{cursor:pointer}
+#historyStockOutSummary tbody tr:hover{background:rgba(117,255,85,.10)}
+.history-stockout-detail{margin-top:18px;padding-top:14px;border-top:1px solid rgba(117,255,85,.35)}
+#historyStockOutDetail th,#historyStockOutDetail td{white-space:nowrap}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.5.1">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png"><link rel="stylesheet" href="styles.css?v=3.5.2">
   <title>Inventory</title>
 
 </head>
@@ -17,7 +17,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v3.5.1</span>
+    <span class="hero-version">v3.5.2</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -162,7 +162,7 @@
   </dialog>
   <dialog id="historyDialog" class="brd-dialog history-dialog">
     <div class="history-head"><div><p class="raw-material-kicker">INVENTORY ANALYTICS</p><h2>HISTORY</h2><p id="historySummary">Menyiapkan riwayat…</p></div><div class="history-actions"><button type="button" class="button button-primary" id="historyExport">Export XLSX</button><button type="button" class="history-close" id="historyClose" aria-label="Tutup History" title="Tutup">×</button></div></div>
-    <nav class="history-tabs" role="tablist" aria-label="Bagian History"><button type="button" data-history-tab="charts" class="is-active" role="tab" aria-selected="true">Grafik</button><button type="button" data-history-tab="summary" role="tab" aria-selected="false">Ringkasan</button><button type="button" data-history-tab="analysis" role="tab" aria-selected="false">Analisa Penyebab</button><button type="button" data-history-tab="items" role="tab" aria-selected="false">20 Item Terbesar</button><button type="button" data-history-tab="supco" role="tab" aria-selected="false">20 SUPCO Terbesar</button><button type="button" data-history-tab="stockout-summary" role="tab" aria-selected="false">Ringkasan StockOut</button></nav>
+    <nav class="history-tabs" role="tablist" aria-label="Bagian History"><button type="button" data-history-tab="charts" class="is-active" role="tab" aria-selected="true">Grafik</button><button type="button" data-history-tab="summary" role="tab" aria-selected="false">Ringkasan</button><button type="button" data-history-tab="analysis" role="tab" aria-selected="false">Analisa Penyebab</button><button type="button" data-history-tab="top" role="tab" aria-selected="false">20 Item &amp; SUPCO Terbesar</button><button type="button" data-history-tab="stockout-summary" role="tab" aria-selected="false">Ringkasan StockOut</button></nav>
     <section data-history-page="charts" class="history-page">
       <section class="history-chart-grid"><article class="history-chart-card"><h3>PO • BPB • STOCK • SL SUPP</h3><div id="historyChartAll"></div></article><article class="history-chart-card"><h3>STOCK ITEM YANG STOCK OUT</h3><div id="historyChartStockOut"></div></article></section>
     </section>
@@ -170,11 +170,10 @@
       <section class="history-section"><h3>Ringkasan Penyebab Penurunan STOCK</h3><div id="historyCauseSummary"></div></section>
     </section>
     <section data-history-page="analysis" class="history-page" hidden><section class="history-section"><div class="history-table-toolbar"><h3>Analisa Penyebab Penurunan STOCK</h3><div class="history-filter-group"><label class="history-filter-label">Periode <select id="historyAnalysisPeriodFilter"><option value="14">2 Minggu</option><option value="30">1 Bulan</option><option value="90">3 Bulan</option></select></label><label class="history-filter-label">Jenis Kesimpulan <select id="historyAnalysisConclusionFilter"><option value="">Semua Jenis Kesimpulan</option></select></label></div></div><p id="historyAnalysisFilterHint" class="history-filter-hint"></p><div class="history-table-wrap"><table id="historyAnalysis"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>STOCK Awal (Rp)</th><th>STOCK Akhir (Rp)</th><th>Penurunan (Rp)</th><th>SL Awal 2 Minggu</th><th>SL 2 Minggu</th><th>Trend 2 Minggu</th><th>Kesimpulan 2 Minggu</th><th>SL Awal 1 Bulan</th><th>SL 1 Bulan</th><th>Trend 1 Bulan</th><th>Kesimpulan 1 Bulan</th><th>SL Awal 3 Bulan</th><th>SL 3 Bulan</th><th>Trend 3 Bulan</th><th>Kesimpulan 3 Bulan</th><th>SL 100% → STOCK OUT H+1</th></tr></thead><tbody></tbody></table></div></section></section>
-    <section data-history-page="items" class="history-page" hidden><section class="history-section"><h3>20 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>STOCK Awal (Rp)</th><th>STOCK Akhir (Rp)</th><th>Penurunan (Rp)</th><th>PO 3 Bulan (Rp)</th><th>BPB 3 Bulan (Rp)</th><th>SL 3 Bulan</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section>
-    <section data-history-page="supco" class="history-page" hidden><section class="history-section"><h3>20 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Jumlah Item Turun</th><th>Total Penurunan (Rp)</th></tr></thead><tbody></tbody></table></div></section></section>
-    <section data-history-page="stockout-summary" class="history-page" hidden><section class="history-section"><h3>RINGKASAN STOCK OUT BERTURUT-TURUT</h3><div class="history-table-wrap"><table id="historyStockOutSummary"><thead><tr><th>No</th><th>Keterangan</th><th>Jumlah Item</th></tr></thead><tbody></tbody></table></div></section></section>
+    <section data-history-page="top" class="history-page" hidden><section class="history-section"><h3>20 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>STOCK Awal (Rp)</th><th>STOCK Akhir (Rp)</th><th>Penurunan (Rp)</th><th>PO 3 Bulan (Rp)</th><th>BPB 3 Bulan (Rp)</th><th>SL 3 Bulan</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section><section class="history-section"><h3>20 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Jumlah Item Turun</th><th>Total Penurunan (Rp)</th></tr></thead><tbody></tbody></table></div></section></section>
+    <section data-history-page="stockout-summary" class="history-page" hidden><section class="history-section"><h3>RINGKASAN STOCK OUT BERTURUT-TURUT</h3><div class="history-table-toolbar"><p>Pilih baris keterangan untuk melihat daftar item.</p><button type="button" class="button button-primary" id="historyStockOutExportJpeg" disabled>Export JPEG</button></div><div class="history-table-wrap"><table id="historyStockOutSummary"><thead><tr><th>No</th><th>Keterangan</th><th>Jumlah Item</th></tr></thead><tbody></tbody></table></div><section id="historyStockOutDetailPanel" class="history-stockout-detail" hidden><div class="history-table-toolbar"><h3 id="historyStockOutDetailTitle">Daftar Item</h3><button type="button" class="button" id="historyStockOutDetailClose">Tutup</button></div><div class="history-table-wrap"><table id="historyStockOutDetail"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>SNAMA</th><th>PTAG</th><th>STOCK</th><th>PERIODE</th><th>SL</th><th>KETERANGAN</th></tr></thead><tbody></tbody></table></div></section></section></section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v3.5.1 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v3.5.2 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -981,7 +980,7 @@
   }
   init();
 })();
-</script><script src="app.js?v=3.5.1"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script src="app.js?v=3.5.2"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

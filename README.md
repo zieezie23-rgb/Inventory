@@ -1,3 +1,16 @@
+## v3.5.1 — Ringkasan STOCK OUT dan perapihan tabel SUPCO
+
+- Header tabel 20 SUPCO terbesar dapat membungkus teks; isi baris tetap satu baris/tidak wrap.
+- Export History Stock Out menambahkan kolom Periode, SL, dan Keterangan berdasarkan STOCK OUT berturut-turut.
+- Tab dan sheet Ringkasan StockOut merangkum keterangan serta jumlah item, diurutkan dari terbanyak.
+- Sheet export History Stock Out tetap memuat penanda harian Y dan kolom ringkasan periode.
+
+## v3.5.0 — Penyempurnaan History
+- Grafik aplikasi dipisah ke tab Grafik, mendahului tab Ringkasan; tab Rekap Harian dihilangkan dari tampilan aplikasi.
+- Tampilan Top Item dan Top SUPCO dibatasi 20 baris; export tetap 50 baris.
+- Export History memuat satu sheet Grafik dan sheet History Stock, History Ptag, History BPB, History SL, serta History Stock Out (Y per tanggal saat item memenuhi kriteria STOCK OUT).
+- Skala sumbu grafik dibuat mulai dari nilai maksimum di atas hingga nol di bawah dengan interval berurutan.
+
 ## v3.4.0 — Penyaringan LT History
 
 - Seluruh proses History hanya menyertakan item dengan LT berupa huruf.
@@ -99,7 +112,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.5.0
+# Inventory v3.5.1
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 
@@ -428,8 +441,3 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.
 
 
-## v3.5.0 — Penyempurnaan History
-- Grafik aplikasi dipisah ke tab Grafik, mendahului tab Ringkasan; tab Rekap Harian dihilangkan dari tampilan aplikasi.
-- Tampilan Top Item dan Top SUPCO dibatasi 20 baris; export tetap 50 baris.
-- Export History memuat satu sheet Grafik dan sheet History Stock, History Ptag, History BPB, History SL, serta History Stock Out (Y per tanggal saat item memenuhi kriteria STOCK OUT).
-- Skala sumbu grafik dibuat mulai dari nilai maksimum di atas hingga nol di bawah dengan interval berurutan.

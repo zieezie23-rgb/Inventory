@@ -1,4 +1,4 @@
-## v3.5.6 — Penyempurnaan Export History mengikuti workbook contoh
+## v3.5.7 — Pemisahan sumbu Stock Out dan SL Supplier pada grafik
 - Menata ulang export History menjadi 10 sheet: History Stock, History Ptag, History BPB, History SL, History Stock Out, Penurunan Stock, 50 Item Terbesar, 50 Supp Terbesar, Kesimpulan, dan TREND.
 - Menyesuaikan redaksi judul, header, istilah Σ Item/Σ Supplier, variasi periode, dan nama sheet mengikuti workbook contoh.
 - Mempertahankan kolom Periode, SL, dan Keterangan pada History Stock Out.

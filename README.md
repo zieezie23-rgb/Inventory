@@ -1,3 +1,23 @@
+## v3.5.6 — Penyempurnaan Export History mengikuti workbook contoh
+- Menata ulang export History menjadi 10 sheet: History Stock, History Ptag, History BPB, History SL, History Stock Out, Penurunan Stock, 50 Item Terbesar, 50 Supp Terbesar, Kesimpulan, dan TREND.
+- Menyesuaikan redaksi judul, header, istilah Σ Item/Σ Supplier, variasi periode, dan nama sheet mengikuti workbook contoh.
+- Mempertahankan kolom Periode, SL, dan Keterangan pada History Stock Out.
+- Memindahkan lima grafik harian terpisah ke sheet TREND dan mempertahankan grafik pada tab History di aplikasi.
+- Merapikan lebar kolom, header, perataan teks, freeze panes, dan filter tanpa mengubah rumus atau logika analisis.
+
+## v3.5.5 — Grafik History harian per kategori
+- Grafik PO dihitung dari nilai PO yang dibuat pada tanggal tersebut, bukan akumulasi PO bergulir 14 hari.
+- Grafik BPB menggunakan nilai BPB yang diterima pada tanggal BPB.
+- Grafik SL Supplier dihitung per tanggal dari BPB harian dibanding PO harian.
+- Grafik aplikasi dan sheet Excel `Grafik` dipisahkan menjadi lima grafik: PO Harian, BPB Harian, STOCK, SL Supplier, dan Jumlah Item STOCK OUT.
+- Grafik STOCK OUT hanya menampilkan jumlah item STOCK OUT; seri STOCK tidak digandakan pada grafik tersebut.
+- Perhitungan analisa SL 2 Minggu, 1 Bulan, dan 3 Bulan tetap menggunakan periode analisa yang sudah ada.
+
+## v3.5.3 — Perapihan tombol History dan export JPEG per detail STOCK OUT
+- Tombol Export XLSX dan tutup History dibuat lebih ringkas, sejajar, dan proporsional.
+- Tombol Export JPEG dipindahkan ke panel detail, berdampingan dengan tombol tutup.
+- Setiap baris Ringkasan StockOut membuka detailnya sendiri dan memiliki export JPEG yang hanya mengekspor daftar item detail tersebut.
+
 ## v3.5.2 — Detail Ringkasan STOCK OUT dan tab Top 20 gabungan
 
 - Kolom Keterangan pada Ringkasan StockOut rata kiri.
@@ -6,7 +26,7 @@
 - Tab 20 Item Terbesar dan 20 SUPCO Terbesar digabung menjadi satu tab; kedua tabel tetap menampilkan 20 baris.
 - Export Excel tetap mempertahankan sheet Top 50 item dan Top 50 SUPCO.
 
-## v3.5.2 — Ringkasan STOCK OUT dan perapihan tabel SUPCO
+## v3.5.1 — Ringkasan STOCK OUT dan perapihan tabel SUPCO
 
 - Header tabel 20 SUPCO terbesar dapat membungkus teks; isi baris tetap satu baris/tidak wrap.
 - Export History Stock Out menambahkan kolom Periode, SL, dan Keterangan berdasarkan STOCK OUT berturut-turut.
@@ -120,7 +140,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.5.2
+# Inventory v3.5.3
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

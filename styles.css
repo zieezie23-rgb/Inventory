@@ -1717,11 +1717,11 @@ body .action-button .action-copy{gap:5px!important;}
 
 /* History v3.2.4 — rapatkan ringkasan pada layar sempit */
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
-.history-cause-header,.history-cause-row{min-width:620px;grid-template-columns:minmax(160px,1.6fr) repeat(3,minmax(52px,.55fr)) repeat(3,minmax(58px,.65fr));gap:3px;padding:5px 3px;font-size:10px}
+.history-cause-header,.history-cause-row{min-width:520px;grid-template-columns:minmax(132px,1.5fr) repeat(3,minmax(42px,.48fr)) repeat(3,minmax(46px,.52fr));gap:2px;padding:4px 2px;font-size:9px}
 .history-cause-header b,.history-cause-row strong{text-align:right;white-space:nowrap}
 .history-cause-row>span{white-space:normal;line-height:1.25}
 .history-cause-check{min-width:0}
-@media(max-width:700px){.history-cause-header,.history-cause-row{min-width:590px;grid-template-columns:minmax(150px,1.5fr) repeat(3,minmax(48px,.5fr)) repeat(3,minmax(54px,.58fr));gap:3px;padding:4px 2px;font-size:9px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
+@media(max-width:700px){.history-cause-header,.history-cause-row{min-width:490px;grid-template-columns:minmax(122px,1.35fr) repeat(3,minmax(38px,.45fr)) repeat(3,minmax(42px,.5fr));gap:2px;padding:3px 2px;font-size:8px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
 
 /* History v3.3.6 — dua filter analisa yang jelas */
 .history-filter-group{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.history-filter-hint{margin:0 0 8px;color:#9ac9a2;font-size:10px;text-align:right}
@@ -1766,17 +1766,28 @@ body .action-button .action-copy{gap:5px!important;}
 #historyStockOutDetail th,#historyStockOutDetail td{white-space:nowrap}
 
 
-/* v3.5.4 — compact paired action buttons in History */
+/* v3.6.3 — tombol export netral dan tombol tutup tanpa kotak */
 .history-actions{display:flex;align-items:center;gap:8px}
-.history-actions #historyExport,.history-stockout-detail-actions .history-actions .button{height:30px!important;min-height:30px!important;min-width:0!important;padding:5px 12px!important;font-size:10px!important;line-height:1!important;border-radius:8px!important}
-.history-actions .history-close{width:30px!important;height:30px!important;min-width:30px!important;padding:0!important;margin:0!important;border:1px solid #79ad70!important;border-radius:8px!important;background:#0d2114!important;color:#d9ffd0!important;font:700 20px/1 Arial,sans-serif!important;box-shadow:none!important}
-.history-actions .history-close:hover{background:#173b23!important;color:#fff!important}
+.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:30px!important;min-height:30px!important;min-width:0!important;padding:5px 12px!important;font-size:10px!important;line-height:1!important;border:1px solid #536477!important;border-radius:7px!important;background:#202b38!important;background-image:none!important;color:#dce6f2!important;box-shadow:none!important}
+.history-actions #historyExport:hover,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg:hover{background:#2b3949!important;border-color:#71849a!important;color:#fff!important}
+.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:30px!important;height:30px!important;min-width:30px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#c5d0dc!important;font:700 22px/1 Arial,sans-serif!important;box-shadow:none!important}
+.history-actions .history-close:hover,.history-stockout-detail-actions .history-stockout-close:hover{background:transparent!important;color:#fff!important}
 .history-stockout-detail-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .history-stockout-detail-actions h3{min-width:0;flex:1}
 .history-stockout-detail-actions .history-actions{flex:0 0 auto}
-.history-stockout-detail-actions .history-stockout-close{width:30px!important;min-width:30px!important;padding:0!important;font-size:18px!important}
-@media(max-width:700px){.history-actions{gap:6px}.history-actions #historyExport,.history-stockout-detail-actions .history-actions .button{height:28px!important;min-height:28px!important;padding:4px 9px!important;font-size:9px!important}.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:28px!important;height:28px!important;min-width:28px!important}.history-stockout-detail-actions{align-items:center}}
+.history-stockout-detail-actions .history-stockout-close{font-size:22px!important}
+@media(max-width:700px){.history-actions{gap:6px}.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:28px!important;min-height:28px!important;padding:4px 9px!important;font-size:9px!important}.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:28px!important;height:28px!important;min-width:28px!important}.history-stockout-detail-actions{align-items:center}}
 
 /* v3.5.4: perataan teks kesimpulan History */
 #historyAnalysis td:nth-child(12),#historyAnalysis td:nth-child(16),#historyAnalysis td:nth-child(20),#historyTopItems td:nth-child(11),.history-summary-conclusion,.history-summary-conclusion li{text-align:center}
 .history-cause-row>span{text-align:left!important}.history-cause-header>span{text-align:left!important}
+
+
+/* v3.6.2 — paired ranking tables and compact summary columns */
+#historyTopItems,#historyTopSup{table-layout:fixed;width:100%;min-width:100%}
+#historyTopItems th:nth-child(1),#historyTopSup th:nth-child(1),#historyTopItems td:nth-child(1),#historyTopSup td:nth-child(1){width:38px}
+#historyTopItems th:nth-child(2),#historyTopSup th:nth-child(2),#historyTopItems td:nth-child(2),#historyTopSup td:nth-child(2){width:92px;min-width:92px;max-width:92px}
+#historyTopItems th:nth-child(3),#historyTopSup th:nth-child(3),#historyTopItems td:nth-child(3),#historyTopSup td:nth-child(3){width:32%}
+#historyTopItems th:nth-child(4),#historyTopSup th:nth-child(4),#historyTopItems td:nth-child(4),#historyTopSup td:nth-child(4){text-align:left!important;white-space:normal;overflow-wrap:anywhere;min-width:0}
+.history-cause-header,.history-cause-row{column-gap:2px}
+.history-cause-row>span{line-height:1.2}

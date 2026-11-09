@@ -1,4 +1,14 @@
-## v3.6.1 — Penyesuaian History SL dan tampilan analisa
+## v3.6.3 — Tombol Export netral dan tombol X tanpa kotak
+- Tombol Export pada header History dan detail Ringkasan Stock Out menggunakan warna netral tanpa aksen hijau.
+- Tombol X di kedua area tampil sebagai ikon tanpa border atau latar berbentuk kotak.
+- Fungsi export dan tutup panel tidak diubah.
+
+## v3.6.3 — Perapian tabel History
+- Lebar kolom SUPCO pada tab 20 SUPCO disamakan dengan kolom PRDCD pada tab 20 Item.
+- Kolom Kesimpulan pada kedua tabel peringkat diratakan ke kiri.
+- Kolom ringkasan penyebab dirapatkan pada desktop dan layar HP.
+
+## v3.6.3 — Penyesuaian History SL dan tampilan analisa
 
 - Syarat Stock Out diperketat: selain STOCK < MEAN, MEAN > 0, dan PTAG yang memenuhi kriteria, PKM dari STM G113 lokasi 01 wajib > 0. Syarat ini diterapkan konsisten pada grafik, ringkasan, hitungan hari Stock Out, klasifikasi Stock Out berturut-turut, dan export History Stock Out.
 - Tab Ringkasan: teks Keterangan rata kiri dan jarak/lebar kolom periode serta selisih dirapatkan, termasuk tampilan mobile.
@@ -157,7 +167,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.6.1
+# Inventory v3.6.3
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 
@@ -485,7 +495,7 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 
 Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.
 
-## Update v3.6.1 — Grafik History
+## Update v3.6.3 — Grafik History
 - Urutan grafik tab History: Stock, Stock Out, SL Supplier, PO, lalu BPB.
 - Grafik Stock Out berdiri sendiri; tidak lagi digabung dengan SL Supplier.
 - Semua grafik menggunakan satu sumbu Y di kiri; sumbu kanan dihilangkan.

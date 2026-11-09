@@ -2162,36 +2162,64 @@ async function Hexport(){
  sumRows[supStart+1][9]='No';sumRows[supStart+1][10]='Keterangan';sumRows[supStart+1][11]='Item';s.stockOutSummary.forEach((x,i)=>{const r=supStart+2+i;while(sumRows.length<=r)sumRows.push(Array(25).fill(''));sumRows[r][9]=i+1;sumRows[r][10]=x.description;sumRows[r][11]=x.count});
  const wsKes=XLSX.utils.aoa_to_sheet(sumRows);wsKes['!cols']=[{wch:52},{wch:12},{wch:12},{wch:12},{wch:14},{wch:14},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14}];wsKes['!freeze']={xSplit:1,ySplit:2};XLSX.utils.book_append_sheet(wb,wsKes,'Kesimpulan');
  const trend=[['Tanggal','PO (Rp)','BPB (Rp)','Stock (Rp)','SL Supp (%)','Stock Out'],...s.totalByDate.map((x,i)=>[Hdate(x.date),x.poRp,x.bpbRp,x.stockRp,x.sl??'',s.stockOutTrend[i]?.count??0])];const wsTrend=XLSX.utils.aoa_to_sheet(trend);wsTrend['!autofilter']={ref:`A1:F${trend.length}`};wsTrend['!freeze']={xSplit:1,ySplit:1};wsTrend['!cols']=[{wch:16},{wch:22},{wch:22},{wch:22},{wch:18},{wch:16}];XLSX.utils.book_append_sheet(wb,wsTrend,'TREND');
- const raw=XLSX.write(wb,{bookType:'xlsx',type:'array'});const blob=await HstyleWorkbook(new Blob([raw],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),trend.length,10);downloadBlob(`History Inventory ${Hdate(s.end).replaceAll(' ','-')}.xlsx`,blob)
+ const raw=XLSX.write(wb,{bookType:'xlsx',type:'array'});const blob=await HstyleWorkbook(new Blob([raw],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),trend.length,10,s.dates.length);downloadBlob(`History Inventory ${Hdate(s.end).replaceAll(' ','-')}.xlsx`,blob)
 }
 function HexcelTitle(t){return `<c:title><c:tx><c:rich><a:bodyPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/><a:p xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:pPr><a:defRPr/></a:pPr><a:r><a:t>${String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</a:t></a:r></a:p></c:rich></c:tx></c:title>`}
 function HexcelChartXml(sheet,title,cols,lastRow){const ser=cols.map((col,i)=>`<c:ser><c:idx val="${i}"/><c:order val="${i}"/><c:tx><c:strRef><c:f>'${sheet}'!${String.fromCharCode(64+col)}1</c:f></c:strRef></c:tx><c:spPr><a:ln xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:prstDash val="solid"/></a:ln></c:spPr><c:marker><c:symbol val="none"/></c:marker><c:cat><c:strRef><c:f>'${sheet}'!$A$2:$A$${lastRow}</c:f></c:strRef></c:cat><c:val><c:numRef><c:f>'${sheet}'!$${String.fromCharCode(64+col)}$2:$${String.fromCharCode(64+col)}$${lastRow}</c:f></c:numRef></c:val></c:ser>`).join('');return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart"><c:chart>${HexcelTitle(title)}<c:plotArea><c:lineChart><c:grouping val="standard"/>${ser}<c:axId val="10"/><c:axId val="100"/></c:lineChart><c:catAx><c:axId val="10"/>${HexcelTitle('Tanggal')}<c:scaling><c:orientation val="minMax"/></c:scaling><c:axPos val="b"/><c:majorTickMark val="none"/><c:minorTickMark val="none"/><c:crossAx val="100"/><c:lblOffset val="100"/></c:catAx><c:valAx><c:axId val="100"/>${HexcelTitle(title.includes('Jumlah')?'Jumlah Item':title.includes('(%)')?'Persentase (%)':'Nilai (Rp)')}<c:scaling><c:orientation val="minMax"/></c:scaling><c:axPos val="l"/><c:majorGridlines/><c:numFmt formatCode="#,##0" sourceLinked="1"/><c:majorTickMark val="none"/><c:minorTickMark val="none"/><c:crossAx val="10"/></c:valAx></c:plotArea><c:legend><c:legendPos val="b"/></c:legend><c:plotVisOnly val="1"/><c:dispBlanksAs val="gap"/></c:chart></c:chartSpace>`}
 function HexcelDrawingXml(entries){return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">${entries.map((e,i)=>`<xdr:oneCellAnchor><xdr:from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>${e.row}</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:ext cx="7200000" cy="3600000"/><xdr:graphicFrame><xdr:nvGraphicFramePr><xdr:cNvPr id="${i+1}" name="${e.name}"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/chart"><c:chart xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="${e.rid}"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:oneCellAnchor>`).join('')}</xdr:wsDr>`}
 async function HattachExcelCharts(zip,lastRow,sheetIndex=1,sheetName="Grafik"){const ct=await zip.file('[Content_Types].xml').async('string');let content=ct;for(const part of ['/xl/drawings/drawing1.xml',...Array.from({length:5},(_,i)=>`/xl/charts/chart${i+1}.xml`)]){const type=part.includes('/charts/')?'application/vnd.openxmlformats-officedocument.drawingml.chart+xml':'application/vnd.openxmlformats-officedocument.drawing+xml';content=content.replace('</Types>',`<Override PartName="${part}" ContentType="${type}"/></Types>`)}zip.file('[Content_Types].xml',content);const entries=[['PO Harian (Rp)',2],['BPB Harian (Rp)',3],['STOCK (Rp)',4],['SL Supplier (%)',5],['Jumlah Item STOCK OUT',6]].map((x,i)=>({row:lastRow+2+i*22,rid:`rId${i+1}`,chart:`chart${i+1}.xml`,name:x[0],title:x[0],col:x[1]}));const path=`xl/worksheets/sheet${sheetIndex}.xml`;let xml=await zip.file(path).async('string');if(!/xmlns:r=/.test(xml))xml=xml.replace('<worksheet ','<worksheet xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" ');xml=xml.replace('</worksheet>','<drawing r:id="rId1"/></worksheet>');zip.file(path,xml);zip.file(`xl/worksheets/_rels/sheet${sheetIndex}.xml.rels`,`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>`);zip.file('xl/drawings/drawing1.xml',HexcelDrawingXml(entries));zip.file('xl/drawings/_rels/drawing1.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${entries.map(e=>`<Relationship Id="${e.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart" Target="../charts/${e.chart}"/>`).join('')}</Relationships>`);for(const e of entries)zip.file(`xl/charts/${e.chart}`,HexcelChartXml(sheetName,e.title,[e.col],lastRow));}
-async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1){
+async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
  const zip=await JSZip.loadAsync(blob),stylePath='xl/styles.xml';let xml=await zip.file(stylePath).async('string');
+ const addCount=(tag,addition)=>{const re=new RegExp(`<${tag} count="(\\d+)"`);const m=xml.match(re);if(!m)throw Error(`Bagian style Excel ${tag} tidak ditemukan.`);xml=xml.replace(re,`<${tag} count="${+m[1]+addition}"`)};
  const nfmt='<numFmt numFmtId="164" formatCode="#,##0;[Red](#,##0);-"/><numFmt numFmtId="165" formatCode="0&quot;%&quot;;[Red](0&quot;%&quot;);0&quot;%&quot;"/>';
- if(xml.includes('</numFmts>')){xml=xml.replace('</numFmts>',nfmt+'</numFmts>');xml=xml.replace(/<numFmts count="(\d+)"/,(_,n)=>`<numFmts count="${+n+2}"`)}else xml=xml.replace('<fonts',`<numFmts count="2">${nfmt}</numFmts><fonts`);
- xml=xml.replace(/<fonts count="(\d+)"/,(_,n)=>`<fonts count="${+n+1}"`).replace('</fonts>','<font><b/><color rgb="FFFFFFFF"/><sz val="10"/><name val="Arial"/></font></fonts>');
+ if(/<numFmts\b[^>]*\/>/.test(xml)){xml=xml.replace(/<numFmts\b[^>]*\/>/,`<numFmts count="2">${nfmt}</numFmts>`)}else if(xml.includes('<numFmts')){xml=xml.replace('</numFmts>',nfmt+'</numFmts>');xml=xml.replace(/<numFmts count="(\d+)"/,(_,n)=>`<numFmts count="${+n+2}"`)}else xml=xml.replace('<fonts',`<numFmts count="2">${nfmt}</numFmts><fonts`);
+ const fontMatch=xml.match(/<fonts count="(\d+)"/),fillMatch=xml.match(/<fills count="(\d+)"/),borderMatch=xml.match(/<borders count="(\d+)"/),xfMatch=xml.match(/<cellXfs count="(\d+)"/);
+ if(!fontMatch||!fillMatch||!borderMatch||!xfMatch)throw Error('Struktur style Excel tidak lengkap.');
+ const headerFont=+fontMatch[1],headerFill=+fillMatch[1],thinBorder=+borderMatch[1],baseXf=+xfMatch[1];
+ xml=xml.replace(/<fonts count="(\d+)"/,(_,n)=>`<fonts count="${+n+1}"`).replace('</fonts>','<font><b/><color rgb="FFB7FFB0"/><sz val="10"/><name val="Arial"/></font></fonts>');
  xml=xml.replace(/<fills count="(\d+)"/,(_,n)=>`<fills count="${+n+1}"`).replace('</fills>','<fill><patternFill patternType="solid"><fgColor rgb="FF174A2A"/><bgColor indexed="64"/></patternFill></fill></fills>');
- xml=xml.replace(/<cellXfs count="(\d+)"/,(_,n)=>`<cellXfs count="${+n+8}"`).replace('</cellXfs>','<xf numFmtId="0" fontId="1" fillId="2" borderId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="right"/></xf><xf numFmtId="165" fontId="0" fillId="0" borderId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="right"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="left" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf></cellXfs>');
+ const border='<border><left style="thin"><color rgb="FF78947D"/></left><right style="thin"><color rgb="FF78947D"/></right><top style="thin"><color rgb="FF78947D"/></top><bottom style="thin"><color rgb="FF78947D"/></bottom><diagonal/></border>';
+ xml=xml.replace(/<borders count="(\d+)"/,(_,n)=>`<borders count="${+n+1}"`).replace('</borders>',border+'</borders>');
+ const xfs=[
+  `<xf numFmtId="0" fontId="${headerFont}" fillId="${headerFill}" borderId="${thinBorder}" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>`,
+  `<xf numFmtId="0" fontId="0" fillId="0" borderId="${thinBorder}" applyBorder="1" applyAlignment="1"><alignment horizontal="left" vertical="center" wrapText="1"/></xf>`,
+  `<xf numFmtId="0" fontId="0" fillId="0" borderId="${thinBorder}" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>`,
+  `<xf numFmtId="164" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>`,
+  `<xf numFmtId="165" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>`
+ ];
+ xml=xml.replace(/<cellXfs count="(\d+)"/,(_,n)=>`<cellXfs count="${+n+xfs.length}"`).replace('</cellXfs>',xfs.join('')+'</cellXfs>');
  zip.file(stylePath,xml);
+ const ST={header:baseXf,left:baseXf+1,center:baseXf+2,right:baseXf+3,percent:baseXf+4};
  const sheetFiles=Object.keys(zip.files).filter(x=>/^xl\/worksheets\/sheet\d+\.xml$/.test(x)).sort((a,b)=>+(a.match(/sheet(\d+)/)[1])-(+(b.match(/sheet(\d+)/)[1])));
+ const isCurrency=(si,ci)=>{
+  if(si<=4){if(ci===5||ci===7)return true;if((si===0||si===2)&&ci>=11&&ci<=10+dateCount)return true;return false}
+  if(si===5)return [6,7,8].includes(ci);
+  if(si===6)return [7,8,9,10,12,13].includes(ci);
+  if(si===7)return [4,5,6].includes(ci);
+  if(si===9)return [2,3,4].includes(ci);
+  return false;
+ };
+ const isPercent=(si,ci)=>{if(si===3&&ci>=11&&ci<=10+dateCount)return true;if(si===4&&ci===12+dateCount)return true;if(si===5&&[9,10,13,14,17,18].includes(ci))return true;if(si===6&&ci===14)return true;if(si===9&&ci===5)return true;return false};
+ const isCentered=(si,ci)=>{
+  if(si<=4){if(ci===1||ci===3)return true;if(ci>=11&&ci<=10+dateCount)return !(si===0||si===2);if(si===4&&ci===12+dateCount)return true;return false}
+  if(si===5)return [1,3,9,10,13,14,17,18].includes(ci);
+  if(si===6)return [2,4,14].includes(ci);
+  if(si===9)return [1,5].includes(ci);
+  return false;
+ };
  for(let si=0;si<sheetFiles.length;si++){
   const f=sheetFiles[si];let sh=await zip.file(f).async('string');
-  sh=sh.replace(/<row\b([^>]*)>([\s\S]*?)<\/row>/g,(whole,attrs,inner)=>{const rn=+(attrs.match(/\br="(\d+)"/)||[])[1]||0;inner=inner.replace(/<c\b([^>]*)>([\s\S]*?)<\/c>/g,(cell,at,body)=>{const ref=(at.match(/\br="([A-Z]+)(\d+)"/)||[]),col=ref[1]||'';const ci=col.split('').reduce((v,c)=>v*26+c.charCodeAt(0)-64,0);let st=0;if(rn===1)st=1;else if(body.includes('<v>')&&!/\bt="s"/.test(at))st=2;
-   if(si<=4&&ci===1)st=7;
-   if(si<=4&&[2,10].includes(ci))st=5;
-   if(si<=4&&ci>=11)st=si===3?3:7;
-
-   if(si===5&&[1,3,4,5,11,12,13,14,15,16,17,18,19,20,21].includes(ci))st=ci===1?7:5;
-   if(si===6&&[3,6,15].includes(ci))st=5;
-   if(si===7&&ci===3)st=5;
-   if(si===8&&[1,11,17,23].includes(ci))st=5;
-   if(si===9&&ci===1)st=7;
-   if(si===9&&ci===5)st=3;
-   return `<c${at.replace(/\s+s="\d+"/g,'')} s="${st}">${body}</c>`;});return `<row${attrs}>${inner}</row>`;});
-  if(!sh.includes('<sheetViews>'))sh=sh.replace('<worksheet ','<worksheet '); 
+  sh=sh.replace(/<row\b([^>]*)>([\s\S]*?)<\/row>/g,(whole,attrs,inner)=>{
+   const rn=+(attrs.match(/\br="(\d+)"/)||[])[1]||0;
+   const rowAttrs=rn===1?`${attrs.replace(/\sht="[^"]*"/g,'').replace(/\scustomHeight="[^"]*"/g,'')} ht="34" customHeight="1"`:`${attrs.replace(/\sht="[^"]*"/g,'').replace(/\scustomHeight="[^"]*"/g,'')} ht="23" customHeight="1"`;
+   inner=inner.replace(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g,(cell,at,body='')=>{
+    const ref=(at.match(/\br="([A-Z]+)(\d+)"/)||[]),col=ref[1]||'';if(!col)return cell;
+    const ci=col.split('').reduce((v,c)=>v*26+c.charCodeAt(0)-64,0);let st=rn===1?ST.header:ST.left;
+    if(rn!==1){if(isCurrency(si,ci))st=ST.right;else if(isPercent(si,ci))st=ST.percent;else if(isCentered(si,ci))st=ST.center;}
+    const clean=at.replace(/\s+s="\d+"/g,'');return `<c${clean} s="${st}">${body}</c>`;
+   });
+   return `<row${rowAttrs}>${inner}</row>`;
+  });
   const split=si<=4?2:(si===9?1:2),top=si<=4?'C2':(si===9?'B2':'C2');
   const pane=`<sheetViews><sheetView showGridLines="0" workbookViewId="0"><pane xSplit="${split}" ySplit="1" topLeftCell="${top}" activePane="bottomRight" state="frozen"/><selection pane="bottomRight" activeCell="${top}" sqref="${top}"/></sheetView></sheetViews>`;
   if(/<sheetViews>[\s\S]*?<\/sheetViews>/.test(sh))sh=sh.replace(/<sheetViews>[\s\S]*?<\/sheetViews>/,pane);else sh=sh.replace(/<worksheet([^>]*)>/,`<worksheet$1>${pane}`);

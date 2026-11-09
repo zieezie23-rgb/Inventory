@@ -1,3 +1,9 @@
+## v3.6.5 — Perapian format Export History
+- Merapikan seluruh tabel export History dengan garis sel, header konsisten, tinggi baris, dan alignment per kolom.
+- Kolom rupiah menggunakan angka numerik dengan pemisah ribuan tanpa desimal dan rata kanan.
+- PRDCD, ZONA, SL, serta kolom tanggal yang bukan nilai rupiah rata tengah; kolom lainnya rata kiri.
+- Tidak mengubah data maupun rumus perhitungan History.
+
 ## v3.6.4 — Perbaikan Export History dan Ringkasan Stock Out
 - Memperbaiki pembuatan sheet Kesimpulan saat export XLSX agar baris awal bagian SUPCO selalu tersedia.
 - Tombol Export XLSX dan Export JPEG mengikuti tema cyberpunk Inventory.
@@ -172,7 +178,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.6.4
+# Inventory v3.6.5
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

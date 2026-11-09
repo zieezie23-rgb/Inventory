@@ -1766,17 +1766,17 @@ body .action-button .action-copy{gap:5px!important;}
 #historyStockOutDetail th,#historyStockOutDetail td{white-space:nowrap}
 
 
-/* v3.6.3 — tombol export netral dan tombol tutup tanpa kotak */
+/* v3.6.4 — tombol Export mengikuti tema cyberpunk Inventory */
 .history-actions{display:flex;align-items:center;gap:8px}
-.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:30px!important;min-height:30px!important;min-width:0!important;padding:5px 12px!important;font-size:10px!important;line-height:1!important;border:1px solid #536477!important;border-radius:7px!important;background:#202b38!important;background-image:none!important;color:#dce6f2!important;box-shadow:none!important}
-.history-actions #historyExport:hover,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg:hover{background:#2b3949!important;border-color:#71849a!important;color:#fff!important}
-.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:30px!important;height:30px!important;min-width:30px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#c5d0dc!important;font:700 22px/1 Arial,sans-serif!important;box-shadow:none!important}
-.history-actions .history-close:hover,.history-stockout-detail-actions .history-stockout-close:hover{background:transparent!important;color:#fff!important}
+.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:32px!important;min-height:32px!important;min-width:0!important;padding:6px 13px!important;font-size:10px!important;line-height:1!important;font-weight:800!important;border:1px solid #75ff55!important;border-bottom:3px solid #75ff55!important;border-radius:7px!important;background:#1b5630!important;background-image:none!important;color:#caffb8!important;box-shadow:0 0 12px rgba(117,255,85,.12)!important}
+.history-actions #historyExport:hover,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg:hover{background:#245f35!important;border-color:#a0ff82!important;color:#e0ffda!important}
+.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:30px!important;height:30px!important;min-width:30px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#caffb8!important;font:700 22px/1 Arial,sans-serif!important;box-shadow:none!important}
+.history-actions .history-close:hover,.history-stockout-detail-actions .history-stockout-close:hover{background:transparent!important;color:#a0ff82!important}
 .history-stockout-detail-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .history-stockout-detail-actions h3{min-width:0;flex:1}
 .history-stockout-detail-actions .history-actions{flex:0 0 auto}
 .history-stockout-detail-actions .history-stockout-close{font-size:22px!important}
-@media(max-width:700px){.history-actions{gap:6px}.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:28px!important;min-height:28px!important;padding:4px 9px!important;font-size:9px!important}.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:28px!important;height:28px!important;min-width:28px!important}.history-stockout-detail-actions{align-items:center}}
+@media(max-width:700px){.history-actions{gap:6px}.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:29px!important;min-height:29px!important;padding:5px 10px!important;font-size:9px!important}.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:28px!important;height:28px!important;min-width:28px!important}.history-stockout-detail-actions{align-items:center}}
 
 /* v3.5.4: perataan teks kesimpulan History */
 #historyAnalysis td:nth-child(12),#historyAnalysis td:nth-child(16),#historyAnalysis td:nth-child(20),#historyTopItems td:nth-child(11),.history-summary-conclusion,.history-summary-conclusion li{text-align:center}

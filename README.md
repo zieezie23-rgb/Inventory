@@ -1,3 +1,8 @@
+## v3.6.4 — Perbaikan Export History dan Ringkasan Stock Out
+- Memperbaiki pembuatan sheet Kesimpulan saat export XLSX agar baris awal bagian SUPCO selalu tersedia.
+- Tombol Export XLSX dan Export JPEG mengikuti tema cyberpunk Inventory.
+- Detail Ringkasan Stock Out menampilkan dan mengekspor maksimal 10 item per keterangan; jumlah total tetap ditampilkan.
+
 ## v3.6.3 — Tombol Export netral dan tombol X tanpa kotak
 - Tombol Export pada header History dan detail Ringkasan Stock Out menggunakan warna netral tanpa aksen hijau.
 - Tombol X di kedua area tampil sebagai ikon tanpa border atau latar berbentuk kotak.
@@ -167,7 +172,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.6.3
+# Inventory v3.6.4
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

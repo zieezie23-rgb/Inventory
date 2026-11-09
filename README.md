@@ -1,3 +1,20 @@
+## v3.6.1 — Penyesuaian History SL dan tampilan analisa
+
+- Syarat Stock Out diperketat: selain STOCK < MEAN, MEAN > 0, dan PTAG yang memenuhi kriteria, PKM dari STM G113 lokasi 01 wajib > 0. Syarat ini diterapkan konsisten pada grafik, ringkasan, hitungan hari Stock Out, klasifikasi Stock Out berturut-turut, dan export History Stock Out.
+- Tab Ringkasan: teks Keterangan rata kiri dan jarak/lebar kolom periode serta selisih dirapatkan, termasuk tampilan mobile.
+- Grafik SL memakai perhitungan rolling 14 hari berdasarkan tanggal PO; BPB dihitung hanya untuk PO dalam jendela tersebut dan yang sudah diterima sampai tanggal titik grafik. Titik tanpa 14 hari data sebelumnya tidak ditampilkan.
+- Menghapus panel Kesimpulan Ringkasan pada tab penyebab.
+- Menyederhanakan tabel 20 Item Terbesar dan 20 SUPCO Terbesar menjadi empat kolom sesuai permintaan.
+- Filter Analisa Penyebab dibuka dengan Semua Periode dan Semua Kesimpulan.
+
+## v3.5.8 — Penyesuaian grafik History
+- Urutan grafik tab History: Stock, Stock Out, SL Supplier, PO, lalu BPB.
+- Grafik Stock Out berdiri sendiri; tidak lagi digabung dengan SL Supplier.
+- Semua grafik menggunakan satu sumbu Y di kiri; sumbu kanan dihilangkan.
+- Skala Stock dikunci 40–70 miliar rupiah; SL Supplier 1–100%.
+- Skala PO dan BPB menyesuaikan rentang nilai data secara otomatis.
+- Tidak mengubah sumber data, rumus, hasil analisis, maupun alur proses lainnya.
+
 ## v3.5.7 — Pemisahan sumbu Stock Out dan SL Supplier pada grafik
 - Menata ulang export History menjadi 10 sheet: History Stock, History Ptag, History BPB, History SL, History Stock Out, Penurunan Stock, 50 Item Terbesar, 50 Supp Terbesar, Kesimpulan, dan TREND.
 - Menyesuaikan redaksi judul, header, istilah Σ Item/Σ Supplier, variasi periode, dan nama sheet mengikuti workbook contoh.
@@ -140,7 +157,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.5.3
+# Inventory v3.6.1
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 
@@ -468,7 +485,7 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 
 Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.
 
-## Update v3.5.8 — Grafik History
+## Update v3.6.1 — Grafik History
 - Urutan grafik tab History: Stock, Stock Out, SL Supplier, PO, lalu BPB.
 - Grafik Stock Out berdiri sendiri; tidak lagi digabung dengan SL Supplier.
 - Semua grafik menggunakan satu sumbu Y di kiri; sumbu kanan dihilangkan.

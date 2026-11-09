@@ -1711,20 +1711,17 @@ body .action-button .action-copy{gap:5px!important;}
 .history-cause-table-block{min-width:0;margin:0 0 14px}
 .history-cause-table-block h4{margin:0 0 6px;color:#baff9b;font-size:12px}
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
-.history-cause-header,.history-cause-row{min-width:1080px;grid-template-columns:minmax(260px,1.8fr) repeat(3,minmax(75px,.55fr)) repeat(3,minmax(95px,.65fr));gap:10px;align-items:center}
-.history-cause-header b,.history-cause-row strong{text-align:right;white-space:nowrap}
-.history-cause-row>span{white-space:normal;line-height:1.35}
 .history-cause-check{margin-top:8px}
-@media(max-width:700px){.history-head{align-items:flex-start}.history-head h2{font-size:17px}.history-actions{gap:4px}.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}.history-actions .history-close{width:32px;height:32px;font-size:30px}.history-tabs button{min-height:44px;padding:6px 3px;font-size:9px}.history-cause-header,.history-cause-row{min-width:940px;grid-template-columns:minmax(220px,1.8fr) repeat(3,minmax(60px,.55fr)) repeat(3,minmax(75px,.65fr));gap:7px;font-size:10px}}
+@media(max-width:700px){.history-head{align-items:flex-start}.history-head h2{font-size:17px}.history-actions{gap:4px}.history-actions .button{min-width:88px;height:32px;padding:6px 8px;font-size:10px}.history-actions .history-close{width:32px;height:32px;font-size:30px}.history-tabs button{min-height:44px;padding:6px 3px;font-size:9px}}
 
 
 /* History v3.2.4 — rapatkan ringkasan pada layar sempit */
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:3px}
-.history-cause-header,.history-cause-row{min-width:760px;grid-template-columns:minmax(190px,1.7fr) repeat(3,minmax(62px,.55fr)) repeat(3,minmax(72px,.65fr));gap:6px;padding:6px 4px;font-size:10px}
+.history-cause-header,.history-cause-row{min-width:620px;grid-template-columns:minmax(160px,1.6fr) repeat(3,minmax(52px,.55fr)) repeat(3,minmax(58px,.65fr));gap:3px;padding:5px 3px;font-size:10px}
 .history-cause-header b,.history-cause-row strong{text-align:right;white-space:nowrap}
 .history-cause-row>span{white-space:normal;line-height:1.25}
 .history-cause-check{min-width:0}
-@media(max-width:700px){.history-cause-header,.history-cause-row{min-width:680px;grid-template-columns:minmax(170px,1.6fr) repeat(3,minmax(55px,.5fr)) repeat(3,minmax(62px,.58fr));gap:4px;padding:5px 3px;font-size:9px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
+@media(max-width:700px){.history-cause-header,.history-cause-row{min-width:590px;grid-template-columns:minmax(150px,1.5fr) repeat(3,minmax(48px,.5fr)) repeat(3,minmax(54px,.58fr));gap:3px;padding:4px 2px;font-size:9px}.history-cause-table-block{margin-bottom:10px}.history-cause-table-block h4{font-size:11px;margin-bottom:4px}}
 
 /* History v3.3.6 — dua filter analisa yang jelas */
 .history-filter-group{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.history-filter-hint{margin:0 0 8px;color:#9ac9a2;font-size:10px;text-align:right}
@@ -1782,4 +1779,4 @@ body .action-button .action-copy{gap:5px!important;}
 
 /* v3.5.4: perataan teks kesimpulan History */
 #historyAnalysis td:nth-child(12),#historyAnalysis td:nth-child(16),#historyAnalysis td:nth-child(20),#historyTopItems td:nth-child(11),.history-summary-conclusion,.history-summary-conclusion li{text-align:center}
-.history-cause-row>span{text-align:center}
+.history-cause-row>span{text-align:left!important}.history-cause-header>span{text-align:left!important}

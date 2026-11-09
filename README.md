@@ -1,3 +1,8 @@
+## v3.6.6 — Sinkronisasi nilai export History
+- Sheet Penurunan Stock dan 50 Item Terbesar memakai nilai penurunan positif yang sama dengan ringkasan aplikasi.
+- Sheet 50 Supp Terbesar menjumlahkan Stock Awal/Akhir dari ringkasan per item (tanggal stok valid pertama/terakhir), bukan memaksa tanggal pertama/terakhir kosong menjadi nol.
+- Kolom Penurunan Stock supplier dihitung Stock Awal dikurangi Stock Akhir.
+
 ## v3.6.5 — Perapian format Export History
 - Merapikan seluruh tabel export History dengan garis sel, header konsisten, tinggi baris, dan alignment per kolom.
 - Kolom rupiah menggunakan angka numerik dengan pemisah ribuan tanpa desimal dan rata kanan.
@@ -178,7 +183,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.6.5
+# Inventory v3.6.6
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

@@ -468,4 +468,10 @@ Ekstrak ZIP ini; `index.html`, `app.js`, `styles.css`, dan `sw.js` berada langsu
 
 Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahkan sheet Grafik STOCK dan Grafik STOCK OUT berisi data tren harian untuk masing-masing grafik.
 
-
+## Update v3.5.8 — Grafik History
+- Urutan grafik tab History: Stock, Stock Out, SL Supplier, PO, lalu BPB.
+- Grafik Stock Out berdiri sendiri; tidak lagi digabung dengan SL Supplier.
+- Semua grafik menggunakan satu sumbu Y di kiri; sumbu kanan dihilangkan.
+- Skala Stock dikunci 40–70 miliar rupiah; SL Supplier 1–100%.
+- Skala PO dan BPB menyesuaikan rentang nilai data secara otomatis.
+- Tidak mengubah sumber data, rumus, hasil analisis, maupun alur proses lainnya.

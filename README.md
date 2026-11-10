@@ -1,3 +1,7 @@
+## v3.7.4 — Login lebih sederhana
+- Menghapus ikon aplikasi, judul dan deskripsi login, serta catatan sesi 15 menit dari popup login.
+- Mempertahankan satu kolom password, tombol MASUK, dan penguncian otomatis setelah 15 menit tanpa aktivitas.
+
 ## v3.7.2 — Login dan kunci otomatis
 - Menambahkan popup login sebelum pengguna dapat masuk ke halaman utama.
 - Password akses: `zie` (satu kolom input).

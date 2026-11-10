@@ -2154,17 +2154,24 @@ function HlastPtagChange(it){
 async function Hexport(){
  if(!window.XLSX)throw Error('Pustaka Excel belum siap.');
  const s=Hstate,wb=XLSX.utils.book_new(),fixed=['PRDCD','DESC2','ZONA','FRAC','ACOST','PKM','PKM Rp','MEAN','SUPCO','SNAMA'];
- const addHistorySheet=(name,mapper,stockOut=false)=>{const dates=s.dates.map(Hdate),headers=[...fixed,...dates,...(stockOut?['Periode','SL','Keterangan','Tgl Rubah PTAG','Ket PTag']:[])];const rows=[headers,...s.items.map(it=>{const change=stockOut?HlastPtagChange(it):null;return [it.PRDCD,it.DESC2,it.ZONA,it.FRAC,it.ACOST,it.PKM,it.PKM*it.ACOST,...(it.MEAN===undefined?['']: [it.MEAN]),it.SUPCO,it.SNAMA,...it._daily.map(d=>mapper(d,it)),...(stockOut?[it._stockOutHistory?.period||'',it._stockOutHistory?(it._stockOutHistory.sl===null?'Tidak ada PO':it._stockOutHistory.sl):'',it._stockOutHistory?.description||'',change.serial,change.description]:[])]})];const ws=XLSX.utils.aoa_to_sheet(rows);if(stockOut){const dateCol=fixed.length+dates.length+3;for(let r=1;r<rows.length;r++){const addr=XLSX.utils.encode_cell({r,c:dateCol}),cell=ws[addr];if(cell&&typeof cell.v==='number'){cell.t='n';cell.z='dd mmm yy';}}}ws['!autofilter']={ref:`A1:${XLSX.utils.encode_col(headers.length-1)}${rows.length}`};ws['!freeze']={xSplit:2,ySplit:1};ws['!cols']=[{wch:13},{wch:50},{wch:9},{wch:8},{wch:14},{wch:12},{wch:17},{wch:12},{wch:12},{wch:45},...s.dates.map(()=>({wch:11})),...(stockOut?[{wch:16},{wch:16},{wch:58},{wch:16},{wch:28}]:[])];XLSX.utils.book_append_sheet(wb,ws,name)};
+ const addHistorySheet=(name,mapper,stockOutMeta=false,includeDates=true)=>{const dates=s.dates.map(Hdate),metaHeaders=['Periode','SL','Keterangan','Tgl Rubah PTAG','Ket PTag'],headers=[...fixed,...(includeDates?dates:[]),...(stockOutMeta?metaHeaders:[])];const rows=[headers,...s.items.map(it=>{const change=stockOutMeta?HlastPtagChange(it):null;return [it.PRDCD,it.DESC2,it.ZONA,it.FRAC,it.ACOST,it.PKM,it.PKM*it.ACOST,...(it.MEAN===undefined?['']: [it.MEAN]),it.SUPCO,it.SNAMA,...(includeDates?it._daily.map(d=>mapper(d,it)):[]),...(stockOutMeta?[it._stockOutHistory?.period||'',it._stockOutHistory?(it._stockOutHistory.sl===null?'Tidak ada PO':it._stockOutHistory.sl):'',it._stockOutHistory?.description||'',change.serial,change.description]:[])]})];const ws=XLSX.utils.aoa_to_sheet(rows);if(stockOutMeta){const dateCol=fixed.length+(includeDates?dates.length:0)+3;for(let r=1;r<rows.length;r++){const addr=XLSX.utils.encode_cell({r,c:dateCol}),cell=ws[addr];if(cell&&typeof cell.v==='number'){cell.t='n';cell.z='dd mmm yy';}}}ws['!autofilter']={ref:`A1:${XLSX.utils.encode_col(headers.length-1)}${rows.length}`};ws['!freeze']={xSplit:2,ySplit:1};ws['!cols']=[{wch:13},{wch:50},{wch:9},{wch:8},{wch:14},{wch:12},{wch:17},{wch:12},{wch:12},{wch:45},...(includeDates?dates.map(()=>({wch:11})):[]),...(stockOutMeta?[{wch:16},{wch:16},{wch:58},{wch:16},{wch:28}]:[])];XLSX.utils.book_append_sheet(wb,ws,name)};
  addHistorySheet('History Stock',(d,it)=>d.stock===null?'':d.stock*it.ACOST);
  addHistorySheet('History Ptag',d=>d.tag||'');
  addHistorySheet('History BPB',(d,it)=>d.bpb*it.ACOST);
  addHistorySheet('History SL',d=>d.sl??'');
- addHistorySheet('History Stock Out',(d,it)=>d.stock!==null&&it.PKM>0&&it.MEAN!==null&&it.MEAN>0&&d.stock<it.MEAN&&HtagEligible(d.tag)?'Y':'',true);
- const ana=[['PRDCD','DESC2','ZONA','SUPCO','SNAMA','Stock Awal (Rp)','Stock Akhir (Rp)','Penurunan Stock (Rp)','SL Awal 2 Minggu','SL 2 Minggu','Ket 2 Minggu','Kesimpulan 2 Minggu','SL Awal 1 Bulan','SL 1 Bulan','Ket 1 Bulan','Kesimpulan 1 Bulan','SL Awal 3 Bulan','SL 3 Bulan','Ket 3 Bulan','Kesimpulan 3 Bulan','SL 100% → STOCK OUT H+1']];
- for(const x of s.analysisItems){const z=x._summary;ana.push([x.PRDCD,x.DESC2,x.ZONA,x.SUPCO,x.SNAMA,z.START_STOCK_RP,z.END_STOCK_RP,z.STOCK_DECLINE_RP,z.PERIOD14_INITIAL.sl??'',z.PERIOD14.sl??'',Hstatus(z.PERIOD14),z.TREND14,z.PERIOD30_INITIAL.sl??'',z.PERIOD30.sl??'',Hstatus(z.PERIOD30),z.TREND30,z.PERIOD3_INITIAL.sl??'',z.PERIOD3.sl??'',Hstatus(z.PERIOD3),z.TREND3,z.FULL_RECEIPT_NEXTDAY])}
- const wsAna=XLSX.utils.aoa_to_sheet(ana);wsAna['!autofilter']={ref:`A1:U${ana.length}`};wsAna['!freeze']={xSplit:2,ySplit:1};wsAna['!cols']=[{wch:13},{wch:50},{wch:9},{wch:12},{wch:45},{wch:19},{wch:19},{wch:20},{wch:15},{wch:15},{wch:20},{wch:44},{wch:15},{wch:15},{wch:20},{wch:44},{wch:15},{wch:15},{wch:20},{wch:44},{wch:24}];XLSX.utils.book_append_sheet(wb,wsAna,'Penurunan Stock');
- const top=[['No','PRDCD','DESC2','ZONA','SUPCO','SNAMA','Stock Awal (Rp)','Stock Akhir (Rp)','Perubahan Stock (Rp)','STOCK OUT Days','PO 3 Bulan (Rp)','BPB 3 Bulan (Rp)','SL 3 Bulan (%)','Kesimpulan 3 Bulan'],...s.topItems.slice(0,50).map((x,i)=>{const z=x._summary;return [i+1,x.PRDCD,x.DESC2,x.ZONA,x.SUPCO,x.SNAMA,z.START_STOCK_RP,z.END_STOCK_RP,z.STOCK_CHANGE_RP,z.STOCK_OUT_DAYS,z.PERIOD3.poRp,z.PERIOD3.bpbRp,z.PERIOD3.sl??'',z.TREND3]})];const wsTop=XLSX.utils.aoa_to_sheet(top);wsTop['!autofilter']={ref:`A1:N${top.length}`};wsTop['!freeze']={xSplit:2,ySplit:1};wsTop['!cols']=[{wch:6},{wch:13},{wch:50},{wch:9},{wch:12},{wch:45},...Array.from({length:7},()=>({wch:19})),{wch:44}];XLSX.utils.book_append_sheet(wb,wsTop,'50 Item Terbesar');
- const supTotals=new Map();for(const it of s.items){const k=it.SUPCO||'(Tanpa SUPCO)',z=it._summary||{},v=supTotals.get(k)||{start:0,end:0};if(z.START_STOCK_RP!==null&&z.START_STOCK_RP!==undefined&&Number.isFinite(Number(z.START_STOCK_RP)))v.start+=Number(z.START_STOCK_RP);if(z.END_STOCK_RP!==null&&z.END_STOCK_RP!==undefined&&Number.isFinite(Number(z.END_STOCK_RP)))v.end+=Number(z.END_STOCK_RP);supTotals.set(k,v)}const sup=[['No','SUPCO','SNAMA','Stock Awal (Rp)','Stock Akhir (Rp)','Penurunan Stock (Rp)','Σ Item Turun','Stock Out',...(s.topSupConclusionNames||[])],...s.topSup.slice(0,50).map((x,i)=>{const v=supTotals.get(x.SUPCO)||{start:0,end:0};return [i+1,x.SUPCO,x.SNAMA,v.start,v.end,v.start-v.end,x.ITEM_TURUN,x.ITEM_STOCK_OUT,...(s.topSupConclusionNames||[]).map(c=>x.CONCLUSION_COUNTS?.[c]||0)]})];const wsSup=XLSX.utils.aoa_to_sheet(sup);wsSup['!autofilter']={ref:`A1:${XLSX.utils.encode_col(sup[0].length-1)}${sup.length}`};wsSup['!freeze']={xSplit:2,ySplit:1};wsSup['!cols']=[{wch:6},{wch:12},{wch:45},{wch:19},{wch:19},{wch:20},{wch:13},{wch:12},...(s.topSupConclusionNames||[]).map(()=>({wch:18}))];XLSX.utils.book_append_sheet(wb,wsSup,'50 Supp Terbesar');
+ addHistorySheet('History Stock Out',(d,it)=>d.stock!==null&&it.PKM>0&&it.MEAN!==null&&it.MEAN>0&&d.stock<it.MEAN&&HtagEligible(d.tag)?'Y':'',false,true);
+ const periodSheets=[
+  {name:'Analisa 2 minggu',key:'PERIOD14',initial:'PERIOD14_INITIAL',trend:'TREND14',start:new Date(s.end.getTime()-13*86400000)},
+  {name:'Analisa 1 Bulan',key:'PERIOD30',initial:'PERIOD30_INITIAL',trend:'TREND30',start:new Date(s.end.getTime()-29*86400000)},
+  {name:'Analisa 3 Bulan',key:'PERIOD3',initial:'PERIOD3_INITIAL',trend:'TREND3',start:s.dates[0]}
+ ];
+ for(const def of periodSheets){
+  const finish=s.end,firstStock=stockAtForPeriod(def.start,finish);
+  function stockAtForPeriod(a,b){const first=it=>{const d=it._daily.find(x=>x.date>=a&&x.date<=b&&x.stock!==null&&x.stock!==undefined);return d?d.stock:null};const last=it=>{const d=[...it._daily].reverse().find(x=>x.date>=a&&x.date<=b&&x.stock!==null&&x.stock!==undefined);return d?d.stock:null};return {first,last}}
+  const rows=[['PRDCD','DESC2','ZONA','SUPCO','SNAMA','Stock Awal (Rp)','Stock Akhir (Rp)','Varian Stock (Rp)','Ket Stock','BPB Awal (Rp)','BPB Akhir (Rp)','Varian BPB (Rp)','Ket BPB','SL Awal Periode','SL Periode','Kesimpulan']];
+  for(const it of s.items){const z=it._summary,bounds=firstStock,stockStart=bounds.first(it),stockEnd=bounds.last(it),variance=stockStart===null||stockEnd===null?'':stockEnd-stockStart,dailyStart=it._daily.find(d=>Hkey(d.date)===Hkey(def.start)),dailyEnd=it._daily.find(d=>Hkey(d.date)===Hkey(finish)),bpbStart=dailyStart?.bpbRp??0,bpbEnd=dailyEnd?.bpbRp??0,bpbVariance=bpbEnd-bpbStart,slStart=dailyStart?.sl,slEnd=dailyEnd?.sl;const ketStock=variance===''?'':variance<0?'Stock Turun':variance>0?'Stock Naik':'Stock Tetap',ketBpb=bpbVariance<0?'BPB Turun':bpbVariance>0?'BPB Naik':'BPB Tetap';rows.push([it.PRDCD,it.DESC2,it.ZONA,it.SUPCO,it.SNAMA,stockStart===null?'':stockStart*it.ACOST,stockEnd===null?'':stockEnd*it.ACOST,variance===''?'':variance*it.ACOST,ketStock,bpbStart,bpbEnd,bpbVariance,ketBpb,slStart??'',slEnd??'',z[def.trend]||'']);}
+  const ws=XLSX.utils.aoa_to_sheet(rows);ws['!autofilter']={ref:`A1:P${rows.length}`};ws['!freeze']={xSplit:2,ySplit:1};ws['!cols']=[{wch:13},{wch:50},{wch:9},{wch:12},{wch:45},{wch:16},{wch:16},{wch:16},{wch:17},{wch:16},{wch:16},{wch:16},{wch:16},{wch:18},{wch:16},{wch:48}];XLSX.utils.book_append_sheet(wb,ws,def.name);
+ }
  const periods=['2 Minggu','1 Bulan','3 Bulan'],supStart=21,sumRows=Array.from({length:Math.max(s.causeNames.length+2,supStart+2,23)},()=>Array(25).fill(''));
  sumRows[0][0]='Σ ITEM PER KETERANGAN';sumRows[1].splice(0,7,'Keterangan','2 Minggu','1 Bulan','3 Bulan','Var 1B−2M','Var 3B−1B','Var 3B−2M');
  s.causeNames.forEach((c,i)=>{const r=i+2,v=periods.map(p=>s.causeCountsByPeriod[p][c]||0);sumRows[r].splice(0,7,c,...v,v[1]-v[0],v[2]-v[1],v[2]-v[0])});
@@ -2174,6 +2181,7 @@ async function Hexport(){
  sumRows[supStart+1][9]='No';sumRows[supStart+1][10]='Keterangan';sumRows[supStart+1][11]='Item';s.stockOutSummary.forEach((x,i)=>{const r=supStart+2+i;while(sumRows.length<=r)sumRows.push(Array(25).fill(''));sumRows[r][9]=i+1;sumRows[r][10]=x.description;sumRows[r][11]=x.count});
  const wsKes=XLSX.utils.aoa_to_sheet(sumRows);wsKes['!cols']=[{wch:52},{wch:12},{wch:12},{wch:12},{wch:14},{wch:14},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14},{wch:3},{wch:14},{wch:7},{wch:52},{wch:13},{wch:14}];wsKes['!freeze']={xSplit:1,ySplit:2};XLSX.utils.book_append_sheet(wb,wsKes,'Kesimpulan');
  const trend=[['Tanggal','PO (Rp)','BPB (Rp)','Stock (Rp)','SL Supp (%)','Stock Out'],...s.totalByDate.map((x,i)=>[Hdate(x.date),x.poRp,x.bpbRp,x.stockRp,x.sl14??'',s.stockOutTrend[i]?.count??0])];const wsTrend=XLSX.utils.aoa_to_sheet(trend);wsTrend['!autofilter']={ref:`A1:F${trend.length}`};wsTrend['!freeze']={xSplit:1,ySplit:1};wsTrend['!cols']=[{wch:16},{wch:22},{wch:22},{wch:22},{wch:18},{wch:16}];XLSX.utils.book_append_sheet(wb,wsTrend,'TREND');
+ addHistorySheet('Analisa Stock out',(d,it)=>d.stock!==null&&it.PKM>0&&it.MEAN!==null&&it.MEAN>0&&d.stock<it.MEAN&&HtagEligible(d.tag)?'Y':'',true,false);
  const raw=XLSX.write(wb,{bookType:'xlsx',type:'array'});const blob=await HstyleWorkbook(new Blob([raw],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),trend.length,10,s.dates.length);downloadBlob(`History Inventory ${Hdate(s.end).replaceAll(' ','-')}.xlsx`,blob)
 }
 function HexcelTitle(t){return `<c:title><c:tx><c:rich><a:bodyPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/><a:p xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:pPr><a:defRPr/></a:pPr><a:r><a:t>${String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</a:t></a:r></a:p></c:rich></c:tx></c:title>`}
@@ -2206,19 +2214,19 @@ async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
  const sheetFiles=Object.keys(zip.files).filter(x=>/^xl\/worksheets\/sheet\d+\.xml$/.test(x)).sort((a,b)=>+(a.match(/sheet(\d+)/)[1])-(+(b.match(/sheet(\d+)/)[1])));
  const isCurrency=(si,ci)=>{
   if(si<=4){if(ci===5||ci===7)return true;if((si===0||si===2)&&ci>=11&&ci<=10+dateCount)return true;return false}
-  if(si===5)return [6,7,8].includes(ci);
-  if(si===6)return [7,8,9,10,12,13].includes(ci);
-  if(si===7)return [4,5,6].includes(ci);
+  if(si>=5&&si<=7)return [6,7,8].includes(ci);
+  if(si===8)return false;
   if(si===9)return [2,3,4].includes(ci);
   return false;
  };
- const isPercent=(si,ci)=>{if(si===3&&ci>=11&&ci<=10+dateCount)return true;if(si===4&&ci===12+dateCount)return true;if(si===5&&[9,10,13,14,17,18].includes(ci))return true;if(si===6&&ci===13)return true;if(si===9&&ci===5)return true;return false};
+ const isPercent=(si,ci)=>{if(si===3&&ci>=11&&ci<=10+dateCount)return true;if(si===4&&ci===12+dateCount)return true;if(si>=5&&si<=7)return ci===10||ci===11;if(si===9&&ci===5)return true;if(si===10&&ci===12)return true;return false};
  const isCentered=(si,ci)=>{
   if(si<=4){if(ci===1||ci===3||ci===9)return true;if(ci>=11&&ci<=10+dateCount)return !(si===0||si===2);if(si===4&&ci===12+dateCount)return true;return false}
-  if(si===5)return [1,3,4,9,10,13,14,17,18].includes(ci);
-  if(si===6)return [2,4,5].includes(ci);
-  if(si===7)return ci===2;
+  if(si>=5&&si<=7)return [1,3,4,6,7,8,9,10,11,12,13].includes(ci);
+  if(si>=5&&si<=7)return [6,7,8].includes(ci);
+  if(si===8)return false;
   if(si===9)return [1,5].includes(ci);
+  if(si===10)return [1,3,4,6,9,11,12,14].includes(ci);
   return false;
  };
  for(let si=0;si<sheetFiles.length;si++){
@@ -2229,8 +2237,8 @@ async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
    inner=inner.replace(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g,(cell,at,body='')=>{
     const ref=(at.match(/\br="([A-Z]+)(\d+)"/)||[]),col=ref[1]||'';if(!col)return cell;
     const ci=col.split('').reduce((v,c)=>v*26+c.charCodeAt(0)-64,0);let st=rn===1?ST.header:ST.left;
-    if(rn!==1){if(si===4&&ci===14+dateCount)st=ST.date;else if(isCurrency(si,ci))st=ST.right;else if(isPercent(si,ci))st=ST.percent;else if(isCentered(si,ci))st=ST.center;}
-    const clean=at.replace(/\s+s="\d+"/g,'');const type=(at.match(/\bt="([^"]+)"/)||[])[1]||'';const numeric=/<v>\s*[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\s*<\/v>/.test(body)&&!['s','str','inlineStr','b','e'].includes(type);const kesHeader=si===8&&((rn===1&&(ci===1||ci===9))||(rn===2&&ci!==8&&ci!==14&&ci!==20)||(rn===22&&ci===1)||(rn===23&&(ci<=7||(ci>=10&&ci<=12))));if(rn!==1&&kesHeader)st=ST.header;else if(rn!==1){if(si===4&&ci===14+dateCount)st=ST.date;else if(isPercent(si,ci))st=ST.percent;else if(numeric)st=ST.right;else if(isCentered(si,ci))st=ST.center;}return `<c${clean} s="${st}">${body}</c>`;
+    if(rn!==1){if((si===4&&ci===14+dateCount)||(si===10&&ci===14))st=ST.date;else if(isCurrency(si,ci))st=ST.right;else if(isPercent(si,ci))st=ST.percent;else if(isCentered(si,ci))st=ST.center;}
+    const clean=at.replace(/\s+s="\d+"/g,'');const type=(at.match(/\bt="([^"]+)"/)||[])[1]||'';const numeric=/<v>\s*[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?\s*<\/v>/.test(body)&&!['s','str','inlineStr','b','e'].includes(type);const kesHeader=si===8&&((rn===1&&(ci===1||ci===9))||(rn===2&&ci!==8&&ci!==14&&ci!==20)||(rn===22&&ci===1)||(rn===23&&(ci<=7||(ci>=10&&ci<=12))));if(rn!==1&&kesHeader)st=ST.header;else if(rn!==1){if((si===4&&ci===14+dateCount)||(si===10&&ci===14))st=ST.date;else if(isPercent(si,ci))st=ST.percent;else if(numeric)st=ST.right;else if(isCentered(si,ci))st=ST.center;}return `<c${clean} s="${st}">${body}</c>`;
    });
    return `<row${rowAttrs}>${inner}</row>`;
   });

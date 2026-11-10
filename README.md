@@ -1,3 +1,8 @@
+## v3.8.1 — Analisa Stock out
+- Menambahkan sheet “Analisa Stock out” yang memuat kolom identitas dan informasi Stock Out, tanpa kolom tanggal harian.
+- Sheet “History Stock Out” kini hanya memuat kolom identitas dan kolom tanggal harian; kolom Periode sampai Ket PTag dipindahkan ke sheet “Analisa Stock out”.
+- Sheet dan proses lain pada modul History tetap dipertahankan.
+
 ## v3.7.6 — Matrix Digital Rain angka dan karakter vertikal
 - Memperjelas animasi Matrix menjadi aliran karakter vertikal dengan angka 0–9 dominan dan selingan katakana.
 - Setiap kolom memiliki jejak karakter dan kepala aliran bercahaya; bukan glyph acak yang berubah di tempat.

@@ -1764,6 +1764,9 @@ body .action-button .action-copy{gap:5px!important;}
 #historyStockOutSummary tbody tr:hover{background:rgba(117,255,85,.10)}
 .history-stockout-detail{margin-top:18px;padding-top:14px;border-top:1px solid rgba(117,255,85,.35)}
 #historyStockOutDetail th,#historyStockOutDetail td{white-space:nowrap}
+/* v3.6.9 — detail item Stock Out: text alignment */
+#historyStockOutDetail th:nth-child(2),#historyStockOutDetail td:nth-child(2),#historyStockOutDetail th:nth-child(4),#historyStockOutDetail td:nth-child(4){text-align:left!important}
+#historyStockOutDetail th:nth-child(1),#historyStockOutDetail td:nth-child(1),#historyStockOutDetail th:nth-child(3),#historyStockOutDetail td:nth-child(3),#historyStockOutDetail th:nth-child(9),#historyStockOutDetail td:nth-child(9),#historyStockOutDetail th:nth-child(11),#historyStockOutDetail td:nth-child(11){text-align:center!important}
 
 
 /* v3.6.4 — tombol Export mengikuti tema cyberpunk Inventory */
@@ -1791,3 +1794,8 @@ body .action-button .action-copy{gap:5px!important;}
 #historyTopItems th:nth-child(4),#historyTopSup th:nth-child(4),#historyTopItems td:nth-child(4),#historyTopSup td:nth-child(4){text-align:left!important;white-space:normal;overflow-wrap:anywhere;min-width:0}
 .history-cause-header,.history-cause-row{column-gap:2px}
 .history-cause-row>span{line-height:1.2}
+
+
+/* v3.6.10 — HISTORY Stock Out Detail: wrap headers only; keep data cells on one line */
+#historyStockOutDetail thead th{white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;line-height:1.2;vertical-align:middle}
+#historyStockOutDetail tbody td{white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important}

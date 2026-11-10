@@ -1,4 +1,17 @@
-## v3.6.8 — Kolom perubahan PTAG pada History Stock Out
+## v3.7.1 — Perbaikan ekspor History dan TREND
+- Memperbarui nomor versi aplikasi menjadi v3.7.1.
+- Mempertahankan perbaikan ekspor pada paket v3.7.0-EXPORT-FIX.
+- HISTORY Stock Out Detail: header tabel boleh wrap ke beberapa baris; isi tabel tetap satu baris (tanpa wrap).
+
+## v3.6.9 — Kolom PKM dan tanggal perubahan PTAG pada Detail Stock Out
+
+- Menambahkan kolom PKM dan Tgl Rubah Tag sebelum kolom PTAG pada detail item Ringkasan Stock Out.
+- Tgl Rubah Tag menggunakan tanggal perubahan PTAG terakhir dari rentang data History, ditampilkan sebagai tanggal singkat.
+- DESC2 dan SNAMA rata kiri; PRDCD, SUPCO, PERIODE, dan KETERANGAN rata tengah.
+- Penyesuaian tata letak export JPEG detail Stock Out.
+- Logika perhitungan inti dan modul lain tidak diubah.
+
+## v3.6.9 — Kolom perubahan PTAG pada History Stock Out
 
 - Menambahkan kolom **Tgl Rubah PTAG** dan **Ket PTag** di akhir sheet `History Stock Out`.
 - Tanggal diambil dari perubahan PTAG terakhir selama rentang tanggal History (tidak menganggap nilai pada hari pertama sebagai perubahan karena tidak ada pembanding sebelum periode).
@@ -533,3 +546,16 @@ Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahka
 - Menambahkan tombol Pasang Aplikasi/Cara Pasang pada halaman utama.
 - Memperbaiki Service Worker agar cache lama dibersihkan dan halaman utama dibuka dengan strategi network-first serta fallback offline.
 - Mengurangi risiko instalasi gagal karena satu aset cache tidak tersedia.
+
+
+## v3.6.10
+- HISTORY Stock Out Detail: table headers may wrap onto multiple lines; body cell values remain single-line (no wrapping).
+
+
+## v3.7.0 — Perbaikan ekspor HISTORY
+- SL harian item dihitung dari PO yang sama dengan BPB yang sudah diterima pada tanggal pengukuran; SL TREND memakai rasio BPB terhadap PO dari cohort PO 14 hari berjalan, bukan membagi transaksi BPB dan PO pada tanggal kalender yang sama.
+- Statistik periode hanya menghitung BPB yang tanggal penerimaannya sudah terjadi pada akhir periode.
+- Format angka ekspor diseragamkan sesuai format akuntansi yang diminta; kolom SL dan tanggal tetap memakai format khusus.
+- SUPCO diratakan ke tengah; header Kesimpulan pada tiap blok tabel diberi format header; isi data tidak wrap.
+- Kolom Penurunan Stock dihapus dari 50 Item Terbesar.
+- Grafik TREND dipindahkan ke sisi kanan tabel.

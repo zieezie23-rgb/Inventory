@@ -1823,3 +1823,20 @@ body>*:not(.matrix-rain){position:relative;z-index:1}
 .card{background:rgba(5,20,11,.82)!important;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 .home-hero{background:linear-gradient(110deg,rgba(5,22,12,.88),rgba(3,14,8,.82))!important}
 @media(prefers-reduced-motion:reduce){.matrix-rain{opacity:.28}}
+
+
+/* v3.7.5 — pastikan layar login berada di atas seluruh konten aplikasi.
+   body > * diberi stacking context untuk Matrix; selector ini mengalahkan
+   aturan umum tersebut sehingga login benar-benar menjadi overlay penuh. */
+body > #loginLock:not([hidden]){
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483647!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%;
+  height:100%;
+  box-sizing:border-box;
+}
+body > #loginLock[hidden]{display:none!important}

@@ -2139,10 +2139,22 @@ function Hrender(){const s=Hstate;H('historySummary').textContent=`${s.items.len
  HrenderAnalysis();
  const soTable=H('historyStockOutSummary');if(soTable){soTable.querySelector('tbody').innerHTML=s.stockOutSummary.map((x,i)=>`<tr data-stockout-description="${escapeHtml(x.description)}"><td>${i+1}</td><td style="text-align:left">${escapeHtml(x.description)}</td><td>${Hcount(x.count)}</td></tr>`).join('')||'<tr><td colspan="3">Tidak ada item STOCK OUT berturut-turut.</td></tr>';}
  document.querySelectorAll('[data-history-page]').forEach((el,i)=>el.hidden=i!==0);document.querySelectorAll('[data-history-tab]').forEach((el,i)=>{el.classList.toggle('is-active',i===0);el.setAttribute('aria-selected',i===0?'true':'false')});}
+function HlastPtagChange(it){
+ const daily=it?._daily||[];let previous=null,last=null;
+ for(let i=0;i<daily.length;i++){
+  const current=String(daily[i]?.tag??'').trim().toUpperCase();
+  if(!current)continue;
+  if(previous!==null&&current!==previous){last={date:daily[i].date,from:previous,to:current};}
+  previous=current;
+ }
+ if(!last)return {serial:'',description:''};
+ const d=last.date,serial=(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(1899,11,30))/86400000;
+ return {serial,description:`PTAG ${last.from} ke PTAG ${last.to}`};
+}
 async function Hexport(){
  if(!window.XLSX)throw Error('Pustaka Excel belum siap.');
  const s=Hstate,wb=XLSX.utils.book_new(),fixed=['PRDCD','DESC2','ZONA','FRAC','ACOST','PKM','PKM Rp','MEAN','SUPCO','SNAMA'];
- const addHistorySheet=(name,mapper,stockOut=false)=>{const dates=s.dates.map(Hdate),headers=[...fixed,...dates,...(stockOut?['Periode','SL','Keterangan']:[])];const rows=[headers,...s.items.map(it=>[it.PRDCD,it.DESC2,it.ZONA,it.FRAC,it.ACOST,it.PKM,it.PKM*it.ACOST,...(it.MEAN===undefined?['']: [it.MEAN]),it.SUPCO,it.SNAMA,...it._daily.map(d=>mapper(d,it)),...(stockOut?[it._stockOutHistory?.period||'',it._stockOutHistory?(it._stockOutHistory.sl===null?'Tidak ada PO':it._stockOutHistory.sl):'',it._stockOutHistory?.description||'']:[])])];const ws=XLSX.utils.aoa_to_sheet(rows);ws['!autofilter']={ref:`A1:${XLSX.utils.encode_col(headers.length-1)}${rows.length}`};ws['!freeze']={xSplit:2,ySplit:1};ws['!cols']=[{wch:13},{wch:50},{wch:9},{wch:8},{wch:14},{wch:12},{wch:17},{wch:12},{wch:12},{wch:45},...s.dates.map(()=>({wch:11})),...(stockOut?[{wch:16},{wch:16},{wch:58}]:[])];XLSX.utils.book_append_sheet(wb,ws,name)};
+ const addHistorySheet=(name,mapper,stockOut=false)=>{const dates=s.dates.map(Hdate),headers=[...fixed,...dates,...(stockOut?['Periode','SL','Keterangan','Tgl Rubah PTAG','Ket PTag']:[])];const rows=[headers,...s.items.map(it=>{const change=stockOut?HlastPtagChange(it):null;return [it.PRDCD,it.DESC2,it.ZONA,it.FRAC,it.ACOST,it.PKM,it.PKM*it.ACOST,...(it.MEAN===undefined?['']: [it.MEAN]),it.SUPCO,it.SNAMA,...it._daily.map(d=>mapper(d,it)),...(stockOut?[it._stockOutHistory?.period||'',it._stockOutHistory?(it._stockOutHistory.sl===null?'Tidak ada PO':it._stockOutHistory.sl):'',it._stockOutHistory?.description||'',change.serial,change.description]:[])]})];const ws=XLSX.utils.aoa_to_sheet(rows);if(stockOut){const dateCol=fixed.length+dates.length+3;for(let r=1;r<rows.length;r++){const addr=XLSX.utils.encode_cell({r,c:dateCol}),cell=ws[addr];if(cell&&typeof cell.v==='number'){cell.t='n';cell.z='dd mmm yy';}}}ws['!autofilter']={ref:`A1:${XLSX.utils.encode_col(headers.length-1)}${rows.length}`};ws['!freeze']={xSplit:2,ySplit:1};ws['!cols']=[{wch:13},{wch:50},{wch:9},{wch:8},{wch:14},{wch:12},{wch:17},{wch:12},{wch:12},{wch:45},...s.dates.map(()=>({wch:11})),...(stockOut?[{wch:16},{wch:16},{wch:58},{wch:16},{wch:28}]:[])];XLSX.utils.book_append_sheet(wb,ws,name)};
  addHistorySheet('History Stock',(d,it)=>d.stock===null?'':d.stock*it.ACOST);
  addHistorySheet('History Ptag',d=>d.tag||'');
  addHistorySheet('History BPB',(d,it)=>d.bpb*it.ACOST);
@@ -2171,8 +2183,8 @@ async function HattachExcelCharts(zip,lastRow,sheetIndex=1,sheetName="Grafik"){c
 async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
  const zip=await JSZip.loadAsync(blob),stylePath='xl/styles.xml';let xml=await zip.file(stylePath).async('string');
  const addCount=(tag,addition)=>{const re=new RegExp(`<${tag} count="(\\d+)"`);const m=xml.match(re);if(!m)throw Error(`Bagian style Excel ${tag} tidak ditemukan.`);xml=xml.replace(re,`<${tag} count="${+m[1]+addition}"`)};
- const nfmt='<numFmt numFmtId="164" formatCode="#,##0;[Red](#,##0);-"/><numFmt numFmtId="165" formatCode="0&quot;%&quot;;[Red](0&quot;%&quot;);0&quot;%&quot;"/>';
- if(/<numFmts\b[^>]*\/>/.test(xml)){xml=xml.replace(/<numFmts\b[^>]*\/>/,`<numFmts count="2">${nfmt}</numFmts>`)}else if(xml.includes('<numFmts')){xml=xml.replace('</numFmts>',nfmt+'</numFmts>');xml=xml.replace(/<numFmts count="(\d+)"/,(_,n)=>`<numFmts count="${+n+2}"`)}else xml=xml.replace('<fonts',`<numFmts count="2">${nfmt}</numFmts><fonts`);
+ const nfmt='<numFmt numFmtId="164" formatCode="#,##0;[Red](#,##0);-"/><numFmt numFmtId="165" formatCode="0&quot;%&quot;;[Red](0&quot;%&quot;);0&quot;%&quot;"/><numFmt numFmtId="166" formatCode="dd mmm yy"/>';
+ if(/<numFmts\b[^>]*\/>/.test(xml)){xml=xml.replace(/<numFmts\b[^>]*\/>/,`<numFmts count="3">${nfmt}</numFmts>`)}else if(xml.includes('<numFmts')){xml=xml.replace('</numFmts>',nfmt+'</numFmts>');xml=xml.replace(/<numFmts count="(\d+)"/,(_,n)=>`<numFmts count="${+n+3}"`)}else xml=xml.replace('<fonts',`<numFmts count="3">${nfmt}</numFmts><fonts`);
  const fontMatch=xml.match(/<fonts count="(\d+)"/),fillMatch=xml.match(/<fills count="(\d+)"/),borderMatch=xml.match(/<borders count="(\d+)"/),xfMatch=xml.match(/<cellXfs count="(\d+)"/);
  if(!fontMatch||!fillMatch||!borderMatch||!xfMatch)throw Error('Struktur style Excel tidak lengkap.');
  const headerFont=+fontMatch[1],headerFill=+fillMatch[1],thinBorder=+borderMatch[1],baseXf=+xfMatch[1];
@@ -2185,11 +2197,12 @@ async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
   `<xf numFmtId="0" fontId="0" fillId="0" borderId="${thinBorder}" applyBorder="1" applyAlignment="1"><alignment horizontal="left" vertical="center" wrapText="1"/></xf>`,
   `<xf numFmtId="0" fontId="0" fillId="0" borderId="${thinBorder}" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>`,
   `<xf numFmtId="164" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="right" vertical="center"/></xf>`,
-  `<xf numFmtId="165" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>`
+  `<xf numFmtId="165" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>`,
+  `<xf numFmtId="166" fontId="0" fillId="0" borderId="${thinBorder}" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>`
  ];
  xml=xml.replace(/<cellXfs count="(\d+)"/,(_,n)=>`<cellXfs count="${+n+xfs.length}"`).replace('</cellXfs>',xfs.join('')+'</cellXfs>');
  zip.file(stylePath,xml);
- const ST={header:baseXf,left:baseXf+1,center:baseXf+2,right:baseXf+3,percent:baseXf+4};
+ const ST={header:baseXf,left:baseXf+1,center:baseXf+2,right:baseXf+3,percent:baseXf+4,date:baseXf+5};
  const sheetFiles=Object.keys(zip.files).filter(x=>/^xl\/worksheets\/sheet\d+\.xml$/.test(x)).sort((a,b)=>+(a.match(/sheet(\d+)/)[1])-(+(b.match(/sheet(\d+)/)[1])));
  const isCurrency=(si,ci)=>{
   if(si<=4){if(ci===5||ci===7)return true;if((si===0||si===2)&&ci>=11&&ci<=10+dateCount)return true;return false}
@@ -2215,7 +2228,7 @@ async function HstyleWorkbook(blob,chartLastRow,chartSheetIndex=1,dateCount=0){
    inner=inner.replace(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g,(cell,at,body='')=>{
     const ref=(at.match(/\br="([A-Z]+)(\d+)"/)||[]),col=ref[1]||'';if(!col)return cell;
     const ci=col.split('').reduce((v,c)=>v*26+c.charCodeAt(0)-64,0);let st=rn===1?ST.header:ST.left;
-    if(rn!==1){if(isCurrency(si,ci))st=ST.right;else if(isPercent(si,ci))st=ST.percent;else if(isCentered(si,ci))st=ST.center;}
+    if(rn!==1){if(si===4&&ci===14+dateCount)st=ST.date;else if(isCurrency(si,ci))st=ST.right;else if(isPercent(si,ci))st=ST.percent;else if(isCentered(si,ci))st=ST.center;}
     const clean=at.replace(/\s+s="\d+"/g,'');return `<c${clean} s="${st}">${body}</c>`;
    });
    return `<row${rowAttrs}>${inner}</row>`;

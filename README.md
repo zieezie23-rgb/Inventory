@@ -1,3 +1,11 @@
+## v3.6.8 — Kolom perubahan PTAG pada History Stock Out
+
+- Menambahkan kolom **Tgl Rubah PTAG** dan **Ket PTag** di akhir sheet `History Stock Out`.
+- Tanggal diambil dari perubahan PTAG terakhir selama rentang tanggal History (tidak menganggap nilai pada hari pertama sebagai perubahan karena tidak ada pembanding sebelum periode).
+- Tanggal disimpan sebagai nilai tanggal Excel numerik dengan format `dd mmm yy`, sehingga tetap dapat difilter dan diurutkan sebagai tanggal.
+- Jika tidak ada perubahan PTAG selama periode, kedua kolom dikosongkan.
+- Sheet History lainnya dan delapan modul selain History tidak diubah.
+
 ## v3.6.6 — Sinkronisasi nilai export History
 - Sheet Penurunan Stock dan 50 Item Terbesar memakai nilai penurunan positif yang sama dengan ringkasan aplikasi.
 - Sheet 50 Supp Terbesar menjumlahkan Stock Awal/Akhir dari ringkasan per item (tanggal stok valid pertama/terakhir), bukan memaksa tanggal pertama/terakhir kosong menjadi nol.
@@ -183,7 +191,7 @@
 - Arah tren SL ditentukan dari perubahan kategori, bukan selisih persentase mentah. Karena itu SL 5% ke 90% tetap stabil dalam kategori SL <100%.
 - Nilai kedatangan dibandingkan dari nominal BPB dalam masing-masing bagian awal dan akhir. Jika salah satu bagian tidak memiliki PO, arah tren SL dinyatakan tidak dapat dibandingkan; tren nilai kedatangan tetap dihitung.
 
-# Inventory v3.6.6
+# Inventory v3.6.8
 
 ## v3.2.7 — Validasi kategori SL, tren, dan ringkasan mobile
 

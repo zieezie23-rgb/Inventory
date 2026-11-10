@@ -1,4 +1,4 @@
-## v3.8.1 — Analisa Stock out
+## v3.8.5 — Penyempurnaan tab History dan label grafik
 - Menambahkan sheet “Analisa Stock out” yang memuat kolom identitas dan informasi Stock Out, tanpa kolom tanggal harian.
 - Sheet “History Stock Out” kini hanya memuat kolom identitas dan kolom tanggal harian; kolom Periode sampai Ket PTag dipindahkan ke sheet “Analisa Stock out”.
 - Sheet dan proses lain pada modul History tetap dipertahankan.

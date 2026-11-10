@@ -1655,7 +1655,7 @@ body .action-button .action-copy{gap:5px!important;}
 .history-dialog::backdrop{background:rgba(0,8,5,.84);backdrop-filter:blur(5px)}
 .history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}.history-head h2{margin:0;color:#caffb8}.history-head p{margin:4px 0 0;color:#9ac9a2;font-size:11px}.history-actions{display:flex;gap:8px;flex-wrap:wrap}
 .history-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.history-chart-card,.history-section{min-width:0;border:1px solid #285236;background:#0b2113;border-radius:11px;padding:11px;margin-bottom:12px}.history-chart-card:first-child{grid-column:auto}.history-chart-card h3,.history-section h3{margin:0 0 8px;color:#baff9b;font-size:13px}.history-chart-card svg{display:block;width:100%;height:auto;min-height:130px}
-.history-table-wrap{max-width:100%;overflow:auto;border:1px solid #285236;border-radius:8px}.history-table-wrap table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:10px;color:#caffb8}.history-table-wrap th,.history-table-wrap td{padding:6px 8px;border-right:1px solid #23442c;border-bottom:1px solid #23442c;white-space:nowrap;text-align:right}.history-table-wrap th{background:#153b20;color:#caffb8;font-weight:800;position:sticky;top:0;z-index:2}#historyTopItems td:nth-child(2),#historyTopItems td:nth-child(3),#historyTopSup td:nth-child(3),#historyAnalysis td:nth-child(1),#historyAnalysis td:nth-child(2),#historyTable td:nth-child(1),#historyTable td:nth-child(2),#historyTable td:nth-child(3){text-align:left}#historyTopItems td:nth-child(4),#historyTopItems td:nth-child(10),#historyTopSup td:nth-child(2),#historyAnalysis td:nth-child(3),#historyAnalysis td:nth-child(7),#historyAnalysis td:nth-child(8),#historyAnalysis td:nth-child(9),#historyTable td:nth-child(9),#historyTable td:nth-child(4n+14){text-align:center}.history-wide-table{max-height:56dvh}.history-wide-table thead tr:first-child th{top:0}.history-wide-table thead tr:nth-child(2) th{top:28px}.history-table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.history-pagination{display:flex;align-items:center;gap:6px;color:#9ac9a2;font-size:10px}.history-pagination .button{min-width:32px;padding:5px 9px}.history-dialog [hidden]{display:none!important}
+.history-table-wrap{max-width:100%;overflow:auto;border:1px solid #285236;border-radius:8px}.history-table-wrap table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:10px;color:#caffb8}.history-table-wrap th,.history-table-wrap td{padding:6px 8px;border-right:1px solid #23442c;border-bottom:1px solid #23442c;white-space:nowrap;text-align:right}.history-table-wrap th{background:#153b20;color:#caffb8;font-weight:800;position:sticky;top:0;z-index:2}#historyTopItems td:nth-child(2),#historyTopItems td:nth-child(3),#historyTopSup td:nth-child(3),#historyTable td:nth-child(1),#historyTable td:nth-child(2),#historyTable td:nth-child(3){text-align:left}#historyTopItems td:nth-child(4),#historyTopItems td:nth-child(10),#historyTopSup td:nth-child(2),#historyTable td:nth-child(9),#historyTable td:nth-child(4n+14){text-align:center}.history-wide-table{max-height:56dvh}.history-wide-table thead tr:first-child th{top:0}.history-wide-table thead tr:nth-child(2) th{top:28px}.history-table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.history-pagination{display:flex;align-items:center;gap:6px;color:#9ac9a2;font-size:10px}.history-pagination .button{min-width:32px;padding:5px 9px}.history-dialog [hidden]{display:none!important}
 @media(max-width:700px){.history-dialog{width:calc(100% - 10px);padding:10px;max-height:96dvh}.history-head{gap:8px}.history-head h2{font-size:17px}.history-actions{gap:5px}.history-actions .button{padding:7px 8px;font-size:10px}.history-chart-grid{grid-template-columns:1fr}.history-chart-card:first-child{grid-column:auto}.history-table-wrap table{font-size:9px}.history-table-wrap th,.history-table-wrap td{padding:5px}.history-wide-table{max-height:52dvh}}
 .history-legend{display:flex;flex-wrap:wrap;gap:12px;margin:3px 5px 0;color:#9ac9a2;font-size:10px}.history-legend span{display:inline-flex;align-items:center;gap:5px}.history-legend i{display:inline-block;width:9px;height:3px;border-radius:2px}
 
@@ -1682,7 +1682,7 @@ body .action-button .action-copy{gap:5px!important;}
 .history-supco-causes{margin-top:12px;color:#caffb8;font-size:11px}
 .history-supco-causes summary{cursor:pointer;color:#baff9b;font-weight:700;padding:7px 0}
 .history-supco-causes .history-table-wrap{max-height:42dvh}
-#historyAnalysis td:nth-child(3){text-align:center}
+
 @media(max-width:700px){.history-cause-header,.history-cause-row{grid-template-columns:minmax(110px,1.2fr) repeat(3,minmax(65px,1fr));gap:7px;font-size:10px}.history-filter-label select{max-width:150px;min-width:110px}}
 .history-supco-causes td:first-child{text-align:center!important}
 
@@ -1782,7 +1782,7 @@ body .action-button .action-copy{gap:5px!important;}
 @media(max-width:700px){.history-actions{gap:6px}.history-actions #historyExport,.history-stockout-detail-actions .history-actions #historyStockOutExportJpeg{height:29px!important;min-height:29px!important;padding:5px 10px!important;font-size:9px!important}.history-actions .history-close,.history-stockout-detail-actions .history-stockout-close{width:28px!important;height:28px!important;min-width:28px!important}.history-stockout-detail-actions{align-items:center}}
 
 /* v3.5.4: perataan teks kesimpulan History */
-#historyAnalysis td:nth-child(12),#historyAnalysis td:nth-child(16),#historyAnalysis td:nth-child(20),#historyTopItems td:nth-child(11),.history-summary-conclusion,.history-summary-conclusion li{text-align:center}
+#historyTopItems td:nth-child(11),.history-summary-conclusion,.history-summary-conclusion li{text-align:center}
 .history-cause-row>span{text-align:left!important}.history-cause-header>span{text-align:left!important}
 
 
@@ -1840,3 +1840,11 @@ body > #loginLock:not([hidden]){
   box-sizing:border-box;
 }
 body > #loginLock[hidden]{display:none!important}
+
+
+/* v3.8.5 — tombol Export History lebih mudah disentuh; progress proses ditutup sebelum popup siap dipakai. */
+.history-dialog .history-head{position:sticky;top:-18px;z-index:20;margin:-18px -18px 14px;padding:18px;background:linear-gradient(145deg,#10251a 0%,#07130b 100%);border-bottom:1px solid #285236;border-radius:16px 16px 0 0;}
+.history-dialog .history-actions{position:relative;z-index:21;pointer-events:auto;flex-shrink:0;}
+.history-dialog .history-actions #historyExport{position:relative;z-index:22;min-width:112px!important;min-height:44px!important;height:44px!important;padding:10px 16px!important;font-size:12px!important;line-height:1.2!important;touch-action:manipulation!important;pointer-events:auto!important;}
+.history-dialog .history-actions #historyExport:disabled{opacity:.7;cursor:wait;}
+@media(max-width:700px){.history-dialog .history-head{top:-10px;margin:-10px -10px 12px;padding:12px 10px;}.history-dialog .history-actions #historyExport{min-width:104px!important;min-height:44px!important;height:44px!important;padding:10px 13px!important;font-size:11px!important;}}

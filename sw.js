@@ -1,5 +1,5 @@
-/* Inventory PWA service worker — v3.7.5 */
-const CACHE_NAME = 'inventory-command-center-v3.7.5';
+/* Inventory PWA service worker — v3.7.6 */
+const CACHE_NAME = 'inventory-command-center-v3.7.6';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
   './', './index.html', './styles.css?v=3.7.5', './app.js?v=3.7.5',

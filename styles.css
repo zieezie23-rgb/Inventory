@@ -1825,7 +1825,7 @@ body>*:not(.matrix-rain){position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.matrix-rain{opacity:.28}}
 
 
-/* v3.7.5 — pastikan layar login berada di atas seluruh konten aplikasi.
+/* v3.7.6 — pastikan layar login berada di atas seluruh konten aplikasi.
    body > * diberi stacking context untuk Matrix; selector ini mengalahkan
    aturan umum tersebut sehingga login benar-benar menjadi overlay penuh. */
 body > #loginLock:not([hidden]){

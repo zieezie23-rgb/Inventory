@@ -27,7 +27,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v3.7.5</span>
+    <span class="hero-version">v3.7.6</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses cepat"><button id="installAppButton" class="home-quick-link install-app-link" type="button" hidden>Pasang Aplikasi</button><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -183,7 +183,7 @@
     <section data-history-page="top" class="history-page" hidden><section class="history-section"><h3>20 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section><section class="history-section"><h3>20 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section>
     <section data-history-page="stockout-summary" class="history-page" hidden><section class="history-section"><h3>RINGKASAN STOCK OUT BERTURUT-TURUT</h3><div class="history-table-toolbar"><p>Pilih baris keterangan untuk melihat daftar item.</p></div><div class="history-table-wrap"><table id="historyStockOutSummary"><thead><tr><th>No</th><th>Keterangan</th><th>Jumlah Item</th></tr></thead><tbody></tbody></table></div><section id="historyStockOutDetailPanel" class="history-stockout-detail" hidden><div class="history-table-toolbar history-stockout-detail-actions"><h3 id="historyStockOutDetailTitle">Daftar Item</h3><div class="history-actions"><button type="button" class="button button-primary" id="historyStockOutExportJpeg" disabled>Export JPEG</button><button type="button" class="button history-stockout-close" id="historyStockOutDetailClose">×</button></div></div><div class="history-table-wrap"><table id="historyStockOutDetail"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>SNAMA</th><th>PKM</th><th>Tgl Rubah Tag</th><th>PTAG</th><th>STOCK</th><th>PERIODE</th><th>SL</th><th>KETERANGAN</th></tr></thead><tbody></tbody></table></div></section></section></section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v3.7.5 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v3.7.6 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -1061,56 +1061,79 @@ if ('serviceWorker' in navigator) {
 
 
 <script>
-/* v3.7.5 — Matrix Digital Rain: canvas ringan, dekoratif, dan tidak menghalangi interaksi. */
+/* v3.7.6 — Matrix Digital Rain: kolom vertikal berisi angka dan katakana dengan jejak cahaya. */
 (function(){
   const canvas=document.getElementById('matrixRain');
   if(!canvas) return;
   const ctx=canvas.getContext('2d',{alpha:true});
   if(!ctx) return;
   const reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノ012345789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let width=0,height=0,dpr=1,columns=0,drops=[],raf=0,last=0,frame=0;
-  const fontSize=15, interval=reduce?1000:48;
+  // Angka dibuat dominan, diselingi katakana seperti tampilan kode Matrix.
+  const chars='01234567890123456789アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+  let width=0,height=0,dpr=1,columns=0,streams=[],raf=0,last=0;
+  const fontSize=15, interval=reduce?260:58, trail=12;
+  function pick(){return chars.charAt(Math.random()*chars.length|0);}
   function resize(){
     const w=window.innerWidth,h=window.innerHeight;
-    dpr=Math.min(window.devicePixelRatio||1,1.35);
+    dpr=Math.min(window.devicePixelRatio||1,1.25);
     width=w;height=h;
     canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
     canvas.style.width=w+'px';canvas.style.height=h+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);
     columns=Math.ceil(w/fontSize);
-    drops=Array.from({length:columns},()=>Math.random()*-Math.max(10, h/fontSize));
+    streams=Array.from({length:columns},()=>({
+      y:Math.random()*-(h/fontSize),
+      speed:0.65+Math.random()*0.75,
+      chars:Array.from({length:trail},pick),
+      active:Math.random()>.22
+    }));
+    ctx.clearRect(0,0,width,height);
   }
   function draw(t){
     raf=0;
     if(document.hidden) return;
     if(t-last<interval){raf=requestAnimationFrame(draw);return;}
     last=t;
-    ctx.fillStyle='rgba(2,9,5,0.105)';ctx.fillRect(0,0,width,height);
+    ctx.fillStyle='rgba(2,9,5,0.16)';
+    ctx.fillRect(0,0,width,height);
     ctx.font=fontSize+'px monospace';
+    ctx.textAlign='center';
     for(let i=0;i<columns;i++){
-      const ch=chars.charAt(Math.random()*chars.length|0);
-      const x=i*fontSize,y=drops[i]*fontSize;
-      ctx.fillStyle=Math.random()>.985?'rgba(218,255,218,.9)':'rgba(40,220,95,.48)';
-      ctx.fillText(ch,x,y);
-      if(y>height && Math.random()>.975) drops[i]=0;
-      drops[i]+=reduce ? 0.08 :(Math.random()>.88?1.7:1.0);
+      const s=streams[i];
+      if(!s.active){
+        if(Math.random()>.994){s.active=true;s.y=-Math.random()*20;}
+        continue;
+      }
+      const x=i*fontSize+fontSize/2;
+      const head=Math.floor(s.y);
+      for(let k=trail-1;k>=0;k--){
+        const row=head-k, y=row*fontSize;
+        if(y< -fontSize || y>height+fontSize) continue;
+        if(Math.random()>.965) s.chars[k]=pick();
+        const alpha=(1-k/trail)*0.62;
+        ctx.fillStyle=k===0?'rgba(225,255,225,.98)':'rgba(40,235,105,'+alpha.toFixed(2)+')';
+        ctx.fillText(s.chars[k],x,y);
+      }
+      s.y+=s.speed*(reduce?0.28:1);
+      if(s.y*fontSize>height+trail*fontSize && Math.random()>.975){
+        s.y=-Math.random()*trail;
+        s.speed=0.65+Math.random()*0.75;
+        s.active=Math.random()>.12;
+      }
     }
-    frame++;
-    if(!reduce || frame%8===0) raf=requestAnimationFrame(draw);
+    raf=requestAnimationFrame(draw);
   }
   function start(){if(!document.hidden&&!raf) raf=requestAnimationFrame(draw);}
   function stop(){if(raf) cancelAnimationFrame(raf);raf=0;}
   resize();
-  if(!reduce) start(); else { draw(1000); }
+  start();
   window.addEventListener('resize',resize,{passive:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else start();});
-  if(reduce) window.addEventListener('pointerdown',()=>{}, {once:true,passive:true});
 })();
 </script>
 
 <script>
-/* v3.7.5 — kunci aplikasi dengan timeout 15 menit; data upload tetap di memori halaman. */
+/* v3.7.6 — kunci aplikasi dengan timeout 15 menit; data upload tetap di memori halaman. */
 (function(){
   const lock = document.getElementById('loginLock');
   const form = document.getElementById('loginForm');

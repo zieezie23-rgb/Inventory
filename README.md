@@ -1,3 +1,8 @@
+## v3.7.6 — Matrix Digital Rain angka dan karakter vertikal
+- Memperjelas animasi Matrix menjadi aliran karakter vertikal dengan angka 0–9 dominan dan selingan katakana.
+- Setiap kolom memiliki jejak karakter dan kepala aliran bercahaya; bukan glyph acak yang berubah di tempat.
+- Tetap menggunakan Canvas ringan, menghentikan animasi saat tab tidak aktif, dan mempertahankan keterbacaan.
+
 ## v3.7.5 — Login lebih sederhana
 - Menghapus ikon aplikasi, judul dan deskripsi login, serta catatan sesi 15 menit dari popup login.
 - Mempertahankan satu kolom password, tombol MASUK, dan penguncian otomatis setelah 15 menit tanpa aktivitas.

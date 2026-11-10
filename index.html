@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#050b08"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./assets/icon.png"><link rel="apple-touch-icon" href="./assets/icon.png"><link rel="stylesheet" href="./styles.css?v=3.6.6">
+  <meta name="theme-color" content="#050b08"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=3.6.7">
   <title>Inventory</title>
 
 </head>
@@ -17,10 +17,10 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v3.6.6</span>
+    <span class="hero-version">v3.6.7</span>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
-  <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses file"><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
+  <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses cepat"><button id="installAppButton" class="home-quick-link install-app-link" type="button" hidden>Pasang Aplikasi</button><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
     <div class="process-item"><button id="masterBtn" class="button action-button action-master" type="button"><span class="action-icon" aria-hidden="true">▦</span><span class="action-copy"><strong>MASTER STOCK</strong><small>Data stok utama</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="stockOutBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⇧</span><span class="action-copy"><strong>STOCK OUT</strong><small>Proses barang keluar</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
     <div class="process-item"><button id="slSupplierBtn" class="button action-button action-stockout" type="button"><span class="action-icon" aria-hidden="true">⌁</span><span class="action-copy"><strong>SL SUPPLIER</strong><small>Data supplier</small></span><span class="action-arrow" aria-hidden="true">↗</span></button></div>
@@ -980,7 +980,45 @@
   }
   init();
 })();
-</script><script src="./app.js?v=3.6.6"></script><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(error=>console.error('PWA service worker gagal didaftarkan:',error)));}</script>
+</script><script src="./app.js?v=3.6.7"></script>
+<script>
+(function(){
+  let installPrompt = null;
+  const button = document.getElementById('installAppButton');
+  if (!button) return;
+  const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  function refreshInstallButton(){
+    button.hidden = isStandalone();
+    button.textContent = installPrompt ? 'Pasang Aplikasi' : 'Cara Pasang';
+  }
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault(); installPrompt = event; refreshInstallButton();
+  });
+  window.addEventListener('appinstalled', () => {
+    installPrompt = null; refreshInstallButton();
+    if (typeof window.toast === 'function') window.toast('Inventory berhasil dipasang. Buka dari layar utama.');
+  });
+  button.addEventListener('click', async () => {
+    if (installPrompt) {
+      installPrompt.prompt();
+      try { await installPrompt.userChoice; } catch (_) {}
+      installPrompt = null; refreshInstallButton();
+      return;
+    }
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const steps = isIOS
+      ? 'Untuk memasang: ketuk tombol Bagikan di Safari, lalu pilih “Add to Home Screen / Tambahkan ke Layar Utama”.'
+      : 'Untuk membuat pintasan: buka menu ⋮ browser Chrome, pilih “Tambahkan ke layar utama” atau “Install app / Pasang aplikasi”. Jika pilihan belum muncul, muat ulang halaman dan pastikan menggunakan HTTPS.';
+    window.alert(steps);
+  });
+  refreshInstallButton();
+})();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope: './', updateViaCache: 'none'}).catch(err => console.warn('PWA service worker:', err));
+  });
+}
+</script>
 
 <script>
 /* v2.5.5: semua popup dapat digeser dengan menarik area judul. */

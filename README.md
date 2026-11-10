@@ -518,3 +518,10 @@ Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahka
 - Skala Stock dikunci 40–70 miliar rupiah; SL Supplier 1–100%.
 - Skala PO dan BPB menyesuaikan rentang nilai data secara otomatis.
 - Tidak mengubah sumber data, rumus, hasil analisis, maupun alur proses lainnya.
+
+
+## v3.6.7 — Perbaikan instalasi dan pintasan PWA
+- Memperkuat manifest agar identitas, start URL, scope, dan ikon PWA konsisten pada GitHub Pages.
+- Menambahkan tombol Pasang Aplikasi/Cara Pasang pada halaman utama.
+- Memperbaiki Service Worker agar cache lama dibersihkan dan halaman utama dibuka dengan strategi network-first serta fallback offline.
+- Mengurangi risiko instalasi gagal karena satu aset cache tidak tersedia.

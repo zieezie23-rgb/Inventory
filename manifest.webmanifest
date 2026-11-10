@@ -1,32 +1,19 @@
 {
   "id": "./",
-  "name": "Inventory",
+  "name": "Inventory Command Center",
   "short_name": "Inventory",
-  "description": "Mengolah file sumber menjadi Master Stock Excel dengan format tabel acuan",
-  "start_url": "./",
+  "description": "Aplikasi Inventory untuk pengolahan data stok dan laporan operasional.",
+  "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "orientation": "any",
   "background_color": "#050a08",
   "theme_color": "#050a08",
+  "prefer_related_applications": false,
   "icons": [
-    {
-      "src": "./assets/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./assets/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./assets/icon-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    {"src": "./assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "./assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "./assets/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ]
 }

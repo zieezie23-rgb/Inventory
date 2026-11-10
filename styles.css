@@ -1799,3 +1799,22 @@ body .action-button .action-copy{gap:5px!important;}
 /* v3.6.10 — HISTORY Stock Out Detail: wrap headers only; keep data cells on one line */
 #historyStockOutDetail thead th{white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;line-height:1.2;vertical-align:middle}
 #historyStockOutDetail tbody td{white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important}
+
+
+/* v3.7.2 — login gate dan penguncian otomatis 15 menit */
+.login-lock{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(ellipse at 50% 35%,rgba(29,75,43,.42),rgba(3,9,6,.97) 68%),#050b08;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.login-lock[hidden]{display:none!important}
+.login-card{width:min(100%,370px);padding:30px 26px 24px;border:1px solid rgba(117,255,85,.42);border-radius:18px;background:linear-gradient(155deg,rgba(17,39,25,.98),rgba(5,15,10,.99));box-shadow:0 24px 90px rgba(0,0,0,.62),0 0 35px rgba(117,255,85,.09);color:#eaffdf;text-align:left}
+.login-mark{width:48px;height:48px;display:grid;place-items:center;border:1px solid rgba(117,255,85,.55);border-radius:13px;background:rgba(117,255,85,.10);color:#a8ff8b;font-size:25px;margin-bottom:18px}
+.login-kicker{margin:0 0 6px;color:#9be989;font-size:10px;font-weight:800;letter-spacing:2px}
+.login-card h1{margin:0;color:#f2ffed;font-size:25px;line-height:1.2;font-weight:850}
+.login-hint{margin:8px 0 22px;color:#a9bcae;font-size:12px;line-height:1.5}
+.login-field-label{display:block;margin-bottom:7px;color:#c9e6c5;font-size:11px;font-weight:750}
+.login-password{box-sizing:border-box;width:100%;height:46px;padding:0 13px;border:1px solid #42694a;border-radius:9px;outline:none;background:#07120b;color:#efffec;font-family:inherit;font-size:15px;font-weight:600;letter-spacing:1px}
+.login-password:focus{border-color:#8cff6d;box-shadow:0 0 0 3px rgba(117,255,85,.12)}
+.login-error{min-height:17px;margin:7px 0 10px;color:#ff8585;font-size:11px}
+.login-submit{width:100%;height:44px;border:1px solid #91ff72;border-radius:9px;background:linear-gradient(135deg,#327b35,#1b512a);color:#f1ffed;font-size:12px;font-weight:900;letter-spacing:1px;cursor:pointer;box-shadow:0 7px 20px rgba(30,110,43,.22)}
+.login-submit span{float:right;font-size:17px;line-height:12px}
+.login-submit:hover{filter:brightness(1.12)}
+.login-footnote{margin:17px 0 0;color:#7f9c83;font-size:10px;line-height:1.5;text-align:center}
+body.is-login-locked{overflow:hidden}

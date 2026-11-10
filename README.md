@@ -1,3 +1,10 @@
+## v3.7.2 — Login dan kunci otomatis
+- Menambahkan popup login sebelum pengguna dapat masuk ke halaman utama.
+- Password akses: `zie` (satu kolom input).
+- Aplikasi terkunci kembali setelah 15 menit tanpa aktivitas.
+- Saat terkunci, data upload tetap tersimpan di memori selama halaman tidak di-refresh atau ditutup.
+- Login tidak menggunakan penyimpanan sesi permanen; halaman yang dimuat ulang meminta login kembali.
+
 ## v3.7.1 — Perbaikan ekspor History dan TREND
 - Memperbarui nomor versi aplikasi menjadi v3.7.1.
 - Mempertahankan perbaikan ekspor pada paket v3.7.0-EXPORT-FIX.

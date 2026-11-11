@@ -580,3 +580,8 @@ Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahka
 - SUPCO diratakan ke tengah; header Kesimpulan pada tiap blok tabel diberi format header; isi data tidak wrap.
 - Kolom Penurunan Stock dihapus dari 50 Item Terbesar.
 - Grafik TREND dipindahkan ke sisi kanan tabel.
+
+## v3.8.7 — Koreksi tabel peringkat dan merge kriteria History
+- Tabel 20 Item Terbesar dan 20 SUPCO Terbesar tidak membungkus teks; lebar kolom diperbesar mengikuti isi dan tabel dapat digeser horizontal pada layar sempit.
+- Pada Ringkasan Trend Stock, semua keterangan SL berulang yang berurutan digabung (rowspan), bukan hanya SL stabil 100%; keterangan kedatangan yang berulang di dalam kelompok SL yang sama juga digabung.
+- Label angka axis grafik diperbesar tanpa mengubah data maupun skala grafik.

@@ -1,3 +1,8 @@
+## v3.9.1 — Sinkronisasi nomor versi seluruh komponen
+- Menyamakan nomor versi pada badge header, footer, app.js, URL cache CSS/JS, dan Service Worker.
+- Memperbarui nama cache Service Worker agar perangkat mengambil aset versi yang sama.
+- Tidak mengubah perhitungan History, fitur Export XLSX, atau alur Export PPT.
+
 ## v3.8.5 — Penyempurnaan tab History dan label grafik
 - Menambahkan sheet “Analisa Stock out” yang memuat kolom identitas dan informasi Stock Out, tanpa kolom tanggal harian.
 - Sheet “History Stock Out” kini hanya memuat kolom identitas dan kolom tanggal harian; kolom Periode sampai Ket PTag dipindahkan ke sheet “Analisa Stock out”.

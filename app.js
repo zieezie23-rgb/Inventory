@@ -1,3 +1,4 @@
+/* Inventory application logic — v3.9.1 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],

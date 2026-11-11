@@ -1866,3 +1866,12 @@ body > #loginLock[hidden]{display:none!important}
 .history-ppt-status:empty{display:none}
 .history-actions #historyExportPpt[aria-busy=true]{opacity:.8;cursor:progress}
 @media(max-width:700px){.history-ppt-status{text-align:left;font-size:10px}}
+
+/* v3.9.2 — keep PowerPoint feedback below the History header, not inside its flex actions. */
+.history-dialog .history-ppt-status{display:block;max-width:100%;margin:-5px 0 12px;padding:0;color:#a9eab6;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+.history-dialog .history-ppt-status:empty{display:none}
+.history-dialog .history-ppt-status:not(:empty){padding:8px 10px;border:1px solid #285638;border-radius:7px;background:#081b10}
+.history-dialog .history-head{min-width:0}
+.history-dialog .history-head>div:first-child{flex:1 1 auto;min-width:0}
+.history-dialog .history-actions{flex:0 0 auto}
+@media(max-width:700px){.history-dialog .history-head>div:first-child{min-width:0}.history-dialog .history-ppt-status{font-size:10px;margin:0 0 10px}}

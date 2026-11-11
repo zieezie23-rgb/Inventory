@@ -1,4 +1,4 @@
-/* Inventory application logic — v3.9.1 */
+/* Inventory application logic — v3.9.2 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2288,10 +2288,27 @@ function HexportStockOutJpeg(){const panel=H('historyStockOutDetailPanel');if(!p
 function HpptxText(v){return String(v??'').replace(/\s+/g,' ').trim()}
 function HpptxNum(v){return Number(v)||0}
 function HpptxMoney(v){return 'Rp '+Math.round(HpptxNum(v)).toLocaleString('id-ID')}
+async function HloadLocalScript(src,ready){
+ if(ready())return;
+ await new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src=new URL(src+'?v=3.9.2',document.baseURI).href;
+  script.async=true;
+  script.onload=resolve;
+  script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
+  document.head.appendChild(script);
+ });
+ if(!ready())throw Error('Library '+src+' termuat tetapi objek JavaScript tidak tersedia.');
+}
+async function HensurePptxLibraries(){
+ await HloadLocalScript('./vendor/jszip.min.js',()=>!!window.JSZip);
+ await HloadLocalScript('./vendor/pptxgen.min.js',()=>!!window.PptxGenJS);
+}
 async function HpptxExport(){
- // Yield once so the browser can paint the in-dialog progress state before slide construction.
+ // Beri waktu browser menampilkan status sebelum menyiapkan library dan slide.
  await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,60)));
- const s=Hstate;if(!s)throw Error('Data History belum tersedia. Jalankan History terlebih dahulu.');if(!window.PptxGenJS)throw Error('Komponen PowerPoint belum termuat. Muat ulang aplikasi lalu coba lagi.');
+ const s=Hstate;if(!s)throw Error('Data History belum tersedia. Jalankan History terlebih dahulu.');
+ await HensurePptxLibraries();
  const pptx=new window.PptxGenJS();pptx.layout='LAYOUT_WIDE';pptx.author='Inventory Analytics';pptx.subject='History Inventory Analysis';pptx.title='History Inventory '+Hdate(s.end);pptx.company='Inventory Analytics';pptx.lang='id-ID';pptx.theme={headFontFace:'Aptos Display',bodyFontFace:'Aptos',lang:'id-ID'};pptx.defineSlideMaster({title:'MATRIX',background:{color:'030A06'},objects:[{rect:{x:0,y:0,w:13.333,h:7.5,line:{color:'030A06',transparency:100},fill:{color:'030A06'}}},{line:{x:0.42,y:0.68,w:12.48,h:0,line:{color:'45FF72',width:1.2,transparency:15}}},{text:{text:'010110 101001 001101 110010 010101 100110 001011 101001 010110 001101',options:{x:8.6,y:0.08,w:4.2,h:0.3,fontFace:'Consolas',fontSize:8,color:'174B2A',transparency:18,margin:0,breakLine:false}}},{text:{text:'INVENTORY ANALYTICS  /  THE MATRIX',options:{x:0.48,y:7.12,w:5.5,h:0.18,fontFace:'Consolas',fontSize:8,bold:true,color:'48E875',charSpacing:1,margin:0}}},{text:{text:'CONFIDENTIAL  •  '+Hdate(s.end).toUpperCase(),options:{x:9.0,y:7.12,w:3.8,h:0.18,fontFace:'Consolas',fontSize:8,color:'6FAD7D',align:'right',margin:0}}}],slideNumber:{x:12.62,y:7.08,color:'75FF91',fontFace:'Consolas',fontSize:9}});
  const C={green:'65FF83',green2:'B5FFC2',muted:'8CB99A',dark:'07150C',panel:'0D2415',line:'285638',red:'FF6875',amber:'FFC66D',white:'E7F8EA',cyan:'65D9FF'};
  const addTitle=(sl,title,sub='')=>{sl.addText(title,{x:.55,y:.27,w:11.9,h:.34,fontFace:'Aptos Display',fontSize:21,bold:true,color:C.green,margin:0,breakLine:false});if(sub)sl.addText(sub,{x:.58,y:.75,w:11.8,h:.24,fontFace:'Aptos',fontSize:9,color:C.muted,margin:0})};

@@ -1,4 +1,4 @@
-/* Inventory application logic — v3.9.2 */
+/* Inventory application logic — v3.9.3 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2292,7 +2292,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=3.9.2',document.baseURI).href;
+  script.src=new URL(src+'?v=3.9.3',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));

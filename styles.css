@@ -1855,8 +1855,14 @@ body > #loginLock[hidden]{display:none!important}
 .history-chart-card svg text{font-weight:600}
 @media(max-width:700px){#historyTopItems td,#historyTopSup td{font-size:10px;padding:7px 5px;line-height:1.35}.history-cause-grid-table{font-size:10px;min-width:680px}}
 
-/* v3.8.9 — Export PowerPoint dengan aksen Matrix */
+/* v3.9.0 — Export PowerPoint dengan aksen Matrix */
 .history-actions #historyExportPpt{border-color:#65ff83!important;color:#07150c!important;background:#65ff83!important;box-shadow:0 0 12px rgba(101,255,131,.22)!important}
 .history-actions #historyExportPpt:hover{background:#b5ffc2!important;color:#031007!important}
 .history-actions #historyExportPpt:disabled{opacity:.65;cursor:wait}
 @media(max-width:700px){.history-dialog .history-actions{gap:5px}.history-dialog .history-actions #historyExport,.history-dialog .history-actions #historyExportPpt{min-width:82px!important;padding:8px 9px!important;font-size:10px!important}}
+
+/* v3.9.0 — visible PowerPoint export feedback inside the modal */
+.history-ppt-status{display:block;flex-basis:100%;width:100%;min-height:1.1em;color:#8fffa6;font-size:11px;line-height:1.35;text-align:right;overflow-wrap:anywhere}
+.history-ppt-status:empty{display:none}
+.history-actions #historyExportPpt[aria-busy=true]{opacity:.8;cursor:progress}
+@media(max-width:700px){.history-ppt-status{text-align:left;font-size:10px}}

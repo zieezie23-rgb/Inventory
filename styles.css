@@ -1832,7 +1832,7 @@ body > #loginLock[hidden]{display:none!important}
 @media(max-width:700px){.history-dialog .history-head{top:-10px;margin:-10px -10px 12px;padding:12px 10px;}.history-dialog .history-actions #historyExport{min-width:104px!important;min-height:44px!important;height:44px!important;padding:10px 13px!important;font-size:11px!important;}}
 
 
-/* v3.8.7 — tabel peringkat satu baris; lebar kolom mengikuti isi dan dapat digeser horizontal */
+/* v3.8.8 — tabel peringkat satu baris; lebar kolom mengikuti isi dan dapat digeser horizontal */
 #historyTopItems,#historyTopSup{table-layout:auto!important;width:max-content!important;min-width:100%!important}
 #historyTopItems th,#historyTopSup th,#historyTopItems td,#historyTopSup td{white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;line-height:1.25;padding:7px 9px;font-size:10px;vertical-align:middle}
 #historyTopItems th:nth-child(1),#historyTopItems td:nth-child(1){min-width:42px;text-align:center!important}
@@ -1845,12 +1845,18 @@ body > #loginLock[hidden]{display:none!important}
 #historyTopSup th:nth-child(4),#historyTopSup td:nth-child(4){min-width:330px;text-align:left!important}
 #historyTopItems tbody tr,#historyTopSup tbody tr{height:34px}
 .history-cause-periods{max-width:100%;overflow-x:auto;padding-bottom:4px}
-.history-cause-grid-table{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;color:#d5f5d0;font-size:10px;line-height:1.3}
+.history-cause-grid-table{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;table-layout:fixed;color:#d5f5d0;font-size:10px;line-height:1.3}
 .history-cause-grid-table th,.history-cause-grid-table td{padding:7px 6px;border-right:1px solid #23442c;border-bottom:1px solid #23442c;vertical-align:middle}
 .history-cause-grid-table th{position:sticky;top:0;background:#153b20;color:#caffb8;text-align:center;white-space:normal}
-.history-cause-grid-table td.history-cause-sl,.history-cause-grid-table td.history-cause-arrival{text-align:left;white-space:normal;min-width:130px}
+.history-cause-grid-table td.history-cause-sl,.history-cause-grid-table td.history-cause-arrival{text-align:left;white-space:normal;min-width:0;overflow-wrap:anywhere}
 .history-cause-grid-table td.history-cause-value,.history-cause-grid-table td.history-cause-delta{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .history-cause-grid-table td.history-cause-sl{font-weight:700;color:#baff9b;background:rgba(21,59,32,.35)}
 .history-cause-grid-table td.history-cause-delta{color:#ffc978}
 .history-chart-card svg text{font-weight:600}
 @media(max-width:700px){#historyTopItems td,#historyTopSup td{font-size:10px;padding:7px 5px;line-height:1.35}.history-cause-grid-table{font-size:10px;min-width:680px}}
+
+/* v3.8.9 — Export PowerPoint dengan aksen Matrix */
+.history-actions #historyExportPpt{border-color:#65ff83!important;color:#07150c!important;background:#65ff83!important;box-shadow:0 0 12px rgba(101,255,131,.22)!important}
+.history-actions #historyExportPpt:hover{background:#b5ffc2!important;color:#031007!important}
+.history-actions #historyExportPpt:disabled{opacity:.65;cursor:wait}
+@media(max-width:700px){.history-dialog .history-actions{gap:5px}.history-dialog .history-actions #historyExport,.history-dialog .history-actions #historyExportPpt{min-width:82px!important;padding:8px 9px!important;font-size:10px!important}}

@@ -581,7 +581,16 @@ Pembaruan v3.1.8: tab 50 Item dan 50 SUPCO dipisahkan. Export History menambahka
 - Kolom Penurunan Stock dihapus dari 50 Item Terbesar.
 - Grafik TREND dipindahkan ke sisi kanan tabel.
 
-## v3.8.7 — Koreksi tabel peringkat dan merge kriteria History
+## v3.8.8 — Koreksi tabel peringkat dan merge kriteria History
 - Tabel 20 Item Terbesar dan 20 SUPCO Terbesar tidak membungkus teks; lebar kolom diperbesar mengikuti isi dan tabel dapat digeser horizontal pada layar sempit.
 - Pada Ringkasan Trend Stock, semua keterangan SL berulang yang berurutan digabung (rowspan), bukan hanya SL stabil 100%; keterangan kedatangan yang berulang di dalam kelompok SL yang sama juga digabung.
 - Label angka axis grafik diperbesar tanpa mengubah data maupun skala grafik.
+
+## v3.8.9 — Export PowerPoint tema The Matrix
+- Menambahkan tombol Export PPT pada popup History tanpa mengubah tombol Export XLSX.
+- Membuat presentasi 16:9 dengan tema The Matrix: latar hitam/hijau gelap, aksen hijau neon, dan tipografi yang kontras.
+- Presentasi berisi Executive Summary, grafik PO/BPB/Stock, SL Supplier, Stock Out, analisis penyebab, analisis PO/BPB, Top 10 Item, Top 10 SUPCO, Key Findings, Priority Attention, Conclusion & Discussion.
+- Ranking 11–20 untuk Item dan SUPCO ditempatkan pada slide lampiran.
+- Grafik PowerPoint dan tabel dibuat sebagai objek yang dapat diedit.
+- Menggunakan data hasil proses History yang sama; tidak membuat perhitungan sumber data baru.
+- Menambahkan library PowerPoint lokal agar export tidak bergantung pada CDN/internet.

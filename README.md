@@ -1,3 +1,11 @@
+## v4.0.9 — Revisi alur PPT dan versi pada form login
+- Menata ulang urutan presentasi History menjadi tren Stock, ruang lingkup, kondisi saat ini, penurunan Stock, asumsi penyebab, pembuktian BPB/PO, contoh kasus, kontributor, dan tindak lanjut.
+- Slide kondisi saat ini tidak lagi menampilkan Mean.
+- Slide asumsi faktor penyebab hanya menampilkan daftar dugaan, bukan kesimpulan.
+- Menampilkan versi aplikasi di pojok kanan atas form login.
+- Menyinkronkan versi aplikasi, aset, dan cache Service Worker menjadi v4.0.9.
+- Tidak mengubah perhitungan History maupun alur proses Inventory lainnya.
+
 ## v3.9.1 — Sinkronisasi nomor versi seluruh komponen
 - Menyamakan nomor versi pada badge header, footer, app.js, URL cache CSS/JS, dan Service Worker.
 - Memperbarui nama cache Service Worker agar perangkat mengambil aset versi yang sama.

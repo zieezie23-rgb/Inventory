@@ -1855,19 +1855,19 @@ body > #loginLock[hidden]{display:none!important}
 .history-chart-card svg text{font-weight:600}
 @media(max-width:700px){#historyTopItems td,#historyTopSup td{font-size:10px;padding:7px 5px;line-height:1.35}.history-cause-grid-table{font-size:10px;min-width:680px}}
 
-/* v4.1.5 — Export PowerPoint dengan aksen Matrix */
+/* v4.1.6 — Export PowerPoint dengan aksen Matrix */
 .history-actions #historyExportPpt{border-color:#65ff83!important;color:#07150c!important;background:#65ff83!important;box-shadow:0 0 12px rgba(101,255,131,.22)!important}
 .history-actions #historyExportPpt:hover{background:#b5ffc2!important;color:#031007!important}
 .history-actions #historyExportPpt:disabled{opacity:.65;cursor:wait}
 @media(max-width:700px){.history-dialog .history-actions{gap:5px}.history-dialog .history-actions #historyExport,.history-dialog .history-actions #historyExportPpt{min-width:82px!important;padding:8px 9px!important;font-size:10px!important}}
 
-/* v4.1.5 — visible PowerPoint export feedback inside the modal */
+/* v4.1.6 — visible PowerPoint export feedback inside the modal */
 .history-ppt-status{display:block;flex-basis:100%;width:100%;min-height:1.1em;color:#8fffa6;font-size:11px;line-height:1.35;text-align:right;overflow-wrap:anywhere}
 .history-ppt-status:empty{display:none}
 .history-actions #historyExportPpt[aria-busy=true]{opacity:.8;cursor:progress}
 @media(max-width:700px){.history-ppt-status{text-align:left;font-size:10px}}
 
-/* v4.1.5 — keep PowerPoint feedback below the History header, not inside its flex actions. */
+/* v4.1.6 — keep PowerPoint feedback below the History header, not inside its flex actions. */
 .history-dialog .history-ppt-status{display:block;max-width:100%;margin:-5px 0 12px;padding:0;color:#a9eab6;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
 .history-dialog .history-ppt-status:empty{display:none}
 .history-dialog .history-ppt-status:not(:empty){padding:8px 10px;border:1px solid #285638;border-radius:7px;background:#081b10}
@@ -1877,7 +1877,7 @@ body > #loginLock[hidden]{display:none!important}
 @media(max-width:700px){.history-dialog .history-head>div:first-child{min-width:0}.history-dialog .history-ppt-status{font-size:10px;margin:0 0 10px}}
 
 
-/* v4.1.5 — layar login: tampilkan Matrix Rain, sembunyikan konten utama di belakangnya. */
+/* v4.1.6 — layar login: tampilkan Matrix Rain, sembunyikan konten utama di belakangnya. */
 body.is-login-locked > :not(#matrixRain):not(#loginLock){
   visibility:hidden!important;
   pointer-events:none!important;
@@ -1902,7 +1902,7 @@ body > #loginLock:not([hidden]){
 .login-card{position:relative;z-index:1;background:linear-gradient(155deg,rgba(10,31,17,.97),rgba(4,13,8,.98))!important}
 
 
-/* v4.1.5 — samakan gaya tombol Export XLSX dan Export PPT pada History. */
+/* v4.1.6 — samakan gaya tombol Export XLSX dan Export PPT pada History. */
 .history-dialog .history-actions #historyExport,
 .history-dialog .history-actions #historyExportPpt{height:44px!important;min-height:44px!important;min-width:112px!important;padding:10px 16px!important;font-size:12px!important;line-height:1.2!important;font-weight:800!important;border:1px solid #65ff83!important;border-bottom:3px solid #65ff83!important;border-radius:8px!important;background:#65ff83!important;color:#07150c!important;box-shadow:0 0 12px rgba(101,255,131,.22)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
 .history-dialog .history-actions #historyExport:hover,
@@ -1911,12 +1911,12 @@ body > #loginLock:not([hidden]){
 .history-dialog .history-actions #historyExportPpt:disabled{opacity:.65!important;cursor:wait!important}
 @media(max-width:700px){.history-dialog .history-actions #historyExport,.history-dialog .history-actions #historyExportPpt{height:44px!important;min-height:44px!important;min-width:96px!important;padding:9px 12px!important;font-size:10px!important}}
 
-/* v4.1.5 — responsive History XLSX export feedback */
+/* v4.1.6 — responsive History XLSX export feedback */
 .history-dialog .history-actions #historyExport[aria-busy=true]{opacity:.78;cursor:progress;box-shadow:0 0 14px rgba(101,255,131,.35)!important}
 .history-dialog .history-actions #historyExport:disabled{opacity:.72;cursor:wait}
 
 
-/* v4.1.5 — tombol export History ringkas, tinggi 24px dan lebar mengikuti teks. */
+/* v4.1.6 — tombol export History ringkas, tinggi 24px dan lebar mengikuti teks. */
 .history-dialog .history-actions #historyExport,
 .history-dialog .history-actions #historyExportPpt{
   box-sizing:border-box!important;height:24px!important;min-height:24px!important;
@@ -1925,7 +1925,7 @@ body > #loginLock:not([hidden]){
   border-radius:5px!important;white-space:nowrap!important;
 }
 
-/* v4.1.5 — samakan lebar PPT dengan tombol Excel; tinggi tetap 24px. */
+/* v4.1.6 — samakan lebar PPT dengan tombol Excel; tinggi tetap 24px. */
 .history-dialog .history-actions #historyExport,
 .history-dialog .history-actions #historyExportPpt{
   box-sizing:border-box!important;height:24px!important;min-height:24px!important;
@@ -1934,6 +1934,6 @@ body > #loginLock:not([hidden]){
   border-radius:5px!important;white-space:nowrap!important;
 }
 
-/* v4.1.5 — versi aplikasi tampil di pojok kanan atas form login. */
+/* v4.1.6 — versi aplikasi tampil di pojok kanan atas form login. */
 .login-card{position:relative!important}
 .login-version{position:absolute;top:12px;right:15px;color:#a9f79a;font-family:Consolas,monospace;font-size:10px;font-weight:800;letter-spacing:.06em;text-shadow:0 0 8px rgba(117,255,85,.28)}

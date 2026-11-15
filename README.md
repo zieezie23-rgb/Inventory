@@ -1,3 +1,18 @@
+## v4.3.10 — Konsistensi font tabel PPT
+- Menggunakan Segoe UI untuk teks pada gambar tabel PPT; header Segoe UI Bold 32 px dan isi Segoe UI Regular 28 px.
+- Mempertahankan ukuran huruf, pemotongan teks panjang, isi data, perhitungan, dan alur aplikasi.
+- Menyinkronkan nomor versi pada aplikasi, halaman, dan cache service worker.
+
+## v4.3.9 — Penyesuaian ukuran teks tabel PPT
+- Menetapkan ukuran teks header tabel menjadi 32 px dan isi tabel 28 px pada gambar tabel PPT.
+- Mempertahankan pemotongan teks panjang agar ukuran huruf tidak mengecil hanya karena kolom sempit.
+- Tidak mengubah isi data, perhitungan, maupun alur aplikasi.
+
+## v4.3.8 — Memperbesar teks pada tabel gambar PPT
+- Teks isi tabel dinaikkan agar ukuran akhirnya terbaca jelas di slide.
+- Header tabel diperbesar; teks panjang dipotong rapi alih-alih mengecilkan font secara ekstrem.
+- Ukuran penjelasan grafik dan alur aplikasi lainnya tidak diubah.
+
 ## v4.3.7 — Keseimbangan ukuran teks tabel dan keterangan grafik
 - Keterangan di bawah grafik dikembalikan ke ukuran visual sekitar 20 px (15 pt pada teks PowerPoint).
 - Teks di gambar tabel disesuaikan kembali: isi 20 px, header 22 px dan header lanjutan 19 px.

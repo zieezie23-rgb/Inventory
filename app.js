@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.3.7 */
+/* Inventory application logic — v4.3.10 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2334,7 +2334,11 @@ async function HpptxExport(){
   const total=weights.reduce((a,b)=>a+b,0)||1,widths=weights.map(v=>(W-pad*2)*v/total),canvas=document.createElement('canvas');canvas.width=W;canvas.height=Hh;const ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,Hh);let y=pad;
   const nums=[];if(opts.heatmap){for(let r=1;r<data.length;r++)for(let c=1;c<cols;c++){const v=data[r][c].trim();if(v!==''&&Number.isFinite(Number(v)))nums.push(Number(v))}}const nmin=nums.length?Math.min(...nums):0,nmax=nums.length?Math.max(...nums):1;
   const mix=(a,b,t)=>{const A=a.match(/[A-Fa-f0-9]{2}/g).map(x=>parseInt(x,16)),B=b.match(/[A-Fa-f0-9]{2}/g).map(x=>parseInt(x,16));return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
-  for(let r=0;r<data.length;r++){const isHeader=r<headerRows,rh=isHeader?headerH:rowH;ctx.fillStyle=isHeader?'#245C38':(r%2?'#F0F5F0':'#FFFFFF');ctx.fillRect(pad,y,W-pad*2,rh);let x=pad;for(let c=0;c<cols;c++){const cw=widths[c]||40;let val=data[r][c]||'';let fs=isHeader?(r===0?22:19):20;fs=Math.min(fs,Math.max(10,Math.floor(rh*.72)));ctx.font=(isHeader?'bold ':'')+fs+'px Arial';while(fs>10&&ctx.measureText(val).width>cw-14){fs--;ctx.font=(isHeader?'bold ':'')+fs+'px Arial'}if(ctx.measureText(val).width>cw-14){while(val.length>1&&ctx.measureText(val+'…').width>cw-14)val=val.slice(0,-1);val+='…'}
+  for(let r=0;r<data.length;r++){const isHeader=r<headerRows,rh=isHeader?headerH:rowH;ctx.fillStyle=isHeader?'#245C38':(r%2?'#F0F5F0':'#FFFFFF');ctx.fillRect(pad,y,W-pad*2,rh);let x=pad;for(let c=0;c<cols;c++){const cw=widths[c]||40;let val=data[r][c]||'';// Ukuran font ditetapkan berdasarkan ukuran akhir saat gambar ditempatkan di slide,
+   // bukan ukuran pixel mentah canvas. Jangan mengecilkan font hanya karena kolom sempit;
+   // teks panjang dipotong rapi agar ukuran huruf tetap terbaca.
+   let fs=isHeader?32:28;ctx.font=(isHeader?'bold ':'')+fs+'px "Segoe UI", Arial, sans-serif';
+   if(ctx.measureText(val).width>cw-14){while(val.length>1&&ctx.measureText(val+'…').width>cw-14)val=val.slice(0,-1);val=val.length?val+'…':'…'}
    if(opts.heatmap&&r>0&&c>0&&data[r][c].trim()!==''&&Number.isFinite(Number(data[r][c]))){const t=nmax===nmin?.5:(Number(data[r][c])-nmin)/(nmax-nmin);ctx.fillStyle=mix('#79C98B','#E66B6B',Math.max(0,Math.min(1,t)));ctx.fillRect(x+1,y+1,cw-2,rh-2)}
    ctx.fillStyle=isHeader?'#FFFFFF':'#17251B';ctx.textBaseline='middle';ctx.textAlign=c===0?'left':'center';ctx.fillText(val,c===0?x+7:x+cw/2,y+rh/2);ctx.strokeStyle='#CFDCCF';ctx.lineWidth=1;ctx.strokeRect(x,y,cw,rh);x+=cw}y+=rh}
   return toJpeg(canvas)

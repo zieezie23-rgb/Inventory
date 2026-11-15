@@ -1,3 +1,14 @@
+## v4.4.1 — Perbaikan keterbacaan tabel dan interval label grafik
+- Render gambar tabel PPT menggunakan PNG lossless agar tepi huruf lebih tajam dan tidak kabur akibat kompresi JPEG. Ukuran font tetap Segoe UI: header 32 px dan isi 28 px.
+- Label sumbu X pada grafik History dan PPT ditampilkan per 7 hari (serta tanggal terakhir bila tidak tepat pada interval), sementara titik dan garis data tetap memakai seluruh data harian.
+- Memperbarui penanda versi aplikasi dan cache service worker ke v4.4.1.
+- Tidak mengubah sumber data, perhitungan, hasil analisis, maupun alur fitur.
+
+## v4.4.0 — Penetapan versi dan konsistensi font tabel PPT
+- Menetapkan versi rilis menjadi v4.4.0 pada seluruh penanda versi aplikasi, pemanggilan aset, footer, dan cache service worker.
+- Mempertahankan font tabel PPT Segoe UI: header Bold 32 px dan isi Regular 28 px.
+- Tidak mengubah fungsi, data, perhitungan, maupun alur aplikasi lainnya.
+
 ## v4.3.10 — Konsistensi font tabel PPT
 - Menggunakan Segoe UI untuk teks pada gambar tabel PPT; header Segoe UI Bold 32 px dan isi Segoe UI Regular 28 px.
 - Mempertahankan ukuran huruf, pemotongan teks panjang, isi data, perhitungan, dan alur aplikasi.

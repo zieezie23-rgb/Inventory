@@ -1,3 +1,11 @@
+## v4.5.9 — Penyempurnaan tabel dan grafik HISTORY
+
+- Menghilangkan garis tepi hitam pada area gambar grafik PowerPoint.
+- Semua tabel: kolom PRDCD dipersempit dan teks PRDCD rata tengah.
+- Hasil Analisa Stock: mulai kriteria SL stabil 100%, keterangan dipisah menjadi Keterangan SL dan Keterangan Kedatangan; nilai SL yang sama digabung vertikal, sedangkan kriteria sebelumnya menggabungkan dua kolom keterangan.
+- Tabel Analisis Stock Out per hari dibuat lebih rapat dengan tinggi baris lebih kecil.
+- Rasio PowerPoint tetap 4:3.
+
 ## v4.5.8 — Satuan KPI PO/BPB diperbaiki
 - Nilai PO dan BPB pada grafik serta KPI ditampilkan dalam miliar rupiah.
 - Varian PO dan BPB juga menggunakan satuan miliar rupiah.

@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.4.4 */
+/* Inventory application logic — v4.4.5 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2316,8 +2316,10 @@ async function HpptxExport(){
  await HensurePptxLibraries();
  const built=await HbuildWorkbook(),excelWb=built.workbook;
  const excelRows=name=>{const ws=excelWb.Sheets[name];return ws?XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false}):[]};
- const pptx=new window.PptxGenJS();pptx.layout='LAYOUT_WIDE';pptx.author='Inventory Analytics';pptx.subject='Stock dan Stock Out DC';pptx.title='STOCK dan STOCK OUT DC';pptx.company='Inventory Analytics';pptx.lang='id-ID';pptx.theme={headFontFace:'Segoe UI',bodyFontFace:'Segoe UI',lang:'id-ID'};
- pptx.defineSlideMaster({title:'MATRIX',background:{color:'EAF5E8'},objects:[{rect:{x:0,y:0,w:13.333,h:7.5,line:{color:'EAF5E8',transparency:100},fill:{color:'EAF5E8'}}},{rect:{x:0,y:0,w:.14,h:7.5,line:{color:'174D2B',transparency:100},fill:{color:'174D2B'}}}]});
+ const pptx=new window.PptxGenJS();pptx.defineLayout({name:'INVENTORY_4_3',width:10,height:7.5});pptx.layout='INVENTORY_4_3';pptx.author='Inventory Analytics';pptx.subject='Stock dan Stock Out DC';pptx.title='STOCK dan STOCK OUT DC';pptx.company='Inventory Analytics';pptx.lang='id-ID';pptx.theme={headFontFace:'Segoe UI',bodyFontFace:'Segoe UI',lang:'id-ID'};
+ // Seluruh komposisi 16:9 diperkecil proporsional dan dipusatkan pada kanvas 4:3 agar tidak ada elemen yang terdistorsi atau keluar slide.
+ const _addSlide=pptx.addSlide.bind(pptx),_scale=.75,_offsetY=.9375;pptx.addSlide=(...args)=>{const sl=_addSlide(...args);const xy=o=>{if(!o||typeof o!=='object')return o;const q={...o};if(Number.isFinite(q.x))q.x*= _scale;if(Number.isFinite(q.y))q.y=q.y*_scale+_offsetY;if(Number.isFinite(q.w))q.w*=_scale;if(Number.isFinite(q.h))q.h*=_scale;if(Number.isFinite(q.fontSize))q.fontSize*=_scale;if(typeof q.margin==='number')q.margin*=_scale;return q};const aText=sl.addText.bind(sl),aShape=sl.addShape.bind(sl),aImage=sl.addImage.bind(sl);sl.addText=(t,o={})=>aText(t,xy(o));sl.addShape=(t,o={})=>aShape(t,xy(o));sl.addImage=(o={})=>aImage(xy(o));return sl};
+ pptx.defineSlideMaster({title:'MATRIX',background:{color:'EAF5E8'},objects:[{rect:{x:0,y:0,w:10,h:7.5,line:{color:'EAF5E8',transparency:100},fill:{color:'EAF5E8'}}},{rect:{x:0,y:0,w:.105,h:7.5,line:{color:'174D2B',transparency:100},fill:{color:'174D2B'}}}]});
  const C={green:'168447',dark:'173D26',ink:'102519',muted:'52695A',line:'D7E1D8',red:'C84D55',amber:'B87922',blue:'287E9B'};
  const fmt=n=>Math.round(HpptxNum(n)).toLocaleString('id-ID');
  const fmtJuta=n=>(HpptxNum(n)/1e6).toLocaleString('id-ID',{maximumFractionDigits:1});

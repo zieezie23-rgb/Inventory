@@ -1,3 +1,9 @@
+## v4.4.9 — Executive Analysis HISTORY PPT 4:3
+- Menyusun ulang ekspor PowerPoint HISTORY menjadi alur Executive Business Analysis 14 slide: pembukaan, identifikasi masalah, analisis, contoh kasus, faktor penyebab, solusi, tindak lanjut, kesimpulan, dan monitoring.
+- Mempertahankan rasio slide 4:3 dan seluruh sumber data serta perhitungan HISTORY.
+- Menyinkronkan seluruh penanda versi aplikasi, aset, manifest, dan cache Service Worker ke v4.4.9.
+- Tidak mengubah alur fitur aplikasi selain penyajian ekspor PowerPoint HISTORY dan penanda rilis.
+
 ## v4.4.8
 - Menambahkan satu slide ringkasan “Analisa Stock Out berdasarkan SL” berisi tabel kriteria SL dan jumlah item saja.
 - Slide contoh setelah ringkasan menggunakan judul tetap “Contoh item Stock Out perkriteria”.

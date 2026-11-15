@@ -1,10 +1,20 @@
-## v4.5.0 — Executive HISTORY PPT refinement 4:3
+## v4.5.1 — HISTORY PPT analysis detail & chart correction 4:3
+- Memperbaiki grafik STOCK: grid horizontal dibuat tipis dan garis trend STOCK dibuat lebih tegas; ketebalan garis tidak lagi terbawa antar-elemen canvas.
+- Mempertegas garis trend PO dan BPB serta membedakan warnanya secara konsisten: PO biru dan BPB oranye.
+- Menambahkan slide HASIL ANALISA STOCK berisi tabel pertama dari sheet Excel Kesimpulan Trend Stock.
+- Menambahkan slide HASIL ANALISA STOCK OUT berisi tabel kriteria dan jumlah item dari sheet Excel Kesimpulan Stock Out.
+- Mengubah contoh penurunan Stock menjadi tabel 10 item dengan penurunan terbesar.
+- Mengubah contoh Stock Out menjadi tabel maksimal 5 item untuk masing-masing kriteria 3 Bulan, 1 Bulan, dan 2 Minggu.
+- Kandidat contoh item tetap dibatasi pada PTAG E, D, S, L, dan kosong. Perhitungan dan sumber data HISTORY tidak diubah.
+- Rasio PowerPoint tetap 4:3; seluruh penanda versi, manifest, dan cache Service Worker diperbarui ke v4.5.1.
+
+## v4.5.1 — Executive HISTORY PPT refinement 4:3
 - Mempertegas garis grafik STOCK, PO, dan BPB serta memperbesar marker titik data agar lebih mudah dibaca.
 - Membedakan warna PO (biru) dan BPB (oranye) secara konsisten pada grafik perbandingan.
 - Membatasi kandidat analisis dan contoh item PPT pada PTAG E, D, S, L, dan kosong; mesin perhitungan HISTORY dan data aplikasi tidak diubah.
 - Memisahkan contoh kasus Stock Out berturut-turut menjadi tiga slide: 3 Bulan, 1 Bulan, dan 2 Minggu (total 16 slide utama).
 - Memperbarui tampilan PPT dengan latar lebih bersih, aksen warna berdasarkan bagian, footer, dan nomor halaman; rasio tetap 4:3.
-- Menyinkronkan seluruh penanda versi, manifest, dan cache Service Worker ke v4.5.0.
+- Menyinkronkan seluruh penanda versi, manifest, dan cache Service Worker ke v4.5.1.
 
 ## v4.4.9 — Executive Analysis HISTORY PPT 4:3
 - Menyusun ulang ekspor PowerPoint HISTORY menjadi alur Executive Business Analysis 14 slide: pembukaan, identifikasi masalah, analisis, contoh kasus, faktor penyebab, solusi, tindak lanjut, kesimpulan, dan monitoring.

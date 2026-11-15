@@ -1,3 +1,11 @@
+## v4.5.0 — Executive HISTORY PPT refinement 4:3
+- Mempertegas garis grafik STOCK, PO, dan BPB serta memperbesar marker titik data agar lebih mudah dibaca.
+- Membedakan warna PO (biru) dan BPB (oranye) secara konsisten pada grafik perbandingan.
+- Membatasi kandidat analisis dan contoh item PPT pada PTAG E, D, S, L, dan kosong; mesin perhitungan HISTORY dan data aplikasi tidak diubah.
+- Memisahkan contoh kasus Stock Out berturut-turut menjadi tiga slide: 3 Bulan, 1 Bulan, dan 2 Minggu (total 16 slide utama).
+- Memperbarui tampilan PPT dengan latar lebih bersih, aksen warna berdasarkan bagian, footer, dan nomor halaman; rasio tetap 4:3.
+- Menyinkronkan seluruh penanda versi, manifest, dan cache Service Worker ke v4.5.0.
+
 ## v4.4.9 — Executive Analysis HISTORY PPT 4:3
 - Menyusun ulang ekspor PowerPoint HISTORY menjadi alur Executive Business Analysis 14 slide: pembukaan, identifikasi masalah, analisis, contoh kasus, faktor penyebab, solusi, tindak lanjut, kesimpulan, dan monitoring.
 - Mempertahankan rasio slide 4:3 dan seluruh sumber data serta perhitungan HISTORY.

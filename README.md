@@ -1,3 +1,12 @@
+## v4.5.4 — HISTORY PPT final layout refinement
+
+- Menghapus footer dan nomor halaman dari seluruh slide PowerPoint.
+- Menghapus outline pada gambar grafik agar grafik STOCK, Stock Out, dan SL tampil bersih.
+- Mengubah header tabel contoh penurunan Stock menjadi STOCK AWAL, STOCK AKHIR, dan PENURUNAN; nilai ditampilkan dengan akhiran `jt`.
+- Nilai negatif pada tabel Hasil Analisa Stock ditampilkan merah dan dalam tanda kurung tanpa tanda minus.
+- Tabel contoh Stock Out disusun vertikal dari atas ke bawah, satu tabel untuk setiap kriteria.
+- Rasio PowerPoint tetap 4:3.
+
 ## v4.5.3 — Revisi layout dan contoh item HISTORY PPT 4:3
 - Memperbaiki jarak teks pada slide rumusan masalah agar tidak bertumpuk.
 - Menipiskan garis trend STOCK, PO, dan BPB; grid horizontal tetap tipis dan outline grafik dihilangkan.

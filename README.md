@@ -1,4 +1,21 @@
-## v4.5.6 — HISTORY PPT final layout refinement
+## v4.5.8 — Satuan KPI PO/BPB diperbaiki
+- Nilai PO dan BPB pada grafik serta KPI ditampilkan dalam miliar rupiah.
+- Varian PO dan BPB juga menggunakan satuan miliar rupiah.
+- Persentase pergerakan tetap dihitung dari total 14 hari pertama dibanding total 14 hari terakhir.
+- Sinkronisasi versi aplikasi, manifest, dan cache Service Worker ke v4.5.8.
+
+## v4.5.8 — HISTORY PPT correction pass
+- Posisi periode cover diturunkan dan seluruh subjudul slide dihilangkan.
+- Teks Pokok Bahasan dan seluruh teks kartu KPI diratakan ke tengah.
+- Seluruh nilai penurunan negatif ditampilkan merah, dalam tanda kurung, tanpa tanda minus.
+- Slide Hasil Analisa Stock dikembalikan menjadi satu tabel pertama dari sheet `Kesimpulan Trend Stock` (kolom A:G), bukan dua blok tabel.
+- Heatmap Stock Out memperbesar teks tanggal dan mempersempit kolom bulan.
+- Contoh Stock Out menambahkan kolom SNAMA dan TGL RUBAH PTAG.
+- KPI PO/BPB dihitung sebagai total 14 hari pertama dibanding total 14 hari terakhir; urutan kartu PO pada baris pertama dan BPB pada baris kedua.
+- Grafik Trend SL menampilkan label SALDO AWAL pada titik valid pertama.
+- Rasio PowerPoint tetap 4:3.
+
+## v4.5.8 — HISTORY PPT final layout refinement
 
 - Menghapus footer dan nomor halaman dari seluruh slide PowerPoint.
 - Menghapus outline pada gambar grafik agar grafik STOCK, Stock Out, dan SL tampil bersih.
@@ -7,7 +24,7 @@
 - Tabel contoh Stock Out disusun vertikal dari atas ke bawah, satu tabel untuk setiap kriteria.
 - Rasio PowerPoint tetap 4:3.
 
-## v4.5.6 — Revisi layout dan contoh item HISTORY PPT 4:3
+## v4.5.8 — Revisi layout dan contoh item HISTORY PPT 4:3
 - Memperbaiki jarak teks pada slide rumusan masalah agar tidak bertumpuk.
 - Menipiskan garis trend STOCK, PO, dan BPB; grid horizontal tetap tipis dan outline grafik dihilangkan.
 - Menghapus baris judul/section duplikat pada tabel Hasil Analisa Stock dan Stock Out, menyisakan header kolom.
@@ -15,7 +32,7 @@
 - Setiap slide contoh Stock Out (3 Bulan, 1 Bulan, 2 Minggu) menampilkan kriteria Tidak ada PO, SL 0%, dan SL ≤ 100%, maksimal 5 item per kriteria, tanpa kolom jumlah hari Stock Out.
 - Rasio PowerPoint tetap 4:3; perhitungan dan sumber data HISTORY tidak diubah.
 
-## v4.5.6 — HISTORY PPT analysis detail & chart correction 4:3
+## v4.5.8 — HISTORY PPT analysis detail & chart correction 4:3
 - Memperbaiki grafik STOCK: grid horizontal dibuat tipis dan garis trend STOCK dibuat lebih tegas; ketebalan garis tidak lagi terbawa antar-elemen canvas.
 - Mempertegas garis trend PO dan BPB serta membedakan warnanya secara konsisten: PO biru dan BPB oranye.
 - Menambahkan slide HASIL ANALISA STOCK berisi tabel pertama dari sheet Excel Kesimpulan Trend Stock.
@@ -23,15 +40,15 @@
 - Mengubah contoh penurunan Stock menjadi tabel 10 item dengan penurunan terbesar.
 - Mengubah contoh Stock Out menjadi tabel maksimal 5 item untuk masing-masing kriteria 3 Bulan, 1 Bulan, dan 2 Minggu.
 - Kandidat contoh item tetap dibatasi pada PTAG E, D, S, L, dan kosong. Perhitungan dan sumber data HISTORY tidak diubah.
-- Rasio PowerPoint tetap 4:3; seluruh penanda versi, manifest, dan cache Service Worker diperbarui ke v4.5.6.
+- Rasio PowerPoint tetap 4:3; seluruh penanda versi, manifest, dan cache Service Worker diperbarui ke v4.5.8.
 
-## v4.5.6 — Executive HISTORY PPT refinement 4:3
+## v4.5.8 — Executive HISTORY PPT refinement 4:3
 - Mempertegas garis grafik STOCK, PO, dan BPB serta memperbesar marker titik data agar lebih mudah dibaca.
 - Membedakan warna PO (biru) dan BPB (oranye) secara konsisten pada grafik perbandingan.
 - Membatasi kandidat analisis dan contoh item PPT pada PTAG E, D, S, L, dan kosong; mesin perhitungan HISTORY dan data aplikasi tidak diubah.
 - Memisahkan contoh kasus Stock Out berturut-turut menjadi tiga slide: 3 Bulan, 1 Bulan, dan 2 Minggu (total 16 slide utama).
 - Memperbarui tampilan PPT dengan latar lebih bersih, aksen warna berdasarkan bagian, footer, dan nomor halaman; rasio tetap 4:3.
-- Menyinkronkan seluruh penanda versi, manifest, dan cache Service Worker ke v4.5.6.
+- Menyinkronkan seluruh penanda versi, manifest, dan cache Service Worker ke v4.5.8.
 
 ## v4.4.9 — Executive Analysis HISTORY PPT 4:3
 - Menyusun ulang ekspor PowerPoint HISTORY menjadi alur Executive Business Analysis 14 slide: pembukaan, identifikasi masalah, analisis, contoh kasus, faktor penyebab, solusi, tindak lanjut, kesimpulan, dan monitoring.

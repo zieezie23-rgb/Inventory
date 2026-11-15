@@ -1,4 +1,4 @@
-## v4.4.6
+## v4.4.7
 - Menambahkan satu slide ringkasan “Analisa Stock Out berdasarkan SL” berisi tabel kriteria SL dan jumlah item saja.
 - Slide contoh setelah ringkasan menggunakan judul tetap “Contoh item Stock Out perkriteria”.
 - Menampilkan dua kriteria dalam satu slide bila memungkinkan; contoh item disesuaikan menjadi lima per kriteria agar tabel tetap terbaca.

@@ -1,7 +1,21 @@
-## v4.4.1 — Perbaikan keterbacaan tabel dan interval label grafik
+## v4.4.4
+- Menambahkan satu slide ringkasan “Analisa Stock Out berdasarkan SL” berisi tabel kriteria SL dan jumlah item saja.
+- Slide contoh setelah ringkasan menggunakan judul tetap “Contoh item Stock Out perkriteria”.
+- Menampilkan dua kriteria dalam satu slide bila memungkinkan; contoh item disesuaikan menjadi lima per kriteria agar tabel tetap terbaca.
+- Tidak mengubah sumber data, kriteria SL, hasil perhitungan, maupun alur fitur lainnya.
+
+## v4.4.3
+- Label grafik Stock pada ekspor PowerPoint menggunakan satuan miliar rupiah, termasuk sumbu nilai dan label saldo awal/akhir. Grafik PO dan BPB tetap menggunakan juta rupiah.
+
+## v4.4.3 — Isi tabel tidak dipotong
+- Menghapus pemotongan teks/angka dengan elipsis pada tabel PPT.
+- Ukuran font menyesuaikan lebar sel; tabel heatmap memakai ukuran khusus agar angka tetap utuh.
+- Interval label sumbu X tetap setiap 7 hari.
+
+## v4.4.3 — Perbaikan keterbacaan tabel dan interval label grafik
 - Render gambar tabel PPT menggunakan PNG lossless agar tepi huruf lebih tajam dan tidak kabur akibat kompresi JPEG. Ukuran font tetap Segoe UI: header 32 px dan isi 28 px.
 - Label sumbu X pada grafik History dan PPT ditampilkan per 7 hari (serta tanggal terakhir bila tidak tepat pada interval), sementara titik dan garis data tetap memakai seluruh data harian.
-- Memperbarui penanda versi aplikasi dan cache service worker ke v4.4.1.
+- Memperbarui penanda versi aplikasi dan cache service worker ke v4.4.3.
 - Tidak mengubah sumber data, perhitungan, hasil analisis, maupun alur fitur.
 
 ## v4.4.0 — Penetapan versi dan konsistensi font tabel PPT

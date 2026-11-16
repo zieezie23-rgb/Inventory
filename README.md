@@ -1,4 +1,4 @@
-## v4.5.9 — Penyempurnaan tabel dan grafik HISTORY
+## v4.5.10 — Penyempurnaan tabel dan grafik HISTORY
 
 - Menghilangkan garis tepi hitam pada area gambar grafik PowerPoint.
 - Semua tabel: kolom PRDCD dipersempit dan teks PRDCD rata tengah.

@@ -1,4 +1,30 @@
-## v4.5.10 — Penyempurnaan tabel dan grafik HISTORY
+## v4.6.3 — Penyempurnaan ekspor Excel HISTORY
+- Format kolom ekspor disesuaikan: PRDCD, Zona, dan SUPCO sebagai teks rata tengah; DESC2, SNAMA, dan keterangan rata kiri; SL dalam format persen; tanggal sebagai nilai tanggal Excel `dd mmm yy`; angka lainnya memakai format angka standar dengan negatif merah.
+- Kolom harian mempertahankan format sesuai jenis datanya.
+- Sheet Kesimpulan Stock Out tidak lagi menampilkan ringkasan per zona; daftar item ditampilkan lengkap dan dikelompokkan berdasarkan setiap keterangan ringkasan.
+- Sheet Kesimpulan Trend Stock memisahkan Keterangan SL dan Keterangan BPB. Keterangan SL berulang digabung vertikal; kedua kolom tetap terpisah, termasuk pada SL 0%.
+- Versi aplikasi, header/footer, manifest, dan cache Service Worker disinkronkan ke v4.6.3.
+
+## v4.6.2 — Trend BPB mengikuti tanggal PO
+- Trend PO tetap dikelompokkan berdasarkan PO_DATE.
+- Trend BPB dikelompokkan berdasarkan PO_DATE dari baris PO asal, bukan BPB_DATE.
+- BPB parsial dari satu PO dijumlahkan pada tanggal PO yang sama.
+- BPB hanya masuk jika BPB_DATE sudah terjadi sampai tanggal akhir analisis, sehingga penerimaan setelah tanggal analisis tidak ikut dihitung.
+- Perhitungan tanggal penerimaan aktual tetap disimpan untuk metrik seperti tanggal BPB terakhir dan analisis arah kedatangan.
+- Versi aplikasi, header/footer, manifest, dan cache Service Worker disinkronkan ke v4.6.2.
+
+## v4.6.1 — Koreksi rumus SL HISTORY
+- Semua SL harian per tanggal memakai Qty PO dengan tanggal PO H-14 sampai H-1 (14 hari sebelumnya, tidak termasuk tanggal analisa).
+- Qty BPB diambil dari baris PO yang sama dan hanya dihitung jika BPB_DATE sudah terjadi sampai tanggal analisa.
+- Rumus SL: total Qty BPB ÷ total Qty PO × 100%; tidak menggunakan ACOST atau nilai rupiah.
+- Tabel History SL, analisa rolling 14 hari, grafik SL, sheet TREND Excel, serta grafik dan KPI SL PowerPoint memakai dasar perhitungan kuantitas yang sama.
+- Grafik Excel menampilkan seluruh tanggal analisa, termasuk 14 tanggal pertama, karena nilai rolling dihitung menggunakan riwayat PO sebelum tanggal tampilan.
+
+## v4.6.1 — Penyesuaian urutan sheet HISTORY
+- Sheet **Analisa Stock out** sekarang berada tepat setelah **Analisa 3 Bulan**.
+- Urutan styling, format tanggal/persentase, freeze pane, dan grafik pada sheet **TREND** disesuaikan dengan posisi baru.
+
+## v4.6.1 — Penyempurnaan tabel dan grafik HISTORY
 
 - Menghilangkan garis tepi hitam pada area gambar grafik PowerPoint.
 - Semua tabel: kolom PRDCD dipersempit dan teks PRDCD rata tengah.

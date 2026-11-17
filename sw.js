@@ -1,8 +1,8 @@
-/* Inventory PWA service worker — v4.5.10 */
-const CACHE_NAME = 'inventory-command-center-v4.5.10';
+/* Inventory PWA service worker — v4.6.3 */
+const CACHE_NAME = 'inventory-command-center-v4.6.3';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
-  './', './index.html', './styles.css?v=4.5.10', './app.js?v=4.5.10',
+  './', './index.html', './styles.css?v=4.6.3', './app.js?v=4.6.3',
   './manifest.webmanifest', './vendor/pptxgen.min.js', './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-512-maskable.png', './vendor/jszip.min.js',
   './templates/xlsx-template.json', './templates/template-styles.xml'

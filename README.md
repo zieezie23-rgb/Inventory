@@ -1,3 +1,12 @@
+## v4.6.5 — Koreksi format dan kesimpulan ekspor Excel HISTORY
+
+- PRDCD, ZONA, dan SUPCO diratakan ke tengah pada seluruh sheet HISTORY yang relevan.
+- Tabel Σ SUPCO per Keterangan dihapus dari sheet Kesimpulan Trend Stock; tabel jumlah item tetap dipertahankan.
+- Keterangan SL dan BPB diratakan ke tengah; kategori Tidak ada PO dan Ada PO tanpa kedatangan menggabungkan kedua kolom keterangan, sedangkan SL 0% tetap terpisah.
+- Kolom Keterangan SL yang sama tetap dapat digabung vertikal.
+- Tanggal dengan jendela rolling SL yang belum lengkap 14 hari dihilangkan dari sheet History SL dan TREND ekspor.
+- Versi aplikasi, header/footer, manifest, dan cache Service Worker disinkronkan ke v4.6.5.
+
 ## v4.6.3 — Penyempurnaan ekspor Excel HISTORY
 - Format kolom ekspor disesuaikan: PRDCD, Zona, dan SUPCO sebagai teks rata tengah; DESC2, SNAMA, dan keterangan rata kiri; SL dalam format persen; tanggal sebagai nilai tanggal Excel `dd mmm yy`; angka lainnya memakai format angka standar dengan negatif merah.
 - Kolom harian mempertahankan format sesuai jenis datanya.

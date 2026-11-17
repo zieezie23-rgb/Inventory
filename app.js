@@ -1,10 +1,10 @@
-/* Inventory application logic — v4.6.6 */
+/* Inventory application logic — v4.6.8 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
  ['hrgbeli','HRGBELI — Harga beli','HRGBELI'],['supmast','SUPMAST — Supplier','SUPMAST'],['hpg','HPG — MEAN / biaya','HPG'],['protect','PROTECT — Proteksi','PROTECT'],['datawhs','DATAWHS — Gudang / station','DATAWHS'],
  ['par113','PAR G113 — Penjualan','PAR'],['par294','PAR G294 — Penjualan','PAR'],['par295','PAR G295 — Penjualan','PAR'],['seas','SEAS — Seasonal (Master Stock)','SEAS'],['seasonalbook','Laporan Harian Seasonal — PO EXPIRED','SEASONALBOOK'],['itempar','ITEMPAR — Keterangan (opsional)','ITEMPAR'],['itemdepo','ITEMDEPO — Item depo','ITEMDEPO'],['itemwhk','ITEMWHK — Item WHK','ITEMWHK'],
- ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE']
+ ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO.xlsx — Data promosi','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE']
 ];
 const H1=['PRDCD','DESC2','PLANOGRAM','','','','','','ALAMAT','SUPCO','SNAMA','FK','DIV','KLPT','CAT_COD','FRAC','ACOST','LCOST','PKM','RP','PTAG','SLS1','SLS2','SLS3','AVG','AVG G294','AVG G295','MINOR','MEAN','STKG294','','','DSI 294','STKG295','','','DSI 295','STKG113','','','DSISTK','DSIPKM','POG294','POG295','POG113','STK02','','','STK03','','','STATUS','KEB','TOKO','STOCK OUT TOKO','','','KET','SEASONAL','','SPD','KAT','TGL RUBAH PTAG','PROTECT','ITEM DEPO','LEAD','SL SUPPLIER','','','LAST BPB','','ITEM NATARU','PROMOSI','','','','ITEM WHK'];
 const H2=['','','ZONA','ST','LT','RAK','BAR','CELL','','','','','','','','','','','','','','','','','','','','','','PCS','CTN','RP','','PCS','CTN','RP','','PCS','CTN','RP','','','','','','PCS','CTN','RP','PCS','CTN','RP','','','','G113','G294','G295','','JENIS','RINCIAN','','','','','','','G113','G294','G295','TGL','PCS','','TGL AWAL','TGL AKHIR','QTY TGT','JENIS_PROMO',''];const $=id=>document.getElementById(id);let files=[],parsed=new Map(),lastCsv='',lastLog='',lastResult=null,lastExportName='';const UPLOAD_GROUP_KEYS=['daily','bahan','lwa','update'];const collapsedUploadGroups=new Set(UPLOAD_GROUP_KEYS);
@@ -130,7 +130,7 @@ async function addFiles(list){
    if(!isBrd&&!isPomCsv&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
     try{if(!window.XLSX&&typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();const rawInfo=isBook?await window.InventoryRawMaterial.detectBuffer(obj.bytes,file.name):window.InventoryRawMaterial.detectText(obj.content,file.name);if(rawInfo&&rawInfo.role){obj.rawRole=rawInfo.role;obj.rawRows=rawInfo.rows;const roleMap={lpp:'lppplano',plu:'rawplu',display:'rawdisplay',storage:'rawstorage'};if(roleMap[rawInfo.role]&&(!obj.guess||rawInfo.role!=='lpp'||obj.guess===''))obj.guess=roleMap[rawInfo.role]}}catch(rawErr){console.warn('Deteksi Raw Material dilewati untuk '+file.name,rawErr)}
    }
-   if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas','seasonalbook'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);
+   if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas','seasonalbook','promo'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);
    files.push(obj);parsed.set(id,null);added++;
   }catch(e){failed.push(file.name+' (gagal dibaca)');console.error('Gagal membaca '+file.name,e)}
   completedBytes+=file.size||0;updateHomeProgress(`Selesai membaca ${index+1}/${incoming.length} file`,totalBytes?(completedBytes/totalBytes*100):((index+1)/incoming.length*100),true);
@@ -142,11 +142,43 @@ async function addFiles(list){
  setTimeout(()=>updateHomeProgress('',0,false),4500);
 }
 function setStatus(s,error=false,processing=false){const e=$('status');e.textContent=s;e.className='status'+(error?' error':' ok')+(processing?' processing':'')}
-const PROCESS_BUTTONS=['poExpiredBtn','masterBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn'];
+const PROCESS_BUTTONS=['poExpiredBtn','masterBtn','masterPbBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn'];
 function beginProcess(id){if(PROCESS_BUTTONS.some(x=>$(x).disabled))return false;PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=true;b.classList.toggle('is-running',x===id);});return true}
 function endProcess(){PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=false;b.classList.remove('is-running')})}
 function setExportStatus(s,error=false,processing=false){const e=$('exportStatus');e.textContent=s;e.className='status export-status'+(error?' error':' ok')+(processing?' processing':'')}
 const sourceChosen={};
+function rowsFromWorkbookBytesForRole(bytes,role){
+ if(!window.XLSX)throw Error('Pustaka Excel belum siap.');
+ const wb=XLSX.read(bytes,{type:'array',cellDates:false});
+ const ws=wb.Sheets[wb.SheetNames[0]];if(!ws)return [];
+ const aoa=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:true,blankrows:false});
+ if(role==='promo'){
+  let hi=-1;
+  for(let i=0;i<Math.min(20,aoa.length);i++){
+   const h=(aoa[i]||[]).map(norm);
+   if(h.includes('PLU')&&h.includes('DESC')&&h.includes('TGL_AWAL')&&h.includes('TGL_AKH')&&h.includes('G113')){hi=i;break}
+  }
+  if(hi<0)throw Error('PROMO.xlsx: header PLU, TGL_AWAL, TGL_AKH, dan G113 tidak ditemukan.');
+  const out=[];
+  for(let i=hi+1;i<aoa.length;i++){
+   const r=aoa[i]||[],o={PLU:r[0]??'',PRDCD:r[0]??'',DESC:r[1]??'',TGL_AWAL:r[2]??'',TGL_AKH:r[3]??'',G113:r[4]??'',JENIS_PROMO:r[5]??'',FT1:r[6]??'',FT2:r[7]??'',FT3:r[8]??'',TGL_AKH_FT:r[9]??'',MIN:r[10]??'',MAX:r[11]??'',KET:r[12]??'',JENIS:r[13]??'',AWAL:r[14]??'',AKHIR:r[15]??''};
+   if(key(o.PLU))out.push(o);
+  }
+  return out;
+ }
+ let hi=-1;
+ for(let i=0;i<Math.min(20,aoa.length);i++){
+  const h=(aoa[i]||[]).map(norm);
+  if(h.includes('FK')&&h.includes('DSI')){hi=i;break}
+ }
+ if(hi<0)throw Error('STD DSI: header FK dan DSI tidak ditemukan.');
+ const headers=(aoa[hi]||[]).map(norm),out=[];
+ for(let i=hi+1;i<aoa.length;i++){
+  const r=aoa[i]||[],o={};headers.forEach((h,j)=>{if(h)o[h]=r[j]??''});
+  if(text(value(o,'FK'))!=='')out.push(o);
+ }
+ return out;
+}
 function getSource(role){
  let matches=files.filter(x=>x.guess===role);
  if(!matches.length&&['stm294','stm295'].includes(role)){
@@ -154,7 +186,7 @@ function getSource(role){
   matches=files.filter(x=>x.guess==='stm113')
  }
  if(!matches.length)return [];
- const parsedRows=f=>{if(!parsed.has(f.id)||parsed.get(f.id)===null){const folderWh=warehouseFromPath(f);const rows=role==='lrbpbsupplier'?parseLrbpbSupplier(f.content):rowsToObjects(f.content,role);for(const row of rows)if(folderWh)row.__WAREHOUSE=folderWh;parsed.set(f.id,rows)}return parsed.get(f.id)||[]};
+ const parsedRows=f=>{if(!parsed.has(f.id)||parsed.get(f.id)===null){const folderWh=warehouseFromPath(f);const rows=(f.bytes&&role==='promo')?rowsFromWorkbookBytesForRole(f.bytes,role):(role==='lrbpbsupplier'?parseLrbpbSupplier(f.content):rowsToObjects(f.content,role));for(const row of rows)if(folderWh)row.__WAREHOUSE=folderWh;parsed.set(f.id,rows)}return parsed.get(f.id)||[]};
  let f=matches[0];
  /* Prefer the STM file that actually contains the most populated physical locations.
     This avoids a blank/older STM file masking a later valid STM file merely because it was uploaded first. */
@@ -203,11 +235,11 @@ function processData(processDate=new Date()){const log=[],warnings=[];const prod
  const kebRows=allRows('keb');const kebQtyMap=sumBy(kebRows,'KEB_QTY'),kebTokoMap=sumBy(kebRows,'TOKO_QTY');const pomRows={},pouRows={};for(const wh of ['113','294','295'])pomRows[wh]=filterWarehouse(allRows('pom'+wh),'G'+wh);for(const wh of ['294','295'])pouRows[wh]=filterWarehouse(allRows('pou'+wh),'G'+wh);
  const poSum={};const processDay=new Date(processDate);processDay.setHours(0,0,0,0);const slRangeStart=new Date(processDay);slRangeStart.setDate(slRangeStart.getDate()-14);for(const wh of ['113','294','295']){poSum[wh]=new Map();for(const o of pomRows[wh]){const k=key(value(o,'PRDCD'));if(!k)continue;const rec=text(value(o,'RECID')).toUpperCase();const poDate=dateVal(value(o,'PO_DATE'));const eligible=rec!=='1'&&poDate&&poDate>=slRangeStart&&poDate<processDay;if(eligible){const cur=poSum[wh].get(k)||{po:0,bpb:0,lastDate:'',lastQty:0};cur.po+=num(value(o,'QTY'));cur.bpb+=num(value(o,'BPB_QTY'));poSum[wh].set(k,cur)}}for(const o of pomRows[wh]){if(text(value(o,'RECID')).toUpperCase()!=='R')continue;const k=key(value(o,'PRDCD'));if(!k)continue;const cur=poSum[wh].get(k)||{po:0,bpb:0,lastDate:'',lastQty:0};const d=dateVal(value(o,'BPB_DATE'));const old=dateVal(cur.lastDate);if(d&&(!old||d>old)){cur.lastDate=value(o,'BPB_DATE');cur.lastQty=num(value(o,'BPB_QTY'))}poSum[wh].set(k,cur)}}
  const pouSum={};for(const wh of ['294','295'])pouSum[wh]=sumBy(pouRows[wh],'QTY');
- const promoStartMap=new Map();for(const o of allRows('promo')){const k=key(value(o,'PRDCD'));if(k&&!promoStartMap.has(k))promoStartMap.set(k,o)}
+ const promoStartMap=new Map();for(const o of allRows('promo')){const k=key(value(o,'PLU','PRDCD'));if(k&&!promoStartMap.has(k))promoStartMap.set(k,o)}
  const data=[];for(const {k,p} of items){const r=Array(77).fill('');const set=(i,v)=>r[i]=v===undefined||v===null?'':v;const qty=(o,...ks)=>num(value(o,...ks));const st113=stm['113'].loc1.get(k)||{},st294=stm['294'].loc1.get(k)||{},st295=stm['295'].loc1.get(k)||{};const st02=stm['113'].loc2.get(k)||{},st03=stm['113'].loc3.get(k)||{};const h=hr.get(k)||{},sp=sup.get(key(value(h,'SUPCO')))||{},hp=hpg.get(k)||{},dw=whs.get(k)||{},pg=par['113'].get(k)||{},p294=par['294'].get(k)||{},p295=par['295'].get(k)||{},sea=seas.get(k)||{},po113=poSum['113'].get(k)||{po:0,bpb:0,lastDate:''},po294=poSum['294'].get(k)||{po:0,bpb:0,lastDate:''},po295=poSum['295'].get(k)||{po:0,bpb:0,lastDate:''};
  const frac=qty(p,'FRAC'),acost=qty(p,'ACOST'),lcost=qty(p,'LCOST'),pkm=qty(st113,'MAX','QTY_MAX'),q113=qty(st113,'QTY'),q294=qty(st294,'QTY'),q295=qty(st295,'QTY'),q02=qty(st02,'QTY'),q03=qty(st03,'QTY');const avg113=qty(pg,'QTYAVG','SLSAVG'),avg294=qty(p294,'QTYAVG','SLSAVG'),avg295=qty(p295,'QTYAVG','SLSAVG');const spd=avg113/30;
  set(0,k);set(1,value(p,'DESC2','DESC'));set(2,zone(value(st113,'LT')));set(3,value(dw,'STATION')||value(dw,'ST'));set(4,value(st113,'LT'));set(5,value(st113,'RAK'));set(6,value(st113,'BAR'));set(7,value(st113,'CELL'));set(8,[value(st113,'LT'),value(st113,'RAK'),value(st113,'BAR'),value(st113,'CELL')].map(text).join('-').replace(/^-+|-+$/g,''));set(9,value(h,'SUPCO')||value(p,'SUPCO'));set(10,value(sp,'SNAMA'));set(11,value(h,'BARU'));set(12,value(p,'DIV'));set(13,value(st113,'KLPT')||value(h,'KLPT'));set(14,value(p,'CAT_COD'));set(15,frac);set(16,acost);set(17,lcost);set(18,pkm);set(19,round(pkm*acost,2));set(20,value(p,'PTAG'));set(21,value(pg,'QTY_1','QTY1'));set(22,value(pg,'QTY_2','QTY2'));set(23,value(pg,'QTY_3','QTY3'));set(24,avg113);set(25,avg294);set(26,avg295);set(27,value(dw,'MINOR_TOKO','MINOR'));set(28,value(hp,'MEAN'));set(29,q294);set(30,frac>0?round(q294/frac):0);set(31,round(q294*acost,2));set(32,avg294>0?round(q294/(avg294/31),2):0);set(33,q295);set(34,frac>0?round(q295/frac):0);set(35,round(q295*acost,2));set(36,avg295>0?round(q295/(avg295/31),2):0);set(37,q113);set(38,frac>0?round(q113/frac):0);set(39,round(q113*acost,2));set(40,q113>0&&spd>0?round(q113/spd,2):0);set(41,pkm>0&&avg113>0?round(pkm/(avg113/31),2):0);set(42,pouSum['294'].get(k)||0);set(43,pouSum['295'].get(k)||0);set(44,poSum['113'].get(k)?.po||0);set(45,q02);set(46,frac>0?round(q02/frac):0);set(47,round(q02*acost,2));set(48,q03);set(49,frac>0?round(q03/frac):0);set(50,round(q03*acost,2));set(51,value(h,'KDSB'));set(52,kebQtyMap.get(k)||0);set(53,kebTokoMap.get(k)||0);set(54,0);set(55,0);set(56,0);
- let ket=value(itempar.get(k)||{},'KETERANGAN');set(57,ket==='PARETO'?'PARETO':'0');let jenis=value(sea,'JENIS');set(58,['TERKAIT','BASIC'].includes(jenis)?jenis:'0');set(59,jenis==='0'?'0':(value(sea,'RINCIAN')||'0'));set(60,spd);set(61,(value(p,'KONS')==='Y'?'BKL':value(p,'KONS')==='N'?'0':(value(p,'KONS')||'0')));set(62,hist.get(k)||'');set(63,protectSet.has(k)?'PROTECT HO':'NON PROTECT HO');set(64,itemdepo.has(k)?'Y':'');set(65,value(sp,'LEAD'));set(66,po113.po>0?round(po113.bpb/po113.po,4):'NO PO');set(67,po294.po>0?round(po294.bpb/po294.po,4):'NO PO');set(68,po295.po>0?round(po295.bpb/po295.po,4):'NO PO');set(69,dateStr(po113.lastDate));set(70,po113.lastQty||0);set(71,value(nataru.get(k)||{},'KETERANGAN'));const pro=promoStartMap.get(k)||{};set(72,dateStr(value(pro,'TGL_AWAL')));set(73,dateStr(value(pro,'TGL_AKH','TGL_AKHIR')));set(74,value(pro,'QTY','QTY_TGT'));set(75,value(pro,'JNS_PRO','JENIS_PRO'));set(76,itemwhk.has(k)?'Y':'');
+ let ket=value(itempar.get(k)||{},'KETERANGAN');set(57,ket==='PARETO'?'PARETO':'0');let jenis=value(sea,'JENIS');set(58,['TERKAIT','BASIC'].includes(jenis)?jenis:'0');set(59,jenis==='0'?'0':(value(sea,'RINCIAN')||'0'));set(60,spd);set(61,(value(p,'KONS')==='Y'?'BKL':value(p,'KONS')==='N'?'0':(value(p,'KONS')||'0')));set(62,hist.get(k)||'');set(63,protectSet.has(k)?'PROTECT HO':'NON PROTECT HO');set(64,itemdepo.has(k)?'Y':'');set(65,value(sp,'LEAD'));set(66,po113.po>0?round(po113.bpb/po113.po,4):'NO PO');set(67,po294.po>0?round(po294.bpb/po294.po,4):'NO PO');set(68,po295.po>0?round(po295.bpb/po295.po,4):'NO PO');set(69,dateStr(po113.lastDate));set(70,po113.lastQty||0);set(71,value(nataru.get(k)||{},'KETERANGAN'));const pro=promoStartMap.get(k)||{};set(72,dateStr(value(pro,'TGL_AWAL')));set(73,dateStr(value(pro,'TGL_AKH','TGL_AKHIR')));set(74,value(pro,'G113','QTY','QTY_TGT'));set(75,value(pro,'JENIS_PROMO','JNS_PRO','JENIS_PRO'));set(76,itemwhk.has(k)?'Y':'');
  const numericCols=[15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,52,54,55,56,60,65,66,67,68,70,74];
  for(const ci of numericCols){const v=r[ci];if(typeof v==='string'&&v.trim()!==''&&v.trim()!=='NO PO'){const n=num(v);if(Number.isFinite(n))r[ci]=n}}
  data.push(r)}
@@ -232,6 +264,142 @@ function csvCell(v){let s=v===null||v===undefined?'':String(v);if(/[",\r\n]/.tes
 function download(name,content,type='text/csv;charset=utf-8'){const blob=new Blob(['\uFEFF',content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 async function runMasterStock(){if(!beginProcess('masterBtn'))return;setStatus('Memeriksa sumber dan memproses MASTER STOCK…',false,true);try{if(!allRows('prod').length)throw Error('File PRODMAST belum tersedia atau tidak terbaca. File ini wajib untuk membentuk daftar barang.');await new Promise(r=>setTimeout(r,20));const result=processData(new Date());lastResult=result;lastExportName=`MASTER STOCK ${result.title}.xlsx`;setStatus(`MASTER STOCK selesai diproses: ${result.data.length.toLocaleString('id-ID')} item. Menyiapkan unduhan…`,false,true);const blob=await makeXlsx(result);downloadBlob(lastExportName,blob);setStatus('MASTER STOCK berhasil dibuat.',false)}catch(e){setStatus(e.message||'Terjadi kesalahan saat membuat MASTER STOCK.',true)}finally{endProcess()}}
 async function runStockOut(){if(!beginProcess('stockOutBtn'))return;setStatus('Memeriksa sumber dan memproses STOCK OUT…',false,true);try{if(!allRows('stockout').length)throw Error('File LaporanStokOutDCINew belum tersedia atau tidak terbaca.');if(!files.some(f=>f.guess==='stockoutbook'&&f.bytes))throw Error('File Stock Out DC.xlsx terakhir belum diunggah.');const out=await makeStockOutXlsx(new Date());downloadBlob(out.filename,out.blob);setStatus('STOCK OUT berhasil diperbarui.',false)}catch(e){setStatus(e.message||'Terjadi kesalahan saat membuat STOCK OUT.',true)}finally{endProcess()}}
+
+// MASTER PB: perhitungan mengikuti rumus pada workbook acuan MASTER PB.
+function excelMround(value,multiple){
+ const n=Number(value),m=Number(multiple);if(!Number.isFinite(n)||!Number.isFinite(m)||m===0)return 0;
+ return Math.sign(n)*Math.round((Math.abs(n)/Math.abs(m))+1e-12)*Math.abs(m);
+}
+function buildMasterPB(processDate=new Date(),onProgress=()=>{}){
+ const prodAll=allRows('prod');if(!prodAll.length)throw Error('File PRODMAST belum tersedia atau tidak terbaca.');
+ const prodRows=filterWarehouse(prodAll,'G113');
+ const prodMap=firstMap(prodRows.length?prodRows:prodAll);
+ const stmRows=filterWarehouse(allRows('stm113'),'G113');
+ const loc1=stmLocationMap(stmRows.filter(o=>text(value(o,'LOKASI')).padStart(2,'0')==='01'));
+ const hr=firstMap(allRows('hrgbeli'));
+ const hpg=firstMap(allRows('hpg'));
+ const par=firstMap(filterWarehouse(allRows('par113'),'G113'));
+ const lppRows=allRows('lppplano');
+ const lppMap=firstMap(lppRows,'PLU');
+ const kebMap=sumBy(allRows('keb'),'KEB_QTY');
+ const stockoutMap=firstMap(allRows('stockout'),'PLU');
+ const promoMap=firstMap(allRows('promo'),'PLU');
+ const stdDsiMap=new Map([['1',{FK:'1',DSI:21}],['2',{FK:'2',DSI:18}],['3',{FK:'3',DSI:14}],['4',{FK:'4',DSI:14}],['5',{FK:'5',DSI:10}],['6',{FK:'6',DSI:10}],['7',{FK:'7',DSI:10}]]);
+ const pomRows=filterWarehouse(allRows('pom113'),'G113');
+ const day=new Date(processDate);day.setHours(0,0,0,0);const rangeStart=new Date(day);rangeStart.setDate(rangeStart.getDate()-14);
+ const poOutMap=new Map(),slMap=new Map();
+ for(const o of pomRows){
+  const id=key(value(o,'PRDCD'));if(!id)continue;
+  const qty=num(value(o,'QTY')),bpb=num(value(o,'BPB_QTY'));
+  const poDate=dateVal(value(o,'PO_DATE'));
+  // PO OUT mengikuti PO terbaru yang masih belum diterima pada POMGG.
+  const pending=Math.max(0,qty-bpb);
+  if(pending>0&&poDate){
+   const old=poOutMap.get(id),t=poDate.getTime();
+   if(!old||t>old.time)poOutMap.set(id,{time:t,qty:pending});
+   else if(t===old.time)old.qty+=pending;
+  }
+  // SL mengikuti periode 14 hari seperti perhitungan SL Supplier di Inventory.
+  const rec=text(value(o,'RECID')).toUpperCase();
+  if(rec!=='1'&&poDate&&poDate>=rangeStart&&poDate<day){
+   const cur=slMap.get(id)||{po:0,bpb:0};cur.po+=qty;cur.bpb+=bpb;slMap.set(id,cur);
+  }
+ }
+ const headers=['PRDCD','DESC','ZONA','ALAMAT','FRAC','ACOST','KDSB','CATCODE','FK','PKM','LPP','MEAN','PO OUT','PTAG','SALES','REORDER','REORDER CTN','PB PCS','PB CTN','RP','KEBTOKO','STD PKM','STD DSI','CEK','MAX PB (xPKM)','SL','STOCK OUT','DSI STK','KEB','PKM','KET Promo','Jenis Promo','Awal Promo','Akhir Promo'];
+ const out=[];let processed=0;
+ const tags=new Set(['E','D','S','L','']);
+ for(const [id,p] of prodMap){
+  const tag=text(value(p,'PTAG')).toUpperCase();if(!tags.has(tag))continue;
+  const st=loc1.get(id)||{};
+  const lt=value(st,'LT')||value(p,'LT');
+  const zona=text(zone(lt)||value(p,'ZONA'));
+  if(!zona)continue;
+  const frac=num(value(p,'FRAC')),acost=num(value(p,'ACOST'));
+  const h=hr.get(id)||{},hp=hpg.get(id)||{},pg=par.get(id)||{};
+  const fk=value(h,'BARU','FK');
+  const pkm=num(value(st,'MAX','QTY_MAX'));
+  const lpp=num(value(lppMap.get(id)||{},'QTY_LPP'));
+  const mean=num(value(hp,'MEAN'));
+  const poOut=num(poOutMap.get(id)?.qty||0);
+  const avg=num(value(pg,'QTYAVG','SLSAVG'));
+  const reorder=num(value(p,'REORDER'));
+  const reorderCtn=frac>0?reorder/frac:0;
+  const keb=num(kebMap.get(id)||0);
+  const stdDsi=num(value(stdDsiMap.get(key(fk))||{},'DSI'));
+  const stdPkm=Math.max(0,(2*pkm)-lpp-poOut);
+  const stdDsiQty=Math.max(0,(avg/30*stdDsi)-lpp-poOut);
+  let pbCtn=0;
+  const blocked=(keb>0&&((lpp+poOut)/keb)>10)||(lpp+poOut)>pkm||pkm===1||zona==='19'||acost<1000;
+  if(!blocked&&frac>0&&reorderCtn>0){
+   const roundedDown=Math.trunc(Math.min(stdPkm-(lpp+poOut),stdDsiQty-(lpp+poOut))/frac);
+   pbCtn=excelMround(roundedDown,reorderCtn);
+   if(!Number.isFinite(pbCtn))pbCtn=0;
+  }
+  const pbPcs=pbCtn*frac,rp=pbPcs*acost;
+  const check=-Math.min(stdPkm,stdDsiQty)+pbPcs;
+  const maxPb=reorder>0?Math.max(1,Math.max(1,Math.trunc(pkm/reorder))-Math.ceil(poOut/reorder)):1;
+  const sl=slMap.get(id),slValue=sl&&sl.po>0?sl.bpb/sl.po:0;
+  const so=stockoutMap.get(id)||{};const soFlag=text(value(so,'STOCK_OUT')).toUpperCase()==='N'?'':(text(value(so,'STOCK_OUT'))? 'Y':'');
+  const pro=promoMap.get(id)||{};
+  const dsiStk=avg>0?(lpp+poOut+pbPcs)/(avg/30):0;
+  const kebRatio=keb>0?(lpp+poOut+pbPcs)/keb:0;
+  const pkmRatio=pkm>0?(lpp+poOut+pbPcs)/pkm:0;
+  out.push([id,value(p,'DESC2','DESC'),zona,[value(st,'LT'),value(st,'RAK'),value(st,'BAR'),value(st,'CELL')].map(text).join('-').replace(/^-+|-+$/g,''),frac,acost,value(h,'KDSB'),text(value(p,'CAT_COD')).slice(0,1),fk,pkm,lpp,mean,poOut,tag,avg,reorder,reorderCtn,pbPcs,pbCtn,rp,keb,stdPkm,stdDsiQty,check,maxPb,slValue,soFlag,dsiStk,kebRatio,pkmRatio,value(pro,'KET')||0,value(pro,'JENIS')||0,value(pro,'AWAL')||0,value(pro,'AKHIR')||0]);
+  processed++;if(processed%500===0)onProgress('Menghitung item MASTER PB',Math.min(90,10+processed/Math.max(1,prodMap.size)*80));
+ }
+ out.sort((a,b)=>String(a[0]).localeCompare(String(b[0]),'en',{numeric:true}));
+ return {headers,rows:out,processDate:day};
+}
+async function runMasterPB(){
+ if(!beginProcess('masterPbBtn'))return;
+ setStatus('Menyiapkan sumber dan menghitung MASTER PB…',false,true);updateHomeProgress('Memuat pustaka Excel…',null,true);
+ try{
+  await checkItemEnsureXLSX();await new Promise(r=>setTimeout(r,20));
+  const required=['prod','stm113','hrgbeli','hpg','par113','pom113','lppplano'];
+  const missing=required.filter(role=>!hasRole(role));if(missing.length)throw Error('File wajib MASTER PB belum lengkap: '+missing.map(role=>ROLES.find(x=>x[0]===role)?.[1]||role).join(', ')+'.');
+  updateHomeProgress('Menghitung PB PCS, PB CTN, dan RP…',5,true);
+  const result=buildMasterPB(new Date(),(label,pct)=>updateHomeProgress(label,pct,true));
+  if(!result.rows.length)throw Error('Tidak ada item PRODMAST yang memenuhi kriteria ZONA dan PTAG E/D/S/L/kosong.');
+  const aoa=[Array(34).fill(''),result.headers,[],...result.rows];
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols']=[{wch:13},{wch:48},{wch:8},{wch:20},{wch:8},{wch:13},{wch:10},{wch:10},{wch:7},{wch:12},{wch:12},{wch:12},{wch:12},{wch:8},{wch:12},{wch:10},{wch:12},{wch:14},{wch:14},{wch:18},{wch:12},{wch:12},{wch:12},{wch:14},{wch:15},{wch:10},{wch:12},{wch:12},{wch:12},{wch:12},{wch:18},{wch:18},{wch:14},{wch:14}];
+  ws['!autofilter']={ref:`A2:AH${result.rows.length+3}`};
+  const setFormula=(addr,formula,cached)=>{ws[addr]={t:'n',f:formula,v:Number.isFinite(Number(cached))?Number(cached):0};};
+  const setFormulaText=(addr,formula,cached)=>{ws[addr]={t:'str',f:formula,v:String(cached??'')};};
+  // Ringkasan di baris pertama mengikuti workbook acuan.
+  setFormulaText('Q1','=COUNTIF($R$4:$R$1048576,">0")&" Item"',`${result.rows.filter(r=>num(r[17])>0).length.toLocaleString('id-ID')} Item`);
+  setFormula('R1','=SUM(R4:R1048573)',result.rows.reduce((n,r)=>n+num(r[17]),0));
+  setFormula('S1','=SUM(S4:S1048573)',result.rows.reduce((n,r)=>n+num(r[18]),0));
+  setFormula('T1','=SUM(T4:T1048573)',result.rows.reduce((n,r)=>n+num(r[19]),0));
+  // Kolom R:AD tetap berupa formula. U (KEBTOKO) sengaja berupa nilai sumber.
+  for(let i=0;i<result.rows.length;i++){
+   const r=i+4,row=result.rows[i];
+   setFormula(`R${r}`,`=+S${r}*E${r}`,row[17]);
+   setFormula(`S${r}`,`=IF(OR(IFERROR((K${r}+M${r})/U${r},0)>10,K${r}+M${r}>J${r},J${r}=1,C${r}="19",F${r}<1000),0,IFERROR(MROUND(ROUNDDOWN(MIN(W${r}-(K${r}+M${r}),V${r}-(K${r}+M${r}))/E${r},0),Q${r}),0))`,row[18]);
+   setFormula(`T${r}`,`=R${r}*F${r}`,row[19]);
+   setFormula(`V${r}`,`=MAX(0,(2*J${r})-K${r}-M${r})`,row[21]);
+   setFormula(`W${r}`,`=MAX(0,(O${r}/30*IFERROR(VLOOKUP($I${r},'STD DSI'!$B$3:$C$9,2,0),0))-K${r}-M${r})`,row[22]);
+   setFormula(`X${r}`,`=-MIN(V${r}:W${r})+R${r}`,row[23]);
+   setFormula(`Y${r}`,`=MAX(1,MAX(1,ROUNDDOWN((J${r})/P${r},0))-ROUNDUP((M${r}/P${r}),0))`,row[24]);
+   // Nilai SL dan STOCK OUT berasal dari file sumber yang sudah diproses aplikasi;
+   // ditulis sebagai formula literal agar kolom tetap dapat dihitung/diedit di Excel.
+   setFormula(`Z${r}`,`=${num(row[25])}`,row[25]);
+   setFormulaText(`AA${r}`,`="${String(row[26]??'').replace(/"/g,'""')}"`,row[26]);
+   setFormula(`AB${r}`,`=IFERROR(IFERROR(K${r}+M${r}+R${r},0)/(O${r}/30),0)`,row[27]);
+   setFormula(`AC${r}`,`=IFERROR((K${r}+M${r}+R${r})/U${r},0)`,row[28]);
+   setFormula(`AD${r}`,`=IFERROR((K${r}+M${r}+R${r})/J${r},0)`,row[29]);
+  }
+  const stdRows=[['','',''],['','FK','DSI'],['','1',21],['','2',18],['','3',14],['','4',14],['','5',10],['','6',10],['','7',10]];
+  const stdWs=XLSX.utils.aoa_to_sheet(stdRows);stdWs['!cols']=[{wch:5},{wch:12},{wch:12}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'DATA');XLSX.utils.book_append_sheet(wb,stdWs,'STD DSI');
+  wb.Workbook=wb.Workbook||{};wb.Workbook.CalcPr={calcMode:'auto',fullCalcOnLoad:true,forceFullCalc:true};
+  updateHomeProgress('Menyiapkan file Excel MASTER PB…',95,true);
+  const d=new Date(),dd=String(d.getDate()).padStart(2,'0'),mmm=MONTHS_ID[d.getMonth()],yy=String(d.getFullYear()).slice(-2);
+  XLSX.writeFile(wb,`MASTER PB ${dd} ${mmm} ${yy}.xlsx`,{compression:true});
+  updateHomeProgress('MASTER PB selesai',100,true);setStatus(`MASTER PB berhasil dibuat: ${result.rows.length.toLocaleString('id-ID')} item. Sheet DATA dan STD DSI sudah disiapkan; rumus kolom R:AD dipertahankan kecuali KEBTOKO.`,false);
+ }catch(e){console.error('MASTER PB:',e);setStatus(e.message||'Terjadi kesalahan saat membuat MASTER PB.',true);updateHomeProgress('MASTER PB gagal',100,true)}
+ finally{endProcess();setTimeout(()=>updateHomeProgress('',0,false),4000)}
+}
 function xmlEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
 function colName(n){let s='';while(n>0){let r=(n-1)%26;s=String.fromCharCode(65+r)+s;n=Math.floor((n-1)/26)}return s}
 function cellXml(ref,v,style){const st=style?` s="${style}"`:'';if(v===null||v===undefined||v==='')return `<c r="${ref}"${st}/>`;if(typeof v==='number'&&Number.isFinite(v))return `<c r="${ref}"${st} t="n"><v>${v}</v></c>`;return `<c r="${ref}"${st} t="inlineStr"><is><t xml:space="preserve">${xmlEsc(v)}</t></is></c>`}
@@ -415,14 +583,15 @@ $('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.
 const PROCESS_CHECKS={
  poExpiredBtn:['prod','pom113','seas','seasonalbook'],
  masterBtn:['prod','stm113','stm294','stm295','hrgbeli','supmast','hpg','protect','datawhs','par113','par294','par295','seas','itemdepo','itemwhk','pom113','pom294','pom295','pou113','pou294','pou295','keb','nataru','promo','history','stockout'],
+ masterPbBtn:['prod','stm113','hrgbeli','hpg','par113','pom113','lppplano'],
  stockOutBtn:['stockout','stockoutbook'],
  slSupplierBtn:['prod','stm113','pom113','slsupplierbook'],
  rekapSupplierBtn:['lrbpbsupplier','rekapsupplierbook'],
  brdBtn:['brd'],
  checkItemBtn:['prod','pom113','history','lppplano','reg']
 };
-const PROCESS_TITLES={poExpiredBtn:'PO EXPIRED',masterBtn:'MASTER STOCK',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD',checkItemBtn:'CHECK ITEM'};
-const processActions={masterBtn:runMasterStock,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
+const PROCESS_TITLES={poExpiredBtn:'PO EXPIRED',masterBtn:'MASTER STOCK',masterPbBtn:'MASTER PB',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD',checkItemBtn:'CHECK ITEM'};
+const processActions={masterBtn:runMasterStock,masterPbBtn:runMasterPB,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
 function openFileManager(action='allFiles'){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
 $('openFileManagerButton').addEventListener('click',()=>openFileManager('allFiles'));
 function hasRole(role){return files.some(f=>f.guess===role&&(f.bytes||String(f.content||'').trim()!==''));}
@@ -517,7 +686,7 @@ window.openPoExpired=openPoExpired;
 window.addEventListener('inventory-po-progress',e=>{const d=e.detail||{};updateHomeProgress(d.label||'Memproses PO EXPIRED…',d.percent||0,d.show!==false);if(d.done)setTimeout(()=>updateHomeProgress('',0,false),1800)});
 $('poExpiredClose').addEventListener('click',()=>{$('poExpiredApp').classList.remove('po-open');$('poExpiredDialog').setAttribute('aria-hidden','true')});
 
-$('masterBtn').onclick=()=>requestProcess('masterBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');
+$('masterBtn').onclick=()=>requestProcess('masterBtn');$('masterPbBtn').onclick=()=>requestProcess('masterPbBtn');$('stockOutBtn').onclick=()=>requestProcess('stockOutBtn');$('slSupplierBtn').onclick=()=>requestProcess('slSupplierBtn');$('rekapSupplierBtn').onclick=()=>requestProcess('rekapSupplierBtn');$('brdBtn').onclick=()=>requestProcess('brdBtn');
 $('preflightCancel').onclick=()=>$('preflightDialog').close();
 $('preflightComplete').onclick=()=>{const id=$('preflightDialog').dataset.action;$('preflightDialog').close();openFileManager(id)};
 $('preflightProceed').onclick=()=>{const id=$('preflightDialog').dataset.action;$('preflightDialog').close();processActions[id]();};

@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.7.0 */
+/* Inventory application logic — v4.7.1 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -307,11 +307,13 @@ function buildMasterPB(processDate=new Date(),onProgress=()=>{}){
    const cur=slMap.get(id)||{po:0,bpb:0};cur.po+=qty;cur.bpb+=bpb;slMap.set(id,cur);
   }
  }
- const headers=['PRDCD','DESC','ZONA','ALAMAT','FRAC','ACOST','KDSB','CATCODE','FK','PKM','LPP','MEAN','PO OUT','PTAG','SALES','REORDER','REORDER CTN','PB PCS','PB CTN','RP','KEBTOKO','STD PKM','STD DSI','CEK','MAX PB (xPKM)','SL','STOCK OUT','DSI STK','KEB','PKM','KET Promo','Jenis Promo','Awal Promo','Akhir Promo'];
+ const headers=['PRDCD','DESC','ZONA','ALAMAT','FRAC','ACOST','KDSB','CATCODE','FK','PKM','LPP','MEAN','PO OUT','PTAG','SALES','REORDER','REORDER CTN','PB PCS','PB CTN','RP','KEBTOKO','STD PKM','STD DSI','CEK','MAX PB (xPKM)','SL','STOCK OUT','DSI STK','KEB','PKM2','KET Promo','Jenis Promo','Awal Promo','Akhir Promo'];
  const out=[];let processed=0;
  const tags=new Set(['E','D','S','L','']);
  for(const [id,p] of prodMap){
   const tag=text(value(p,'PTAG')).toUpperCase();if(!tags.has(tag))continue;
+  // Syarat tambahan: hanya item dengan CATCODE 1-3 (digit pertama CAT_COD).
+  const catCode=text(value(p,'CAT_COD')).slice(0,1);if(!['1','2','3'].includes(catCode))continue;
   const st=loc1.get(id)||{};
   const lt=value(st,'LT')||value(p,'LT');
   const zona=text(zone(lt)||value(p,'ZONA'));
@@ -346,11 +348,80 @@ function buildMasterPB(processDate=new Date(),onProgress=()=>{}){
   const dsiStk=avg>0?(lpp+poOut+pbPcs)/(avg/30):0;
   const kebRatio=keb>0?(lpp+poOut+pbPcs)/keb:0;
   const pkmRatio=pkm>0?(lpp+poOut+pbPcs)/pkm:0;
-  out.push([id,value(p,'DESC2','DESC'),zona,[value(st,'LT'),value(st,'RAK'),value(st,'BAR'),value(st,'CELL')].map(text).join('-').replace(/^-+|-+$/g,''),frac,acost,value(h,'KDSB'),text(value(p,'CAT_COD')).slice(0,1),fk,pkm,lpp,mean,poOut,tag,avg,reorder,reorderCtn,pbPcs,pbCtn,rp,keb,stdPkm,stdDsiQty,check,maxPb,slValue,soFlag,dsiStk,kebRatio,pkmRatio,value(pro,'KET')||0,value(pro,'JENIS')||0,value(pro,'AWAL')||0,value(pro,'AKHIR')||0]);
+  out.push([id,value(p,'DESC2','DESC'),zona,[value(st,'LT'),value(st,'RAK'),value(st,'BAR'),value(st,'CELL')].map(text).join('-').replace(/^-+|-+$/g,''),frac,acost,value(h,'KDSB'),catCode,fk,pkm,lpp,mean,poOut,tag,avg,reorder,reorderCtn,pbPcs,pbCtn,rp,keb,stdPkm,stdDsiQty,check,maxPb,slValue,soFlag,dsiStk,kebRatio,pkmRatio,value(pro,'KET'),value(pro,'JENIS'),value(pro,'AWAL'),value(pro,'AKHIR')]);
   processed++;if(processed%500===0)onProgress('Menghitung item MASTER PB',Math.min(90,10+processed/Math.max(1,prodMap.size)*80));
  }
  out.sort((a,b)=>String(a[0]).localeCompare(String(b[0]),'en',{numeric:true}));
  return {headers,rows:out,processDate:day};
+}
+
+// ===== MASTER PB: penulis XLSX (tabel, format kolom, rata teks, rumus R:AD) =====
+function masterPbColName(i){let n=i+1,s='';while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s}
+function masterPbSerial(v){const d=dateVal(v);if(!d)return null;return Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(1899,11,30))/86400000)}
+function masterPbBuildZip(result){
+ const H=result.headers,rows=result.rows,nCol=H.length,first=3,last=rows.length+2,lastCol=masterPbColName(nCol-1);
+ // Indeks style (cellXfs) di styles.xml di bawah.
+ const S={GEN:0,HEAD:1,TXT_C:2,GEN_L:3,GEN_C:4,DATE:5,PCT:6,NUM:7};
+ // Peta style per kolom (urutan sama dengan headers).
+ const colStyle=[S.TXT_C,S.GEN_L,S.TXT_C,S.TXT_C,S.NUM,S.NUM,S.TXT_C,S.GEN_C,S.GEN_C,S.NUM,S.NUM,S.NUM,S.NUM,S.TXT_C,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.NUM,S.PCT,S.TXT_C,S.NUM,S.NUM,S.NUM,S.GEN_L,S.GEN_L,S.DATE,S.DATE];
+ const widths=[13,48,8,20,8,13,10,10,7,12,12,12,12,8,12,10,12,14,14,18,12,12,12,14,15,10,12,12,12,12,18,18,14,14];
+ const fin=v=>{const n=Number(v);return Number.isFinite(n)?n:0};
+ const strCell=(ref,st,v)=>{const t=String(v??'');return t===''?`<c r="${ref}" s="${st}"/>`:`<c r="${ref}" s="${st}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(t)}</t></is></c>`};
+ const numCell=(ref,st,v)=>`<c r="${ref}" s="${st}"><v>${fin(v)}</v></c>`;
+ const fCell=(ref,st,f,v)=>`<c r="${ref}" s="${st}"><f>${xmlEsc(f)}</f><v>${fin(v)}</v></c>`;
+ const fStr=(ref,st,f,v)=>`<c r="${ref}" s="${st}" t="str"><f>${xmlEsc(f)}</f><v>${xmlEsc(v)}</v></c>`;
+ const sum=i=>rows.reduce((n,r)=>n+fin(r[i]),0);
+ const itemCnt=rows.filter(r=>fin(r[17])>0).length;
+ let x=[];
+ // Baris 1: ringkasan
+ x.push(`<row r="1">${fStr('Q1',S.GEN_C,`COUNTIF($R$${first}:$R$1048576,">0")&" Item"`,`${itemCnt.toLocaleString('id-ID')} Item`)}${fCell('R1',S.NUM,`SUM(R${first}:R1048573)`,sum(17))}${fCell('S1',S.NUM,`SUM(S${first}:S1048573)`,sum(18))}${fCell('T1',S.NUM,`SUM(T${first}:T1048573)`,sum(19))}</row>`);
+ // Baris 2: header tabel
+ x.push(`<row r="2" ht="30" customHeight="1">${H.map((h,i)=>strCell(masterPbColName(i)+'2',S.HEAD,h)).join('')}</row>`);
+ for(let i=0;i<rows.length;i++){
+  const r=first+i,row=rows[i],c=[];
+  const L=k=>masterPbColName(k)+r;
+  for(let k=0;k<nCol;k++){
+   const ref=L(k),st=colStyle[k],v=row[k];
+   switch(k){
+    case 17:c.push(fCell(ref,st,`+S${r}*E${r}`,v));break;
+    case 18:c.push(fCell(ref,st,`IF(OR(IFERROR((K${r}+M${r})/U${r},0)>10,K${r}+M${r}>J${r},J${r}=1,C${r}="19",F${r}<1000),0,IFERROR(MROUND(ROUNDDOWN(MIN(W${r}-(K${r}+M${r}),V${r}-(K${r}+M${r}))/E${r},0),Q${r}),0))`,v));break;
+    case 19:c.push(fCell(ref,st,`R${r}*F${r}`,v));break;
+    case 21:c.push(fCell(ref,st,`MAX(0,(2*J${r})-K${r}-M${r})`,v));break;
+    case 22:c.push(fCell(ref,st,`MAX(0,(O${r}/30*IFERROR(VLOOKUP($I${r},'STD DSI'!$B$3:$C$9,2,0),0))-K${r}-M${r})`,v));break;
+    case 23:c.push(fCell(ref,st,`-MIN(V${r}:W${r})+R${r}`,v));break;
+    case 24:c.push(fCell(ref,st,`MAX(1,MAX(1,ROUNDDOWN((J${r})/P${r},0))-ROUNDUP((M${r}/P${r}),0))`,v));break;
+    case 25:c.push(fCell(ref,st,`${fin(v)}`,v));break;
+    case 27:c.push(fCell(ref,st,`IFERROR(IFERROR(K${r}+M${r}+R${r},0)/(O${r}/30),0)`,v));break;
+    case 28:c.push(fCell(ref,st,`IFERROR((K${r}+M${r}+R${r})/U${r},0)`,v));break;
+    case 29:c.push(fCell(ref,st,`IFERROR((K${r}+M${r}+R${r})/J${r},0)`,v));break;
+    case 32:case 33:{const sn=masterPbSerial(v);c.push(sn===null?`<c r="${ref}" s="${st}"/>`:numCell(ref,st,sn));break}
+    case 4:case 5:case 9:case 10:case 11:case 12:case 14:case 15:case 16:case 20:c.push(numCell(ref,st,v));break;
+    default:c.push(strCell(ref,st,v));
+   }
+  }
+  x.push(`<row r="${r}">${c.join('')}</row>`);
+ }
+ const cols=widths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('');
+ const NS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+ const sheet1=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet ${NS}><dimension ref="A1:${lastCol}${last}"/><sheetViews><sheetView workbookViewId="0" tabSelected="1"><pane xSplit="2" ySplit="2" topLeftCell="C3" activePane="bottomRight" state="frozen"/><selection pane="topRight"/><selection pane="bottomLeft"/><selection pane="bottomRight" activeCell="C3" sqref="C3"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/><cols>${cols}</cols><sheetData>${x.join('')}</sheetData><tableParts count="1"><tablePart r:id="rId1"/></tableParts></worksheet>`;
+ const tableCols=H.map((h,i)=>`<tableColumn id="${i+1}" name="${xmlEsc(h)}"/>`).join('');
+ const table=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<table xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" id="1" name="tblMasterPB" displayName="tblMasterPB" ref="A2:${lastCol}${last}" totalsRowShown="0"><autoFilter ref="A2:${lastCol}${last}"/><tableColumns count="${nCol}">${tableCols}</tableColumns><tableStyleInfo name="TableStyleMedium2" showFirstColumn="0" showLastColumn="0" showRowStripes="1" showColumnStripes="0"/></table>`;
+ // Sheet STD DSI: B2:C2 header, B3:C9 data (dipakai VLOOKUP kolom W).
+ const std=[['1',21],['2',18],['3',14],['4',14],['5',10],['6',10],['7',10]];
+ const sheet2=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet ${NS}><cols><col min="1" max="1" width="5" customWidth="1"/><col min="2" max="3" width="12" customWidth="1"/></cols><sheetData><row r="2">${strCell('B2',S.HEAD,'FK')}${strCell('C2',S.HEAD,'DSI')}</row>${std.map((a,i)=>`<row r="${i+3}">${strCell('B'+(i+3),S.TXT_C,a[0])}${numCell('C'+(i+3),S.NUM,a[1])}</row>`).join('')}</sheetData></worksheet>`;
+ const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="2"><numFmt numFmtId="164" formatCode="dd\\ mmm\\ yy"/><numFmt numFmtId="165" formatCode="_(* #,##0_);[Red]_(* \\(#,##0\\);_(* &quot;-&quot;??_);_(@_)"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/><family val="2"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/><family val="2"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF1F4E78"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="49" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="left"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="center"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="9" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles><dxfs count="0"/><tableStyles count="0" defaultTableStyle="TableStyleMedium2" defaultPivotStyle="PivotStyleLight16"/></styleSheet>`;
+ const R='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+ const zip=new JSZip();
+ zip.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/xl/tables/table1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml"/></Types>`);
+ zip.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
+ zip.file('xl/workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook ${NS}><bookViews><workbookView activeTab="0"/></bookViews><sheets><sheet name="DATA" sheetId="1" r:id="rId1"/><sheet name="STD DSI" sheetId="2" r:id="rId2"/></sheets><calcPr calcId="191029" calcMode="auto" fullCalcOnLoad="1" forceFullCalc="1"/></workbook>`);
+ zip.file('xl/_rels/workbook.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="${R}/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="${R}/styles" Target="styles.xml"/></Relationships>`);
+ zip.file('xl/styles.xml',styles);
+ zip.file('xl/worksheets/sheet1.xml',sheet1);
+ zip.file('xl/worksheets/sheet2.xml',sheet2);
+ zip.file('xl/worksheets/_rels/sheet1.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/table" Target="../tables/table1.xml"/></Relationships>`);
+ zip.file('xl/tables/table1.xml',table);
+ return zip;
 }
 async function runMasterPB(){
  if(!beginProcess('masterPbBtn'))return;
@@ -361,44 +432,15 @@ async function runMasterPB(){
   const missing=required.filter(role=>!hasRole(role));if(missing.length)throw Error('File wajib MASTER PB belum lengkap: '+missing.map(role=>ROLES.find(x=>x[0]===role)?.[1]||role).join(', ')+'.');
   updateHomeProgress('Menghitung PB PCS, PB CTN, dan RP…',5,true);
   const result=buildMasterPB(new Date(),(label,pct)=>updateHomeProgress(label,pct,true));
-  if(!result.rows.length)throw Error('Tidak ada item PRODMAST yang memenuhi kriteria ZONA dan PTAG E/D/S/L/kosong.');
-  const aoa=[Array(34).fill(''),result.headers,[],...result.rows];
-  const ws=XLSX.utils.aoa_to_sheet(aoa);
-  ws['!cols']=[{wch:13},{wch:48},{wch:8},{wch:20},{wch:8},{wch:13},{wch:10},{wch:10},{wch:7},{wch:12},{wch:12},{wch:12},{wch:12},{wch:8},{wch:12},{wch:10},{wch:12},{wch:14},{wch:14},{wch:18},{wch:12},{wch:12},{wch:12},{wch:14},{wch:15},{wch:10},{wch:12},{wch:12},{wch:12},{wch:12},{wch:18},{wch:18},{wch:14},{wch:14}];
-  ws['!autofilter']={ref:`A2:AH${result.rows.length+3}`};
-  const setFormula=(addr,formula,cached)=>{ws[addr]={t:'n',f:formula,v:Number.isFinite(Number(cached))?Number(cached):0};};
-  const setFormulaText=(addr,formula,cached)=>{ws[addr]={t:'str',f:formula,v:String(cached??'')};};
-  // Ringkasan di baris pertama mengikuti workbook acuan.
-  setFormulaText('Q1','=COUNTIF($R$4:$R$1048576,">0")&" Item"',`${result.rows.filter(r=>num(r[17])>0).length.toLocaleString('id-ID')} Item`);
-  setFormula('R1','=SUM(R4:R1048573)',result.rows.reduce((n,r)=>n+num(r[17]),0));
-  setFormula('S1','=SUM(S4:S1048573)',result.rows.reduce((n,r)=>n+num(r[18]),0));
-  setFormula('T1','=SUM(T4:T1048573)',result.rows.reduce((n,r)=>n+num(r[19]),0));
-  // Kolom R:AD tetap berupa formula. U (KEBTOKO) sengaja berupa nilai sumber.
-  for(let i=0;i<result.rows.length;i++){
-   const r=i+4,row=result.rows[i];
-   setFormula(`R${r}`,`=+S${r}*E${r}`,row[17]);
-   setFormula(`S${r}`,`=IF(OR(IFERROR((K${r}+M${r})/U${r},0)>10,K${r}+M${r}>J${r},J${r}=1,C${r}="19",F${r}<1000),0,IFERROR(MROUND(ROUNDDOWN(MIN(W${r}-(K${r}+M${r}),V${r}-(K${r}+M${r}))/E${r},0),Q${r}),0))`,row[18]);
-   setFormula(`T${r}`,`=R${r}*F${r}`,row[19]);
-   setFormula(`V${r}`,`=MAX(0,(2*J${r})-K${r}-M${r})`,row[21]);
-   setFormula(`W${r}`,`=MAX(0,(O${r}/30*IFERROR(VLOOKUP($I${r},'STD DSI'!$B$3:$C$9,2,0),0))-K${r}-M${r})`,row[22]);
-   setFormula(`X${r}`,`=-MIN(V${r}:W${r})+R${r}`,row[23]);
-   setFormula(`Y${r}`,`=MAX(1,MAX(1,ROUNDDOWN((J${r})/P${r},0))-ROUNDUP((M${r}/P${r}),0))`,row[24]);
-   // Nilai SL dan STOCK OUT berasal dari file sumber yang sudah diproses aplikasi;
-   // ditulis sebagai formula literal agar kolom tetap dapat dihitung/diedit di Excel.
-   setFormula(`Z${r}`,`=${num(row[25])}`,row[25]);
-   setFormulaText(`AA${r}`,`="${String(row[26]??'').replace(/"/g,'""')}"`,row[26]);
-   setFormula(`AB${r}`,`=IFERROR(IFERROR(K${r}+M${r}+R${r},0)/(O${r}/30),0)`,row[27]);
-   setFormula(`AC${r}`,`=IFERROR((K${r}+M${r}+R${r})/U${r},0)`,row[28]);
-   setFormula(`AD${r}`,`=IFERROR((K${r}+M${r}+R${r})/J${r},0)`,row[29]);
-  }
-  const stdRows=[['','',''],['','FK','DSI'],['','1',21],['','2',18],['','3',14],['','4',14],['','5',10],['','6',10],['','7',10]];
-  const stdWs=XLSX.utils.aoa_to_sheet(stdRows);stdWs['!cols']=[{wch:5},{wch:12},{wch:12}];
-  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'DATA');XLSX.utils.book_append_sheet(wb,stdWs,'STD DSI');
-  wb.Workbook=wb.Workbook||{};wb.Workbook.CalcPr={calcMode:'auto',fullCalcOnLoad:true,forceFullCalc:true};
+  if(!result.rows.length)throw Error('Tidak ada item PRODMAST yang memenuhi kriteria ZONA, PTAG E/D/S/L/kosong, dan CATCODE 1-3.');
+  if(!window.JSZip)throw Error('Komponen ekspor Excel belum termuat. Muat ulang aplikasi lalu coba lagi.');
+  updateHomeProgress('Menyusun tabel dan format sheet DATA…',92,true);
+  const zip=masterPbBuildZip(result);
+  const outBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   updateHomeProgress('Menyiapkan file Excel MASTER PB…',95,true);
   const d=new Date(),dd=String(d.getDate()).padStart(2,'0'),mmm=MONTHS_ID[d.getMonth()],yy=String(d.getFullYear()).slice(-2);
-  XLSX.writeFile(wb,`MASTER PB ${dd} ${mmm} ${yy}.xlsx`,{compression:true});
-  updateHomeProgress('MASTER PB selesai',100,true);setStatus(`MASTER PB berhasil dibuat: ${result.rows.length.toLocaleString('id-ID')} item. Sheet DATA dan STD DSI sudah disiapkan; rumus kolom R:AD dipertahankan kecuali KEBTOKO.`,false);
+  downloadBlob(`MASTER PB ${dd} ${mmm} ${yy}.xlsx`,outBlob);
+  updateHomeProgress('MASTER PB selesai',100,true);setStatus('MASTER PB berhasil dibuat',false);
  }catch(e){console.error('MASTER PB:',e);setStatus(e.message||'Terjadi kesalahan saat membuat MASTER PB.',true);updateHomeProgress('MASTER PB gagal',100,true)}
  finally{endProcess();setTimeout(()=>updateHomeProgress('',0,false),4000)}
 }
@@ -2475,7 +2517,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.7.0',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.1',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));

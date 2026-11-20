@@ -1,3 +1,10 @@
+## v4.7.1 — Format sheet DATA MASTER PB
+- Hanya item dengan CATCODE 1-3 yang diproses.
+- Sheet DATA berbentuk Excel Table mulai baris 2 (header), data langsung dari baris 3 (baris kosong dihapus); header PKM kedua diberi nama PKM2 agar unik.
+- Format per kolom: teks rata tengah (PRDCD, ZONA, ALAMAT, KDSB, PTAG, STOCK OUT), general rata kiri (DESC, KET Promo, Jenis Promo), general rata tengah (CATCODE, FK), tanggal asli dd mmm yy (Awal/Akhir Promo), SL persen, kolom lain format akuntansi dengan negatif merah.
+- Kolom STOCK OUT berupa nilai teks (bukan rumus) agar tidak berubah menjadi teks saat sel diedit.
+- Promo kosong ditampilkan kosong (bukan 0). Rumus R:AD tetap dipertahankan.
+
 ## v4.7.0 — Perbaikan error MASTER PB
 - Memperbaiki error "MONTHS_ID is not defined" saat proses MASTER PB: daftar singkatan bulan kini tersedia di scope utama sehingga nama file unduhan (MASTER PB dd Mmm yy.xlsx) dapat dibentuk.
 - Menyinkronkan versi aplikasi, header/footer, manifest, parameter aset, dan cache Service Worker ke v4.7.0.

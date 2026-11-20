@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.6.8 */
+/* Inventory application logic — v4.7.0 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -266,6 +266,8 @@ async function runMasterStock(){if(!beginProcess('masterBtn'))return;setStatus('
 async function runStockOut(){if(!beginProcess('stockOutBtn'))return;setStatus('Memeriksa sumber dan memproses STOCK OUT…',false,true);try{if(!allRows('stockout').length)throw Error('File LaporanStokOutDCINew belum tersedia atau tidak terbaca.');if(!files.some(f=>f.guess==='stockoutbook'&&f.bytes))throw Error('File Stock Out DC.xlsx terakhir belum diunggah.');const out=await makeStockOutXlsx(new Date());downloadBlob(out.filename,out.blob);setStatus('STOCK OUT berhasil diperbarui.',false)}catch(e){setStatus(e.message||'Terjadi kesalahan saat membuat STOCK OUT.',true)}finally{endProcess()}}
 
 // MASTER PB: perhitungan mengikuti rumus pada workbook acuan MASTER PB.
+// Singkatan bulan untuk nama file; isinya sama dengan MONTHS_ID di modul Raw Material (yang bersifat lokal).
+const MONTHS_ID=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
 function excelMround(value,multiple){
  const n=Number(value),m=Number(multiple);if(!Number.isFinite(n)||!Number.isFinite(m)||m===0)return 0;
  return Math.sign(n)*Math.round((Math.abs(n)/Math.abs(m))+1e-12)*Math.abs(m);
@@ -2473,7 +2475,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.6.5',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.0',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));

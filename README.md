@@ -1,3 +1,7 @@
+## v4.7.0 — Perbaikan error MASTER PB
+- Memperbaiki error "MONTHS_ID is not defined" saat proses MASTER PB: daftar singkatan bulan kini tersedia di scope utama sehingga nama file unduhan (MASTER PB dd Mmm yy.xlsx) dapat dibentuk.
+- Menyinkronkan versi aplikasi, header/footer, manifest, parameter aset, dan cache Service Worker ke v4.7.0.
+
 ## v4.6.8 — Koreksi merge Kesimpulan Trend Stock dan rentang grafik History
 
 - Menggabungkan kolom Keterangan SL dan Keterangan BPB untuk seluruh lima kategori awal, termasuk SL <100% dan SL 100%.

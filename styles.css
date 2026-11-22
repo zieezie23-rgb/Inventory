@@ -1937,3 +1937,48 @@ body > #loginLock:not([hidden]){
 /* v4.1.6 — versi aplikasi tampil di pojok kanan atas form login. */
 .login-card{position:relative!important}
 .login-version{position:absolute;top:12px;right:15px;color:#a9f79a;font-family:Consolas,monospace;font-size:10px;font-weight:800;letter-spacing:.06em;text-shadow:0 0 8px rgba(117,255,85,.28)}
+
+/* v4.7.2 — Layar lebar (desktop): pakai lebar layar, bukan kolom sempit ala HP. Tampilan HP/tablet tidak berubah. */
+@media(min-width:1100px){
+  .home-main{max-width:min(1760px,96vw)!important;padding:28px clamp(24px,3vw,56px) 70px!important}
+  .home-hero{min-height:240px!important;padding:34px 48px!important;margin-bottom:28px!important}
+  .home-hero h2{font-size:clamp(40px,3.6vw,64px)!important}
+  .home-hero .hero-emblem{width:clamp(220px,17vw,320px)!important;height:clamp(220px,17vw,320px)!important;flex-basis:clamp(220px,17vw,320px)!important}
+  .process-card{padding:26px 30px 32px!important}
+  .process-card .module-heading h2{font-size:24px!important}
+  .action-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:20px!important}
+  .action-button{min-height:96px!important;padding:16px 20px!important;gap:16px!important}
+  .action-button .action-copy strong{font-size:17px!important}
+  .action-button .action-copy small{font-size:13px!important}
+  .action-button .action-icon{font-size:30px!important}
+  /* Dialog lebih lega */
+  .file-manage-dialog{width:min(1040px,calc(100% - 48px))!important}
+  .raw-material-dialog{width:min(1400px,calc(100% - 48px))!important}
+  .check-item-dialog{width:min(1300px,calc(100% - 48px))!important;max-width:1300px!important}
+  .check-item-result-dialog{width:min(1600px,calc(100% - 48px))!important;max-width:1600px!important}
+  .history-dialog{width:min(1800px,calc(100% - 32px))!important}
+  .po-expired-dialog,#poExpiredApp,#poExpiredApp.po-open{width:min(1500px,96vw)!important;max-width:96vw!important}
+  #poExpiredApp main{max-width:none!important}
+}
+@media(min-width:1280px){
+  .action-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:22px!important}
+  .action-button{min-height:112px!important}
+}
+@media(min-width:1100px){
+  .action-button .action-copy strong{font-size:clamp(12px,1vw,17px)!important;letter-spacing:.03em!important;white-space:nowrap}
+  .action-button .action-copy small{font-size:clamp(10px,.8vw,13px)!important}
+  .action-button{padding:16px clamp(12px,1.1vw,20px)!important;gap:clamp(8px,.9vw,16px)!important}
+}
+
+/* v4.7.4 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
+.ar-dialog{width:min(760px,calc(100% - 24px))!important}
+.ar-panel{background:rgba(16,37,26,.7);border:1px solid #285236;border-radius:10px;margin-top:16px;padding:16px;overflow-x:auto}
+.ar-title{font-weight:800;color:#baff9b;margin:0 0 10px;font-size:14px;border-left:4px solid #75ff55;padding-left:8px;letter-spacing:.04em}
+.ar-m{color:#8fbd98;font-size:13px}.ar-e{color:#ff7a7a}
+#arSrc{margin-bottom:12px;white-space:normal;overflow-wrap:anywhere}
+@media(max-width:560px){.ar-panel{padding:12px}}
+.ar-ctl{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.ar-ctl label{display:flex;flex-direction:column;gap:4px;color:#8fbd98;font-size:13px}
+.ar-ctl input[type=number]{font:inherit;padding:5px 8px;border:1px solid #356b40;border-radius:6px;background:#0b2113;color:#d7f5d5;width:140px;height:38px}
+#arMsg{margin-top:12px;white-space:normal}#arDls{margin-top:10px}.ar-dl{display:inline-flex;text-decoration:none}
+@media(min-width:1280px){.action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(min-width:1600px){.action-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}}

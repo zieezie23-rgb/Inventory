@@ -1,10 +1,10 @@
-/* Inventory application logic — v4.7.1 */
+/* Inventory application logic — v4.7.4 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
  ['hrgbeli','HRGBELI — Harga beli','HRGBELI'],['supmast','SUPMAST — Supplier','SUPMAST'],['hpg','HPG — MEAN / biaya','HPG'],['protect','PROTECT — Proteksi','PROTECT'],['datawhs','DATAWHS — Gudang / station','DATAWHS'],
  ['par113','PAR G113 — Penjualan','PAR'],['par294','PAR G294 — Penjualan','PAR'],['par295','PAR G295 — Penjualan','PAR'],['seas','SEAS — Seasonal (Master Stock)','SEAS'],['seasonalbook','Laporan Harian Seasonal — PO EXPIRED','SEASONALBOOK'],['itempar','ITEMPAR — Keterangan (opsional)','ITEMPAR'],['itemdepo','ITEMDEPO — Item depo','ITEMDEPO'],['itemwhk','ITEMWHK — Item WHK','ITEMWHK'],
- ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO.xlsx — Data promosi','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE']
+ ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO.xlsx — Data promosi','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE'],['alktarget','Target — Alokasi Raw','TARGET'],['alkplan','Plan — Alokasi Raw','PLAN']
 ];
 const H1=['PRDCD','DESC2','PLANOGRAM','','','','','','ALAMAT','SUPCO','SNAMA','FK','DIV','KLPT','CAT_COD','FRAC','ACOST','LCOST','PKM','RP','PTAG','SLS1','SLS2','SLS3','AVG','AVG G294','AVG G295','MINOR','MEAN','STKG294','','','DSI 294','STKG295','','','DSI 295','STKG113','','','DSISTK','DSIPKM','POG294','POG295','POG113','STK02','','','STK03','','','STATUS','KEB','TOKO','STOCK OUT TOKO','','','KET','SEASONAL','','SPD','KAT','TGL RUBAH PTAG','PROTECT','ITEM DEPO','LEAD','SL SUPPLIER','','','LAST BPB','','ITEM NATARU','PROMOSI','','','','ITEM WHK'];
 const H2=['','','ZONA','ST','LT','RAK','BAR','CELL','','','','','','','','','','','','','','','','','','','','','','PCS','CTN','RP','','PCS','CTN','RP','','PCS','CTN','RP','','','','','','PCS','CTN','RP','PCS','CTN','RP','','','','G113','G294','G295','','JENIS','RINCIAN','','','','','','','G113','G294','G295','TGL','PCS','','TGL AWAL','TGL AKHIR','QTY TGT','JENIS_PROMO',''];const $=id=>document.getElementById(id);let files=[],parsed=new Map(),lastCsv='',lastLog='',lastResult=null,lastExportName='';const UPLOAD_GROUP_KEYS=['daily','bahan','lwa','update'];const collapsedUploadGroups=new Set(UPLOAD_GROUP_KEYS);
@@ -43,12 +43,12 @@ function latestDate(a,b){const da=dateVal(a),db=dateVal(b);if(!da)return b||'';i
 function warehouseFromPath(file){const path=String(file.webkitRelativePath||file.relativePath||'').replace(/\\/g,'/');const m=path.match(/(?:^|\/)(G113|G294|G295)(?:\/|$)/i);return m?m[1].toUpperCase():''}
 function roleGuess(file){const n=norm(file.name);const rel=norm(file.webkitRelativePath||file.relativePath||'');const wh=warehouseFromPath(file)||(rel.match(/(?:^|_)(G113|G294|G295)(?:_|$)/)||n.match(/(?:^|_)(G113|G294|G295)(?:_|$)/)||[])[1]||'';if(/\.XLSX$/i.test(file.name)&&(n.includes('REKAP_SUPPLIER')||n.includes('REKAPSUPPLIER')))return 'rekapsupplierbook';if(/\.XLSX$/i.test(file.name)&&(n.includes('SL_SUPPLIER')||n.includes('SERVICE_LEVEL_SUPPLIER')))return 'slsupplierbook';if(n.includes('LRBPB_SUPPLIER')||n.includes('LRBPBSUPPLIER'))return 'lrbpbsupplier';if(/\.BRD$/i.test(file.name))return 'brd';if(/\.XLSX$/i.test(file.name)&&n.includes('STOCK_OUT_DC')||/\.XLSX$/i.test(file.name)&&n.includes('STOCK_OUT'))return 'stockoutbook';if(/\.XLSX$/i.test(file.name)&&n.includes('STOCKOUTDC'))return 'stockoutbook';if(n.includes('LAPORANSTOKOUTDCI')||n.includes('STOCKOUTDCINEW'))return 'stockout';if(n.includes('HISTORYTAG')||n.includes('LAPORANHISTORY')||n.includes('TGL_AKHIR'))return 'history';if(n.includes('LPPVSPLANO')||n.includes('LAPORANLPP'))return 'lppplano';if(/^(?:REG|PRG)\d{4}(?:_(?:CSV|TXT|XLSX|XLS|XLSM|XLSB))?$/.test(n)||/(^|_)(REG|PRG)(_|$)/.test(n))return 'reg';if(n.includes('PRODMAST'))return 'prod';if(n.includes('STM')||n.includes('STOCK')){if(wh==='G294')return 'stm294';if(wh==='G295')return 'stm295';if(wh==='G113')return 'stm113';return 'stm113'}if(n.includes('HRGBELI'))return 'hrgbeli';if(n.includes('SUPMAST'))return 'supmast';if(n.startsWith('HPG'))return 'hpg';if(n.includes('PROTECT'))return 'protect';if(n.includes('DATAWHS'))return 'datawhs';if(n.includes('ITEMDEPO'))return 'itemdepo';if(n.includes('ITEMWHK'))return 'itemwhk';if(n.includes('ITEMPAR'))return 'itempar';if(n.includes('PAR')){if(wh==='G294')return 'par294';if(wh==='G295')return 'par295';return 'par113'}if(/\.XLSX$/i.test(file.name)&&n.includes('LAPORAN')&&n.includes('SEASONAL'))return 'seasonalbook';if(n.includes('SEAS'))return 'seas';if(n.includes('POM')){if(wh==='G294')return 'pom294';if(wh==='G295')return 'pom295';return 'pom113'}if(n.includes('POU')){if(wh==='G113')return 'pou113';if(wh==='G295')return 'pou295';return 'pou294'}if(n.includes('KEB'))return 'keb';if(n.includes('NATARU'))return 'nataru';if(n.includes('PROMO'))return 'promo';return ''}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function fileGroup(f){const n=norm(f.name);if(['stockoutbook','slsupplierbook','rekapsupplierbook','seasonalbook'].includes(f.guess)||/STOCK_OUT_DC|SERVICE_LEVEL_SUPPLIER|REKAP_SUPPLIER|LAPORAN.*SEASONAL/.test(n))return 'update';if(/LRBPB_SUPPLIER|LAPORANSTOCKOUTDCINEW|LAPORANSTOKOUTDCINEW|LAPORANHISTORYTAG/.test(n)||['lrbpbsupplier','stockout','history','lppplano','rawdisplay','rawstorage'].includes(f.guess))return 'lwa';if(/ITEM_DEPO|ITEMDEPO|ITEM_WH(K|K)|ITEMWHK|\bKEB\b|NATARU|PROMO|DATA_WHS|DATAWHS/.test(n)||['itemdepo','itemwhk','keb','nataru','promo','datawhs','rawplu','seas'].includes(f.guess))return 'bahan';const gm=n.match(/G(\d{3})/);if(gm&&gm[1]!=='113')return 'depo';return 'daily'}
+function fileGroup(f){const n=norm(f.name);if(['stockoutbook','slsupplierbook','rekapsupplierbook','seasonalbook'].includes(f.guess)||/STOCK_OUT_DC|SERVICE_LEVEL_SUPPLIER|REKAP_SUPPLIER|LAPORAN.*SEASONAL/.test(n))return 'update';if(/LRBPB_SUPPLIER|LAPORANSTOCKOUTDCINEW|LAPORANSTOKOUTDCINEW|LAPORANHISTORYTAG/.test(n)||['lrbpbsupplier','stockout','history','lppplano','rawdisplay','rawstorage'].includes(f.guess))return 'lwa';if(/ITEM_DEPO|ITEMDEPO|ITEM_WH(K|K)|ITEMWHK|\bKEB\b|NATARU|PROMO|DATA_WHS|DATAWHS/.test(n)||['itemdepo','itemwhk','keb','nataru','promo','datawhs','rawplu','seas','alktarget','alkplan'].includes(f.guess))return 'bahan';const gm=n.match(/G(\d{3})/);if(gm&&gm[1]!=='113')return 'depo';return 'daily'}
 const ROLE_GROUP={
  prod:'daily',stm113:'daily',hrgbeli:'daily',supmast:'daily',hpg:'daily',protect:'daily',par113:'daily',pom113:'daily',
  stm294:'daily',stm295:'daily',par294:'daily',par295:'daily',pom294:'daily',pom295:'daily',pou113:'daily',pou294:'daily',pou295:'daily',
  datawhs:'bahan',itempar:'bahan',itemdepo:'bahan',itemwhk:'bahan',keb:'bahan',nataru:'bahan',promo:'bahan',seas:'bahan',seasonalbook:'update',
- history:'lwa',lppplano:'lwa',stockout:'lwa',lrbpbsupplier:'lwa',reg:'daily',stockoutbook:'update',slsupplierbook:'update',rekapsupplierbook:'update',brd:'daily',rawplu:'bahan',rawdisplay:'lwa',rawstorage:'lwa'
+ history:'lwa',lppplano:'lwa',stockout:'lwa',lrbpbsupplier:'lwa',reg:'daily',stockoutbook:'update',slsupplierbook:'update',rekapsupplierbook:'update',brd:'daily',rawplu:'bahan',rawdisplay:'lwa',rawstorage:'lwa',alktarget:'bahan',alkplan:'bahan'
 };
 const OPTIONAL_ROLES=new Set(['itempar','brd']);
 function renderFiles(){
@@ -126,11 +126,13 @@ async function addFiles(list){
    let content='';if(!isBook){try{content=new TextDecoder('utf-8',{fatal:true}).decode(bytes)}catch(e){content=new TextDecoder('windows-1252').decode(bytes)}}
    const obj={id,name:file.name,relativePath:file.webkitRelativePath||file.relativePath||file.name,size:file.size,content,bytes:isBook?bytes:null,guess:isBook?detected:(isBrd?'brd':'')};
    if(!isBook&&!isBrd)obj.guess=isPomCsv?detected:detectRole(obj,obj.content);
+   // Deteksi Target / Plan (Alokasi Raw) berdasarkan struktur kolom.
+   if(!isBrd&&!isPomCsv&&window.InventoryAlokasiRaw){try{const alkRole=await window.InventoryAlokasiRaw.detect(obj,isBook,detected);if(alkRole)obj.guess=alkRole}catch(alkErr){console.warn('Deteksi Target/Plan dilewati untuk '+file.name,alkErr)}}
    // Deteksi sumber Raw Material berdasarkan struktur kolom, bukan nama file.
-   if(!isBrd&&!isPomCsv&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
+   if(!isBrd&&!isPomCsv&&!['alktarget','alkplan'].includes(obj.guess)&&window.InventoryRawMaterial&&(!isBook||!detected||detected==='lppplano')){
     try{if(!window.XLSX&&typeof checkItemEnsureXLSX==='function')await checkItemEnsureXLSX();const rawInfo=isBook?await window.InventoryRawMaterial.detectBuffer(obj.bytes,file.name):window.InventoryRawMaterial.detectText(obj.content,file.name);if(rawInfo&&rawInfo.role){obj.rawRole=rawInfo.role;obj.rawRows=rawInfo.rows;const roleMap={lpp:'lppplano',plu:'rawplu',display:'rawdisplay',storage:'rawstorage'};if(roleMap[rawInfo.role]&&(!obj.guess||rawInfo.role!=='lpp'||obj.guess===''))obj.guess=roleMap[rawInfo.role]}}catch(rawErr){console.warn('Deteksi Raw Material dilewati untuk '+file.name,rawErr)}
    }
-   if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas','seasonalbook','promo'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);
+   if(['stockoutbook','slsupplierbook','rekapsupplierbook','seas','seasonalbook','promo','alktarget','alkplan'].includes(obj.guess))files=files.filter(f=>f.guess!==obj.guess);
    files.push(obj);parsed.set(id,null);added++;
   }catch(e){failed.push(file.name+' (gagal dibaca)');console.error('Gagal membaca '+file.name,e)}
   completedBytes+=file.size||0;updateHomeProgress(`Selesai membaca ${index+1}/${incoming.length} file`,totalBytes?(completedBytes/totalBytes*100):((index+1)/incoming.length*100),true);
@@ -142,7 +144,7 @@ async function addFiles(list){
  setTimeout(()=>updateHomeProgress('',0,false),4500);
 }
 function setStatus(s,error=false,processing=false){const e=$('status');e.textContent=s;e.className='status'+(error?' error':' ok')+(processing?' processing':'')}
-const PROCESS_BUTTONS=['poExpiredBtn','masterBtn','masterPbBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn'];
+const PROCESS_BUTTONS=['poExpiredBtn','masterBtn','masterPbBtn','stockOutBtn','slSupplierBtn','rekapSupplierBtn','brdBtn','checkItemBtn','rawMaterialBtn','alokasiRawBtn'];
 function beginProcess(id){if(PROCESS_BUTTONS.some(x=>$(x).disabled))return false;PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=true;b.classList.toggle('is-running',x===id);});return true}
 function endProcess(){PROCESS_BUTTONS.forEach(x=>{const b=$(x);b.disabled=false;b.classList.remove('is-running')})}
 function setExportStatus(s,error=false,processing=false){const e=$('exportStatus');e.textContent=s;e.className='status export-status'+(error?' error':' ok')+(processing?' processing':'')}
@@ -2517,7 +2519,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.7.1',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.4',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2652,4 +2654,162 @@ async function HpptxExport(){
 
 function Hinit(){H('historyBtn').addEventListener('click',Hrun);H('historyClose').addEventListener('click',()=>H('historyDialog').close());H('historyExport').addEventListener('click',async()=>{const b=H('historyExport'),st=H('historyPptStatus');if(b.disabled)return;try{b.disabled=true;b.setAttribute('aria-busy','true');b.textContent='Excel…';if(st)st.textContent='Menyiapkan workbook Excel…';await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,80)));await Hexport();if(st)st.textContent='File XLSX berhasil dibuat dan diunduh.';setStatus('Export History berhasil dibuat.',false)}catch(e){console.error('Export History:',e);const msg=e&&e.message?e.message:String(e);if(st)st.textContent='Export XLSX gagal: '+msg;setStatus('Export History gagal: '+msg,true)}finally{b.disabled=false;b.removeAttribute('aria-busy');b.textContent='Excel'}});H('historyExportPpt').addEventListener('click',async()=>{const b=H('historyExportPpt'),st=H('historyPptStatus');if(b.disabled)return;try{b.disabled=true;b.setAttribute('aria-busy','true');b.textContent='PPT…';if(st)st.textContent='Menyiapkan presentasi Executive Analysis 4:3…';await HpptxExport();if(st)st.textContent='PPT berhasil dibuat dan diunduh.';setStatus('Export PowerPoint berhasil dibuat.',false)}catch(e){console.error('Export PowerPoint:',e);const msg=e&&e.message?e.message:String(e);if(st)st.textContent='Export PPT gagal: '+msg;setStatus('Export PowerPoint gagal: '+msg,true)}finally{b.disabled=false;b.removeAttribute('aria-busy');b.textContent='PPT'}});document.querySelectorAll('[data-history-tab]').forEach(btn=>btn.addEventListener('click',()=>{const key=btn.dataset.historyTab;document.querySelectorAll('[data-history-page]').forEach(page=>page.hidden=page.dataset.historyPage!==key);document.querySelectorAll('[data-history-tab]').forEach(tab=>{const active=tab===btn;tab.classList.toggle('is-active',active);tab.setAttribute('aria-selected',active?'true':'false')})}));H('historyStockOutSummary').querySelector('tbody').addEventListener('click',e=>{const row=e.target.closest('tr[data-stockout-description]');if(row)HshowStockOutDetails(row.dataset.stockoutDescription)});H('historyStockOutDetailClose').addEventListener('click',()=>{H('historyStockOutDetailPanel').hidden=true});H('historyStockOutExportJpeg').addEventListener('click',()=>{try{HexportStockOutJpeg()}catch(e){setStatus(e.message,true)}})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',Hinit);else Hinit();
+})();
+
+
+/* ALOKASI RAW — modul terisolasi (v4.7.4).
+   Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
+   hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
+   Sumber data (tanpa upload sendiri, semua lewat Daftar File):
+   - Target dan Plan  : peran file alktarget / alkplan (dikenali dari kolom saat upload)
+   - Stock Akhir      : kolom QTY_LPP dari LaporanLPPvsPlano (peran lppplano), dijumlah per PLU
+   - Minor            : kolom MINOR_TOKO / MINOR dari DATAWHS (file sumber bahan yang sama dengan Master Stock) */
+(function(){
+'use strict';
+const $=s=>document.querySelector(s),tick=()=>new Promise(r=>setTimeout(r)),fn=n=>Number(n).toLocaleString('id-ID');
+//CORE-START
+const N=v=>String(v??'').toUpperCase().split(/\s+/).filter(Boolean).join(' ');
+const K=v=>v==null?'':typeof v==='number'?String(v):String(v).trim();
+// Angka dari file: 5,580 / 1,234,567.89 (koma = ribuan) dan 1.234,56 / 1.234.567 (titik = ribuan); 12,5 dan 0,125 tetap desimal.
+const NUM=v=>{if(typeof v==='number')return v;let s=String(v??'').trim().replace(/\s/g,'');
+ if(/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)&&!/^-?0,/.test(s))s=s.replace(/,/g,'');
+ else if(/^-?\d{1,3}(\.\d{3})+,\d+$/.test(s)||/^-?\d{1,3}(\.\d{3}){2,}$/.test(s))s=s.replace(/\./g,'').replace(',','.');
+ else s=s.replace(',','.');
+ const n=parseFloat(s);return isNaN(n)?0:n};
+const PK=v=>K(v).replace(/^0+(?=.)/,''),sq=x=>x.replace(/[_\s]/g,''),
+ isPLU=x=>['PLU','PLUKODE','PLU KODE','PLU_KODE','PRDCD','PLU/PRDCD','KODE PLU','KDPLU'].includes(x),
+ isTk=x=>['TOKO','KODE TOKO','KODETOKO','KD TOKO'].includes(x),
+ alkHead=(r,ok)=>{for(let i=0;i<Math.min(20,r.length);i++){const n=(r[i]||[]).map(N);if(n.some(ok))return[n,r.slice(i+1)]}return null},
+ pick=(n,...fs)=>{for(const f of fs){const i=n.findIndex(f);if(i>=0)return i}return-1},
+ hd=n=>'Header terbaca: '+(n.filter(Boolean).slice(0,10).join(', ')||'(kosong)');
+// cadangan: cocokkan 7 digit terakhir bila kode PLU beda panjang (hanya dipakai jika tidak ambigu)
+function alkStock7(m){const m7=new Map();for(const[k,v]of m){const a=PK(k.slice(-7));m7.set(a,m7.has(a)?null:v)}return m7}
+function alkPlan(r){const h=alkHead(r,isTk);if(!h)throw Error('Kolom TOKO tidak ditemukan (dicari di 20 baris pertama).');const[n,b]=h,it=n.findIndex(isTk),
+ il=pick(n,x=>sq(x)==='PLANPICKING',x=>/PLAN|PICK/.test(x));if(il<0)throw Error('Kolom Plan tidak ditemukan. '+hd(n));
+ const st=new Set();for(const x of b){const k=K(x[it]).toUpperCase();if(k&&NUM(x[il])===1)st.add(k)}return st}
+function rawTargetRows(r){
+ const h=alkHead(r,x=>x==='TOKO');if(!h)throw Error('Kolom TOKO tidak ditemukan pada Target. Format wajib: TOKO, PRDCD, TARGET, NPB.');
+ const[n,b]=h,ix=(...a)=>pick(n,...a),it=ix(x=>x==='TOKO',x=>x==='KODE TOKO'),ip=ix(x=>x==='PRDCD',x=>x==='PLU',x=>x==='PLUKODE'),iq=ix(x=>x==='TARGET'),inpb=ix(x=>x==='NPB');
+ if([it,ip,iq,inpb].some(x=>x<0))throw Error('Format Target wajib memiliki kolom TOKO, PRDCD, TARGET, NPB. '+hd(n));
+ const out=new Map();for(const x of b){const t=K(x[it]).toUpperCase(),p=K(x[ip]),q=NUM(x[iq]),np=NUM(x[inpb]);if(!t||!p)continue;const key=t+'|'+PK(p);let v=out.get(key);if(!v)out.set(key,v={t,p,target:0,npb:0});v.target+=q;v.npb+=np}
+ return out;
+}
+// Hitung alokasi. tg: Map target, PL: Set toko plan, ST: Map stock, MS: Map PRDCD->Minor, xm: batas kelipatan Minor.
+function rawCompute(tg,PL,ST,MS,xm){
+ const ST7=alkStock7(ST);
+ const entries=[...tg.entries()].map(([key,v],i)=>[key,[v.t,v.p,0,0,v.target],v.npb,i]).sort((a,b)=>{const ra=a[1][4]>0?a[2]/a[1][4]:Infinity,rb=b[1][4]>0?b[2]/b[1][4]:Infinity;return ra-rb||a[3]-b[3]});
+ const used=new Map(),stop=new Set(),rows=[],noMinor=new Set();
+ for(const[key,v,npb]of entries){const[t,p,,,Q]=v;const pk=PK(p);let stock=ST.get(pk);if(stock===undefined&&K(p).length<=7)stock=ST7.get(PK(K(p).slice(-7)));if(stock==null||!PL.has(K(t).toUpperCase()))continue;
+  const mn=MS.get(pk)||0;
+  if(!(mn>0)){noMinor.add(pk);continue}
+  const dasar=Math.max(0,Q-npb);let q=Math.floor(dasar/mn+1e-9)*mn;q=Math.min(q,mn*xm);
+  if(q>0){if(stop.has(pk))q=0;else{const u=(used.get(pk)||0)+q;if(u>stock){stop.add(pk);q=0}else used.set(pk,u)}}
+  if(q<=0)continue;rows.push({t,p,pk,stock,tg:Q,npb,sisa:Q-npb,q});
+ }
+ return{rows,noMinor};
+}
+//CORE-END
+// ---- ZIP tanpa kompresi (CSV saja)
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})(),
+ crc32=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+function zipStore(files,type){const te=new TextEncoder(),parts=[],cd=[];let off=0;
+ for(const[name,txt]of files){const nb=te.encode(name),db=te.encode(txt),crc=crc32(db),h=new DataView(new ArrayBuffer(30));
+  h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);h.setUint32(14,crc,true);h.setUint32(18,db.length,true);h.setUint32(22,db.length,true);h.setUint16(26,nb.length,true);
+  parts.push(new Uint8Array(h.buffer),nb,db);
+  const c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(14,0x21,true);c.setUint32(16,crc,true);c.setUint32(20,db.length,true);c.setUint32(24,db.length,true);c.setUint16(28,nb.length,true);c.setUint32(42,off,true);
+  cd.push(new Uint8Array(c.buffer),nb);off+=30+nb.length+db.length}
+ let cl=0;for(const x of cd)cl+=x.length;const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cl,true);e.setUint32(16,off,true);
+ return new Blob([...parts,...cd,new Uint8Array(e.buffer)],{type:type||'application/zip'})}
+// ---- sumber data dari Daftar File Inventory
+const SRC=[['alktarget','Target'],['alkplan','Plan'],['lppplano','Stock Akhir (LPPvsPlano)'],['datawhs','Minor (DATAWHS)']];
+const cache=new Map();
+const pickFile=role=>files.filter(f=>f.guess===role&&(f.bytes||String(f.content||'').trim()!=='')).slice(-1)[0]||null;
+const missingSrc=()=>SRC.filter(([r])=>r==='datawhs'?!allRows('datawhs').length:!pickFile(r)).map(x=>x[1]);
+function splitFlat(r){ // file satu kolom dengan pemisah ; | atau tab
+ if(r[0]&&r[0].length===1&&typeof r[0][0]==='string'){const m=r[0][0].match(/[;|\t]/);if(m)return r.map(x=>x&&typeof x[0]==='string'?x[0].split(m[0]):x)}
+ return r}
+async function readRows(f){
+ if(!f.bytes)return splitFlat(parseCSV(f.content)); // CSV/teks: parser bawaan Inventory
+ if(!window.XLSX){if(typeof window.checkItemEnsureXLSX!=='function')throw Error('Pustaka Excel belum siap.');await window.checkItemEnsureXLSX()}
+ const wb=XLSX.read(f.bytes,{type:'array',dense:true,raw:true});
+ return splitFlat(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true,defval:null}))}
+async function parsedSource(role,label,build){
+ const f=pickFile(role);if(!f)return null;
+ let c=cache.get(f.id);
+ if(!c){try{c={name:f.name,data:build(await readRows(f))}}catch(e){throw Error(label+' ('+f.name+'): '+(e.message||e))}cache.set(f.id,c)}
+ return c}
+// Stock Akhir: jumlah QTY_LPP per PLU dari LaporanLPPvsPlano
+async function lppStock(){
+ const f=pickFile('lppplano');if(!f)return null;
+ let c=cache.get('lpp:'+f.id);if(c)return c;
+ const m=new Map();
+ if(f.rawRole==='lpp'&&Array.isArray(f.rawRows)){ // baris sudah dibaca saat upload (dipakai juga oleh Raw Material)
+  for(const o of f.rawRows){const k=PK(o.PLU!==undefined&&o.PLU!==''?o.PLU:o.PRDCD);if(k)m.set(k,(m.get(k)||0)+NUM(o.QTY_LPP))}
+ }else{
+  try{const h=alkHead(await readRows(f),isPLU);if(!h)throw Error('Kolom PLU tidak ditemukan.');
+   const[n,b]=h,ip=n.findIndex(isPLU),iq=n.findIndex(x=>sq(x)==='QTYLPP');if(iq<0)throw Error('Kolom QTY_LPP tidak ditemukan. '+hd(n));
+   for(const x of b){const k=PK(x[ip]);if(k)m.set(k,(m.get(k)||0)+NUM(x[iq]))}
+  }catch(e){throw Error('Stock Akhir ('+f.name+'): '+(e.message||e))}}
+ c={name:f.name,data:m};cache.set('lpp:'+f.id,c);return c}
+// Minor: dari DATAWHS, kolom MINOR_TOKO lalu MINOR (sama dengan kolom MINOR di Master Stock); baris pertama per PRDCD
+function minorSource(){
+ const rows=allRows('datawhs');if(!rows.length)return null;
+ const m=new Map();
+ for(const o of rows){const p=PK(value(o,'PRDCD','PLU'));if(!p||p==='PRDCD'||m.has(p))continue;m.set(p,NUM(value(o,'MINOR_TOKO','MINOR')))}
+ return{name:sourceChosen.datawhs||'DATAWHS',data:m}}
+// ---- deteksi Target / Plan saat upload (dipanggil addFiles); mengembalikan 'alktarget', 'alkplan', atau ''
+const NAME_RE=/target|sasaran|tgt|(^|[^a-z])plan([^a-z]|$)|picking/i;
+function signature(rows,name){
+ const h=alkHead(rows,isTk);if(!h)return'';const n=h[0];
+ if(n.includes('TARGET')&&n.includes('NPB')&&n.some(isPLU))return'alktarget';
+ if(n.some(x=>sq(x)==='PLANPICKING'))return'alkplan';
+ if(NAME_RE.test(name||'')&&/plan|picking/i.test(name||'')&&n.some(x=>/PLAN|PICK/.test(x)))return'alkplan';
+ return''}
+async function detect(f,isBook,detected){
+ if(isBook){if(detected&&!NAME_RE.test(f.name))return'';return signature((await readRows(f)).slice(0,40),f.name)}
+ const head=String(f.content||'').replace(/^\uFEFF/,'').split(/\r?\n/,40).join('\n');
+ return signature(splitFlat(parseCSV(head)),f.name)}
+window.InventoryAlokasiRaw={detect};
+// ---- UI: dialog hanya berisi x Minor dan Hitung Alokasi
+function clearOut(){$('#arDls').innerHTML='';$('#arMsg').textContent='';$('#arMsg').className='ar-m'}
+async function calc(){const go=$('#arGo'),msg=$('#arMsg'),dl=$('#arDls');
+ if(typeof beginProcess==='function'&&!beginProcess('alokasiRawBtn'))return;
+ go.disabled=true;clearOut();
+ try{
+  const miss=missingSrc();
+  if(miss.length)throw Error('File belum lengkap: '+miss.join(', ')+'. Lengkapi melalui Daftar File.');
+  const xm=Math.max(0,Math.floor(NUM($('#arXm').value)));if(!xm)throw Error('Isi x Minor dengan angka lebih dari 0.');
+  msg.textContent='Membaca sumber data...';await tick();
+  const T=await parsedSource('alktarget','Target',rawTargetRows),P=await parsedSource('alkplan','Plan',alkPlan),S=await lppStock(),M=minorSource();
+  if(!T.data.size)throw Error('Tidak ada baris Target yang valid.');
+  msg.textContent='Menghitung alokasi...';await tick();
+  const{rows,noMinor}=rawCompute(T.data,P.data,S.data,M.data,xm);
+  if(!rows.length)throw Error('Tidak ada alokasi yang memenuhi syarat. Periksa Target, Plan, Stock Akhir (LPPvsPlano), dan nilai Minor di DATAWHS.'+(noMinor.size?' ('+fn(noMinor.size)+' PLU tidak punya Minor di DATAWHS.)':''));
+  for(const u of RAW.urls)URL.revokeObjectURL(u);RAW.urls=[];
+  const groups=new Map();for(const r of rows){let g=groups.get(r.pk);if(!g)groups.set(r.pk,g={name:String(r.p).replace(/[^\w.-]/g,'_'),lines:[]});g.lines.push(r.p+','+r.t+','+r.q)}
+  const storeSet=new Set(rows.map(r=>K(r.t).toUpperCase()));
+  const csvFiles=[...groups.values()].map(g=>[g.name+'.csv','PLU,TOKO,QTY\r\n'+g.lines.join('\r\n')+'\r\n']);
+  csvFiles.push(['kelseasonal.csv','kdtoko,kelompok\r\n'+[...storeSet].map(t=>t+',A').join('\r\n')+'\r\n']);
+  const url=URL.createObjectURL(zipStore(csvFiles,'application/zip'));RAW.urls.push(url);
+  const a=document.createElement('a');a.className='button button-primary ar-dl';a.href=url;a.download='Item Raw.zip';a.textContent='Download Item Raw.zip';dl.appendChild(a);
+  msg.textContent='Selesai: '+fn(rows.length)+' baris alokasi, '+fn(groups.size)+' PLU, '+fn(storeSet.size)+' toko.'+(noMinor.size?' '+fn(noMinor.size)+' PLU dilewati karena Minor kosong/0 di DATAWHS.':'');
+ }catch(e){msg.className='ar-m ar-e';msg.textContent=e.message||String(e)}
+ finally{go.disabled=false;if(typeof endProcess==='function')endProcess()}
+}
+const RAW={urls:[]};
+function openDialog(){
+ const dlg=$('#alokasiRawDialog'),miss=missingSrc();
+ if(miss.length){ // pola sama dengan Raw Material: arahkan ke Daftar File bila sumber belum lengkap
+  if(typeof setStatus==='function')setStatus('Alokasi Raw belum bisa diproses. File belum lengkap: '+miss.join(', ')+'. Silakan lengkapi melalui Daftar File.',true);
+  if(typeof openFileManager==='function')openFileManager('allFiles');return}
+ const ids=new Set(files.map(f=>String(f.id)));for(const k of [...cache.keys()])if(!ids.has(String(k).replace('lpp:','')))cache.delete(k);
+ $('#arSrc').textContent='Sumber: '+SRC.map(([r,l])=>{const f=r==='datawhs'?null:pickFile(r);return l+' — '+(f?f.name:(sourceChosen.datawhs||'DATAWHS'))}).join(' · ');
+ clearOut();if(!dlg.open)dlg.showModal()}
+function init(){
+ const dlg=$('#alokasiRawDialog'),btn=$('#alokasiRawBtn');if(!dlg||!btn)return;
+ btn.addEventListener('click',openDialog);
+ $('#alokasiRawClose').addEventListener('click',()=>dlg.close());
+ $('#arGo').addEventListener('click',calc);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

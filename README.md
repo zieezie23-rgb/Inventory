@@ -1,3 +1,23 @@
+## v4.7.4 — Alokasi Raw digabung ke app.js
+- Kode alokasi-raw.js dipindahkan ke app.js sebagai satu bagian terpisah (dibungkus IIFE sendiri) agar tidak bertabrakan dengan modul lain; file alokasi-raw.js dihapus.
+- Dialog ALOKASI RAW kini hanya berisi isian x Minor dan tombol Hitung Alokasi; bagian upload dihapus.
+- Target dan Plan masuk ke Daftar File (grup Bahan) dan diunggah lewat tombol upload yang sudah ada; jenis file dikenali dari kolom (Target: TOKO, PRDCD, TARGET, NPB; Plan: TOKO dan PLAN PICKING).
+- Master Stock tidak perlu diunggah ulang: Minor diambil langsung dari DATAWHS (kolom MINOR_TOKO, lalu MINOR), sumber bahan yang sama dengan Master Stock.
+- Stock Akhir diambil dari kolom QTY_LPP file LaporanLPPvsPlano (dijumlah per PLU).
+- Logika hitung alokasi dan isi Item Raw.zip tidak diubah.
+
+## v4.7.3 — Tombol ALOKASI RAW
+- Menambahkan satu tombol proses ALOKASI RAW di Menu Operasional yang membuka dialog dengan fungsi aplikasi Alokasi Raw v1.0.0.
+- Upload Target, Plan, Stock Akhir, dan Master Stock (jenis file dikenali otomatis); isi x Minor lalu Hitung Alokasi; unduh Item Raw.zip (CSV per PLU + kelseasonal.csv).
+- Logika perhitungan disalin apa adanya dari Alokasi Raw v1.0.0 (file baru alokasi-raw.js); pembaca Excel memakai pustaka yang sudah ada di Inventory.
+- Grid menu disesuaikan untuk 11 tombol: 4 kolom (≥1280px) dan 6 kolom (≥1600px).
+
+## v4.7.2 — Tampilan layar lebar
+- Pada layar ≥1100px halaman utama memakai lebar layar (maks. 1760px), tidak lagi terkunci di kolom 1000px ala HP.
+- Menu operasional 3 kolom (≥1100px) dan 5 kolom (≥1280px); hero, ikon, dan tombol diperbesar.
+- Dialog Daftar File, Check Item, Raw Material, History, dan PO Expired dilebarkan di desktop.
+- Tampilan HP dan tablet tidak berubah.
+
 ## v4.7.1 — Format sheet DATA MASTER PB
 - Hanya item dengan CATCODE 1-3 yang diproses.
 - Sheet DATA berbentuk Excel Table mulai baris 2 (header), data langsung dari baris 3 (baris kosong dihapus); header PKM kedua diberi nama PKM2 agar unik.

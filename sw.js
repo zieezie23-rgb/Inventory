@@ -1,8 +1,8 @@
-/* Inventory PWA service worker — v4.8.1-shizenko */
-const CACHE_NAME = 'inventory-command-center-v4.8.1-shizenko';
+/* Inventory PWA service worker — v4.8.2-shizenko */
+const CACHE_NAME = 'inventory-command-center-v4.8.2-drobix';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
-  './', './index.html', './styles.css?v=4.8.1', './app.js?v=4.8.1',
+  './', './index.html', './styles.css?v=4.8.2', './app.js?v=4.8.2',
   './manifest.webmanifest', './vendor/pptxgen.min.js', './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-512-maskable.png', './vendor/jszip.min.js',
   './templates/xlsx-template.json', './templates/template-styles.xml', './assets/fonts/font.ttf'

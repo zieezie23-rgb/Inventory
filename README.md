@@ -1,7 +1,7 @@
-## v4.8.1 — Font Universal
-- File font utama disederhanakan menjadi `assets/fonts/font.ttf`.
-- CSS diseragamkan agar elemen antarmuka menggunakan font dari `font.ttf`, termasuk tombol, tabel, popup, menu, dan formulir.
-- Nomor versi dan cache Service Worker diperbarui ke v4.8.1.
+## v4.8.2 — Font Drobix Extrude
+- Font utama diganti menjadi Drobix Extrude dan disimpan sebagai `assets/fonts/font.ttf`.
+- CSS diseragamkan agar elemen antarmuka menggunakan font Drobix Extrude dari `font.ttf`, termasuk tombol, tabel, popup, menu, dan formulir.
+- Nomor versi dan cache Service Worker diperbarui ke v4.8.2.
 
 Untuk mengganti font, cukup timpa `assets/fonts/font.ttf` dengan file TTF baru bernama sama.
 ## v4.8.0 — Font Shizenko Japan Demo

@@ -1,3 +1,8 @@
+## v4.9.3 — Tombol Pengaturan Terlihat di Header
+
+- Memposisikan ikon roda gigi secara absolut di pojok kanan atas kartu header agar tidak terdorong keluar oleh tata letak flex dan elemen ilustrasi.
+- Ikon tetap tanpa kotak, border, maupun background; area sentuh 44×44 px.
+
 ## v4.9.2 — Penyempurnaan Pengaturan Font
 
 - Daftar font menampilkan nama font langsung menggunakan tipografi font masing-masing.

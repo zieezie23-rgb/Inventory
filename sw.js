@@ -1,5 +1,5 @@
-/* Inventory PWA service worker — v4.9.2-font-settings */
-const CACHE_NAME = 'inventory-command-center-v4.9.2-font-settings';
+/* Inventory PWA service worker — v4.9.3-font-settings-gear */
+const CACHE_NAME = 'inventory-command-center-v4.9.3-font-settings-gear';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
   './', './index.html', './styles.css?v=4.9.1', './app.js?v=4.9.1',

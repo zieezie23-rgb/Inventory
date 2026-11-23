@@ -1,5 +1,5 @@
 /* Inventory PWA service worker — v4.8.3-shizenko */
-const CACHE_NAME = 'inventory-command-center-v4.8.3-drobix';
+const CACHE_NAME = 'inventory-command-center-v4.8.3';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
   './', './index.html', './styles.css?v=4.8.3', './app.js?v=4.8.3',

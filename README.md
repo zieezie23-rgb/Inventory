@@ -1,3 +1,9 @@
+## v4.8.1 — Font Universal
+- File font utama disederhanakan menjadi `assets/fonts/font.ttf`.
+- CSS diseragamkan agar elemen antarmuka menggunakan font dari `font.ttf`, termasuk tombol, tabel, popup, menu, dan formulir.
+- Nomor versi dan cache Service Worker diperbarui ke v4.8.1.
+
+Untuk mengganti font, cukup timpa `assets/fonts/font.ttf` dengan file TTF baru bernama sama.
 ## v4.8.0 — Font Shizenko Japan Demo
 - Mengganti font utama antarmuka dengan Shizenko Japan Demo.
 - Menyinkronkan nomor versi aplikasi, header, footer, JavaScript, manifest, parameter aset, dan cache Service Worker ke v4.8.0.

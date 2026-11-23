@@ -1,9 +1,134 @@
 {
   "fonts": [
     {
-      "name": "Drobix Extrude",
-      "file": "./assets/fonts/font.ttf",
+      "name": "BLACK VIPER",
+      "file": "./assets/fonts/Black Viper.otf",
       "default": true
+    },
+    {
+      "name": "Crazy Blocks DEMO",
+      "file": "./assets/fonts/Crazy Blocks.otf",
+      "default": false
+    },
+    {
+      "name": "Dream Kudos",
+      "file": "./assets/fonts/DreamKudos-Personal-Use-Only.ttf",
+      "default": false
+    },
+    {
+      "name": "Drobix Extrude",
+      "file": "./assets/fonts/Drobix-Extrude.ttf",
+      "default": false
+    },
+    {
+      "name": "Drobix Hollow",
+      "file": "./assets/fonts/Drobix-Hollow.ttf",
+      "default": false
+    },
+    {
+      "name": "Drobix Outline",
+      "file": "./assets/fonts/Drobix-Outline.ttf",
+      "default": false
+    },
+    {
+      "name": "Drobix",
+      "file": "./assets/fonts/Drobix.ttf",
+      "default": false
+    },
+    {
+      "name": "Higher Jump",
+      "file": "./assets/fonts/Higher Jump.ttf",
+      "default": false
+    },
+    {
+      "name": "Homoarakhn",
+      "file": "./assets/fonts/HOMOARAK.TTF",
+      "default": false
+    },
+    {
+      "name": "Katales Broken",
+      "file": "./assets/fonts/Katales Broken copy.otf",
+      "default": false
+    },
+    {
+      "name": "Kectory",
+      "file": "./assets/fonts/Kectory.otf",
+      "default": false
+    },
+    {
+      "name": "Molen Friend Demo",
+      "file": "./assets/fonts/Molen Friend Demo.otf",
+      "default": false
+    },
+    {
+      "name": "Mons Terial",
+      "file": "./assets/fonts/Mons Terial.ttf",
+      "default": false
+    },
+    {
+      "name": "Noctra Drip Outline",
+      "file": "./assets/fonts/NoctraDrip-Outline.ttf",
+      "default": false
+    },
+    {
+      "name": "Noctra Drip OutlineMelt",
+      "file": "./assets/fonts/NoctraDrip-OutlineMelt.ttf",
+      "default": false
+    },
+    {
+      "name": "Noctra Drip Solid",
+      "file": "./assets/fonts/NoctraDrip-Solid.ttf",
+      "default": false
+    },
+    {
+      "name": "Noctra Drip SolidMelt",
+      "file": "./assets/fonts/NoctraDrip-SolidMelt.ttf",
+      "default": false
+    },
+    {
+      "name": "Pixel Game Extrude",
+      "file": "./assets/fonts/Pixel Game Extrude.otf",
+      "default": false
+    },
+    {
+      "name": "Pixel Game",
+      "file": "./assets/fonts/Pixel Game.otf",
+      "default": false
+    },
+    {
+      "name": "Shizenko Japan Demo",
+      "file": "./assets/fonts/Shizenko Japan Demo.ttf",
+      "default": false
+    },
+    {
+      "name": "Shizenko Japan Italic Demo",
+      "file": "./assets/fonts/Shizenko Japan Italic Demo.ttf",
+      "default": false
+    },
+    {
+      "name": "Slime Queen",
+      "file": "./assets/fonts/Slime Queen.ttf",
+      "default": false
+    },
+    {
+      "name": "Summer Festive",
+      "file": "./assets/fonts/Summer Festive.ttf",
+      "default": false
+    },
+    {
+      "name": "THE LAST TRUNKS",
+      "file": "./assets/fonts/THELASTTRUNKS-Personal-Use-Only.ttf",
+      "default": false
+    },
+    {
+      "name": "Vorcas",
+      "file": "./assets/fonts/Vorcas-Regular.otf",
+      "default": false
+    },
+    {
+      "name": "Zorque",
+      "file": "./assets/fonts/Zorque.otf",
+      "default": false
     }
   ]
 }

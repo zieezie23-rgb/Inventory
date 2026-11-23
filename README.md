@@ -1,6 +1,18 @@
+## v4.7.9 — Teks sidebar satu baris
+- Semua teks di sidebar Daftar File satu baris (tanpa wrap); nama yang panjang dikecilkan otomatis satu per satu sampai muat. Versi disinkronkan ke 4.7.9.
+
+## v4.7.8 — Lebar sidebar Daftar File 1/5 halaman
+- Sidebar Daftar File selebar 1/5 lebar layar (20vw); sisanya untuk menu operasional. Font, judul, dan tombol di sidebar mengecil mengikuti lebar. Versi disinkronkan ke 4.7.8.
+
+## v4.7.7 — Daftar File sebagai sidebar
+- Layar lebar (>=1280px): Daftar File tampil sebagai sidebar tetap di kiri (bukan popup) dan halaman utama bergeser ke kanan; tombol Pilih Folder dan Pilih File ada di pojok kanan atas sidebar.
+- Isi sidebar 3 kolom (Tarikan Harian G113 | G294 | G295, lalu Bahan | Tarikan LWA | File Update); ukuran font dan tinggi baris menyesuaikan tinggi layar sehingga pas satu layar tanpa scroll.
+- Sidebar bisa dikecilkan ke samping lewat tab di tepi sidebar atau tombol Kecilkan; pilihan tersimpan di browser.
+- Layar lebih kecil tetap memakai dialog popup. Versi disinkronkan ke 4.7.7.
+
 ## v4.7.6 — Tampilan Daftar File dan layar lebar
 - Daftar File: semua teks huruf kapital; label PROMO dan nama file promo ditampilkan tanpa ekstensi .xlsx.
-- Layar lebar: menu operasional 4 kolom (sebelumnya 5), ukuran layar tidak berubah; Daftar File tampil sebagai sidebar kiri 1 kolom.
+- Layar lebar: menu operasional 4 kolom (sebelumnya 5), ukuran layar tidak berubah.
 - Versi aplikasi, header/footer, manifest, parameter aset, dan cache service worker disinkronkan ke 4.7.6.
 
 ## v4.7.5 — Batas qty Alokasi Raw

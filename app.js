@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.7.6 */
+/* Inventory application logic — v4.7.9 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -54,14 +54,15 @@ const OPTIONAL_ROLES=new Set(['itempar','brd']);
 function renderFiles(){
  const dialog=$('fileManageDialog');
  if(!dialog)return;
- const action=dialog.dataset.action||'allFiles';
+ const side=document.body.classList.contains('side-mode');
+ const action=side?'allFiles':(dialog.dataset.action||'allFiles');
  const required=action==='allFiles'?ROLES.map(r=>r[0]):(PROCESS_CHECKS[action]||[]);
  $('fileManageTitle').textContent=action==='allFiles'?'Daftar File Inventory':`File yang diperlukan — ${PROCESS_TITLES[action]||''}`;
  const renderRole=role=>{
   const item=ROLES.find(r=>r[0]===role);
   const matches=files.filter(f=>f.guess===role);
   const label=item?item[1].split(' — ')[0]:role;
-  return matches.length?matches.map(f=>{const shown=role==='promo'?f.name.replace(/\.[^./\\]+$/,''):f.name;return `<div class="file-row file-ready"><span class="file-name" title="${escapeHtml(shown)}">${escapeHtml(shown)}</span><span class="file-status status-ready">Tersedia</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(shown)}">×</button></div>`}).join(''):`<div class="file-row file-missing"><span class="file-name">${escapeHtml(label)}</span><span class="file-status">Belum ada</span></div>`;
+  return matches.length?matches.map(f=>{const shown=role==='promo'?f.name.replace(/\.[^./\\]+$/,''):f.name;return `<div class="file-row file-ready"><span class="file-name" title="${escapeHtml(shown)}">${escapeHtml(shown)}</span><span class="file-status status-ready">Tersedia</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(shown)}">×</button></div>`}).join(''):`<div class="file-row file-missing" title="${escapeHtml(label)}"><span class="file-name">${escapeHtml(label)}</span><span class="file-status">Belum ada</span></div>`;
  };
  const groupNames={daily:'Tarikan Harian',bahan:'Bahan',lwa:'Tarikan LWA',update:'File Update'};
  if(action==='masterBtn'||action==='allFiles'){
@@ -78,7 +79,8 @@ function renderFiles(){
    const countText=group==='daily'
     ? `${files.filter(f=>roles.includes(f.guess)&&(f.bytes||String(f.content||'').trim()!=='')).length}/22 file`
     : `${roles.filter(hasRole).length}/${roles.length}`;
-   return `<details class="upload-group" data-upload-group="${group}"><summary class="upload-group-heading"><strong>${groupNames[group]}</strong><span class="upload-group-count">${countText}</span><i class="upload-group-toggle" aria-hidden="true">＋</i></summary><div class="upload-group-body">${body}</div></details>`;
+   const wrapTag=side?'section':'details',headTag=side?'div':'summary';
+   return `<${wrapTag} class="upload-group" data-upload-group="${group}"><${headTag} class="upload-group-heading"><strong>${groupNames[group]}</strong><span class="upload-group-count">${countText}</span><i class="upload-group-toggle" aria-hidden="true">＋</i></${headTag}><div class="upload-group-body">${body}</div></${wrapTag}>`;
   }).join('');
  }else{
   $('fileManageList').innerHTML=`<div class="upload-group-rows">${required.map(renderRole).join('')}</div>`||'<div class="empty-state">Tidak ada file sumber yang diperlukan.</div>';
@@ -625,7 +627,7 @@ async function runRekapSupplier(){if(!beginProcess('rekapSupplierBtn'))return;se
 
 async function runSlSupplier(){if(!beginProcess('slSupplierBtn'))return;setStatus('Memproses pembaruan SL Supplier G113…',false,true);try{const out=await makeSlSupplierXlsx(new Date());downloadBlob(out.filename,out.blob);setStatus('SL SUPPLIER berhasil diperbarui.',false)}catch(e){setStatus(e.message||'Terjadi kesalahan saat memperbarui SL Supplier.',true)}finally{endProcess()}}
 function downloadBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
-$('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});const folderPicker=$('dailyFolderPicker');$('pickDailyFolderLink').addEventListener('click',()=>folderPicker.click());$('pickFilesButton').addEventListener('click',()=>$('filePicker').click());folderPicker.addEventListener('change',e=>{const chosen=[...e.target.files];if(!chosen.length){setStatus('Tidak ada file yang dipilih.',true)}else{addFiles(chosen);const rootFiles=chosen.filter(f=>!warehouseFromPath(f)).length;const warehouseFiles=chosen.length-rootFiles;setStatus(`${chosen.length} file ditambahkan: ${rootFiles} file di folder utama/kategori dan ${warehouseFiles} file dari folder gudang.`)}e.target.value=''});$('clearBtn').onclick=()=>{files=[];parsed.clear();renderFiles();setStatus('Daftar file sumber dibersihkan.')};$('fileManageClose').onclick=()=>$('fileManageDialog').close();
+$('filePicker').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});const folderPicker=$('dailyFolderPicker');$('pickDailyFolderLink').addEventListener('click',()=>folderPicker.click());$('pickFilesButton').addEventListener('click',()=>$('filePicker').click());folderPicker.addEventListener('change',e=>{const chosen=[...e.target.files];if(!chosen.length){setStatus('Tidak ada file yang dipilih.',true)}else{addFiles(chosen);const rootFiles=chosen.filter(f=>!warehouseFromPath(f)).length;const warehouseFiles=chosen.length-rootFiles;setStatus(`${chosen.length} file ditambahkan: ${rootFiles} file di folder utama/kategori dan ${warehouseFiles} file dari folder gudang.`)}e.target.value=''});$('clearBtn').onclick=()=>{files=[];parsed.clear();renderFiles();setStatus('Daftar file sumber dibersihkan.')};$('fileManageClose').onclick=()=>document.body.classList.contains('side-mode')&&window.InventoryFileSidebar?window.InventoryFileSidebar.toggle():$('fileManageDialog').close();
 const PROCESS_CHECKS={
  poExpiredBtn:['prod','pom113','seas','seasonalbook'],
  masterBtn:['prod','stm113','stm294','stm295','hrgbeli','supmast','hpg','protect','datawhs','par113','par294','par295','seas','itemdepo','itemwhk','pom113','pom294','pom295','pou113','pou294','pou295','keb','nataru','promo','history','stockout'],
@@ -638,7 +640,7 @@ const PROCESS_CHECKS={
 };
 const PROCESS_TITLES={poExpiredBtn:'PO EXPIRED',masterBtn:'MASTER STOCK',masterPbBtn:'MASTER PB',stockOutBtn:'STOCK OUT',slSupplierBtn:'SL SUPPLIER',rekapSupplierBtn:'BPB SUPPLIER',brdBtn:'BRD',checkItemBtn:'CHECK ITEM'};
 const processActions={masterBtn:runMasterStock,masterPbBtn:runMasterPB,stockOutBtn:runStockOut,slSupplierBtn:runSlSupplier,rekapSupplierBtn:runRekapSupplier,brdBtn:runBrd};
-function openFileManager(action='allFiles'){$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
+function openFileManager(action='allFiles'){if(document.body.classList.contains('side-mode')&&window.InventoryFileSidebar){window.InventoryFileSidebar.expand();renderFiles();return}$('fileManageDialog').dataset.action=action;renderFiles();$('fileManageDialog').showModal()}
 $('openFileManagerButton').addEventListener('click',()=>openFileManager('allFiles'));
 function hasRole(role){return files.some(f=>f.guess===role&&(f.bytes||String(f.content||'').trim()!==''));}
 function missingFor(buttonId){return (PROCESS_CHECKS[buttonId]||[]).filter(role=>!hasRole(role)&&!(role==='itempar'));}
@@ -2519,7 +2521,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.7.6',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.9',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2657,7 +2659,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v4.7.6).
+/* ALOKASI RAW — modul terisolasi (v4.7.9).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):
@@ -2813,4 +2815,53 @@ function init(){
  $('#arGo').addEventListener('click',calc);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+
+/* SIDEBAR DAFTAR FILE — modul terisolasi (v4.7.9).
+   Layar lebar (>=1280px): Daftar File tampil sebagai sidebar tetap di kiri (bukan popup) dan halaman utama bergeser ke kanan;
+   sidebar bisa dikecilkan ke samping. Layar yang lebih kecil tetap memakai dialog popup seperti sebelumnya. */
+(function(){
+'use strict';
+const dlg=document.getElementById('fileManageDialog');if(!dlg||!window.matchMedia)return;
+const mq=window.matchMedia('(min-width:1280px)'),KEY='inventory.fileSidebar.collapsed';
+let collapsed=false;try{collapsed=localStorage.getItem(KEY)==='1'}catch(e){}
+const tab=document.createElement('button');tab.type='button';tab.id='fileSideTab';tab.className='file-side-tab';document.body.appendChild(tab);
+const closeBtn=document.getElementById('fileManageClose');
+function apply(){
+ document.body.classList.toggle('side-collapsed',collapsed);
+ tab.textContent=collapsed?'›':'‹';
+ tab.setAttribute('aria-label',collapsed?'Buka Daftar File':'Kecilkan Daftar File');
+ tab.title=collapsed?'Buka Daftar File':'Kecilkan Daftar File';
+ if(closeBtn&&document.body.classList.contains('side-mode'))closeBtn.textContent='‹ Kecilkan';
+}
+function save(){try{localStorage.setItem(KEY,collapsed?'1':'0')}catch(e){}}
+function enter(){
+ document.body.classList.add('side-mode');
+ if(dlg.open)dlg.close();
+ dlg.dataset.action='allFiles';renderFiles();dlg.show();apply();
+ requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add('side-anim'))); // animasi hanya setelah tampilan awal
+}
+function leave(){
+ document.body.classList.remove('side-mode','side-collapsed','side-anim');
+ if(dlg.open)dlg.close();
+ if(closeBtn)closeBtn.textContent='Tutup';
+}
+// Semua teks satu baris (tanpa wrap): teks yang terlalu panjang dikecilkan satu per satu sampai muat.
+const list=document.getElementById('fileManageList');let fitQueued=false;
+function fit(){
+ fitQueued=false;if(!document.body.classList.contains('side-mode')||!list)return;
+ const els=list.querySelectorAll('.file-name,.warehouse-heading,.upload-group-heading strong');
+ els.forEach(e=>e.style.removeProperty('font-size'));
+ const base=parseFloat(getComputedStyle(list).fontSize)||10;
+ els.forEach(e=>{if(e.scrollWidth>e.clientWidth+0.5){const px=Math.max(e.closest('.file-ready')?base*0.7:4,Math.floor(base*e.clientWidth/e.scrollWidth*10)/10);e.style.setProperty('font-size',px+'px','important')}});
+}
+function queueFit(){if(!fitQueued){fitQueued=true;requestAnimationFrame(fit)}}
+if(list&&window.MutationObserver)new MutationObserver(queueFit).observe(list,{childList:true});
+window.addEventListener('resize',queueFit);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queueFit);
+function sync(){mq.matches?enter():leave();queueFit()}
+window.InventoryFileSidebar={toggle(){collapsed=!collapsed;save();apply()},expand(){if(collapsed){collapsed=false;save();apply()}}};
+tab.addEventListener('click',()=>window.InventoryFileSidebar.toggle());
+if(mq.addEventListener)mq.addEventListener('change',sync);else mq.addListener(sync);
+sync();
 })();

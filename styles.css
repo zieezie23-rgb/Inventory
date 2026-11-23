@@ -1970,7 +1970,7 @@ body > #loginLock:not([hidden]){
   .action-button{padding:16px clamp(12px,1.1vw,20px)!important;gap:clamp(8px,.9vw,16px)!important}
 }
 
-/* v4.7.6 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
+/* v4.7.9 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
 .ar-dialog{width:min(760px,calc(100% - 24px))!important}
 .ar-panel{background:rgba(16,37,26,.7);border:1px solid #285236;border-radius:10px;margin-top:16px;padding:16px;overflow-x:auto}
 .ar-title{font-weight:800;color:#baff9b;margin:0 0 10px;font-size:14px;border-left:4px solid #75ff55;padding-left:8px;letter-spacing:.04em}
@@ -1982,20 +1982,58 @@ body > #loginLock:not([hidden]){
 #arMsg{margin-top:12px;white-space:normal}#arDls{margin-top:10px}.ar-dl{display:inline-flex;text-decoration:none}
 @media(min-width:1280px){.action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 
-/* v4.7.6 — Daftar File: huruf kapital; layar lebar: sidebar kiri 1 kolom */
+/* v4.7.9 — Daftar File: huruf kapital; layar lebar (>=1280px): sidebar tetap di kiri, 3 kolom, bisa dikecilkan */
 .file-manage-dialog,.file-manage-dialog *{text-transform:uppercase!important}
-@media(min-width:1100px){
-  .file-manage-dialog{
-    position:fixed!important;inset:0 auto 0 0!important;margin:0!important;
-    width:min(420px,92vw)!important;height:100dvh!important;max-height:100dvh!important;
-    align-self:auto!important;border-radius:0 18px 18px 0!important;
-    border-left:0!important;overflow-x:hidden!important;overflow-y:auto!important;
-    padding:20px 18px!important;
-  }
-  .file-manage-dialog .file-manage-heading{flex-wrap:wrap!important}
-  .file-manage-dialog .file-manage-heading-tools{margin-left:0!important;width:100%!important;justify-content:flex-start!important;gap:8px!important}
-  .file-manage-list{display:block!important}
-  .file-manage-list .daily-warehouse-grid{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
-  .file-manage-list .daily-warehouse-grid>.warehouse-upload{padding:0 0 8px!important;border-right:0!important;border-bottom:1px solid rgba(169,200,229,.25)!important}
-  .file-manage-list .daily-warehouse-grid>.warehouse-upload:last-child{border-bottom:0!important;padding-bottom:0!important}
+.file-side-tab{display:none}
+@media(min-width:1280px){
+  :root{--side-open:20vw}
+  body.side-mode{--side-w:var(--side-open);padding-left:var(--side-w)}
+  body.side-anim{transition:padding-left .25s ease}
+  body.side-mode.side-collapsed{--side-w:0px}
+  body.side-mode .home-main{max-width:min(1760px,calc(100vw - var(--side-w) - 24px))!important}
+  body.side-mode #fileManageDialog{position:fixed!important;inset:0 auto 0 0!important;margin:0!important;width:var(--side-open)!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;box-sizing:border-box!important;padding:10px 8px!important;overflow:hidden!important;border-radius:0 14px 14px 0!important;border-left:0!important;z-index:40;align-self:auto!important}
+  body.side-anim #fileManageDialog{transition:transform .25s ease}
+  body.side-mode #fileManageDialog[open]{display:flex!important;flex-direction:column}
+  body.side-mode.side-collapsed #fileManageDialog{transform:translateX(-103%);box-shadow:none!important}
+  body.side-mode #fileManageDialog>form{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;width:100%!important;margin:0!important}
+  body.side-mode .file-side-tab{display:block;position:fixed;top:50%;left:var(--side-w);transform:translateY(-50%);z-index:41;width:22px;height:64px;padding:0;border:1px solid #397a49;border-left:0;border-radius:0 10px 10px 0;background:#10251a;color:#75ff55;font-size:18px;line-height:1;cursor:pointer}
+  body.side-anim .file-side-tab{transition:left .25s ease}
+  body.side-mode .file-side-tab:hover{background:#17361f}
+  /* judul kiri, tombol pilih folder/file di pojok kanan atas */
+  body.side-mode .file-manage-dialog .file-manage-heading{flex:0 0 auto!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;margin:0 0 8px!important;gap:8px!important}
+  body.side-mode .file-manage-dialog .file-manage-heading h2{font-size:clamp(8px,calc(var(--side-open)/28),15px)!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden;text-overflow:clip;flex:1 1 auto!important;min-width:0}
+  body.side-mode .file-manage-dialog .file-manage-heading-tools{margin-left:auto!important;width:auto!important;flex-direction:column!important;align-items:flex-end!important;justify-content:flex-start!important;gap:3px!important;flex:0 0 auto!important}
+  body.side-mode .file-manage-heading-tools .file-action-link{padding:2px 4px!important;font-size:clamp(8px,calc(var(--side-open)/32),10.5px)!important;white-space:nowrap!important}
+  /* daftar: 3 kolom, tinggi pas satu layar (tanpa scroll / ruang kosong) */
+  body.side-mode #fileManageList{flex:1 1 auto!important;min-height:0!important;width:100%!important;padding:0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:13fr 12fr!important;column-gap:6px!important;row-gap:4px!important;overflow:hidden!important;max-height:none!important;--u:calc((100dvh - 150px)/25);--fs:clamp(7px,min(calc(var(--u)*.42),calc(var(--side-open)/30)),14px);font-size:var(--fs)}
+  body.side-mode #fileManageList>.upload-group{display:grid!important;grid-template-rows:repeat(12,minmax(0,1fr))!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+  body.side-mode #fileManageList>.upload-group[data-upload-group="daily"]{grid-column:1/-1!important;grid-template-rows:minmax(0,1fr) minmax(0,12fr)!important}
+  body.side-mode #fileManageList .upload-group-body{display:contents!important}
+  body.side-mode #fileManageList>.upload-group[data-upload-group="daily"]>.upload-group-body{display:block!important;height:100%!important;min-height:0!important}
+  body.side-mode #fileManageList .upload-group-rows{display:contents!important}
+  body.side-mode #fileManageList .daily-warehouse-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:6px!important;grid-template-rows:minmax(0,1fr)!important;align-items:stretch!important;height:100%!important;min-height:0!important}
+  body.side-mode #fileManageList .daily-warehouse-grid>.warehouse-upload{display:grid!important;grid-template-rows:repeat(12,minmax(0,1fr))!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important}
+  body.side-mode #fileManageList .upload-group-heading,body.side-mode #fileManageList .warehouse-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:0!important;margin:0!important;padding:0 2px!important;font-size:1.05em!important;line-height:1!important;border:0!important;border-bottom:2px solid #75ff55!important;background:transparent!important;overflow:hidden}
+  body.side-mode #fileManageList .warehouse-heading{border-bottom-color:rgba(117,255,85,.45)!important}
+  body.side-mode #fileManageList .upload-group-heading strong,body.side-mode #fileManageList .upload-group-heading span{font-size:1em!important;white-space:nowrap!important}
+  body.side-mode #fileManageList .upload-group-heading strong,body.side-mode #fileManageList .warehouse-heading{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  body.side-mode #fileManageList .upload-group-heading span{font-size:.85em!important}
+  body.side-mode #fileManageList .upload-group-toggle{display:none!important}
+  body.side-mode #fileManageList .file-row{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:4px!important;min-width:0!important;min-height:0!important;height:auto!important;margin:0!important;padding:0 3px!important;border:0!important;border-bottom:1px solid rgba(117,255,85,.16)!important;border-radius:0!important;background:transparent!important;overflow:hidden}
+  body.side-mode #fileManageList .file-name{flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:1em!important}
+  /* status ringkas (✕ belum ada / ✓ tersedia) supaya nama file punya ruang di 3 kolom */
+  body.side-mode #fileManageList .file-status{flex:0 0 auto!important;font-size:0!important;min-width:1.3em;text-align:center;white-space:nowrap!important}
+  body.side-mode #fileManageList .file-status::before{content:"✕";font-size:var(--fs);line-height:1}
+  body.side-mode #fileManageList .file-status.status-ready::before{content:"✓"}
+  body.side-mode #fileManageList .remove-file{flex:0 0 auto!important;width:1.5em!important;height:1.5em!important;min-width:0!important;padding:0!important;font-size:1.1em!important;line-height:1!important}
+  /* menu operasional: teks mengecil mengikuti lebar halaman yang tersisa agar tidak menabrak panah */
+  body.side-mode .action-button{padding:12px 10px!important;gap:8px!important}
+  body.side-mode .action-button .action-copy strong{font-size:clamp(10px,calc((100vw - var(--side-w))/86),15px)!important;letter-spacing:.02em!important}
+  body.side-mode .action-button .action-copy strong{white-space:normal!important;line-height:1.15!important}
+  body.side-mode .action-button .action-copy small{font-size:clamp(9px,calc((100vw - var(--side-w))/110),12px)!important}
+  body.side-mode .action-button .action-icon{font-size:clamp(20px,calc((100vw - var(--side-w))/50),28px)!important}
+  body.side-mode .file-manage-dialog .file-manage-actions{flex:0 0 auto!important;margin-top:8px!important;gap:6px!important}
+  body.side-mode .file-manage-dialog .file-manage-actions{display:grid!important;grid-template-columns:1fr 1fr!important}
+  body.side-mode .file-manage-dialog .file-manage-actions .file-manage-count{grid-column:1/-1;grid-row:1;text-align:center;white-space:nowrap!important;font-size:clamp(7px,calc(var(--side-open)/34),11px)!important}
+  body.side-mode .file-manage-dialog .file-manage-actions button{min-width:0!important;min-height:26px!important;padding:4px 4px!important;font-size:clamp(7px,calc(var(--side-open)/36),10.5px)!important;line-height:1.1!important;white-space:nowrap!important}
 }

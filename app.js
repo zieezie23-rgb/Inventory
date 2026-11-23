@@ -1,10 +1,10 @@
-/* Inventory application logic — v4.7.5 */
+/* Inventory application logic — v4.7.6 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
  ['hrgbeli','HRGBELI — Harga beli','HRGBELI'],['supmast','SUPMAST — Supplier','SUPMAST'],['hpg','HPG — MEAN / biaya','HPG'],['protect','PROTECT — Proteksi','PROTECT'],['datawhs','DATAWHS — Gudang / station','DATAWHS'],
  ['par113','PAR G113 — Penjualan','PAR'],['par294','PAR G294 — Penjualan','PAR'],['par295','PAR G295 — Penjualan','PAR'],['seas','SEAS — Seasonal (Master Stock)','SEAS'],['seasonalbook','Laporan Harian Seasonal — PO EXPIRED','SEASONALBOOK'],['itempar','ITEMPAR — Keterangan (opsional)','ITEMPAR'],['itemdepo','ITEMDEPO — Item depo','ITEMDEPO'],['itemwhk','ITEMWHK — Item WHK','ITEMWHK'],
- ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO.xlsx — Data promosi','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE'],['alktarget','Target — Alokasi Raw','TARGET'],['alkplan','Plan — Alokasi Raw','PLAN']
+ ['pom113','POM G113 — PO / BPB','POM'],['pom294','POM G294 — PO / BPB','POM'],['pom295','POM G295 — PO / BPB','POM'],['pou113','POU G113 — PO outstanding','POU'],['pou294','POU G294 — PO outstanding','POU'],['pou295','POU G295 — PO outstanding','POU'],['keb','KEB — KEB / toko','KEB'],['nataru','NATARU','NATARU'],['promo','PROMO — Data promosi','PROMO'],['history','LaporanHistoryTag — TGL_AKHIR','HISTORY'],['lppplano','LaporanLPPvsPlano — Stock Akhir','LPPVSPLANO'],['reg','REG 4 Bulan — G113','REG'],['stockout','LaporanStokOutDCINew — STOCK_OUT Y','STOCKOUT'],['stockoutbook','Stock Out DC — file terakhir (.xlsx)','STOCKOUTBOOK'],['slsupplierbook','SL Supplier — file terakhir (.xlsx)','SLSUPPLIERBOOK'],['rekapsupplierbook','Rekap Supplier — file terakhir (.xlsx)','REKAPSUPPLIERBOOK'],['lrbpbsupplier','LRBPB_SUPPLIER — transaksi BPB supplier','LRBPBSUPPLIER'],['brd','File BRD — semua file yang diunggah','BRD'],['rawplu','PLU — Raw Material','PLU'],['rawdisplay','Planogram Display — Raw Material','DISPLAY'],['rawstorage','Planogram Storage — Raw Material','STORAGE'],['alktarget','Target — Alokasi Raw','TARGET'],['alkplan','Plan — Alokasi Raw','PLAN']
 ];
 const H1=['PRDCD','DESC2','PLANOGRAM','','','','','','ALAMAT','SUPCO','SNAMA','FK','DIV','KLPT','CAT_COD','FRAC','ACOST','LCOST','PKM','RP','PTAG','SLS1','SLS2','SLS3','AVG','AVG G294','AVG G295','MINOR','MEAN','STKG294','','','DSI 294','STKG295','','','DSI 295','STKG113','','','DSISTK','DSIPKM','POG294','POG295','POG113','STK02','','','STK03','','','STATUS','KEB','TOKO','STOCK OUT TOKO','','','KET','SEASONAL','','SPD','KAT','TGL RUBAH PTAG','PROTECT','ITEM DEPO','LEAD','SL SUPPLIER','','','LAST BPB','','ITEM NATARU','PROMOSI','','','','ITEM WHK'];
 const H2=['','','ZONA','ST','LT','RAK','BAR','CELL','','','','','','','','','','','','','','','','','','','','','','PCS','CTN','RP','','PCS','CTN','RP','','PCS','CTN','RP','','','','','','PCS','CTN','RP','PCS','CTN','RP','','','','G113','G294','G295','','JENIS','RINCIAN','','','','','','','G113','G294','G295','TGL','PCS','','TGL AWAL','TGL AKHIR','QTY TGT','JENIS_PROMO',''];const $=id=>document.getElementById(id);let files=[],parsed=new Map(),lastCsv='',lastLog='',lastResult=null,lastExportName='';const UPLOAD_GROUP_KEYS=['daily','bahan','lwa','update'];const collapsedUploadGroups=new Set(UPLOAD_GROUP_KEYS);
@@ -61,7 +61,7 @@ function renderFiles(){
   const item=ROLES.find(r=>r[0]===role);
   const matches=files.filter(f=>f.guess===role);
   const label=item?item[1].split(' — ')[0]:role;
-  return matches.length?matches.map(f=>`<div class="file-row file-ready"><span class="file-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</span><span class="file-status status-ready">Tersedia</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(f.name)}">×</button></div>`).join(''):`<div class="file-row file-missing"><span class="file-name">${escapeHtml(label)}</span><span class="file-status">Belum ada</span></div>`;
+  return matches.length?matches.map(f=>{const shown=role==='promo'?f.name.replace(/\.[^./\\]+$/,''):f.name;return `<div class="file-row file-ready"><span class="file-name" title="${escapeHtml(shown)}">${escapeHtml(shown)}</span><span class="file-status status-ready">Tersedia</span><button class="remove-file" data-remove="${f.id}" type="button" aria-label="Hapus ${escapeHtml(shown)}">×</button></div>`}).join(''):`<div class="file-row file-missing"><span class="file-name">${escapeHtml(label)}</span><span class="file-status">Belum ada</span></div>`;
  };
  const groupNames={daily:'Tarikan Harian',bahan:'Bahan',lwa:'Tarikan LWA',update:'File Update'};
  if(action==='masterBtn'||action==='allFiles'){
@@ -2519,7 +2519,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.7.5',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.6',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2657,7 +2657,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v4.7.5).
+/* ALOKASI RAW — modul terisolasi (v4.7.6).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):

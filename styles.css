@@ -1961,7 +1961,7 @@ body > #loginLock:not([hidden]){
   #poExpiredApp main{max-width:none!important}
 }
 @media(min-width:1280px){
-  .action-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:22px!important}
+  .action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:22px!important}
   .action-button{min-height:112px!important}
 }
 @media(min-width:1100px){
@@ -1970,7 +1970,7 @@ body > #loginLock:not([hidden]){
   .action-button{padding:16px clamp(12px,1.1vw,20px)!important;gap:clamp(8px,.9vw,16px)!important}
 }
 
-/* v4.7.5 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
+/* v4.7.6 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
 .ar-dialog{width:min(760px,calc(100% - 24px))!important}
 .ar-panel{background:rgba(16,37,26,.7);border:1px solid #285236;border-radius:10px;margin-top:16px;padding:16px;overflow-x:auto}
 .ar-title{font-weight:800;color:#baff9b;margin:0 0 10px;font-size:14px;border-left:4px solid #75ff55;padding-left:8px;letter-spacing:.04em}
@@ -1981,4 +1981,21 @@ body > #loginLock:not([hidden]){
 .ar-ctl input[type=number]{font:inherit;padding:5px 8px;border:1px solid #356b40;border-radius:6px;background:#0b2113;color:#d7f5d5;width:140px;height:38px}
 #arMsg{margin-top:12px;white-space:normal}#arDls{margin-top:10px}.ar-dl{display:inline-flex;text-decoration:none}
 @media(min-width:1280px){.action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
-@media(min-width:1600px){.action-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+
+/* v4.7.6 — Daftar File: huruf kapital; layar lebar: sidebar kiri 1 kolom */
+.file-manage-dialog,.file-manage-dialog *{text-transform:uppercase!important}
+@media(min-width:1100px){
+  .file-manage-dialog{
+    position:fixed!important;inset:0 auto 0 0!important;margin:0!important;
+    width:min(420px,92vw)!important;height:100dvh!important;max-height:100dvh!important;
+    align-self:auto!important;border-radius:0 18px 18px 0!important;
+    border-left:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+    padding:20px 18px!important;
+  }
+  .file-manage-dialog .file-manage-heading{flex-wrap:wrap!important}
+  .file-manage-dialog .file-manage-heading-tools{margin-left:0!important;width:100%!important;justify-content:flex-start!important;gap:8px!important}
+  .file-manage-list{display:block!important}
+  .file-manage-list .daily-warehouse-grid{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+  .file-manage-list .daily-warehouse-grid>.warehouse-upload{padding:0 0 8px!important;border-right:0!important;border-bottom:1px solid rgba(169,200,229,.25)!important}
+  .file-manage-list .daily-warehouse-grid>.warehouse-upload:last-child{border-bottom:0!important;padding-bottom:0!important}
+}

@@ -1,6 +1,10 @@
+## v4.7.6 — Tampilan Daftar File dan layar lebar
+- Daftar File: semua teks huruf kapital; label PROMO dan nama file promo ditampilkan tanpa ekstensi .xlsx.
+- Layar lebar: menu operasional 4 kolom (sebelumnya 5), ukuran layar tidak berubah; Daftar File tampil sebagai sidebar kiri 1 kolom.
+- Versi aplikasi, header/footer, manifest, parameter aset, dan cache service worker disinkronkan ke 4.7.6.
+
 ## v4.7.5 — Batas qty Alokasi Raw
 - Qty alokasi per baris (toko + PRDCD) dibatasi maksimal 999, dibulatkan turun ke kelipatan Minor (contoh Minor 400 menjadi maksimal 800).
-- Versi aplikasi, header/footer, manifest, parameter aset, dan cache service worker disinkronkan ke 4.7.5.
 
 ## v4.7.4 — Alokasi Raw digabung ke app.js
 - Kode alokasi-raw.js dipindahkan ke app.js sebagai satu bagian terpisah (dibungkus IIFE sendiri) agar tidak bertabrakan dengan modul lain; file alokasi-raw.js dihapus.

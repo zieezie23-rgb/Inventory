@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.9.5">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.9.6">
   <title>Inventory</title>
 
 
 <style id="inventory-global-font">
 :root{--inventory-font-family:"AppFont",sans-serif;--inventory-font-scale:1}
 *,*::before,*::after{font-family:var(--inventory-font-family,inherit)!important}
-html{font-size:calc(16px * var(--inventory-font-scale,1))}
+html{font-size:16px}
 input,button,select,textarea{font-family:var(--inventory-font-family,inherit)!important}
 </style>
 
@@ -1222,7 +1222,7 @@ if ('serviceWorker' in navigator) {
 <!-- Pengaturan tampilan Inventory v4.9.5 -->
 <style id="inventory-font-settings-style">
 :root{--inventory-font-scale:1}
-html{font-size:calc(16px * var(--inventory-font-scale,1))}
+html{font-size:16px}
 body{font-size:1rem}
 .hero-settings-button{width:34px;height:34px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:#baff9b;font-size:25px;line-height:1}
 .home-quick-link,.file-manage-heading-tools .home-quick-link{font-family:var(--inventory-font-family,"AppFont",sans-serif)!important}
@@ -1239,7 +1239,7 @@ body{font-size:1rem}
 .font-choice-item:disabled{opacity:.6;cursor:wait}
 .font-choice-name{font-size:16px;overflow-wrap:anywhere}
 .font-size-row{display:flex;align-items:center;gap:12px}
-.font-size-row input{flex:1;min-width:0;accent-color:#75ff55}
+.font-size-row input{flex:1;min-width:0;accent-color:#75ff55;min-height:28px;cursor:pointer;touch-action:pan-y;pointer-events:auto}
 .font-size-value{min-width:48px;text-align:right;color:#baff9b;font-weight:700;font-variant-numeric:tabular-nums}
 .font-settings-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
 .font-settings-actions button{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid #42694a;background:#16351f;color:#efffec;cursor:pointer}
@@ -1259,7 +1259,7 @@ body{font-size:1rem}
 <script>
 (()=>{
  'use strict';
- const MANIFEST='./assets/fonts/fonts.json?v=4.9.5', STORAGE_KEY='inventory.selectedFont.v1', SIZE_KEY='inventory.fontScale.v1';
+ const MANIFEST='./assets/fonts/fonts.json?v=4.9.6', STORAGE_KEY='inventory.selectedFont.v1', SIZE_KEY='inventory.fontScale.v1';
  const dialog=document.getElementById('fontSettingsDialog'), opener=document.getElementById('openFontSettings'), closer=document.getElementById('closeFontSettings'), list=document.getElementById('fontChoiceList'), status=document.getElementById('fontSettingsStatus'), sizeInput=document.getElementById('fontSizeChoice'), sizeValue=document.getElementById('fontSizeValue');
  if(!dialog||!opener||!list)return;
  let fontList=[], chosenFile='', applying=false;
@@ -1302,7 +1302,29 @@ body{font-size:1rem}
      chosenFile=previous;renderChoices();say('✕ Font gagal diganti. Periksa file font atau coba lagi.');return false;
    }finally{setBusy(false)}
  }
- function setScale(value,save=true){const n=Math.max(50,Math.min(200,Number(value)||100));document.documentElement.style.setProperty('--inventory-font-scale',String(n/100));sizeInput.value=String(n);sizeValue.value=n+'%';sizeValue.textContent=n+'%';if(save){try{localStorage.setItem(SIZE_KEY,String(n))}catch(_){}}}
+ const baseFontSizes=new WeakMap();
+ const ignoredFontScaleTags=new Set(['SCRIPT','STYLE','LINK','META','SVG','PATH','CANVAS']);
+ function scaleTextElements(scale){
+   const root=document.body;if(!root)return;
+   const nodes=root.querySelectorAll('*');
+   nodes.forEach(el=>{
+     if(ignoredFontScaleTags.has(el.tagName)||el===sizeInput)return;
+     let base=baseFontSizes.get(el);
+     if(!base){
+       const computed=parseFloat(getComputedStyle(el).fontSize);
+       if(!Number.isFinite(computed)||computed<=0)return;
+       base=computed;baseFontSizes.set(el,base);
+     }
+     el.style.setProperty('font-size',(base*scale)+'px','important');
+   });
+ }
+ function setScale(value,save=true){
+   const parsed=Number(value);const n=Math.max(50,Math.min(200,Number.isFinite(parsed)&&parsed>0?parsed:100));
+   const scale=n/100;document.documentElement.style.setProperty('--inventory-font-scale',String(scale));
+   scaleTextElements(scale);
+   sizeInput.value=String(n);sizeValue.value=n+'%';sizeValue.textContent=n+'%';
+   if(save){try{localStorage.setItem(SIZE_KEY,String(n))}catch(_){}}
+ }
  async function loadList(){
    try{
      const response=await fetch(MANIFEST,{cache:'no-store'});if(!response.ok)throw new Error('manifest');
@@ -1313,6 +1335,7 @@ body{font-size:1rem}
  }
  document.getElementById('resetFontChoice').addEventListener('click',async()=>{const item=fontList.find(x=>x.default)||fontList[0];if(item)await applyFont(item,true)});
  sizeInput.addEventListener('input',()=>setScale(sizeInput.value));
+ sizeInput.addEventListener('change',()=>setScale(sizeInput.value));
  opener.addEventListener('click',()=>{dialog.showModal();loadList()});closer.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
  let savedSize=100;try{savedSize=Number(localStorage.getItem(SIZE_KEY)||100)}catch(_){}setScale(savedSize,false);
  loadList();

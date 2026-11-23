@@ -1,5 +1,9 @@
-## v4.7.9 — Teks sidebar satu baris
-- Semua teks di sidebar Daftar File satu baris (tanpa wrap); nama yang panjang dikecilkan otomatis satu per satu sampai muat. Versi disinkronkan ke 4.7.9.
+## v4.8.0 — Font Shizenko Japan Demo
+- Mengganti font utama antarmuka dengan Shizenko Japan Demo.
+- Menyinkronkan nomor versi aplikasi, header, footer, JavaScript, manifest, parameter aset, dan cache Service Worker ke v4.8.0.
+
+## v4.8.0 — Teks sidebar satu baris
+- Semua teks di sidebar Daftar File satu baris (tanpa wrap); nama yang panjang dikecilkan otomatis satu per satu sampai muat. Versi disinkronkan ke 4.8.0.
 
 ## v4.7.8 — Lebar sidebar Daftar File 1/5 halaman
 - Sidebar Daftar File selebar 1/5 lebar layar (20vw); sisanya untuk menu operasional. Font, judul, dan tombol di sidebar mengecil mengikuti lebar. Versi disinkronkan ke 4.7.8.

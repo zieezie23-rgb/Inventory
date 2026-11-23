@@ -1,11 +1,11 @@
-/* Inventory PWA service worker — v4.7.9 */
-const CACHE_NAME = 'inventory-command-center-v4.7.9';
+/* Inventory PWA service worker — v4.8.0-shizenko */
+const CACHE_NAME = 'inventory-command-center-v4.8.0-shizenko';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
-  './', './index.html', './styles.css?v=4.7.9', './app.js?v=4.7.9',
+  './', './index.html', './styles.css?v=4.8.0', './app.js?v=4.8.0',
   './manifest.webmanifest', './vendor/pptxgen.min.js', './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-512-maskable.png', './vendor/jszip.min.js',
-  './templates/xlsx-template.json', './templates/template-styles.xml'
+  './templates/xlsx-template.json', './templates/template-styles.xml', './assets/fonts/Shizenko-Japan-Demo.ttf'
 ].map(path => new URL(path, BASE).toString());
 
 self.addEventListener('install', event => {

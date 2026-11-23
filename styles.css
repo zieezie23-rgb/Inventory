@@ -1970,7 +1970,7 @@ body > #loginLock:not([hidden]){
   .action-button{padding:16px clamp(12px,1.1vw,20px)!important;gap:clamp(8px,.9vw,16px)!important}
 }
 
-/* v4.8.2 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
+/* v4.8.3 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
 .ar-dialog{width:min(760px,calc(100% - 24px))!important}
 .ar-panel{background:rgba(16,37,26,.7);border:1px solid #285236;border-radius:10px;margin-top:16px;padding:16px;overflow-x:auto}
 .ar-title{font-weight:800;color:#baff9b;margin:0 0 10px;font-size:14px;border-left:4px solid #75ff55;padding-left:8px;letter-spacing:.04em}
@@ -1982,7 +1982,7 @@ body > #loginLock:not([hidden]){
 #arMsg{margin-top:12px;white-space:normal}#arDls{margin-top:10px}.ar-dl{display:inline-flex;text-decoration:none}
 @media(min-width:1280px){.action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 
-/* v4.8.2 — Daftar File: huruf kapital; layar lebar (>=1280px): sidebar tetap di kiri, 3 kolom, bisa dikecilkan */
+/* v4.8.3 — Daftar File: huruf kapital; layar lebar (>=1280px): sidebar tetap di kiri, 3 kolom, bisa dikecilkan */
 .file-manage-dialog,.file-manage-dialog *{text-transform:uppercase!important}
 .file-side-tab{display:none}
 @media(min-width:1280px){
@@ -2039,18 +2039,16 @@ body > #loginLock:not([hidden]){
 }
 
 
-/* v4.8.2 — embedded Drobix Extrude UI font */
+/* v4.8.3 — Drobix Extrude UI font */
 @font-face{
-  font-family:"AppFont",sans-serif!important;
+  font-family:"AppFont";
   src:url("./assets/fonts/font.ttf") format("truetype");
   font-style:normal;
-  font-weight:100 900;
+  font-weight:400;
   font-display:swap;
 }
-body{font-family:"Shizenko Japan Demo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important}
 
-
-/* v4.8.2: one replaceable font file for the entire interface */
+/* v4.8.3: one replaceable font file for the entire interface */
 html,body,body *,
 body *::before,body *::after,
 input,button,select,textarea,option,

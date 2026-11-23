@@ -3,15 +3,21 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.8.3">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.9.0">
   <title>Inventory</title>
+
+
+<style id="inventory-global-font">
+:root{--inventory-font-family:"AppFont",sans-serif}
+*,*::before,*::after{font-family:var(--inventory-font-family,inherit)!important}
+</style>
 
 </head>
 <body>
 <canvas id="matrixRain" class="matrix-rain" aria-hidden="true"></canvas>
 <div id="loginLock" class="login-lock" role="dialog" aria-modal="true" aria-label="Login aplikasi Inventory">
   <form id="loginForm" class="login-card" autocomplete="off">
-    <span class="login-version" aria-label="Versi aplikasi">v4.8.3</span>
+    <span class="login-version" aria-label="Versi aplikasi">v4.9.0</span>
     <p class="login-kicker">INVENTORY WORKSPACE</p>
     <label class="login-field-label" for="loginPassword">Password</label>
     <input id="loginPassword" class="login-password" type="password" name="password" placeholder="Masukkan password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
@@ -28,7 +34,7 @@
       
     </div>
     <div class="hero-emblem"><img class="hero-app-icon" src="./assets/icon.png" alt="Ikon aplikasi Inventory"></div>
-    <span class="hero-version">v4.8.3</span>
+    <button class="hero-settings-button" id="openFontSettings" type="button" aria-label="Pengaturan tampilan" title="Pengaturan"><span aria-hidden="true">⚙</span></button>
     <div class="hero-corner hero-corner-tl"></div><div class="hero-corner hero-corner-br"></div>
   </section>
   <section class="card process-card" id="processCard"><div class="module-heading"><div><h2>Menu Operasional</h2></div><div class="home-quick-actions" aria-label="Akses cepat"><button id="installAppButton" class="home-quick-link install-app-link" type="button" hidden>Pasang Aplikasi</button><button id="openFileManagerButton" class="home-quick-link" type="button">Daftar File</button></div></div><div id="status" class="status" role="status" aria-live="polite"></div><div id="homeProgress" class="home-progress" hidden><div class="home-progress-meta"><span id="homeProgressLabel">Memproses…</span><strong id="homeProgressValue">0%</strong></div><div class="home-progress-track"><span id="homeProgressBar"></span></div></div><div class="action-grid">
@@ -194,7 +200,7 @@
     <section data-history-page="top-items" class="history-page" hidden><section class="history-section"><h3>20 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section><section data-history-page="top-supco" class="history-page" hidden><section class="history-section"><h3>20 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section>
     <section data-history-page="stockout-summary" class="history-page" hidden><section class="history-section"><h3>RINGKASAN STOCK OUT BERTURUT-TURUT</h3><div class="history-table-wrap"><table id="historyStockOutSummary"><thead><tr><th>No</th><th>Keterangan</th><th>Jumlah Item</th></tr></thead><tbody></tbody></table></div><section id="historyStockOutDetailPanel" class="history-stockout-detail" hidden><div class="history-table-toolbar history-stockout-detail-actions"><h3 id="historyStockOutDetailTitle">Daftar Item</h3><div class="history-actions"><button type="button" class="button button-primary" id="historyStockOutExportJpeg" disabled>Export JPEG</button><button type="button" class="button history-stockout-close" id="historyStockOutDetailClose">×</button></div></div><div class="history-table-wrap"><table id="historyStockOutDetail"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>SNAMA</th><th>PKM</th><th>Tgl Rubah Tag</th><th>PTAG</th><th>STOCK</th><th>PERIODE</th><th>SL</th><th>KETERANGAN</th></tr></thead><tbody></tbody></table></div></section></section></section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v4.8.3 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v4.9.0 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="vendor/pptxgen.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -1210,4 +1216,83 @@ if ('serviceWorker' in navigator) {
   showLock('');
 })();
 </script>
+
+<!-- Pengaturan font Inventory v4.9.0 -->
+<style>
+.hero-settings-button{position:absolute;top:12px;right:14px;z-index:5;width:38px;height:38px;border:1px solid rgba(160,255,140,.45);border-radius:12px;background:rgba(4,22,13,.78);color:#baff9b;font-size:21px;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 16px rgba(117,255,85,.13)}
+.hero-settings-button:focus-visible,.font-settings-dialog button:focus-visible,.font-settings-dialog select:focus-visible{outline:2px solid #75ff55;outline-offset:3px}
+.font-settings-dialog{width:min(92vw,440px);max-height:82vh;overflow:auto;border:1px solid #42694a;border-radius:18px;background:#07120b;color:#efffec;padding:20px;box-shadow:0 24px 80px #000b}
+.font-settings-dialog::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(4px)}
+.font-settings-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.font-settings-head h2{margin:0;font-size:18px}
+.font-settings-close{border:1px solid #42694a;background:#102417;color:#efffec;border-radius:9px;padding:7px 11px;cursor:pointer}
+.font-settings-dialog label{display:block;margin:10px 0 6px;font-size:13px;color:#b8d5bd}
+.font-settings-dialog select{width:100%;padding:12px;border-radius:10px;border:1px solid #42694a;background:#0d2114;color:#efffec;font-size:15px}
+.font-settings-preview{margin-top:12px;padding:16px;border:1px solid #294b32;border-radius:12px;background:#0b1b10;min-height:84px}
+.font-settings-preview strong{display:block;font-size:23px;font-weight:400;line-height:1.25;overflow-wrap:anywhere}
+.font-settings-preview small{display:block;margin-top:8px;color:#9ac9a2;font-family:Arial,sans-serif!important}
+.font-settings-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.font-settings-actions button{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid #42694a;background:#16351f;color:#efffec;cursor:pointer}
+.font-settings-status{font-size:12px;color:#9ac9a2;min-height:18px;margin-top:10px}
+</style>
+<dialog class="font-settings-dialog" id="fontSettingsDialog" aria-labelledby="fontSettingsTitle">
+ <div class="font-settings-head"><h2 id="fontSettingsTitle">Pengaturan Tampilan</h2><button class="font-settings-close" id="closeFontSettings" type="button">Tutup</button></div>
+ <label for="fontChoice">Pilih jenis font</label><select id="fontChoice"><option value="">Memuat daftar font…</option></select>
+ <div class="font-settings-preview" id="fontPreview"><strong>Inventory • Stok Barang 0123456789</strong><small>ABCDEFGHIJKLMNOPQRSTUVWXYZ • abcdefghijklmnopqrstuvwxyz</small></div>
+ <div class="font-settings-actions"><button type="button" id="resetFontChoice">Kembalikan Default</button><button type="button" id="applyFontChoice">Terapkan Font</button></div>
+ <div class="font-settings-status" id="fontSettingsStatus" role="status" aria-live="polite"></div>
+</dialog>
+<script>
+(()=>{
+ 'use strict';
+ const MANIFEST='./assets/fonts/fonts.json?v=4.9.0', STORAGE_KEY='inventory.selectedFont.v1';
+ const dialog=document.getElementById('fontSettingsDialog'), opener=document.getElementById('openFontSettings'), closer=document.getElementById('closeFontSettings'), select=document.getElementById('fontChoice'), preview=document.getElementById('fontPreview'), status=document.getElementById('fontSettingsStatus');
+ if(!dialog||!opener||!select)return;
+ let fontList=[];
+ const say=t=>{if(status)status.textContent=t};
+ const familyName='InventorySelectedFont';
+ const loadedFaces=new Map();
+ async function loadFace(item){
+   const url=new URL(item.file,document.baseURI).href;
+   if(loadedFaces.has(url))return loadedFaces.get(url);
+   const face=new FontFace(familyName,`url("${url}")`,{style:'normal',weight:'100 900'});
+   await face.load();
+   document.fonts.add(face);
+   loadedFaces.set(url,face);
+   return face;
+ }
+ async function applyFont(item,save=true){
+   if(!item){say('Font default tidak dapat dimuat.');return false;}
+   try{
+     await loadFace(item);
+     document.documentElement.style.setProperty('--inventory-font-family',`"${familyName}",sans-serif`);
+     if(save){try{localStorage.setItem(STORAGE_KEY,item.file)}catch(_){}}
+     if(preview)preview.style.fontFamily=`"${familyName}",sans-serif`;
+     say('Font aktif: '+item.name);
+     return true;
+   }catch(err){say('Font gagal dimuat. Periksa file: '+item.file);return false;}
+ }
+ async function loadList(){
+   try{
+     const response=await fetch(MANIFEST,{cache:'no-store'}); if(!response.ok)throw new Error('manifest');
+     const data=await response.json(); fontList=Array.isArray(data.fonts)?data.fonts:[];
+     select.innerHTML='';
+     fontList.forEach(item=>{const opt=document.createElement('option');opt.value=item.file;opt.textContent=item.name;select.appendChild(opt)});
+     if(!fontList.length)throw new Error('empty');
+     let saved='';try{saved=localStorage.getItem(STORAGE_KEY)||''}catch(_){}
+     const selected=fontList.find(x=>x.file===saved)||fontList.find(x=>x.default)||fontList[0];
+     select.value=selected.file; await applyFont(selected,false);
+   }catch(e){select.innerHTML='<option value="">Daftar font tidak dapat dibaca</option>';say('Daftar font belum tersedia. Unggah font TTF/OTF lalu tunggu proses otomatis GitHub Actions.');}
+ }
+ function selected(){return fontList.find(x=>x.file===select.value)}
+ select.addEventListener('change',async()=>{const item=selected();if(item){try{await loadFace(item);preview.style.fontFamily=`"${familyName}",sans-serif`;say('Pratinjau: '+item.name+'. Tekan Terapkan Font untuk menggunakan.')}catch(e){say('Font gagal dimuat: '+item.name)}}});
+ document.getElementById('applyFontChoice').addEventListener('click',()=>applyFont(selected()));
+ document.getElementById('resetFontChoice').addEventListener('click',async()=>{const item=fontList.find(x=>x.default)||fontList[0];if(item){select.value=item.file;await applyFont(item)}});
+ opener.addEventListener('click',()=>{dialog.showModal();loadList()});
+ closer.addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+ loadList();
+})();
+</script>
+
 </body></html>

@@ -1,9 +1,9 @@
-/* Inventory PWA service worker — v4.8.3-shizenko */
-const CACHE_NAME = 'inventory-command-center-v4.8.3';
+/* Inventory PWA service worker — v4.9.0-font-settings */
+const CACHE_NAME = 'inventory-command-center-v4.9.0-font-settings';
 const BASE = self.registration.scope;
 const CORE_ASSETS = [
-  './', './index.html', './styles.css?v=4.8.3', './app.js?v=4.8.3',
-  './manifest.webmanifest', './vendor/pptxgen.min.js', './assets/icon-192.png', './assets/icon-512.png',
+  './', './index.html', './styles.css?v=4.9.0', './app.js?v=4.9.0',
+  './manifest.webmanifest', './assets/fonts/fonts.json', './vendor/pptxgen.min.js', './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-512-maskable.png', './vendor/jszip.min.js',
   './templates/xlsx-template.json', './templates/template-styles.xml', './assets/fonts/font.ttf'
 ].map(path => new URL(path, BASE).toString());

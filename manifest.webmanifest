@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Inventory Command Center",
   "short_name": "Inventory",
-  "description": "Aplikasi Inventory untuk pengolahan data stok dan laporan operasional.",
+  "description": "Aplikasi Inventory untuk pengolahan data stok dan laporan operasional. Pengaturan font TTF/OTF tersedia di aplikasi.",
   "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
@@ -35,5 +35,5 @@
       "purpose": "maskable"
     }
   ],
-  "version": "4.8.3"
+  "version": "4.9.0"
 }

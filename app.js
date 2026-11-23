@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.8.3 */
+/* Inventory application logic — v4.9.0 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2659,7 +2659,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v4.8.3).
+/* ALOKASI RAW — modul terisolasi (v4.9.0).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):
@@ -2817,7 +2817,7 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-/* SIDEBAR DAFTAR FILE — modul terisolasi (v4.8.3).
+/* SIDEBAR DAFTAR FILE — modul terisolasi (v4.9.0).
    Layar lebar (>=1280px): Daftar File tampil sebagai sidebar tetap di kiri (bukan popup) dan halaman utama bergeser ke kanan;
    sidebar bisa dikecilkan ke samping. Layar yang lebih kecil tetap memakai dialog popup seperti sebelumnya. */
 (function(){

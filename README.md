@@ -1,7 +1,14 @@
-## v4.8.3 — Font Drobix Extrude
+## v4.9.0 — Pengaturan Font
+- Menambahkan tombol Pengaturan pada header utama.
+- Pengguna dapat memilih font TTF/OTF yang terdeteksi otomatis dari folder `assets/fonts/`.
+- Pilihan font disimpan di perangkat dan diterapkan ke seluruh antarmuka.
+- Untuk menambahkan font, cukup unggah file `.ttf` atau `.otf` ke `assets/fonts/`. GitHub Actions akan membuat ulang `fonts.json` secara otomatis; tidak perlu mengedit JSON.
+- Font default: `font.ttf` (Drobix Extrude).
+
+## v4.9.0 — Font Drobix Extrude
 - Font utama diganti menjadi Drobix Extrude dan disimpan sebagai `assets/fonts/font.ttf`.
 - CSS diseragamkan agar elemen antarmuka menggunakan font Drobix Extrude dari `font.ttf`, termasuk tombol, tabel, popup, menu, dan formulir.
-- Nomor versi dan cache Service Worker diperbarui ke v4.8.3.
+- Nomor versi dan cache Service Worker diperbarui ke v4.9.0.
 
 Untuk mengganti font, cukup timpa `assets/fonts/font.ttf` dengan file TTF baru bernama sama.
 ## v4.8.0 — Font Shizenko Japan Demo

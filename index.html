@@ -1219,7 +1219,7 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
-<!-- Pengaturan tampilan Inventory v4.9.7 -->
+<!-- Pengaturan tampilan Inventory v4.9.5 -->
 <style id="inventory-font-settings-style">
 :root{--inventory-font-scale:1}
 html{font-size:16px}
@@ -1248,29 +1248,19 @@ body{font-size:1rem}
 .font-loading{display:inline-flex;align-items:center;gap:8px}
 .font-loading::before{content:"";width:13px;height:13px;border:2px solid #52775a;border-top-color:#baff9b;border-radius:50%;animation:fontSpin .7s linear infinite}
 @keyframes fontSpin{to{transform:rotate(360deg)}}
-
-.font-size-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:14px}.font-size-section-head label{margin:0!important}.font-size-section-head>span{font-size:10px;color:#8fb99a;white-space:nowrap}.font-size-sections{display:grid;gap:10px;margin-top:8px}.font-size-setting{padding:8px 9px;border:1px solid #294b32;border-radius:9px;background:#0a190f}.font-size-setting>label{margin:0 0 5px!important;font-size:12px!important;color:#d5f3d3!important}.font-size-row{display:flex;align-items:center;gap:7px}.font-size-row input[type=range]{flex:1;min-width:30px;width:100%;accent-color:#75ff55;min-height:30px;cursor:pointer;touch-action:pan-y;pointer-events:auto}.font-size-step{flex:0 0 30px;width:30px;height:30px;min-width:30px;padding:0;border:1px solid #4c8753;border-radius:7px;background:#15331e;color:#baff9b;font-size:20px;font-weight:800;line-height:1;cursor:pointer;touch-action:manipulation}.font-size-step:active{background:#285b31}.font-size-value{min-width:42px;text-align:right;color:#baff9b;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}.font-settings-actions button{min-height:40px}
 </style>
 <dialog class="font-settings-dialog" id="fontSettingsDialog" aria-labelledby="fontSettingsTitle">
  <div class="font-settings-head"><h2 id="fontSettingsTitle">Pengaturan Tampilan</h2><button class="font-settings-close" id="closeFontSettings" type="button">Tutup</button></div>
  <label>Jenis font</label><div class="font-choice-list" id="fontChoiceList" role="listbox" aria-label="Daftar jenis font"><div class="font-choice-name">Memuat daftar font…</div></div>
- <div class="font-size-section-head"><label>Ukuran font per bagian</label><span>50%–200% · langkah 5%</span></div>
- <div class="font-size-sections" id="fontSizeSections">
-  <div class="font-size-setting" data-size-section="dashboard"><label for="fontSizeDashboard">Dashboard / Menu Utama</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Dashboard 5 persen">−</button><input id="fontSizeDashboard" data-size-input="dashboard" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Dashboard 5 persen">+</button><output class="font-size-value" data-size-value="dashboard">100%</output></div></div>
-  <div class="font-size-setting" data-size-section="files"><label for="fontSizeFiles">Daftar File</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Daftar File 5 persen">−</button><input id="fontSizeFiles" data-size-input="files" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Daftar File 5 persen">+</button><output class="font-size-value" data-size-value="files">100%</output></div></div>
-  <div class="font-size-setting" data-size-section="buttons"><label for="fontSizeButtons">Tombol & Navigasi</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Tombol dan Navigasi 5 persen">−</button><input id="fontSizeButtons" data-size-input="buttons" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Tombol dan Navigasi 5 persen">+</button><output class="font-size-value" data-size-value="buttons">100%</output></div></div>
-  <div class="font-size-setting" data-size-section="forms"><label for="fontSizeForms">Form Input</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Form Input 5 persen">−</button><input id="fontSizeForms" data-size-input="forms" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Form Input 5 persen">+</button><output class="font-size-value" data-size-value="forms">100%</output></div></div>
-  <div class="font-size-setting" data-size-section="tables"><label for="fontSizeTables">Tabel & Data</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Tabel dan Data 5 persen">−</button><input id="fontSizeTables" data-size-input="tables" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Tabel dan Data 5 persen">+</button><output class="font-size-value" data-size-value="tables">100%</output></div></div>
-  <div class="font-size-setting" data-size-section="popups"><label for="fontSizePopups">Popup & Notifikasi</label><div class="font-size-row"><button type="button" class="font-size-step" data-step="-5" aria-label="Kurangi Popup dan Notifikasi 5 persen">−</button><input id="fontSizePopups" data-size-input="popups" type="range" min="50" max="200" step="5" value="100"><button type="button" class="font-size-step" data-step="5" aria-label="Tambah Popup dan Notifikasi 5 persen">+</button><output class="font-size-value" data-size-value="popups">100%</output></div></div>
- </div>
- <div class="font-settings-actions"><button type="button" id="resetFontChoice">Kembalikan Font Default</button><button type="button" id="resetAllFontSizes">Reset Semua Ukuran</button></div>
+ <label for="fontSizeChoice">Ukuran font aplikasi</label><div class="font-size-row"><input id="fontSizeChoice" type="range" min="50" max="200" step="5" value="100"><output class="font-size-value" id="fontSizeValue" for="fontSizeChoice">100%</output></div>
+ <div class="font-settings-actions"><button type="button" id="resetFontChoice">Kembalikan Default</button></div>
  <div class="font-settings-status" id="fontSettingsStatus" role="status" aria-live="polite"></div>
 </dialog>
 <script>
 (()=>{
  'use strict';
- const MANIFEST='./assets/fonts/fonts.json?v=4.9.7', STORAGE_KEY='inventory.selectedFont.v1', SIZE_KEY='inventory.fontScale.sections.v1';
- const dialog=document.getElementById('fontSettingsDialog'), opener=document.getElementById('openFontSettings'), closer=document.getElementById('closeFontSettings'), list=document.getElementById('fontChoiceList'), status=document.getElementById('fontSettingsStatus'), sizeSections=document.getElementById('fontSizeSections');
+ const MANIFEST='./assets/fonts/fonts.json?v=4.9.6', STORAGE_KEY='inventory.selectedFont.v1', SIZE_KEY='inventory.fontScale.v1';
+ const dialog=document.getElementById('fontSettingsDialog'), opener=document.getElementById('openFontSettings'), closer=document.getElementById('closeFontSettings'), list=document.getElementById('fontChoiceList'), status=document.getElementById('fontSettingsStatus'), sizeInput=document.getElementById('fontSizeChoice'), sizeValue=document.getElementById('fontSizeValue');
  if(!dialog||!opener||!list)return;
  let fontList=[], chosenFile='', applying=false;
  const loadedFaces=new Map();
@@ -1312,88 +1302,29 @@ body{font-size:1rem}
      chosenFile=previous;renderChoices();say('✕ Font gagal diganti. Periksa file font atau coba lagi.');return false;
    }finally{setBusy(false)}
  }
- const SECTION_DEFAULTS={dashboard:100,files:100,buttons:100,forms:100,tables:100,popups:100};
- const SECTION_SELECTORS={
-   tables:'table, .tablewrap, .history-table-wrap, .raw-material-table-wrap, .file-table-wrap',
-   forms:'input, select, textarea, label, .form-field, .field-label',
-   buttons:'button, a.button, .button, .home-quick-link, .action-button, .file-action-link, [role="button"]',
-   files:'#fileManageDialog',
-   dashboard:'.home-main',
-   popups:'dialog:not(#fontSettingsDialog), [role="dialog"]'
- };
- const sectionScales={...SECTION_DEFAULTS};
  const baseFontSizes=new WeakMap();
- const elementSections=new WeakMap();
- let initialScaleCapture=true;
  const ignoredFontScaleTags=new Set(['SCRIPT','STYLE','LINK','META','SVG','PATH','CANVAS']);
- const categoryOrder=['tables','forms','buttons','files','dashboard','popups'];
- function sectionFor(el){
-   if(!(el instanceof Element)||ignoredFontScaleTags.has(el.tagName)||el.closest('#fontSettingsDialog'))return '';
-   for(const key of categoryOrder){try{if(el.matches(SECTION_SELECTORS[key])||el.closest(SECTION_SELECTORS[key]))return key}catch(_){}}
-   return '';
+ function scaleTextElements(scale){
+   const root=document.body;if(!root)return;
+   const nodes=root.querySelectorAll('*');
+   nodes.forEach(el=>{
+     if(ignoredFontScaleTags.has(el.tagName)||el===sizeInput)return;
+     let base=baseFontSizes.get(el);
+     if(!base){
+       const computed=parseFloat(getComputedStyle(el).fontSize);
+       if(!Number.isFinite(computed)||computed<=0)return;
+       base=computed;baseFontSizes.set(el,base);
+     }
+     el.style.setProperty('font-size',(base*scale)+'px','important');
+   });
  }
- function inheritedScaleFor(el){
-   let p=el.parentElement;
-   while(p){const key=elementSections.get(p)||sectionFor(p);if(key)return sectionScales[key]/100;p=p.parentElement}
-   return 1;
+ function setScale(value,save=true){
+   const parsed=Number(value);const n=Math.max(50,Math.min(200,Number.isFinite(parsed)&&parsed>0?parsed:100));
+   const scale=n/100;document.documentElement.style.setProperty('--inventory-font-scale',String(scale));
+   scaleTextElements(scale);
+   sizeInput.value=String(n);sizeValue.value=n+'%';sizeValue.textContent=n+'%';
+   if(save){try{localStorage.setItem(SIZE_KEY,String(n))}catch(_){}}
  }
- function captureBase(el){
-   if(baseFontSizes.has(el))return baseFontSizes.get(el);
-   const computed=parseFloat(getComputedStyle(el).fontSize);
-   if(!Number.isFinite(computed)||computed<=0)return 0;
-   // If the element inherits a scaled size from a parent, remove that parent scale
-   // before recording its baseline so newly-created content stays consistent.
-   const inherited=initialScaleCapture?1:inheritedScaleFor(el);
-   const base=computed/(inherited||1);
-   baseFontSizes.set(el,base);
-   return base;
- }
- function applyElementScale(el){
-   if(!(el instanceof Element)||ignoredFontScaleTags.has(el.tagName)||el.closest('#fontSettingsDialog'))return;
-   const section=sectionFor(el);if(!section)return;
-   elementSections.set(el,section);
-   const base=captureBase(el);if(!base)return;
-   el.style.setProperty('font-size',(base*sectionScales[section]/100)+'px','important');
- }
- function applyAllSectionScales(root=document.body){
-   if(!root)return;
-   const nodes=[];if(root instanceof Element)nodes.push(root);nodes.push(...root.querySelectorAll('*'));
-   if(initialScaleCapture){
-     // Capture every original CSS font size before applying any scale, avoiding
-     // parent scaling from contaminating the baseline of nested elements.
-     nodes.forEach(el=>{const section=sectionFor(el);if(section){elementSections.set(el,section);captureBase(el)}});
-     initialScaleCapture=false;
-   }
-   nodes.forEach(applyElementScale);
- }
- function saveSectionScales(){try{localStorage.setItem(SIZE_KEY,JSON.stringify(sectionScales))}catch(_){}}
- function updateSectionControl(key){
-   const input=sizeSections.querySelector(`[data-size-input="${key}"]`);
-   const output=sizeSections.querySelector(`[data-size-value="${key}"]`);
-   if(input)input.value=String(sectionScales[key]);if(output)output.textContent=sectionScales[key]+'%';
- }
- function setSectionScale(key,value,save=true){
-   if(!(key in SECTION_DEFAULTS))return;
-   const n=Math.max(50,Math.min(200,Math.round(Number(value)/5)*5));sectionScales[key]=n;
-   applyAllSectionScales();updateSectionControl(key);if(save)saveSectionScales();
- }
- function setAllSectionScales(values,save=true){
-   Object.keys(SECTION_DEFAULTS).forEach(key=>{const v=Number(values?.[key]);sectionScales[key]=Number.isFinite(v)?Math.max(50,Math.min(200,Math.round(v/5)*5)):100;updateSectionControl(key)});
-   applyAllSectionScales();if(save)saveSectionScales();
- }
- sizeSections.querySelectorAll('[data-size-input]').forEach(input=>{
-   const key=input.dataset.sizeInput;input.addEventListener('input',()=>setSectionScale(key,input.value));
- });
- sizeSections.querySelectorAll('.font-size-step').forEach(button=>button.addEventListener('click',()=>{
-   const row=button.closest('.font-size-setting');const key=row?.dataset.sizeSection;if(key)setSectionScale(key,sectionScales[key]+Number(button.dataset.step));
- }));
- document.getElementById('resetAllFontSizes').addEventListener('click',()=>setAllSectionScales(SECTION_DEFAULTS));
- let savedScales={};
- try{const raw=localStorage.getItem(SIZE_KEY);if(raw)savedScales=JSON.parse(raw);else{const legacy=Number(localStorage.getItem('inventory.fontScale.v1'));if(Number.isFinite(legacy)&&legacy>=50&&legacy<=200) savedScales=Object.fromEntries(Object.keys(SECTION_DEFAULTS).map(k=>[k,legacy]));}}catch(_){}
- setAllSectionScales({...SECTION_DEFAULTS,...savedScales},false);
- // Observe content rendered after initial load (tables, dialogs, notifications, and lists).
- const scaleObserver=new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node.nodeType===1)applyAllSectionScales(node)});
- scaleObserver.observe(document.body,{childList:true,subtree:true});
  async function loadList(){
    try{
      const response=await fetch(MANIFEST,{cache:'no-store'});if(!response.ok)throw new Error('manifest');
@@ -1406,7 +1337,7 @@ body{font-size:1rem}
  sizeInput.addEventListener('input',()=>setScale(sizeInput.value));
  sizeInput.addEventListener('change',()=>setScale(sizeInput.value));
  opener.addEventListener('click',()=>{dialog.showModal();loadList()});closer.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
- applyAllSectionScales();
+ let savedSize=100;try{savedSize=Number(localStorage.getItem(SIZE_KEY)||100)}catch(_){}setScale(savedSize,false);
  loadList();
 })();
 </script>

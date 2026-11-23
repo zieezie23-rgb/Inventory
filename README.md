@@ -1,3 +1,8 @@
+## v4.9.2 — Penyempurnaan Pengaturan Font
+
+- Daftar font menampilkan nama font langsung menggunakan tipografi font masing-masing.
+- Rentang ukuran font aplikasi diperluas menjadi 50%–150%.
+
 ## v4.9.0 — Pengaturan Font
 - Menambahkan tombol Pengaturan pada header utama.
 - Pengguna dapat memilih font TTF/OTF yang terdeteksi otomatis dari folder `assets/fonts/`.

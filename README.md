@@ -1,3 +1,12 @@
+## v4.9.7 — Ukuran Font Independen per Bagian
+
+- Pengaturan ukuran font dipisah menjadi enam bagian: Dashboard/Menu Utama, Daftar File, Tombol & Navigasi, Form Input, Tabel & Data, serta Popup & Notifikasi.
+- Setiap bagian memiliki slider mandiri dengan rentang 50%–200% dan langkah 5%.
+- Tombol minus dan plus di kedua sisi slider mengurangi/menambah ukuran tepat 5%.
+- Nilai awal setiap bagian 100%; pengaturan tersimpan otomatis dan dapat direset sekaligus.
+- Konten dinamis yang ditambahkan setelah halaman dimuat ikut diproses melalui pengamat perubahan DOM.
+- Cache Service Worker diperbarui ke v4.9.7.
+
 ## v4.9.3 — Tombol Pengaturan Terlihat di Header
 
 - Memposisikan ikon roda gigi secara absolut di pojok kanan atas kartu header agar tidak terdorong keluar oleh tata letak flex dan elemen ilustrasi.

@@ -1,0 +1,9 @@
+{
+  "fonts": [
+    {
+      "name": "Drobix Extrude",
+      "file": "./assets/fonts/font.ttf",
+      "default": true
+    }
+  ]
+}

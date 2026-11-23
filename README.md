@@ -1,10 +1,14 @@
+## v4.7.5 — Batas qty Alokasi Raw
+- Qty alokasi per baris (toko + PRDCD) dibatasi maksimal 999, dibulatkan turun ke kelipatan Minor (contoh Minor 400 menjadi maksimal 800).
+- Versi aplikasi, header/footer, manifest, parameter aset, dan cache service worker disinkronkan ke 4.7.5.
+
 ## v4.7.4 — Alokasi Raw digabung ke app.js
 - Kode alokasi-raw.js dipindahkan ke app.js sebagai satu bagian terpisah (dibungkus IIFE sendiri) agar tidak bertabrakan dengan modul lain; file alokasi-raw.js dihapus.
 - Dialog ALOKASI RAW kini hanya berisi isian x Minor dan tombol Hitung Alokasi; bagian upload dihapus.
 - Target dan Plan masuk ke Daftar File (grup Bahan) dan diunggah lewat tombol upload yang sudah ada; jenis file dikenali dari kolom (Target: TOKO, PRDCD, TARGET, NPB; Plan: TOKO dan PLAN PICKING).
 - Master Stock tidak perlu diunggah ulang: Minor diambil langsung dari DATAWHS (kolom MINOR_TOKO, lalu MINOR), sumber bahan yang sama dengan Master Stock.
 - Stock Akhir diambil dari kolom QTY_LPP file LaporanLPPvsPlano (dijumlah per PLU).
-- Logika hitung alokasi dan isi Item Raw.zip tidak diubah.
+- Isi Item Raw.zip tidak berubah.
 
 ## v4.7.3 — Tombol ALOKASI RAW
 - Menambahkan satu tombol proses ALOKASI RAW di Menu Operasional yang membuka dialog dengan fungsi aplikasi Alokasi Raw v1.0.0.

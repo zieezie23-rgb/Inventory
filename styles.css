@@ -1970,7 +1970,7 @@ body > #loginLock:not([hidden]){
   .action-button{padding:16px clamp(12px,1.1vw,20px)!important;gap:clamp(8px,.9vw,16px)!important}
 }
 
-/* v4.7.4 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
+/* v4.7.5 — Dialog Alokasi Raw (tanpa upload) + grid menu untuk 11 tombol */
 .ar-dialog{width:min(760px,calc(100% - 24px))!important}
 .ar-panel{background:rgba(16,37,26,.7);border:1px solid #285236;border-radius:10px;margin-top:16px;padding:16px;overflow-x:auto}
 .ar-title{font-weight:800;color:#baff9b;margin:0 0 10px;font-size:14px;border-left:4px solid #75ff55;padding-left:8px;letter-spacing:.04em}

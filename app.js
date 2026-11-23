@@ -1,4 +1,4 @@
-/* Inventory application logic — v4.7.4 */
+/* Inventory application logic — v4.7.5 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','Stok G113 (STM)','STM'],['stm294','Stok G294 (STM)','STM'],['stm295','Stok G295 (STM)','STM'],
@@ -2519,7 +2519,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=4.7.4',document.baseURI).href;
+  script.src=new URL(src+'?v=4.7.5',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2657,7 +2657,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v4.7.4).
+/* ALOKASI RAW — modul terisolasi (v4.7.5).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):
@@ -2668,6 +2668,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 'use strict';
 const $=s=>document.querySelector(s),tick=()=>new Promise(r=>setTimeout(r)),fn=n=>Number(n).toLocaleString('id-ID');
 //CORE-START
+const MAXQ=999; // qty alokasi per baris tidak boleh lebih dari 999
 const N=v=>String(v??'').toUpperCase().split(/\s+/).filter(Boolean).join(' ');
 const K=v=>v==null?'':typeof v==='number'?String(v):String(v).trim();
 // Angka dari file: 5,580 / 1,234,567.89 (koma = ribuan) dan 1.234,56 / 1.234.567 (titik = ribuan); 12,5 dan 0,125 tetap desimal.
@@ -2702,7 +2703,7 @@ function rawCompute(tg,PL,ST,MS,xm){
  for(const[key,v,npb]of entries){const[t,p,,,Q]=v;const pk=PK(p);let stock=ST.get(pk);if(stock===undefined&&K(p).length<=7)stock=ST7.get(PK(K(p).slice(-7)));if(stock==null||!PL.has(K(t).toUpperCase()))continue;
   const mn=MS.get(pk)||0;
   if(!(mn>0)){noMinor.add(pk);continue}
-  const dasar=Math.max(0,Q-npb);let q=Math.floor(dasar/mn+1e-9)*mn;q=Math.min(q,mn*xm);
+  const dasar=Math.max(0,Q-npb);let q=Math.floor(dasar/mn+1e-9)*mn;q=Math.min(q,mn*xm);q=Math.min(q,Math.floor(MAXQ/mn+1e-9)*mn); // batas qty per baris (toko+PRDCD), tetap kelipatan Minor
   if(q>0){if(stop.has(pk))q=0;else{const u=(used.get(pk)||0)+q;if(u>stock){stop.add(pk);q=0}else used.set(pk,u)}}
   if(q<=0)continue;rows.push({t,p,pk,stock,tg:Q,npb,sisa:Q-npb,q});
  }

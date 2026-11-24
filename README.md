@@ -1,13 +1,20 @@
-## v4.9.8 — Pengaturan Font per Kategori dan Popup Tema Matrix
+## v4.9.9 — Penyatuan Modul PO EXPIRED
+
+- Menetapkan implementasi PO EXPIRED yang tertanam di `index.html` sebagai satu-satunya sumber kode aktif.
+- Menghapus `inline-check.js` yang tidak direferensikan oleh halaman maupun Service Worker.
+- Tidak mengubah rumus, alur pemeriksaan, maupun tampilan PO EXPIRED.
+- Menyinkronkan penanda versi dan identitas cache PWA ke v4.9.9.
+
+## v4.9.9 — Pengaturan Font per Kategori dan Popup Tema Matrix
 
 - Pengaturan ukuran font dipisah menjadi Header/Judul, Daftar Menu, Daftar File, Pop-up Login, dan Lain-Lain.
 - Lain-Lain menjadi satu skala global untuk semua area selain empat kategori khusus, termasuk notifikasi.
 - Daftar kategori menggunakan popup khusus bertema Matrix, bukan dropdown bawaan Android/WebView.
 - Skala ukuran tetap bertambah/berkurang 5% melalui tombol − dan +.
 
-## v4.9.8 — Sinkronisasi Versi dan Penyempurnaan Login
-- Menyinkronkan penanda versi aplikasi pada halaman, footer, JavaScript, manifest, dan Service Worker ke v4.9.8.
-- Cache PWA menggunakan identitas rilis v4.9.8 agar pembaruan terdeteksi.
+## v4.9.9 — Sinkronisasi Versi dan Penyempurnaan Login
+- Menyinkronkan penanda versi aplikasi pada halaman, footer, JavaScript, manifest, dan Service Worker ke v4.9.9.
+- Cache PWA menggunakan identitas rilis v4.9.9 agar pembaruan terdeteksi.
 - Pengaturan ukuran font per bagian dengan tombol −/+ dalam kenaikan 5%.
 - Pada halaman terkunci, form login disembunyikan sampai latar diklik.
 - Login tidak membedakan huruf besar dan kecil.

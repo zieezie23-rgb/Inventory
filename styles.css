@@ -2094,3 +2094,15 @@ svg text {
   filter:brightness(1.25);
   transform:rotate(18deg);
 }
+
+
+/* v4.9.7 — login terkunci menampilkan latar Matrix saja sampai disentuh. */
+.login-lock.login-form-hidden .login-card{display:none!important}
+.login-lock.login-form-hidden{cursor:pointer}
+
+/* v4.9.7 — kontrol skala font per bagian. */
+.font-section-choice{box-sizing:border-box;width:100%;min-height:40px;padding:8px 10px;border:1px solid #42694a;border-radius:9px;background:#071b0d;color:#efffec;font:inherit}
+.font-size-row{gap:8px}
+.font-size-step{flex:0 0 36px;width:36px;height:36px;border:1px solid #65a66d;border-radius:9px;background:#16351f;color:#caffbd;font-size:23px;font-weight:800;line-height:1;cursor:pointer}
+.font-size-step:active{transform:scale(.94);background:#24552e}
+.font-size-row input{flex:1 1 auto}

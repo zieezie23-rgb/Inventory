@@ -1,3 +1,10 @@
+## v4.9.7 — Sinkronisasi Versi dan Penyempurnaan Login
+- Menyinkronkan penanda versi aplikasi pada halaman, footer, JavaScript, manifest, dan Service Worker ke v4.9.7.
+- Cache PWA menggunakan identitas rilis v4.9.7 agar pembaruan terdeteksi.
+- Pengaturan ukuran font per bagian dengan tombol −/+ dalam kenaikan 5%.
+- Pada halaman terkunci, form login disembunyikan sampai latar diklik.
+- Login tidak membedakan huruf besar dan kecil.
+
 ## v4.9.3 — Tombol Pengaturan Terlihat di Header
 
 - Memposisikan ikon roda gigi secara absolut di pojok kanan atas kartu header agar tidak terdorong keluar oleh tata letak flex dan elemen ilustrasi.

@@ -2106,3 +2106,13 @@ svg text {
 .font-size-step{flex:0 0 36px;width:36px;height:36px;border:1px solid #65a66d;border-radius:9px;background:#16351f;color:#caffbd;font-size:23px;font-weight:800;line-height:1;cursor:pointer}
 .font-size-step:active{transform:scale(.94);background:#24552e}
 .font-size-row input{flex:1 1 auto}
+
+/* v4.9.8 — popup kategori font khusus tema Matrix, bukan dropdown native Android. */
+.font-section-picker{position:relative;width:100%;z-index:30}
+.font-section-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:42px;padding:9px 12px;border:1px solid #42694a;border-radius:9px;background:linear-gradient(180deg,#102719,#09180e);color:#efffec;text-align:left;font:inherit;font-weight:700;cursor:pointer}
+.font-section-toggle span{color:#baff9b;font-size:17px}
+.font-section-options{position:absolute;top:calc(100% + 5px);left:0;right:0;max-height:230px;overflow:auto;padding:5px;border:1px solid #65a66d;border-radius:11px;background:#07120b;box-shadow:0 14px 32px #000c;z-index:9999}
+.font-section-options[hidden]{display:none!important}
+.font-section-options button{display:block;width:100%;min-height:40px;padding:9px 11px;border:0;border-radius:7px;background:transparent;color:#dff5df;text-align:left;font:inherit;cursor:pointer}
+.font-section-options button[aria-selected="true"]{background:#173d24;color:#baff9b;box-shadow:inset 3px 0 #75ff55}
+.font-section-options button:active{background:#24552e}

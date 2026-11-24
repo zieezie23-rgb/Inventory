@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050b08"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="description" content="PWA lokal untuk mengolah bahan sumber menjadi Master Stock / MSTSTK.">
-  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.9.7">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/icon-192.png"><link rel="stylesheet" href="./styles.css?v=4.9.8">
   <title>Inventory</title>
 
 
@@ -19,7 +19,7 @@ input,button,select,textarea{font-family:var(--inventory-font-family,inherit)!im
 <canvas id="matrixRain" class="matrix-rain" aria-hidden="true"></canvas>
 <div id="loginLock" class="login-lock" role="dialog" aria-modal="true" aria-label="Login aplikasi Inventory">
   <form id="loginForm" class="login-card" autocomplete="off">
-    <span class="login-version" aria-label="Versi aplikasi">v4.9.7</span>
+    <span class="login-version" aria-label="Versi aplikasi">v4.9.8</span>
     <p class="login-kicker">INVENTORY WORKSPACE</p>
     <label class="login-field-label" for="loginPassword">Password</label>
     <input id="loginPassword" class="login-password" type="password" name="password" placeholder="Masukkan password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
@@ -202,7 +202,7 @@ input,button,select,textarea{font-family:var(--inventory-font-family,inherit)!im
     <section data-history-page="top-items" class="history-page" hidden><section class="history-section"><h3>20 ITEM DENGAN PENURUNAN STOCK TERBESAR</h3><div class="history-table-wrap"><table id="historyTopItems"><thead><tr><th>No</th><th>PRDCD</th><th>DESC2</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section><section data-history-page="top-supco" class="history-page" hidden><section class="history-section"><h3>20 SUPCO DENGAN ITEM PENURUNAN TERBANYAK</h3><div class="history-table-wrap"><table id="historyTopSup"><thead><tr><th>No</th><th>SUPCO</th><th>SNAMA</th><th>Kesimpulan</th></tr></thead><tbody></tbody></table></div></section></section>
     <section data-history-page="stockout-summary" class="history-page" hidden><section class="history-section"><h3>RINGKASAN STOCK OUT BERTURUT-TURUT</h3><div class="history-table-wrap"><table id="historyStockOutSummary"><thead><tr><th>No</th><th>Keterangan</th><th>Jumlah Item</th></tr></thead><tbody></tbody></table></div><section id="historyStockOutDetailPanel" class="history-stockout-detail" hidden><div class="history-table-toolbar history-stockout-detail-actions"><h3 id="historyStockOutDetailTitle">Daftar Item</h3><div class="history-actions"><button type="button" class="button button-primary" id="historyStockOutExportJpeg" disabled>Export JPEG</button><button type="button" class="button history-stockout-close" id="historyStockOutDetailClose">×</button></div></div><div class="history-table-wrap"><table id="historyStockOutDetail"><thead><tr><th>PRDCD</th><th>DESC2</th><th>SUPCO</th><th>SNAMA</th><th>PKM</th><th>Tgl Rubah Tag</th><th>PTAG</th><th>STOCK</th><th>PERIODE</th><th>SL</th><th>KETERANGAN</th></tr></thead><tbody></tbody></table></div></section></section></section>
   </dialog>
-  <footer class="app-footer">Zie Project • Inventory v4.9.7 @2026</footer>
+  <footer class="app-footer">Zie Project • Inventory v4.9.8 @2026</footer>
 </main><script src="vendor/jszip.min.js"></script><script src="vendor/pptxgen.min.js"></script><script>/* Pengecekan PO Expired — logika inti (tanpa DOM, bisa dites di Node) */
 (function (root) {
   'use strict';
@@ -1225,7 +1225,7 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
-<!-- Pengaturan tampilan Inventory v4.9.7 -->
+<!-- Pengaturan tampilan Inventory v4.9.8 -->
 <style id="inventory-font-settings-style">
 :root{--inventory-font-scale:1}
 html{font-size:16px}
@@ -1258,7 +1258,17 @@ body{font-size:1rem}
 <dialog class="font-settings-dialog" id="fontSettingsDialog" aria-labelledby="fontSettingsTitle">
  <div class="font-settings-head"><h2 id="fontSettingsTitle">Pengaturan Tampilan</h2><button class="font-settings-close" id="closeFontSettings" type="button">Tutup</button></div>
  <label>Jenis font</label><div class="font-choice-list" id="fontChoiceList" role="listbox" aria-label="Daftar jenis font"><div class="font-choice-name">Memuat daftar font…</div></div>
- <label for="fontSectionChoice">Bagian aplikasi</label><select id="fontSectionChoice" class="font-section-choice"><option value="dashboard">Dashboard / Menu</option><option value="bahan">Master Stock / Bahan</option><option value="input">Input</option><option value="hasil">Hasil</option><option value="files">Daftar File</option><option value="history">History</option></select>
+ <label for="fontSectionToggle">Bagian aplikasi</label>
+ <div class="font-section-picker" id="fontSectionPicker">
+  <button type="button" id="fontSectionToggle" class="font-section-toggle" aria-haspopup="listbox" aria-expanded="false">Lain-Lain <span aria-hidden="true">▾</span></button>
+  <div class="font-section-options" id="fontSectionOptions" role="listbox" aria-label="Pilih kategori ukuran font" hidden>
+   <button type="button" role="option" data-value="header" aria-selected="false">Header / Judul</button>
+   <button type="button" role="option" data-value="menu" aria-selected="false">Daftar Menu</button>
+   <button type="button" role="option" data-value="files" aria-selected="false">Daftar File</button>
+   <button type="button" role="option" data-value="login" aria-selected="false">Pop-up Login</button>
+   <button type="button" role="option" data-value="other" aria-selected="true">Lain-Lain</button>
+  </div>
+ </div>
  <label for="fontSizeChoice">Ukuran font bagian terpilih</label><div class="font-size-row"><button type="button" id="fontSizeMinus" class="font-size-step" aria-label="Kurangi ukuran font">−</button><input id="fontSizeChoice" type="range" min="50" max="200" step="5" value="100"><button type="button" id="fontSizePlus" class="font-size-step" aria-label="Tambah ukuran font">+</button><output class="font-size-value" id="fontSizeValue" for="fontSizeChoice">100%</output></div>
  <div class="font-settings-actions"><button type="button" id="resetFontChoice">Kembalikan Default</button></div>
  <div class="font-settings-status" id="fontSettingsStatus" role="status" aria-live="polite"></div>
@@ -1266,7 +1276,7 @@ body{font-size:1rem}
 <script>
 (()=>{
  'use strict';
- const MANIFEST='./assets/fonts/fonts.json?v=4.9.7', STORAGE_KEY='inventory.selectedFont.v1';
+ const MANIFEST='./assets/fonts/fonts.json?v=4.9.8', STORAGE_KEY='inventory.selectedFont.v1';
  const dialog=document.getElementById('fontSettingsDialog'), opener=document.getElementById('openFontSettings'), closer=document.getElementById('closeFontSettings'), list=document.getElementById('fontChoiceList'), status=document.getElementById('fontSettingsStatus'), sizeInput=document.getElementById('fontSizeChoice'), sizeValue=document.getElementById('fontSizeValue'), sectionInput=document.getElementById('fontSectionChoice');
  if(!dialog||!opener||!list)return;
  let fontList=[], chosenFile='', applying=false;
@@ -1309,40 +1319,53 @@ body{font-size:1rem}
      chosenFile=previous;renderChoices();say('✕ Font gagal diganti. Periksa file font atau coba lagi.');return false;
    }finally{setBusy(false)}
  }
- const SIZE_KEY='inventory.fontScaleBySection.v2';
- const sectionRoots={
-   dashboard:()=>[document.querySelector('.home-hero'),document.getElementById('processCard')].filter(Boolean),
-   bahan:()=>[document.getElementById('secBahan')].filter(Boolean),
-   input:()=>[document.getElementById('secInput')].filter(Boolean),
-   hasil:()=>[document.getElementById('secHasil')].filter(Boolean),
-   files:()=>[document.getElementById('fileManageDialog')].filter(Boolean),
-   history:()=>[document.getElementById('historyDialog')].filter(Boolean)
- };
+ const SIZE_KEY='inventory.fontScaleBySection.v3';
+ const sectionLabels={header:'Header / Judul',menu:'Daftar Menu',files:'Daftar File',login:'Pop-up Login',other:'Lain-Lain'};
+ const sectionToggle=document.getElementById('fontSectionToggle'),sectionOptions=document.getElementById('fontSectionOptions');
  const baseFontSizes=new WeakMap();
  const ignoredFontScaleTags=new Set(['SCRIPT','STYLE','LINK','META','SVG','PATH','CANVAS']);
- let sectionScales={dashboard:100,bahan:100,input:100,hasil:100,files:100,history:100};
+ let sectionScales={header:100,menu:100,files:100,login:100,other:100};
  try{const saved=JSON.parse(localStorage.getItem(SIZE_KEY)||'{}');Object.keys(sectionScales).forEach(k=>{const n=Number(saved[k]);if(Number.isFinite(n))sectionScales[k]=Math.max(50,Math.min(200,Math.round(n/5)*5))})}catch(_){}
- function scaleRoot(root,scale){
-   if(!root)return;
-   root.querySelectorAll('*').forEach(el=>{
-     if(ignoredFontScaleTags.has(el.tagName))return;
-     let base=baseFontSizes.get(el);
-     if(!base){const computed=parseFloat(getComputedStyle(el).fontSize);if(!Number.isFinite(computed)||computed<=0)return;base=computed;baseFontSizes.set(el,base)}
-     el.style.setProperty('font-size',(base*scale)+'px','important');
-   });
+ let activeSection='other';
+ const categoryRoots={
+  header:()=>[document.querySelector('.home-hero')].filter(Boolean),
+  menu:()=>[document.getElementById('processCard')].filter(Boolean),
+  files:()=>[document.getElementById('fileManageDialog')].filter(Boolean),
+  login:()=>[document.getElementById('loginLock')].filter(Boolean)
+ };
+ const excludedForOther=()=>['.home-hero','#processCard','#fileManageDialog','#loginLock','#fontSettingsDialog'].map(q=>document.querySelectorAll(q)).flat();
+ function scaleElement(el,scale){
+  if(!el||ignoredFontScaleTags.has(el.tagName))return;
+  let base=baseFontSizes.get(el);
+  if(!base){const computed=parseFloat(getComputedStyle(el).fontSize);if(!Number.isFinite(computed)||computed<=0)return;base=computed;baseFontSizes.set(el,base)}
+  el.style.setProperty('font-size',(base*scale)+'px','important');
+ }
+ function scaleRoot(root,scale){if(!root)return;scaleElement(root,scale);root.querySelectorAll('*').forEach(el=>scaleElement(el,scale))}
+ function applyAllScales(){
+  const excluded=excludedForOther();
+  document.body.querySelectorAll('*').forEach(el=>{
+   if(ignoredFontScaleTags.has(el.tagName)||el.closest('#fontSettingsDialog'))return;
+   if(excluded.some(root=>root===el||root.contains(el)))return;
+   scaleElement(el,sectionScales.other/100);
+  });
+  Object.keys(categoryRoots).forEach(key=>categoryRoots[key]().forEach(root=>scaleRoot(root,sectionScales[key]/100)));
  }
  function setScale(value,save=true){
-   const section=sectionInput.value||'dashboard';
-   const parsed=Number(value),n=Math.max(50,Math.min(200,Math.round((Number.isFinite(parsed)?parsed:100)/5)*5));
-   sectionScales[section]=n;
-   sectionRoots[section]().forEach(root=>scaleRoot(root,n/100));
-   sizeInput.value=String(n);sizeValue.value=n+'%';sizeValue.textContent=n+'%';
-   if(save){try{localStorage.setItem(SIZE_KEY,JSON.stringify(sectionScales))}catch(_){}}
+  const parsed=Number(value),n=Math.max(50,Math.min(200,Math.round((Number.isFinite(parsed)?parsed:100)/5)*5));
+  sectionScales[activeSection]=n;sizeInput.value=String(n);sizeValue.value=n+'%';sizeValue.textContent=n+'%';applyAllScales();
+  if(save){try{localStorage.setItem(SIZE_KEY,JSON.stringify(sectionScales))}catch(_){}}
  }
- function selectSection(){const section=sectionInput.value||'dashboard';setScale(sectionScales[section],false)}
+ function closeSectionOptions(){sectionOptions.hidden=true;sectionToggle.setAttribute('aria-expanded','false')}
+ function chooseSection(key){if(!sectionScales.hasOwnProperty(key))return;activeSection=key;sectionToggle.firstChild.textContent=sectionLabels[key]+' ';sectionOptions.querySelectorAll('[role="option"]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.value===key)));closeSectionOptions();setScale(sectionScales[key],false)}
+ sectionToggle.addEventListener('click',()=>{const open=sectionOptions.hidden;sectionOptions.hidden=!open;sectionToggle.setAttribute('aria-expanded',String(open))});
+ sectionOptions.querySelectorAll('[data-value]').forEach(b=>b.addEventListener('click',()=>chooseSection(b.dataset.value)));
+ document.addEventListener('click',e=>{if(!e.target.closest('#fontSectionPicker'))closeSectionOptions()});
+ const fontScaleObserver=new MutationObserver(()=>applyAllScales());
+ fontScaleObserver.observe(document.body,{childList:true,subtree:true});
  document.getElementById('fontSizeMinus').addEventListener('click',()=>setScale(Number(sizeInput.value)-5));
  document.getElementById('fontSizePlus').addEventListener('click',()=>setScale(Number(sizeInput.value)+5));
- sectionInput.addEventListener('change',selectSection);
+ sizeInput.addEventListener('input',()=>setScale(sizeInput.value));
+ sizeInput.addEventListener('change',()=>setScale(sizeInput.value));
  async function loadList(){
    try{
      const response=await fetch(MANIFEST,{cache:'no-store'});if(!response.ok)throw new Error('manifest');
@@ -1355,7 +1378,7 @@ body{font-size:1rem}
  sizeInput.addEventListener('input',()=>setScale(sizeInput.value));
  sizeInput.addEventListener('change',()=>setScale(sizeInput.value));
  opener.addEventListener('click',()=>{dialog.showModal();loadList()});closer.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
- selectSection();
+ chooseSection('other');
  loadList();
 })();
 </script>

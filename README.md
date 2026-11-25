@@ -1,3 +1,9 @@
+## v5.0.2 — Penyempurnaan Check Item
+- KET2 menggunakan tiga klasifikasi utama: Belum Ada JTD Toko, PKM Toko 0 (Nol), dan Over Stock di Toko. Item yang tidak memenuhi ketiganya diklasifikasikan sebagai “Keluar bertahap sesuai kebutuhan Toko.”
+- Kesimpulan mempertahankan header dan tanggal, lalu mengelompokkan rincian berdasarkan KET1 dan KET2. Kategori tanpa item tidak ditampilkan.
+- Rincian ekspor Excel memuat KET1, KET2, dan Jumlah Item.
+- Penanda versi halaman, JavaScript, manifest, cache Service Worker, serta referensi aset JavaScript diperbarui ke v5.0.2.
+
 ## v4.9.9 — Penyatuan Modul PO EXPIRED
 
 - Menetapkan implementasi PO EXPIRED yang tertanam di `index.html` sebagai satu-satunya sumber kode aktif.
@@ -275,3 +281,9 @@ Untuk mengganti font, cukup timpa `assets/fonts/font.ttf` dengan file TTF baru b
 
 ## v4.3.0 — Kriteria SL dari HRGBELI
 - Menggunakan HRGBELI kolom AI sebagai sumber kriteria SL.
+
+## v5.0.2 — Pengurutan & export Check Item
+- Urutan hasil Barang Baru & Open TAG kini berdasarkan Hari terbanyak, lalu Sisa Stock (%) terbesar, kemudian PRDCD terkecil.
+- Export JPEG dan Excel mengikuti urutan hasil yang sama.
+- Export Excel Check Item dirapikan dengan judul, header biru, garis tabel, lebar kolom, filter, freeze header, dan format tanggal/angka.
+- Semua penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.2.

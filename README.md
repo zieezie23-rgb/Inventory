@@ -1,3 +1,30 @@
+## v5.0.7 — Non Dry berdasarkan Dept
+- KET "Non Dry" pada Check Item Tidak Bergerak: ZONA kosong atau 0 dan Dept 4 (digit pertama CAT_COD), bukan lagi berdasarkan DIV.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.7.
+
+## v5.0.6 — Non Dry pada Check Item Tidak Bergerak
+- KET "Non Dry" kini berlaku untuk semua item yang ZONA-nya kosong atau 0, tanpa melihat DIV (sebelumnya harus DIV 4).
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.6.
+
+## v5.0.5 — Format kolom DSI pada export Excel Barang Baru & Open TAG
+- Kolom DSI memakai format akuntansi yang sama dengan kolom angka lain, dengan 2 digit di belakang koma: `_(* #,##0.00_);_(* [RED](#,##0.00);_(* "-"??_);_(@_)`.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.5.
+
+## v5.0.4 — KET1/KET2 Barang Baru & Open TAG dan format Excel
+- KET1 "Sisa Stock Masih ada xx%" diganti menjadi "Stock exist masih >50% dari BPB"; perhitungan KET1 tidak berubah.
+- KET2 untuk KET1 "Belum pernah NPB ke toko": Belum Ada JTD Toko, PKM Toko 0 (Nol), Over Stock di Toko, dan jika JTD toko ada menjadi "Sudah ada JTD Toko tetapi belum ada PB Toko".
+- KET2 untuk KET1 "Stock exist masih >50% dari BPB" menjadi "Keluar bertahap sesuai PB toko".
+- Export Excel: kolom FRAC, ACOST, QTY BPB, STOCK, JTD, OVER, PKM 0, dan Est Kebutuhan memakai format akuntansi `_(* #,##0_);_(* [RED](#,##0);_(* "-"??_);_(@_)`.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.4.
+
+## v5.0.3 — Penyempurnaan tampilan
+- Layar lebar (sidebar Daftar File aktif): tombol Daftar File di pojok kanan atas Menu Operasional disembunyikan.
+- Ekspor ALOKASI RAW: isi kelseasonal.csv di dalam Item Raw.zip seluruhnya huruf kapital.
+- Footer dibuat transparan (tanpa latar, bayangan, dan blur).
+- Mode aplikasi desktop (PWA): title bar/status bar dibuat transparan memakai window controls overlay; area atas tetap bisa dipakai untuk memindahkan jendela.
+- Teks header INVENTORY COMMAND CENTER diberi efek glitch (dimatikan otomatis bila perangkat memilih kurangi animasi).
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.3.
+
 ## v5.0.2 — Penyempurnaan Check Item
 - KET2 menggunakan tiga klasifikasi utama: Belum Ada JTD Toko, PKM Toko 0 (Nol), dan Over Stock di Toko. Item yang tidak memenuhi ketiganya diklasifikasikan sebagai “Keluar bertahap sesuai kebutuhan Toko.”
 - Kesimpulan mempertahankan header dan tanggal, lalu mengelompokkan rincian berdasarkan KET1 dan KET2. Kategori tanpa item tidak ditampilkan.

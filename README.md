@@ -1,7 +1,12 @@
-## v5.0.10 — Glitch hanya COMMAND CENTER dan footer transparan penuh
+## v5.1.1 — Glitch COMMAND CENTER bergaya TV rusak
+- Teks "COMMAND CENTER" kini glitch terus-menerus: pita horizontal bergeser acak, pecahan warna hijau (hijau, hijau kebiruan, hijau limau), garis scan, serta ledakan acak yang melebarkan dan merobek teks lalu kembali normal.
+- Efek memakai filter SVG dan skrip kecil; dimatikan otomatis jika perangkat memilih "kurangi animasi" dan dijeda saat tab tidak aktif.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.1.1.
+
+## v5.1.0 — Glitch hanya COMMAND CENTER dan footer transparan penuh
 - Efek glitch hanya pada teks "COMMAND CENTER"; teks "INVENTORY" kembali normal.
 - Footer beserta padding-nya transparan penuh (tanpa latar, gambar, bayangan, blur) agar animasi huruf berjatuhan terlihat sampai bawah; canvas hujan huruf memakai tinggi viewport dinamis.
-- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.10.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.1.0.
 
 ## v5.0.9 — Urutan tabel, ringkasan, dan tombol Salin Teks
 - Barang Baru & Open TAG: tabel (termasuk export Excel dan JPG) diurutkan berdasarkan Hari terbanyak, lalu KET2, lalu KET1, kemudian PRDCD.

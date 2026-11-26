@@ -2122,17 +2122,6 @@ svg text {
 body.side-mode #openFileManagerButton{display:none!important}
 body footer,body .app-footer,footer.app-footer{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .home-hero h2.glitch-title span.glitch.glitch-accent{color:#75ff55}
-.glitch{position:relative;display:inline-block;white-space:nowrap}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%;background:transparent;overflow:hidden;pointer-events:none;opacity:0}
-.glitch::before{color:#00f0ff;text-shadow:-2px 0 #00f0ff;animation:glitchTop 3.8s infinite steps(1,end)}
-.glitch::after{color:#ff2e63;text-shadow:2px 0 #ff2e63;animation:glitchBottom 3.8s infinite steps(1,end);animation-delay:.15s}
-.glitch-accent::before{animation-delay:.6s}.glitch-accent::after{animation-delay:.75s}
-.glitch{animation:glitchShake 3.8s infinite steps(1,end)}
-.glitch-accent{animation-delay:.6s}
-@keyframes glitchShake{0%,86%,100%{transform:none}87%{transform:translate(-2px,1px) skewX(-4deg)}89%{transform:translate(2px,-1px)}91%{transform:translate(-1px,0) skewX(3deg)}93%{transform:none}}
-@keyframes glitchTop{0%,85%,100%{opacity:0;clip-path:inset(0 0 100% 0);transform:none}86%{opacity:1;clip-path:inset(0 0 62% 0);transform:translate(-3px,-1px)}88%{opacity:1;clip-path:inset(12% 0 48% 0);transform:translate(3px,0)}90%{opacity:1;clip-path:inset(0 0 70% 0);transform:translate(-2px,1px)}92%{opacity:1;clip-path:inset(30% 0 40% 0);transform:translate(2px,0)}94%{opacity:0}}
-@keyframes glitchBottom{0%,85%,100%{opacity:0;clip-path:inset(100% 0 0 0);transform:none}86%{opacity:1;clip-path:inset(58% 0 0 0);transform:translate(3px,1px)}88%{opacity:1;clip-path:inset(40% 0 22% 0);transform:translate(-3px,0)}90%{opacity:1;clip-path:inset(72% 0 0 0);transform:translate(2px,-1px)}92%{opacity:1;clip-path:inset(50% 0 18% 0);transform:translate(-2px,0)}94%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.glitch,.glitch::before,.glitch::after{animation:none!important}}
 
 .titlebar-drag{display:none}
 @media (display-mode:window-controls-overlay){
@@ -2145,7 +2134,10 @@ body footer,body .app-footer,footer.app-footer{background:transparent!important;
 .kesimpulan-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.kesimpulan-head h3{margin:0}
 
 /* v5.0.10 — glitch hanya pada COMMAND CENTER; footer (termasuk padding) transparan penuh agar hujan huruf terlihat sampai bawah */
-.glitch-accent::before{animation-delay:0s}.glitch-accent::after{animation-delay:.15s}.glitch-accent{animation-delay:0s}
 body footer,body .app-footer,footer.app-footer,body main.home-main>footer.app-footer{background:transparent!important;background-color:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:0!important}
 body main.home-main{background:transparent!important}
 .matrix-rain{height:100vh;height:100dvh}
+
+/* v5.1.1 — glitch COMMAND CENTER ala TV rusak: pita horizontal bergeser (SVG displacement), pecahan warna hijau, garis scan, dan ledakan acak. Dijalankan oleh skrip #glitchFxScript. */
+.glitch{position:relative;display:inline-block;white-space:nowrap;transform-origin:50% 55%;will-change:transform,filter;text-shadow:0 0 9px rgba(117,255,85,.5)}
+.glitch::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(3,12,7,.5) 0 1px,transparent 1px 3px)}

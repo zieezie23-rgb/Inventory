@@ -1,4 +1,4 @@
-/* Inventory application logic — v5.0.10 */
+/* Inventory application logic — v5.1.1 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','STM G113','STM'],['stm294','STM G294','STM'],['stm295','STM G295','STM'],
@@ -2548,7 +2548,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=5.0.10',document.baseURI).href;
+  script.src=new URL(src+'?v=5.1.1',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2686,7 +2686,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v5.0.10).
+/* ALOKASI RAW — modul terisolasi (v5.1.1).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):
@@ -2844,7 +2844,7 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-/* SIDEBAR DAFTAR FILE — modul terisolasi (v5.0.10).
+/* SIDEBAR DAFTAR FILE — modul terisolasi (v5.1.1).
    Layar lebar (>=1280px): Daftar File tampil sebagai sidebar tetap di kiri (bukan popup) dan halaman utama bergeser ke kanan;
    sidebar bisa dikecilkan ke samping. Layar yang lebih kecil tetap memakai dialog popup seperti sebelumnya. */
 (function(){

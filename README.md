@@ -1,3 +1,18 @@
+## v5.0.10 — Glitch hanya COMMAND CENTER dan footer transparan penuh
+- Efek glitch hanya pada teks "COMMAND CENTER"; teks "INVENTORY" kembali normal.
+- Footer beserta padding-nya transparan penuh (tanpa latar, gambar, bayangan, blur) agar animasi huruf berjatuhan terlihat sampai bawah; canvas hujan huruf memakai tinggi viewport dinamis.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.10.
+
+## v5.0.9 — Urutan tabel, ringkasan, dan tombol Salin Teks
+- Barang Baru & Open TAG: tabel (termasuk export Excel dan JPG) diurutkan berdasarkan Hari terbanyak, lalu KET2, lalu KET1, kemudian PRDCD.
+- Ringkasan Barang Baru & Open TAG (dan sheet Rincian Excel): kelompok "Stock exist masih >50% dari BPB" ditampilkan paling bawah.
+- Tombol "Salin Teks" ditambahkan pada Kesimpulan Barang Baru & Open TAG dan Item Tidak Bergerak.
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.9.
+
+## v5.0.8 — Dept Non Dry dari PRODMAST
+- Dept untuk KET "Non Dry" pada Check Item Tidak Bergerak kini diambil dari digit pertama CAT_COD di PRODMAST (sebelumnya dari Master Stock).
+- Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.8.
+
 ## v5.0.7 — Non Dry berdasarkan Dept
 - KET "Non Dry" pada Check Item Tidak Bergerak: ZONA kosong atau 0 dan Dept 4 (digit pertama CAT_COD), bukan lagi berdasarkan DIV.
 - Penanda versi halaman, JavaScript, manifest, dan cache Service Worker dinaikkan ke v5.0.7.

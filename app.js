@@ -1,4 +1,4 @@
-/* Inventory application logic — v5.1.1 */
+/* Inventory application logic — v5.1.3 */
 'use strict';
 const ROLES=[
  ['prod','PRODMAST — Master barang','PRODMAST'],['stm113','STM G113','STM'],['stm294','STM G294','STM'],['stm295','STM G295','STM'],
@@ -1711,7 +1711,7 @@ const bb_KET1_STOCK='Stock exist masih >50% dari BPB';
 const bb_KET2_ORDER=['Belum Ada JTD Toko','PKM Toko 0 (Nol)','Over Stock di Toko','Sudah ada JTD Toko tetapi belum ada PB Toko','Keluar bertahap sesuai PB toko','Keluar bertahap sesuai kebutuhan Toko.'];
 function bb_ket1Rank(k){k=String(k||'');if(k==='Belum pernah NPB ke toko')return 0;if(k===bb_KET1_STOCK)return 9;return 5}
 function bb_ket2Rank(k){const i=bb_KET2_ORDER.indexOf(String(k||''));return i<0?99:i}
-function bb_sortRows(a,b){const ah=Number.parseInt(String(a.HARI??''),10),bh=Number.parseInt(String(b.HARI??''),10);return (Number.isFinite(bh)?bh:-1)-(Number.isFinite(ah)?ah:-1)||bb_ket2Rank(a.KET2)-bb_ket2Rank(b.KET2)||bb_ket1Rank(a.KET1)-bb_ket1Rank(b.KET1)||String(a.KET1||'').localeCompare(String(b.KET1||''))||String(a.PRDCD).localeCompare(String(b.PRDCD),'en',{numeric:true})}
+function bb_sortRows(a,b){const ah=Number.parseInt(String(a.HARI??''),10),bh=Number.parseInt(String(b.HARI??''),10);return bb_ket1Rank(a.KET1)-bb_ket1Rank(b.KET1)||String(a.KET1||'').localeCompare(String(b.KET1||''))||bb_ket2Rank(a.KET2)-bb_ket2Rank(b.KET2)||(Number.isFinite(bh)?bh:-1)-(Number.isFinite(ah)?ah:-1)}
 function bb_buildRekap(bahan,ssftStats){const tdy=today0(),masterById=bahan.master,histagMap=bahan.histag,pomggIdx=bahan.pomgg,stockMap=bahan.stock;const out=new Map();for(const pm of bahan.prodmast){if(out.has(pm.PRDCD))continue;const cls=bb_classifyItem(pm,pomggIdx,stockMap,histagMap,tdy);if(!cls)continue;const master=masterById.get(pm.PRDCD),histag=histagMap.get(pm.PRDCD);const ss=ssftStats.get(pm.PRDCD)||{jtd:0,over:0,pkm0:0,est:0};const daysSinceLast=cls.CK?daysBetween(cls.CK,tdy):null;let dsi=0;if(daysSinceLast&&cls.CL!==''&&cls.CM!==''){const soldQty=cls.CL-cls.CM;if(soldQty!==0){const rate=soldQty/daysSinceLast;if(rate)dsi=cls.CM/rate}}if(!isFinite(dsi)||isNaN(dsi))dsi=0;out.set(pm.PRDCD,{PRDCD:pm.PRDCD,DESC2:pm.DESC2,ZONA:master?norm(bb_mget(master,'ZONA')):'',ALAMAT:master?norm(bb_mget(master,'ALAMAT')):'',FRAC:master?num(bb_mget(master,'FRAC')):'',ACOST:master?num(bb_mget(master,'ACOST')):'',PTAG:master?norm(bb_mget(master,'PTAG')):'',TGL_AKTIF:cls.tglTambah,TGL_OPEN_TAG:histag?histag.tglAkhir:null,X_BPB:cls.CJ,FIRST_BPB:cls.firstBpb,LAST_BPB:cls.CK,QTY_BPB:cls.CL,STOCK:cls.CM,DSI:dsi,JTD:ss.jtd,OVER:ss.over,PKM0:ss.pkm0,EST:ss.est,HARI:daysSinceLast!==null?`${daysSinceLast} Hari`:'',KET1:cls.CO,KET2:bb_ket2Class(ss,cls.CN,cls.CO),PERSEN:(cls.CN!==null&&cls.CN!==undefined)?cls.CN:-1})}return [...out.values()].sort(bb_sortRows)}
 function bb_computeCandidates(bahan){const kandidat=bahan.prodmast.filter(pm=>bb_classifyItem(pm,bahan.pomgg,bahan.stock,bahan.histag,today0()));return [...new Set(kandidat.map(x=>x.PRDCD))]}
 
@@ -2548,7 +2548,7 @@ async function HloadLocalScript(src,ready){
  if(ready())return;
  await new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  script.src=new URL(src+'?v=5.1.1',document.baseURI).href;
+  script.src=new URL(src+'?v=5.1.3',document.baseURI).href;
   script.async=true;
   script.onload=resolve;
   script.onerror=()=>reject(Error('Gagal memuat '+src+'. Periksa file aplikasi atau cache Service Worker.'));
@@ -2686,7 +2686,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 
-/* ALOKASI RAW — modul terisolasi (v5.1.1).
+/* ALOKASI RAW — modul terisolasi (v5.1.3).
    Dipindahkan dari alokasi-raw.js dan dibungkus dalam IIFE sendiri: semua nama fungsi/variabel di bawah ini
    hanya hidup di dalam bagian ini, sehingga tidak bertabrakan dengan modul lain di app.js.
    Sumber data (tanpa upload sendiri, semua lewat Daftar File):
@@ -2844,7 +2844,7 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-/* SIDEBAR DAFTAR FILE — modul terisolasi (v5.1.1).
+/* SIDEBAR DAFTAR FILE — modul terisolasi (v5.1.3).
    Layar lebar (>=1280px): Daftar File tampil sebagai sidebar tetap di kiri (bukan popup) dan halaman utama bergeser ke kanan;
    sidebar bisa dikecilkan ke samping. Layar yang lebih kecil tetap memakai dialog popup seperti sebelumnya. */
 (function(){

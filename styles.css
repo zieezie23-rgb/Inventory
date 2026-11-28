@@ -1630,9 +1630,10 @@ body footer,body .app-footer,footer.app-footer{background:transparent!important;
 body footer,body .app-footer,footer.app-footer,body main.home-main>footer.app-footer{background:transparent!important;background-color:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:0!important}
 body main.home-main{background:transparent!important}
 .matrix-rain{height:100vh;height:100dvh;}
-/* v5.1.4 — glitch COMMAND CENTER ala TV rusak: pita horizontal bergeser (SVG displacement), pecahan warna hijau, garis scan, dan ledakan acak. Dijalankan oleh skrip #glitchFxScript. */
-.glitch{position:relative;display:inline-block;white-space:nowrap;transform-origin:50% 55%;will-change:transform,filter;text-shadow:0 0 9px rgba(117,255,85,.5)}
-.glitch::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(3,12,7,.5) 0 1px,transparent 1px 3px)}
-/* v5.1.4 — glitch form login (kartu): garis scan halus dan hint performa; efek dijalankan oleh skrip #glitchFxScript. */
+/* v5.1.5 — glitch COMMAND CENTER ala TV rusak: pita bergeser (SVG displacement), pecahan warna hijau, dan ledakan acak. Garis scan hanya di dalam huruf (background-clip:text) dan glow lewat drop-shadow, sehingga tidak ada kotak di belakang teks. Dijalankan oleh skrip #glitchFxScript. */
+.glitch{position:relative;display:inline-block;white-space:nowrap;transform-origin:50% 55%;will-change:transform,filter}
+.home-hero h2.glitch-title span.glitch.glitch-accent{color:transparent!important;background:repeating-linear-gradient(0deg,#c8f7c4 0 2px,#86c98f 2px 3px);-webkit-background-clip:text;background-clip:text;text-shadow:none}
+
+/* v5.1.5 — glitch form login (kartu): garis scan halus dan hint performa; efek dijalankan oleh skrip #glitchFxScript. */
 .login-card.glitch-card{will-change:transform,filter;transform-origin:50% 50%}
 .login-card.glitch-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(3,12,7,.28) 0 1px,transparent 1px 3px)}
